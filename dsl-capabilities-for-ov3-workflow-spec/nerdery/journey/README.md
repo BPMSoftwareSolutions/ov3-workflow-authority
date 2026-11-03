@@ -69,12 +69,6 @@ Each run keeps its request, graph and result. Open any of them again from the Ex
 
 Recording the first encounter collects animal-001 for Avery. After that, moment 1 shows it unlocked. To rehearse without spending that state, use the reads and refusals only.
 
-## Not yet: the wildlife screens as declared pages
+## The wildlife screens
 
-The deployed page shell (`live-circuit/circuit/page-runtime.js` in sfx-platform, the same on staging) can launch a capability run from a declared page, but cannot yet run this slice:
-- An `observe` action takes its capability input as one literal or one binding. A page therefore cannot pair the signed-in caller (from the `session` source, which returns `principalId` and `sessionId`) with form values.
-- No page source reads a run's output, so a page cannot show the result.
-
-Two small changes to the shell would allow declared pages for collection, detail, capture, individuals, team and home, published through `sidefx_ui.stage_ui_page` and `promote_ui_page`:
-- resolve bindings nested inside an action's `input`;
-- add a run-output source.
+The same journey also runs as the app's own screens, from `/circuit/wildlife`. See [../README.md](../README.md#the-presentation) for the pages and what they need. This page stays as the fallback: it works in the Explorer as soon as the repair has run.

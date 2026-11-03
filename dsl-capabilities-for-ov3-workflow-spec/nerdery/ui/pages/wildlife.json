@@ -1,0 +1,285 @@
+{
+ "document": "ui-page-definition.v1",
+ "pageId": "ui-page-wildlife",
+ "namespaceId": "sidefx:ui",
+ "path": "/circuit/wildlife",
+ "revision": 1,
+ "title": "Wildlife Collection",
+ "layoutRef": {
+  "layoutId": "ui-layout-marketing.v1",
+  "digest": "e2591ca34ce894541132dccaca54fa77d8e98b84e7f8c8c8c93ff320fe9db58c"
+ },
+ "navigation": {
+  "items": [
+   {
+    "label": "Overview",
+    "href": "/circuit/wildlife"
+   },
+   {
+    "label": "Collection",
+    "href": "/circuit/wildlife-collection"
+   },
+   {
+    "label": "Animal",
+    "href": "/circuit/wildlife-animal"
+   },
+   {
+    "label": "Capture",
+    "href": "/circuit/wildlife-capture"
+   },
+   {
+    "label": "My animals",
+    "href": "/circuit/wildlife-mine"
+   },
+   {
+    "label": "Team",
+    "href": "/circuit/wildlife-team"
+   },
+   {
+    "label": "Home",
+    "href": "/circuit/wildlife-home"
+   },
+   {
+    "label": "Refusals",
+    "href": "/circuit/wildlife-refusals"
+   }
+  ]
+ },
+ "sources": [
+  {
+   "sourceId": "session",
+   "reader": "session"
+  },
+  {
+   "sourceId": "catalog",
+   "reader": "catalog"
+  }
+ ],
+ "sections": [
+  {
+   "sectionId": "hero",
+   "regionId": "main",
+   "order": 1,
+   "component": {
+    "kind": "hero",
+    "version": 1
+   },
+   "props": {
+    "eyebrow": "Wildlife Collection, citizen slice",
+    "headline": "Collect the wildlife around you",
+    "lede": "Browse the catalog, photograph what you find and build a team. Each screen runs a declared capability as you, and shows that capability's own answer.",
+    "primaryActionId": "open-circuit"
+   },
+   "bindings": {
+    "figure": {
+     "kind": "read",
+     "reader": "scenario",
+     "input": {
+      "capabilityId": "nerdery-record-animal-encounter",
+      "namespaceId": "sidefx:capabilities",
+      "page": "scenario-1"
+     },
+     "pointer": "/slides/0"
+    }
+   },
+   "actions": [
+    {
+     "actionId": "open-circuit",
+     "kind": "navigate",
+     "to": "/circuit/explorer?capability=nerdery-record-animal-encounter&namespace=sidefx%3Acapabilities"
+    }
+   ]
+  },
+  {
+   "sectionId": "signed-in",
+   "regionId": "main",
+   "order": 2,
+   "component": {
+    "kind": "stat",
+    "version": 1
+   },
+   "props": {
+    "label": "Signed in as"
+   },
+   "bindings": {
+    "value": {
+     "kind": "read",
+     "reader": "session",
+     "pointer": "/principalId"
+    },
+    "sub": {
+     "kind": "read",
+     "reader": "session",
+     "pointer": "/expiresAt"
+    }
+   }
+  },
+  {
+   "sectionId": "journey",
+   "regionId": "main",
+   "order": 3,
+   "component": {
+    "kind": "card-list",
+    "version": 1
+   },
+   "props": {
+    "title": "The journey",
+    "cards": [
+     {
+      "cardId": "before",
+      "title": "1. Before you collect",
+      "body": "Browse and search the catalog. An animal you have not collected shows only its common name, number, range and picture.",
+      "promise": "Locked fields never leave the server.",
+      "meta": "Collection",
+      "link": "/circuit/wildlife-collection",
+      "linkLabel": "Open"
+     },
+     {
+      "cardId": "capture",
+      "title": "2. Capture an encounter",
+      "body": "Upload a photo and record where you saw the animal, with an optional nickname.",
+      "promise": "Photo verification is deferred and recorded as not performed.",
+      "meta": "Capture",
+      "link": "/circuit/wildlife-capture",
+      "linkLabel": "Open"
+     },
+     {
+      "cardId": "after",
+      "title": "3. After you collect",
+      "body": "The animal's scientific name, types, stats and attributes unlock, for you alone. A second encounter is a second individual.",
+      "promise": "Unlocks are per user.",
+      "meta": "Animal",
+      "link": "/circuit/wildlife-animal",
+      "linkLabel": "Open"
+     },
+     {
+      "cardId": "team",
+      "title": "4. Build your team",
+      "body": "Choose up to six of your individuals and see them on your home page.",
+      "promise": "A seventh member is refused and the saved team stays as it was.",
+      "meta": "Team",
+      "link": "/circuit/wildlife-team",
+      "linkLabel": "Open"
+     },
+     {
+      "cardId": "refusals",
+      "title": "5. What the system refuses",
+      "body": "A citizen adding to the catalog, and a session presented under someone else's identity.",
+      "promise": "Each refusal is named by the capability.",
+      "meta": "Refusals",
+      "link": "/circuit/wildlife-refusals",
+      "linkLabel": "Open"
+     }
+    ]
+   }
+  },
+  {
+   "sectionId": "capabilities",
+   "regionId": "main",
+   "order": 4,
+   "component": {
+    "kind": "card-list",
+    "version": 1
+   },
+   "props": {
+    "title": "The declared capabilities behind these screens",
+    "catalogSourceId": "catalog",
+    "cards": [
+     {
+      "cardId": "nerdery-browse-animal-collection",
+      "capabilityId": "nerdery-browse-animal-collection",
+      "namespaceId": "sidefx:capabilities",
+      "title": "Browse the collection",
+      "body": "Search the catalog in collection-number order, with what each user has unlocked.",
+      "meta": "sidefx:capabilities/nerdery-browse-animal-collection",
+      "link": "/circuit/explorer?capability=nerdery-browse-animal-collection&namespace=sidefx%3Acapabilities",
+      "linkLabel": "Open circuit"
+     },
+     {
+      "cardId": "nerdery-view-animal-definition",
+      "capabilityId": "nerdery-view-animal-definition",
+      "namespaceId": "sidefx:capabilities",
+      "title": "View an animal",
+      "body": "Read one animal with only the information this user has unlocked.",
+      "meta": "sidefx:capabilities/nerdery-view-animal-definition",
+      "link": "/circuit/explorer?capability=nerdery-view-animal-definition&namespace=sidefx%3Acapabilities",
+      "linkLabel": "Open circuit"
+     },
+     {
+      "cardId": "nerdery-upload-encounter-photo",
+      "capabilityId": "nerdery-upload-encounter-photo",
+      "namespaceId": "sidefx:capabilities",
+      "title": "Upload a photo",
+      "body": "Keep the photo's exact bytes under their digest for later verification.",
+      "meta": "sidefx:capabilities/nerdery-upload-encounter-photo",
+      "link": "/circuit/explorer?capability=nerdery-upload-encounter-photo&namespace=sidefx%3Acapabilities",
+      "linkLabel": "Open circuit"
+     },
+     {
+      "cardId": "nerdery-record-animal-encounter",
+      "capabilityId": "nerdery-record-animal-encounter",
+      "namespaceId": "sidefx:capabilities",
+      "title": "Record an encounter",
+      "body": "Record one individual per request; a retry replays without a second write.",
+      "meta": "sidefx:capabilities/nerdery-record-animal-encounter",
+      "link": "/circuit/explorer?capability=nerdery-record-animal-encounter&namespace=sidefx%3Acapabilities",
+      "linkLabel": "Open circuit"
+     },
+     {
+      "cardId": "nerdery-view-collected-animals",
+      "capabilityId": "nerdery-view-collected-animals",
+      "namespaceId": "sidefx:capabilities",
+      "title": "My animals",
+      "body": "List this user's individuals with their photos and nicknames.",
+      "meta": "sidefx:capabilities/nerdery-view-collected-animals",
+      "link": "/circuit/explorer?capability=nerdery-view-collected-animals&namespace=sidefx%3Acapabilities",
+      "linkLabel": "Open circuit"
+     },
+     {
+      "cardId": "nerdery-set-animal-team",
+      "capabilityId": "nerdery-set-animal-team",
+      "namespaceId": "sidefx:capabilities",
+      "title": "Set the team",
+      "body": "Save up to six of this user's individuals against the revision the user saw.",
+      "meta": "sidefx:capabilities/nerdery-set-animal-team",
+      "link": "/circuit/explorer?capability=nerdery-set-animal-team&namespace=sidefx%3Acapabilities",
+      "linkLabel": "Open circuit"
+     },
+     {
+      "cardId": "nerdery-view-wildlife-home",
+      "capabilityId": "nerdery-view-wildlife-home",
+      "namespaceId": "sidefx:capabilities",
+      "title": "Home",
+      "body": "Show this user's saved team.",
+      "meta": "sidefx:capabilities/nerdery-view-wildlife-home",
+      "link": "/circuit/explorer?capability=nerdery-view-wildlife-home&namespace=sidefx%3Acapabilities",
+      "linkLabel": "Open circuit"
+     },
+     {
+      "cardId": "nerdery-add-animal-definition",
+      "capabilityId": "nerdery-add-animal-definition",
+      "namespaceId": "sidefx:capabilities",
+      "title": "Add to the catalog",
+      "body": "Biologists add animal definitions; citizens are refused.",
+      "meta": "sidefx:capabilities/nerdery-add-animal-definition",
+      "link": "/circuit/explorer?capability=nerdery-add-animal-definition&namespace=sidefx%3Acapabilities",
+      "linkLabel": "Open circuit"
+     }
+    ]
+   }
+  },
+  {
+   "sectionId": "data-note",
+   "regionId": "main",
+   "order": 5,
+   "component": {
+    "kind": "text",
+    "version": 1
+   },
+   "props": {
+    "role": "note",
+    "text": "Synthetic catalog and people from the challenge fixtures. Identity, photos and encounters are stored by the slice's own mechanics in the wildlife store."
+   }
+  }
+ ]
+}

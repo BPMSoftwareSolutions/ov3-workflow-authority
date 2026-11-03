@@ -81,9 +81,34 @@ The flight ([flights/repair-2.steps.json](flights/repair-2.steps.json)) re-decla
 - `fast-1` and `fast-2`. Their guards would stop them anyway: the compiler has moved, and the schema exists.
 - `nrd-01` to `nrd-03`, and `dsl-06` to `dsl-11`, are superseded. `nrd-03` would replace the plan under the same agent.
 
-## The interview journey
+## The presentation
 
-The journey runs in the browser, in the SideFX Explorer on the staging web host. [journey/README.md](journey/README.md) gives each step's capability, input and expected result. Every run plays live on the circuit, with its result.
+There are eight declared pages: Overview, Collection, Animal, Capture, My animals, Team, Home and Refusals. They are `ui-page-definition.v1` documents in [ui/pages/](ui/pages/), served by the SideFX shell at `https://sidefx-web-staging.azurewebsites.net/circuit/wildlife`.
+- Each page opens on its capability's circuit, read from the estate.
+- A capability runs only when you submit a form or press a button. The caller comes from your signed-in session, and the capability verifies it against `[identity].session`.
+- The results are the capabilities' own outputs. Withheld fields show as dashes, refusals are named, and every run links to its circuit.
+- No business rule lives in a page.
+
+Three things make them live:
+1. The repair, round 2, above.
+2. `sql/pages-1-estate.commit.sql` on the estate, a few seconds. It stages and promotes the eight pages through `sidefx_ui.stage_ui_page` and `promote_ui_page`, then reads each one back. Expect `verify`: 8 rows, `digest_matches` 1, `read_status` READ.
+3. The shell change in sfx-platform: PR #85, merged as `7c3ea2f`. The frontend release deployed it to sidefx-web-staging on 2026-11-03 at 07:13 EST, and staging serves the merged `page-runtime.js` byte for byte.
+
+That shell change adds:
+- bindings nested in an observe input;
+- a page-local `run` source with a run's output;
+- `map` projections on reads;
+- `when.result` gating;
+- form value kinds, including a file read as base64;
+- declared-component styles.
+
+Opening a page never admits a run, and nothing polls.
+
+[ui/make-pages.mjs](ui/make-pages.mjs) writes the pages and the SQL, and validates each page with the shell's own `validatePage`. [ui/preview-pages.mjs](ui/preview-pages.mjs) renders them in the shell's own files in Chromium and walks the journey. Only the transport is stubbed: it serves the mechanics' real outputs from the 77-case run. [ui/screens/](ui/screens/) holds the screens it captured. There, the hero circuits show their pending state, because only the gateway serves the database scene.
+
+## The interview journey in the Explorer
+
+The journey also runs in the SideFX Explorer on the staging web host. [journey/README.md](journey/README.md) gives each step's capability, input and expected result. Every run plays live on the circuit, with its result.
 
 `node nerdery/demo/run-journey.mjs --check` checks the capability path from the CLI: reads, two refusals and a forged caller, changing nothing. CLI evidence proves the path, but it is not the demo.
 

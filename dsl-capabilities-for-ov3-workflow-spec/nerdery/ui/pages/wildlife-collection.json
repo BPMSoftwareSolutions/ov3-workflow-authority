@@ -1,0 +1,297 @@
+{
+ "document": "ui-page-definition.v1",
+ "pageId": "ui-page-wildlife-collection",
+ "namespaceId": "sidefx:ui",
+ "path": "/circuit/wildlife-collection",
+ "revision": 1,
+ "title": "Animal collection",
+ "layoutRef": {
+  "layoutId": "ui-layout-marketing.v1",
+  "digest": "e2591ca34ce894541132dccaca54fa77d8e98b84e7f8c8c8c93ff320fe9db58c"
+ },
+ "navigation": {
+  "items": [
+   {
+    "label": "Overview",
+    "href": "/circuit/wildlife"
+   },
+   {
+    "label": "Collection",
+    "href": "/circuit/wildlife-collection"
+   },
+   {
+    "label": "Animal",
+    "href": "/circuit/wildlife-animal"
+   },
+   {
+    "label": "Capture",
+    "href": "/circuit/wildlife-capture"
+   },
+   {
+    "label": "My animals",
+    "href": "/circuit/wildlife-mine"
+   },
+   {
+    "label": "Team",
+    "href": "/circuit/wildlife-team"
+   },
+   {
+    "label": "Home",
+    "href": "/circuit/wildlife-home"
+   },
+   {
+    "label": "Refusals",
+    "href": "/circuit/wildlife-refusals"
+   }
+  ]
+ },
+ "sources": [
+  {
+   "sourceId": "session",
+   "reader": "session"
+  }
+ ],
+ "sections": [
+  {
+   "sectionId": "hero",
+   "regionId": "main",
+   "order": 1,
+   "component": {
+    "kind": "hero",
+    "version": 1
+   },
+   "props": {
+    "eyebrow": "Before and after you collect",
+    "headline": "Animal collection",
+    "lede": "Search by name or collection number. An animal you have not collected shows only its common name, number, range and picture; its other fields stay on the server until you collect it.",
+    "primaryActionId": "open-circuit"
+   },
+   "bindings": {
+    "figure": {
+     "kind": "read",
+     "reader": "scenario",
+     "input": {
+      "capabilityId": "nerdery-browse-animal-collection",
+      "namespaceId": "sidefx:capabilities",
+      "page": "scenario-1"
+     },
+     "pointer": "/slides/0"
+    }
+   },
+   "actions": [
+    {
+     "actionId": "open-circuit",
+     "kind": "navigate",
+     "to": "/circuit/explorer?capability=nerdery-browse-animal-collection&namespace=sidefx%3Acapabilities"
+    }
+   ]
+  },
+  {
+   "sectionId": "search",
+   "regionId": "main",
+   "order": 2,
+   "component": {
+    "kind": "form",
+    "version": 1
+   },
+   "props": {
+    "fields": [
+     {
+      "name": "search",
+      "label": "Search by name or number (leave empty for every animal)",
+      "kind": "search"
+     }
+    ],
+    "submit": "Show the collection"
+   },
+   "actions": [
+    {
+     "actionId": "browse",
+     "kind": "observe",
+     "subject": "nerdery-browse-animal-collection",
+     "namespace": "sidefx:capabilities",
+     "result": "browse",
+     "input": {
+      "input": {
+       "caller": {
+        "principalId": {
+         "source": "session",
+         "pointer": "/principalId"
+        },
+        "sessionId": {
+         "source": "session",
+         "pointer": "/sessionId"
+        }
+       },
+       "request": {
+        "search": {
+         "form": "search",
+         "optional": true
+        }
+       }
+      }
+     }
+    }
+   ],
+   "events": [
+    {
+     "on": "submit",
+     "actionId": "browse"
+    }
+   ]
+  },
+  {
+   "sectionId": "browse-total",
+   "regionId": "main",
+   "order": 3,
+   "component": {
+    "kind": "stat",
+    "version": 1
+   },
+   "props": {
+    "label": "Animals listed"
+   },
+   "bindings": {
+    "value": {
+     "kind": "read",
+     "reader": "run",
+     "result": "browse",
+     "pointer": "/total"
+    },
+    "sub": {
+     "kind": "read",
+     "reader": "run",
+     "result": "browse",
+     "pointer": "/search"
+    }
+   },
+   "when": {
+    "result": "browse",
+    "pointer": "/status",
+    "equals": "LISTED"
+   }
+  },
+  {
+   "sectionId": "browse-rows",
+   "regionId": "main",
+   "order": 4,
+   "component": {
+    "kind": "table",
+    "version": 1
+   },
+   "when": {
+    "result": "browse",
+    "pointer": "/status",
+    "equals": "LISTED"
+   },
+   "props": {
+    "columns": [
+     {
+      "key": "number",
+      "label": "No."
+     },
+     {
+      "key": "name",
+      "label": "Animal"
+     },
+     {
+      "key": "range",
+      "label": "Range"
+     },
+     {
+      "key": "state",
+      "label": "Your collection"
+     },
+     {
+      "key": "scientific",
+      "label": "Scientific name"
+     },
+     {
+      "key": "types",
+      "label": "Types"
+     },
+     {
+      "key": "strength",
+      "label": "Strength"
+     },
+     {
+      "key": "size",
+      "label": "Size"
+     },
+     {
+      "key": "speed",
+      "label": "Speed"
+     }
+    ],
+    "empty": "No animal matches this search."
+   },
+   "bindings": {
+    "rows": {
+     "kind": "read",
+     "reader": "run",
+     "result": "browse",
+     "pointer": "/items",
+     "map": {
+      "number": "/animal/collectionNumber",
+      "name": "/animal/commonName",
+      "range": {
+       "pointer": "/animal/range",
+       "join": ", "
+      },
+      "state": {
+       "label": "/collectionState",
+       "state": "/collectionState"
+      },
+      "scientific": "/animal/scientificName",
+      "types": {
+       "pointer": "/animal/types",
+       "join": ", "
+      },
+      "strength": "/animal/stats/Strength",
+      "size": "/animal/stats/Size",
+      "speed": "/animal/stats/Speed"
+     }
+    }
+   }
+  },
+  {
+   "sectionId": "browse-refused",
+   "regionId": "main",
+   "order": 5,
+   "component": {
+    "kind": "notice",
+    "version": 1
+   },
+   "props": {
+    "tone": "error",
+    "title": "Refused by the capability"
+   },
+   "bindings": {
+    "body": {
+     "kind": "read",
+     "reader": "run",
+     "result": "browse",
+     "pointer": "/reason/code"
+    }
+   },
+   "when": {
+    "result": "browse",
+    "pointer": "/status",
+    "equals": "REFUSED"
+   }
+  },
+  {
+   "sectionId": "disclosure-note",
+   "regionId": "main",
+   "order": 6,
+   "component": {
+    "kind": "text",
+    "version": 1
+   },
+   "props": {
+    "role": "note",
+    "text": "A dash is a field the capability did not return for you. Collecting the animal is what unlocks it."
+   }
+  }
+ ]
+}

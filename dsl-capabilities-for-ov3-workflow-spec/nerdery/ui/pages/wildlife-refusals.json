@@ -1,0 +1,293 @@
+{
+ "document": "ui-page-definition.v1",
+ "pageId": "ui-page-wildlife-refusals",
+ "namespaceId": "sidefx:ui",
+ "path": "/circuit/wildlife-refusals",
+ "revision": 1,
+ "title": "Refusals",
+ "layoutRef": {
+  "layoutId": "ui-layout-marketing.v1",
+  "digest": "e2591ca34ce894541132dccaca54fa77d8e98b84e7f8c8c8c93ff320fe9db58c"
+ },
+ "navigation": {
+  "items": [
+   {
+    "label": "Overview",
+    "href": "/circuit/wildlife"
+   },
+   {
+    "label": "Collection",
+    "href": "/circuit/wildlife-collection"
+   },
+   {
+    "label": "Animal",
+    "href": "/circuit/wildlife-animal"
+   },
+   {
+    "label": "Capture",
+    "href": "/circuit/wildlife-capture"
+   },
+   {
+    "label": "My animals",
+    "href": "/circuit/wildlife-mine"
+   },
+   {
+    "label": "Team",
+    "href": "/circuit/wildlife-team"
+   },
+   {
+    "label": "Home",
+    "href": "/circuit/wildlife-home"
+   },
+   {
+    "label": "Refusals",
+    "href": "/circuit/wildlife-refusals"
+   }
+  ]
+ },
+ "sources": [
+  {
+   "sourceId": "session",
+   "reader": "session"
+  }
+ ],
+ "sections": [
+  {
+   "sectionId": "hero",
+   "regionId": "main",
+   "order": 1,
+   "component": {
+    "kind": "hero",
+    "version": 1
+   },
+   "props": {
+    "eyebrow": "Boundaries",
+    "headline": "What the system refuses",
+    "lede": "Rules live in the capabilities, not in these screens. Each button sends a request the capability must refuse, and shows the refusal it names.",
+    "primaryActionId": "open-circuit"
+   },
+   "bindings": {
+    "figure": {
+     "kind": "read",
+     "reader": "scenario",
+     "input": {
+      "capabilityId": "nerdery-add-animal-definition",
+      "namespaceId": "sidefx:capabilities",
+      "page": "scenario-1"
+     },
+     "pointer": "/slides/0"
+    }
+   },
+   "actions": [
+    {
+     "actionId": "open-circuit",
+     "kind": "navigate",
+     "to": "/circuit/explorer?capability=nerdery-add-animal-definition&namespace=sidefx%3Acapabilities"
+    }
+   ]
+  },
+  {
+   "sectionId": "add-heading",
+   "regionId": "main",
+   "order": 2,
+   "component": {
+    "kind": "heading",
+    "version": 1
+   },
+   "props": {
+    "text": "A citizen adds to the catalog",
+    "level": 2
+   }
+  },
+  {
+   "sectionId": "add",
+   "regionId": "main",
+   "order": 3,
+   "component": {
+    "kind": "section",
+    "version": 1
+   },
+   "props": {
+    "body": [
+     "Only biologists maintain the catalog. This sends a complete new animal as you, a citizen."
+    ],
+    "actions": [
+     {
+      "actionId": "add",
+      "label": "Add Demo Owl as a citizen"
+     }
+    ]
+   },
+   "actions": [
+    {
+     "actionId": "add",
+     "kind": "observe",
+     "subject": "nerdery-add-animal-definition",
+     "namespace": "sidefx:capabilities",
+     "result": "add",
+     "input": {
+      "input": {
+       "caller": {
+        "principalId": {
+         "source": "session",
+         "pointer": "/principalId"
+        },
+        "sessionId": {
+         "source": "session",
+         "pointer": "/sessionId"
+        }
+       },
+       "request": {
+        "animal": {
+         "commonName": "Demo Owl",
+         "scientificName": "Synthetic scientific label 4",
+         "avatarPhotoRef": "avatar-001",
+         "collectionNumber": 4,
+         "range": [
+          "county-a"
+         ],
+         "types": [
+          "Flying"
+         ],
+         "stats": {
+          "Strength": 5,
+          "Size": 6,
+          "Speed": 7
+         },
+         "attributes": []
+        }
+       }
+      }
+     }
+    }
+   ]
+  },
+  {
+   "sectionId": "add-refused",
+   "regionId": "main",
+   "order": 4,
+   "component": {
+    "kind": "notice",
+    "version": 1
+   },
+   "props": {
+    "tone": "error",
+    "title": "Refused by the capability"
+   },
+   "bindings": {
+    "body": {
+     "kind": "read",
+     "reader": "run",
+     "result": "add",
+     "pointer": "/reason/code"
+    }
+   },
+   "when": {
+    "result": "add",
+    "pointer": "/status",
+    "equals": "REFUSED"
+   }
+  },
+  {
+   "sectionId": "add-added",
+   "regionId": "main",
+   "order": 5,
+   "component": {
+    "kind": "notice",
+    "version": 1
+   },
+   "props": {
+    "tone": "warning",
+    "title": "Added",
+    "body": "This session belongs to a biologist, who may add animals."
+   },
+   "when": {
+    "result": "add",
+    "pointer": "/status",
+    "equals": "ADDED"
+   }
+  },
+  {
+   "sectionId": "forged-heading",
+   "regionId": "main",
+   "order": 6,
+   "component": {
+    "kind": "heading",
+    "version": 1
+   },
+   "props": {
+    "text": "Someone else's identity",
+    "level": 2
+   }
+  },
+  {
+   "sectionId": "forged",
+   "regionId": "main",
+   "order": 7,
+   "component": {
+    "kind": "section",
+    "version": 1
+   },
+   "props": {
+    "body": [
+     "This presents your session under another principal. The capability checks the pair against the identity store and treats the caller as anonymous."
+    ],
+    "actions": [
+     {
+      "actionId": "forged",
+      "label": "Browse as another principal"
+     }
+    ]
+   },
+   "actions": [
+    {
+     "actionId": "forged",
+     "kind": "observe",
+     "subject": "nerdery-browse-animal-collection",
+     "namespace": "sidefx:capabilities",
+     "result": "forged",
+     "input": {
+      "input": {
+       "caller": {
+        "principalId": "00000000-0000-4000-8000-000000000001",
+        "sessionId": {
+         "source": "session",
+         "pointer": "/sessionId"
+        }
+       },
+       "request": {
+        "search": ""
+       }
+      }
+     }
+    }
+   ]
+  },
+  {
+   "sectionId": "forged-refused",
+   "regionId": "main",
+   "order": 8,
+   "component": {
+    "kind": "notice",
+    "version": 1
+   },
+   "props": {
+    "tone": "error",
+    "title": "Refused by the capability"
+   },
+   "bindings": {
+    "body": {
+     "kind": "read",
+     "reader": "run",
+     "result": "forged",
+     "pointer": "/reason/code"
+    }
+   },
+   "when": {
+    "result": "forged",
+    "pointer": "/status",
+    "equals": "REFUSED"
+   }
+  }
+ ]
+}
