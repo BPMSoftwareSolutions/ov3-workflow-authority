@@ -5,9 +5,14 @@
 # drifting from its canonical .feature. It comes first: the capability is not declared yet. Its procedure body,
 # conformance/check_capability_feature_conformance.body.sql (analysis.check_capability_feature_conformance once
 # installed), ran read-only as a session procedure through sql-database-reader. Each probed case below ran with exactly
-# its request, and conformance/run-check.mjs re-runs them from this file. With the final body, all 54 probed cases
-# met their rows in runs c2d6f5b5, 0c9bcf2f, e08afb93 and 6afa6b38. The check finds this file WELL_FORMED, with the same
-# pickles as @cucumber/gherkin (run 230e6700).
+# its request, and conformance/run-check.mjs re-runs them from this file. The run ids of the latest full re-run are in
+# the README.
+#
+# Its declaration comes from conformance/check-capability-feature-conformance.dsl, which pins this file's bytes and names
+# its provider: "operation check-capability-feature-conformance.check uses provider sql-database-reader". OV3 installs
+# the procedure and declares the capability in the flight sql/dsl-10 records; the author path binds this file to it and
+# commits only when this check finds the binding CONFORMANT. The compiler and the author path call the check with
+# @emit 0 and read @result, so neither nests an INSERT ... EXEC.
 #
 # What the estate has today (live reads, 2026-11-02):
 #   - 669 capabilities are selected in sidefx:capabilities. 451 have a CANONICAL feature row for some version, and 406
@@ -44,14 +49,21 @@
 #     its first failing layer: tag, provider identity, step binding, attempt, call, graph, outcome, result.
 #
 # Feature first, without a circle: the feature's bytes are retained by digest; the compiler compiles the DSL against
-# exactly those bytes; the author path (declared change capability-from-dsl) declares the document and binds the
-# feature to the new capability version in one transaction, committing only when this check returns CONFORMANT; the
-# first call's evidence then accepts each case. This check's part is built and probed (conf-compile-feature-conforms,
-# conf-retained-bytes-by-digest); the compiler's and the author path's parts are not built.
+# exactly those bytes and runs this check on the compiled document (document mode); the author path (declared change
+# capability-from-dsl) declares the document and, at the end of the same change, binds those bytes to the version it
+# selected, committing only when this check returns CONFORMANT for the binding; the first call's evidence then accepts
+# each case. All three parts are written and probed read-only: this check, the compiler revision
+# (features/compile-capability-dsl.feature) and the author path revision, which sql/dsl-06-test.sql tests in a
+# transaction that rolls back and sql/dsl-07 installs.
+#
+# Requests (check-capability-feature-conformance-request.v1): {"capabilityId"} for the bound feature;
+# {"featureText" or "featureDigest", "capabilityId"?} for a text, against a declaration when the capability is named;
+# {"featureText" or "featureDigest", "document"} for a text against a compiled document; {"acceptance", "evidenceText",
+# "featureText"?} for acceptance; {"baseline"} for a page of the estate.
 #
 # Status tags:
 #   @status:probed     the body ran read-only through sql-database-reader with exactly this request (run id in a comment)
-#   @status:not-built  the owner's direction requires it; nothing implements it yet
+#   @status:not-built  it needs a write that has not happened yet: the install and declaration OV3 flies
 
 @capability:check-capability-feature-conformance
 @root-scenario:check-capability-feature-conformance
@@ -212,16 +224,17 @@ Feature: A capability's circuit never drifts from its canonical feature
     Scenario: The replacement feature of compile-capability-dsl conforms to its declared circuit before it is bound
       Given a capability of the selected estate, a feature text, or an acceptance record with the run evidence it pins
         """json
-        {"capabilityId":"compile-capability-dsl","featureText":{"$textOf":"features/compile-capability-dsl.feature","$sha256":"3c40ef9a2256f1e5deef38c774590431d4cc2643221a9b0aea63461194f69875"}}
+        {"capabilityId":"compile-capability-dsl","featureText":{"$textOf":"features/compile-capability-dsl.feature","$sha256":"7f758d7545e4bedfd32b2c8f69c2d5ea7f21dfe54cc97bbb9868cb85c73a301c"}}
         """
       And the text states the declared identities, the three declared steps in every case, and $.status values COMPILED and REFUSED only
       When the feature is parsed scope by scope and each identity, step and case is compared with its declaration or with the evidence of its own call
       Then CONFORMANT, WELL_FORMED or ACCEPTED, or each drift named by its code and identity
         | operation                                  | path                | equals            |
         | check-capability-feature-conformance.check | $.status            | CONFORMANT        |
-        | check-capability-feature-conformance.check | $.parse.cases       | 9                 |
+        | check-capability-feature-conformance.check | $.parse.cases       | 11                |
         | check-capability-feature-conformance.check | $.summary.signature | status=CONFORMANT |
-      # Run 2c503ff8. Binding this text in place of the greeting is a write of the author path, not of this check.
+      # Run 5fae01e0, with the eleven cases of this revision. Binding this text in place of the greeting is a write of the
+      # author path, not of this check.
 
     @provider:sql-database-reader
     @status:probed
@@ -254,6 +267,7 @@ Feature: A capability's circuit never drifts from its canonical feature
         | conf-drift-terminal          | outcome-terminal        | no @outcome-terminal on a terminal scenario                | 35ccec411a511a64927806883afbe36667daece880370bc38c2c9ac00920190b | DRIFT      | status=DRIFT;OUTCOME_TERMINAL_MISMATCH=1      |
         | conf-drift-step              | declared-step           | a declared step that no case holds                         | b506d1051bc84bb96372dc595475e14c58fa2d011aa12db599174c4cbc6f1be3 | DRIFT      | status=DRIFT;SCENARIO_STEP_NOT_IN_FEATURE=1   |
         | conf-drift-provider          | provider-unknown        | a provider tag that differs only in case                   | dbe6c5352e84273bcf7645bcb369777063f2eb12bf38b0bd860616873776f9ac | DRIFT      | status=DRIFT;PROVIDER_UNKNOWN=1               |
+        | conf-drift-provider-unbound  | provider-unbound        | a provider tag that no operation of the scenario uses      | 00354cf6f9e01081e3353d3b8b7adb8b2eb74aa5b67d1c201a336a1f2dd49f6c | DRIFT      | status=DRIFT;PROVIDER_TAG_UNBOUND=1           |
         | conf-drift-status            | outcome-undeclared      | a $.status the circuit cannot return                       | ab201ea851c92b72643d9bbeaa6460cc0877fdf72d29003be6c5619437312f7f | DRIFT      | status=DRIFT;OUTCOME_UNDECLARED=1             |
         | conf-drift-operation         | operation-undeclared    | an assertion on an operation the scenario does not declare | fad000704ba75ac2311c1a405e4c2145ec8dbc3690db20717635661bfb58d3f4 | DRIFT      | status=DRIFT;ASSERTION_OPERATION_UNDECLARED=1 |
         | conf-drift-case-missing      | case-identity-missing   | a case without @case                                       | c638d45b54be8a6dc3873b84b426b4acc254621ae1fcee76417d2b711e5af9a8 | DRIFT      | status=DRIFT;CASE_IDENTITY_MISSING=1          |
@@ -266,39 +280,61 @@ Feature: A capability's circuit never drifts from its canonical feature
         | conf-drift-parse             | parse-error             | a tag line that no keyword follows                         | 04aee29bfce507e2399faac1e89da4a9bd31c5be062c616f390cbe8e8c1b5c72 | DRIFT      | status=DRIFT;GHERKIN_PARSE_ERROR=1            |
       # Run f8aa9214: each fixture changes one line of base-conforms, and each finds exactly its own code.
 
-    @case:conf-provider-binding
+  Rule: A feature is checked against a compiled document before anything is declared, providers included
+
+    @case:conf-document-conforms
     @provider:sql-database-reader
-    @status:not-built
-    Scenario: Each provider tag is bound by an operation, and each bound provider capability is tagged
+    @status:probed
+    Scenario: The probe feature conforms to the document its pinned source compiles to
       Given a capability of the selected estate, a feature text, or an acceptance record with the run evidence it pins
         """json
-        {"capabilityId":"reveal-estate-workflows"}
+        {"featureText":{"$textOf":"conformance/fixtures/compile/feature-first-probe.feature","$sha256":"a27afaf641cbb246f8c330346bce96f9731c1bed1ab6408341414daf7881addc"},"document":{"$jsonOf":"conformance/fixtures/compile/feature-pin.document.json","$sha256":"f228baa7177cedd7f6fbc114826a2ca595eb9c3648529421446ba38dc948f1c5"}}
         """
-      And reveal-estate-workflows is declared from a DSL whose operation says "uses provider sql-database-reader"
+      And the document is what the revised compiler produced for conformance/fixtures/compile/feature-pin.dsl, sha256:74acfefa...
+      When the feature is parsed scope by scope and each identity, step and case is compared with its declaration or with the evidence of its own call
+      Then CONFORMANT, WELL_FORMED or ACCEPTED, or each drift named by its code and identity
+        | operation                                  | path                | equals            |
+        | check-capability-feature-conformance.check | $.status            | CONFORMANT        |
+        | check-capability-feature-conformance.check | $.mode              | document          |
+        | check-capability-feature-conformance.check | $.summary.signature | status=CONFORMANT |
+      # This is the check the compiler runs on a source that pins its feature (compile case compile-feature-pin).
+
+    @case:conf-document-provider-drift
+    @provider:sql-database-reader
+    @status:probed
+    Scenario: A provider tag no operation uses, and an operation's provider no case tags, are each named
+      Given a capability of the selected estate, a feature text, or an acceptance record with the run evidence it pins
+        """json
+        {"featureText":{"$textOf":"conformance/fixtures/compile/feature-first-probe-asks-model.feature","$sha256":"9f4f0b54f8221620339f45fce7769427a3919934f563680dedccd0ef0e53f386"},"document":{"$jsonOf":"conformance/fixtures/compile/feature-pin.document.json","$sha256":"f228baa7177cedd7f6fbc114826a2ca595eb9c3648529421446ba38dc948f1c5"}}
+        """
+      And the feature's case is tagged @provider:ask-model, while operation dsl02-probe-feature-first.read uses provider sql-database-reader
+      When the feature is parsed scope by scope and each identity, step and case is compared with its declaration or with the evidence of its own call
+      Then CONFORMANT, WELL_FORMED or ACCEPTED, or each drift named by its code and identity
+        | operation                                  | path                        | equals                                                          |
+        | check-capability-feature-conformance.check | $.status                    | DRIFT                                                           |
+        | check-capability-feature-conformance.check | $.summary.signature         | status=DRIFT;PROVIDER_BINDING_UNTAGGED=1;PROVIDER_TAG_UNBOUND=1 |
+        | check-capability-feature-conformance.check | $.findings[0].featureValue  | dsl02-probe-feature-first.read                                  |
+        | check-capability-feature-conformance.check | $.findings[0].declaredValue | sql-database-reader                                             |
+        | check-capability-feature-conformance.check | $.findings[1].featureValue  | ask-model                                                       |
+      # A declaration reads the same comparison from the operations its execution authority keeps (bound mode).
+
+    @case:conf-self-conforms
+    @provider:sql-database-reader
+    @status:not-built
+    Scenario: The declared check conforms to its own canonical feature
+      Given a capability of the selected estate, a feature text, or an acceptance record with the run evidence it pins
+        """json
+        {"capabilityId":"check-capability-feature-conformance"}
+        """
+      And OV3 has declared check-capability-feature-conformance from conformance/check-capability-feature-conformance.dsl, which pins this feature
       When the feature is parsed scope by scope and each identity, step and case is compared with its declaration or with the evidence of its own call
       Then CONFORMANT, WELL_FORMED or ACCEPTED, or each drift named by its code and identity
         | operation                                  | path                | equals            |
         | check-capability-feature-conformance.check | $.status            | CONFORMANT        |
         | check-capability-feature-conformance.check | $.summary.signature | status=CONFORMANT |
-      # Needs the compiler's "uses provider" line, which states the provider capability on the operation. Then a tag that
-      # no operation binds is PROVIDER_TAG_UNBOUND, and a bound provider capability that no case tags is
-      # PROVIDER_BINDING_UNTAGGED. The draft DSL, which binds four platform ports, would be PROVIDER_TAG_UNBOUND.
-
-    @case:conf-dsl-feature-pin
-    @provider:sql-database-reader
-    @status:not-built
-    Scenario: The retained DSL source pins the digest of the feature bound to its capability version
-      Given a capability of the selected estate, a feature text, or an acceptance record with the run evidence it pins
-        """json
-        {"capabilityId":"reveal-estate-workflows"}
-        """
-      And its newest retained DSL source pins the feature with a feature line
-      When the feature is parsed scope by scope and each identity, step and case is compared with its declaration or with the evidence of its own call
-      Then CONFORMANT, WELL_FORMED or ACCEPTED, or each drift named by its code and identity
-        | operation                                  | path     | equals     |
-        | check-capability-feature-conformance.check | $.status | CONFORMANT |
-      # A source that pins no feature is DSL_FEATURE_UNPINNED, and one that pins another digest is DSL_FEATURE_STALE.
-      # Needs the compiler's feature line.
+      # The first call of the check's own flight (sql/dsl-11). In bound mode it compares the provider each operation's
+      # execution authority names with the @provider tags, and the feature digest the installed document pins with the
+      # bound feature (DSL_FEATURE_STALE when they differ).
 
   Rule: An acceptance case has an identity, a request and its own assertions
 
@@ -461,15 +497,16 @@ Feature: A capability's circuit never drifts from its canonical feature
     @case:conf-author-path-check
     @provider:sql-database-reader
     @status:not-built
-    Scenario: The author path commits a declaration only when its feature conforms
+    Scenario: The author path commits a declaration only when its pinned feature conforms
       Given a capability of the selected estate, a feature text, or an acceptance record with the run evidence it pins
         """json
-        {"capabilityId":"reveal-estate-workflows","featureDigest":"sha256:2935b6314d7b77271681a039e6f1e17b1f5985a5ff406e6b32a1d7c9dbe23b48"}
+        {"capabilityId":"check-capability-feature-conformance"}
         """
-      And the declared change capability-from-dsl has declared the document and bound the retained feature inside its transaction
+      And the declared change capability-from-dsl has declared conformance/check-capability-feature-conformance.dsl and, at the end of its transaction, bound the feature bytes the source pins
       When the feature is parsed scope by scope and each identity, step and case is compared with its declaration or with the evidence of its own call
       Then CONFORMANT, WELL_FORMED or ACCEPTED, or each drift named by its code and identity
         | operation                                  | path     | equals     |
         | check-capability-feature-conformance.check | $.status | CONFORMANT |
-      # Any other status rolls the transaction back and returns the findings. model.apply_capability_from_dsl does not
-      # call the check yet.
+      # The revised author path (source/model.apply_capability_from_dsl.v3.sql) makes this call with @emit 0, and throws
+      # CAPABILITY_FROM_DSL_FEATURE_DRIFT for any other status, so nothing of the declaration is kept. sql/dsl-06-test.sql
+      # runs it on a probe capability in a transaction that rolls back; the declare step of the check's flight runs it.

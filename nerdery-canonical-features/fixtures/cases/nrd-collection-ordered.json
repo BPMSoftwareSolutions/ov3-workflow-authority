@@ -1,0 +1,119 @@
+{
+  "fixtureKind": "NERDERY_CASE_ARRANGEMENT",
+  "caseId": "nrd-collection-ordered",
+  "baseState": {
+    "path": "../base-state.json",
+    "sha256": "sha256:bca83056ae5b1c47e2b1858208ec0f169137d6970a5561eda434da82877977d0"
+  },
+  "authenticatedSubject": "user-a",
+  "replaceTopLevel": {
+    "animalDefinitions": [
+      {
+        "definitionId": "animal-003",
+        "revision": 1,
+        "active": true,
+        "commonName": "Demo Beetle",
+        "scientificName": "Synthetic scientific label 3",
+        "avatarPhotoRef": "avatar-003",
+        "collectionNumber": 3,
+        "range": [
+          "county-a"
+        ],
+        "types": [
+          "Bug"
+        ],
+        "stats": {
+          "Strength": 4,
+          "Size": 5,
+          "Speed": 6
+        },
+        "attributes": [
+          {
+            "attributeId": "habitat",
+            "valueIds": [
+              "woodland"
+            ]
+          },
+          {
+            "attributeId": "diet",
+            "valueIds": [
+              "plants"
+            ]
+          }
+        ]
+      },
+      {
+        "definitionId": "animal-001",
+        "revision": 1,
+        "active": true,
+        "commonName": "Demo Heron",
+        "scientificName": "Synthetic scientific label 1",
+        "avatarPhotoRef": "avatar-001",
+        "collectionNumber": 1,
+        "range": [
+          "county-a"
+        ],
+        "types": [
+          "Flying",
+          "Aquatic"
+        ],
+        "stats": {
+          "Strength": 2,
+          "Size": 3,
+          "Speed": 4
+        },
+        "attributes": [
+          {
+            "attributeId": "habitat",
+            "valueIds": [
+              "wetland"
+            ]
+          },
+          {
+            "attributeId": "diet",
+            "valueIds": [
+              "fish"
+            ]
+          }
+        ]
+      },
+      {
+        "definitionId": "animal-002",
+        "revision": 1,
+        "active": true,
+        "commonName": "Demo Fox",
+        "scientificName": "Synthetic scientific label 2",
+        "avatarPhotoRef": "avatar-002",
+        "collectionNumber": 2,
+        "range": [
+          "county-a"
+        ],
+        "types": [
+          "Rural"
+        ],
+        "stats": {
+          "Strength": 3,
+          "Size": 4,
+          "Speed": 5
+        },
+        "attributes": [
+          {
+            "attributeId": "habitat",
+            "valueIds": [
+              "woodland"
+            ]
+          },
+          {
+            "attributeId": "diet",
+            "valueIds": [
+              "plants"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "providerBehavior": {},
+  "arrangement": {},
+  "isolation": "Reset to the pinned base and replace the named top-level values before this case; no case depends on a previous case."
+}

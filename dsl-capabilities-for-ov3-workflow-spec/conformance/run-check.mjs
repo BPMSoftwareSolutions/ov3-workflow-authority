@@ -63,7 +63,7 @@ const casesFromFeature = (file) => {
 };
 
 const body = fs.readFileSync(path.join(here, "check_capability_feature_conformance.body.sql"), "utf8");
-const proc = "CREATE PROCEDURE #check @input nvarchar(max), @estate_model_pk bigint = NULL AS\n" + body;
+const proc = "CREATE PROCEDURE #check @input nvarchar(max), @estate_model_pk bigint = NULL, @result nvarchar(max) = NULL OUTPUT, @emit bit = 1 AS\n" + body;
 const statement = `SET NOCOUNT ON;
 IF OBJECT_ID(N'tempdb..#check') IS NOT NULL DROP PROCEDURE #check;
 EXEC(N'${proc.replace(/'/g, "''")}');

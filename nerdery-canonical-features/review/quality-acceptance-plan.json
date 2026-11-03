@@ -1,0 +1,121 @@
+{
+  "documentKind": "NERDERY_QUALITY_ACCEPTANCE_PLAN",
+  "status": "DESIGNED_NOT_EXECUTED",
+  "notAnEstateAuthoritySchema": true,
+  "sourceRequirements": [
+    "NRD-D06",
+    "NRD-Q01",
+    "NRD-Q02",
+    "NRD-Q03",
+    "NRD-Q04",
+    "NRD-Q05",
+    "NRD-Q06"
+  ],
+  "profiles": [
+    {
+      "id": "Q-BROWSER",
+      "sourceRequirements": [
+        "NRD-Q01"
+      ],
+      "browsers": [
+        "Chrome",
+        "Firefox",
+        "Safari",
+        "Edge"
+      ],
+      "versions": "Record the tested modern versions at execution; none is prescribed by the source.",
+      "journeys": [
+        "DNR sign-up and sign-in",
+        "catalog browse and search",
+        "locked and unlocked detail",
+        "photo upload",
+        "manual and device location",
+        "record encounter",
+        "collected individuals",
+        "team selection and home page",
+        "biologist definition and attribute editing"
+      ],
+      "requiredEvidence": "Rendered interaction observations for the same cases; a presentation model alone is insufficient.",
+      "status": "NOT_RUN"
+    },
+    {
+      "id": "Q-RESPONSIVE",
+      "sourceRequirements": [
+        "NRD-Q02"
+      ],
+      "requiredViewClasses": [
+        "mobile",
+        "desktop"
+      ],
+      "illustrativeViewportsCssPixels": [
+        {
+          "width": 390,
+          "height": 844
+        },
+        {
+          "width": 1440,
+          "height": 900
+        }
+      ],
+      "viewportsAreProposals": true,
+      "requiredEvidence": "Review rendered layouts and complete the same user journeys in both view classes. Confirm chosen breakpoints, orientations and device scope.",
+      "status": "NOT_RUN"
+    },
+    {
+      "id": "Q-LANGUAGE",
+      "sourceRequirements": [
+        "NRD-Q03"
+      ],
+      "requiredDistinctLanguagesAtLeast": 2,
+      "fixtureLocales": [
+        "en",
+        "es"
+      ],
+      "fixtureLocalesAreNotCustomerSelection": true,
+      "requiredEvidence": "Observe localized navigation, forms, outcomes and errors while preserving animal identity and role restrictions. Agree translation ownership for animal/attribute descriptions, fallback behavior and additional languages.",
+      "status": "NOT_RUN"
+    },
+    {
+      "id": "Q-ACCESSIBILITY",
+      "sourceRequirements": [
+        "NRD-Q04"
+      ],
+      "standard": "WCAG 2.1",
+      "level": "AA",
+      "scope": "Entire delivered web experience, including authentication handoffs, public-facing personal experiences, biologist sections and applicable offline states.",
+      "requiredEvidence": "An assessment against every applicable WCAG 2.1 Level A and Level AA success criterion, with the tested scope, versions, method and findings retained. Automated results alone or a returned compliant=true flag are not a conformance claim.",
+      "assessmentMethod": "TO_BE_AGREED",
+      "status": "NOT_RUN"
+    },
+    {
+      "id": "Q-CAPACITY",
+      "sourceRequirements": [
+        "NRD-D06",
+        "NRD-Q05"
+      ],
+      "animalDefinitionCountApproximate": 1000,
+      "registeredUserPopulation": "tens of thousands; choose and record an exact test population",
+      "maxConcurrentUsers": 2000,
+      "requestRate": "NOT_SPECIFIED",
+      "latencyTarget": "NOT_SPECIFIED",
+      "errorRateTarget": "NOT_SPECIFIED",
+      "availabilityTarget": "NOT_SPECIFIED",
+      "loadMix": "TO_BE_AGREED",
+      "requiredEvidence": "A measured run with a declared workload mix, dataset, ramp, duration, think time and infrastructure profile. Measure read/write latency, failures, queues and resource use; prove collection isolation, field restrictions, team maximum and encounter integrity still hold. Do not reinterpret 2000 concurrent users as 2000 requests per second.",
+      "status": "NOT_RUN"
+    },
+    {
+      "id": "Q-OFFLINE",
+      "sourceRequirements": [
+        "NRD-Q06"
+      ],
+      "scopeStatus": "CANDIDATE_NOT_COMMITTED_TO_MVP",
+      "featurePaths": [
+        "features/offline-candidate/nerdery-capture-offline-encounter.feature",
+        "features/offline-candidate/nerdery-synchronize-offline-encounter.feature"
+      ],
+      "requiredEvidence": "After owner approval, demonstrate disconnected capture, photo retention across reload, reconnect synchronization, interrupted upload, lost acknowledgment and wrong-account refusal on each supported target.",
+      "status": "NOT_RUN"
+    }
+  ]
+}

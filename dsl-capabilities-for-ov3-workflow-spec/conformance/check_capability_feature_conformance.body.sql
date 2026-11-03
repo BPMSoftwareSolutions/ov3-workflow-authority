@@ -1,10 +1,12 @@
--- Body of analysis.check_capability_feature_conformance (parameters @input nvarchar(max), @estate_model_pk bigint).
+-- Body of analysis.check_capability_feature_conformance (parameters @input nvarchar(max), @estate_model_pk bigint,
+-- @result nvarchar(max) OUTPUT, @emit bit): the result is returned in @result, and also selected as value when @emit is 1.
 -- Read-only: it reads model.* and source.* and writes only its own temporary tables.
 -- Canonical reference: features/check-capability-feature-conformance.feature.
 --
 -- Request (check-capability-feature-conformance-request.v1), one of:
 --   {"capabilityId"}                                   the canonical feature bound to the selected version, exactly
 --   {"featureText" | "featureDigest", "capabilityId"?} that text; with capabilityId, compared with its declaration
+--   {"featureText" | "featureDigest", "document"}    that text against a compiled document, before anything is declared
 --   {"acceptance", "evidenceText", "featureText"?, "capabilityId"?}   a case or flight accepted from pinned evidence
 --   {"baseline": {"after", "size"}}                    a page of every selected capability, bound mode
 -- Result: capability-feature-conformance.v1.
@@ -18,10 +20,11 @@ SELECT @ftext = featureText, @etext = evidenceText
 FROM OPENJSON(@input) WITH (featureText nvarchar(max) N'$.featureText', evidenceText nvarchar(max) N'$.evidenceText');
 DECLARE @fdig nvarchar(100) = JSON_VALUE(@input, N'$.featureDigest');
 DECLARE @acc nvarchar(max) = JSON_QUERY(@input, N'$.acceptance');
+DECLARE @docin nvarchar(max) = JSON_QUERY(@input, N'$.document');
 DECLARE @base nvarchar(max) = JSON_QUERY(@input, N'$.baseline');
 DECLARE @explain bit = CASE WHEN JSON_VALUE(@input, N'$.explain') = N'true' THEN 1 ELSE 0 END;
 DECLARE @mode nvarchar(20) = CASE WHEN @base IS NOT NULL THEN N'baseline' WHEN @acc IS NOT NULL THEN N'acceptance'
-  WHEN @ftext IS NOT NULL OR @fdig IS NOT NULL THEN N'text' ELSE N'bound' END;
+  WHEN @docin IS NOT NULL THEN N'document' WHEN @ftext IS NOT NULL OR @fdig IS NOT NULL THEN N'text' ELSE N'bound' END;
 DECLARE @after nvarchar(400) = ISNULL(JSON_VALUE(@base, N'$.after'), N'');
 DECLARE @size int = ISNULL(TRY_CONVERT(int, JSON_VALUE(@base, N'$.size')), 100);
 DECLARE @res nvarchar(max);
@@ -29,7 +32,9 @@ DECLARE @res nvarchar(max);
 -- 1. Capabilities under check: exact identity in sidefx:capabilities of the selected estate, no fallback.
 CREATE TABLE #cap(fid int IDENTITY(1,1) PRIMARY KEY, capability_pk bigint NULL, capability_id nvarchar(400) COLLATE Latin1_General_100_BIN2 NULL,
   cvpk bigint NULL, lookup varchar(20) NOT NULL DEFAULT 'FOUND');
-IF @mode = N'baseline'
+IF @mode = N'document'
+  INSERT #cap(capability_id, lookup) VALUES(ISNULL(@capId, JSON_VALUE(@docin, N'$.capabilityId')), 'DOCUMENT');
+ELSE IF @mode = N'baseline'
   INSERT #cap(capability_pk, capability_id, cvpk)
   SELECT TOP (@size) c.capability_pk, c.capability_id, ec.capability_version_pk
   FROM model.estate_capability ec JOIN model.capability c ON c.capability_pk = ec.capability_pk
@@ -345,16 +350,61 @@ SELECT k.fid, s.scenario_pk, s.scenario_id, cs.scenario_version_pk,
      JOIN source.content_object co ON co.content_object_pk = d.canonical_content_pk WHERE v.scenario_version_pk = cs.scenario_version_pk)
 FROM #cap k JOIN model.capability_scenario cs ON cs.capability_version_pk = k.cvpk JOIN model.scenario s ON s.scenario_pk = cs.scenario_pk
 WHERE k.lookup <> 'NOT_FOUND' AND k.cvpk IS NOT NULL AND EXISTS (SELECT 1 FROM #feat f WHERE f.fid = k.fid);
+IF @mode = N'document'
+  INSERT #dsc(fid, scenario_pk, scenario_id, svpk, is_root, input_id, input_contract, event_id, event_authority, outcome_id, outcome_contract, terminal, eavpk, envelope)
+  SELECT k.fid, 0, s.scenarioId, 0, CASE WHEN s.root = N'true' THEN 1 ELSE 0 END, s.inputId, s.inputContract, s.eventId, s.eventAuthority,
+    s.outcomeId, s.outcomeContract, CASE WHEN s.terminal = N'true' THEN 1 ELSE 0 END, NULL, s.scen
+  FROM #cap k CROSS APPLY OPENJSON(@docin, N'$.scenarios') WITH (scenarioId nvarchar(400) N'$.scenarioId', root nvarchar(10) N'$.root',
+    terminal nvarchar(10) N'$.terminal', inputId nvarchar(400) N'$.inputId', inputContract nvarchar(400) N'$.inputContract',
+    eventId nvarchar(400) N'$.eventId', eventAuthority nvarchar(400) N'$.eventAuthority', outcomeId nvarchar(400) N'$.outcomeId',
+    outcomeContract nvarchar(400) N'$.outcomeContract', scen nvarchar(max) N'$' AS JSON) s
+  WHERE k.lookup = 'DOCUMENT' AND s.scenarioId IS NOT NULL AND EXISTS (SELECT 1 FROM #feat f WHERE f.fid = k.fid);
 CREATE TABLE #dstep(fid int NOT NULL, scenario_id nvarchar(400) COLLATE Latin1_General_100_BIN2 NOT NULL, ord int NOT NULL, stype varchar(20) NULL,
   text nvarchar(max) COLLATE Latin1_General_100_BIN2 NULL);
 INSERT #dstep(fid, scenario_id, ord, stype, text)
 SELECT d.fid, d.scenario_id, CONVERT(int, j.[key]), JSON_VALUE(j.value, N'$.keywordType'), x.text
 FROM #dsc d CROSS APPLY OPENJSON(CASE WHEN ISJSON(d.envelope) = 1 THEN d.envelope END, N'$.semantics.scenario.steps') j
-CROSS APPLY OPENJSON(CASE WHEN ISJSON(j.value) = 1 THEN j.value END) WITH (text nvarchar(max) N'$.text') x;
+CROSS APPLY OPENJSON(CASE WHEN ISJSON(j.value) = 1 THEN j.value END) WITH (text nvarchar(max) N'$.text') x
+WHERE @mode <> N'document';
+-- A document's scenario states its steps as given, when and then.
+INSERT #dstep(fid, scenario_id, ord, stype, text)
+SELECT d.fid, d.scenario_id, v.ord, v.stype, v.txt FROM #dsc d
+CROSS APPLY (VALUES (0, 'Context', JSON_VALUE(d.envelope, N'$.given')), (1, 'Action', JSON_VALUE(d.envelope, N'$.when')),
+  (2, 'Outcome', JSON_VALUE(d.envelope, N'$.then'))) v(ord, stype, txt)
+WHERE @mode = N'document' AND v.txt IS NOT NULL;
 CREATE TABLE #dvar(fid int NOT NULL, scenario_id nvarchar(400) COLLATE Latin1_General_100_BIN2 NOT NULL, variant nvarchar(400) COLLATE Latin1_General_100_BIN2 NOT NULL);
 INSERT #dvar SELECT d.fid, d.scenario_id, ov.variant_id FROM #dsc d JOIN model.outcome_variant ov ON ov.scenario_version_pk = d.svpk WHERE ov.variant_id IS NOT NULL;
+-- A document's variants are those it declares; without them, they are derived as model.declare_capability_document derives
+-- them: the status enum of the outcome contract, or the one return of a terminal scenario (its status const, else RETURNED).
+INSERT #dvar SELECT d.fid, d.scenario_id, x.variantId FROM #dsc d
+CROSS APPLY OPENJSON(d.envelope, N'$.variants') WITH (variantId nvarchar(400) N'$.variantId') x WHERE @mode = N'document' AND x.variantId IS NOT NULL;
+INSERT #dvar SELECT d.fid, d.scenario_id, CONVERT(nvarchar(400), e.value) FROM #dsc d
+CROSS APPLY (SELECT TOP (1) JSON_QUERY(c.value, N'$.schema') AS sch FROM OPENJSON(@docin, N'$.contracts') c
+  WHERE JSON_VALUE(c.value, N'$.id') = d.outcome_contract) sc
+CROSS APPLY OPENJSON(sc.sch, N'$.properties.status.enum') e
+WHERE @mode = N'document' AND NOT EXISTS (SELECT 1 FROM #dvar v WHERE v.fid = d.fid AND v.scenario_id = d.scenario_id);
+INSERT #dvar SELECT d.fid, d.scenario_id, COALESCE(JSON_VALUE(sc.sch, N'$.properties.status.const'), N'RETURNED') FROM #dsc d
+OUTER APPLY (SELECT TOP (1) JSON_QUERY(c.value, N'$.schema') AS sch FROM OPENJSON(@docin, N'$.contracts') c
+  WHERE JSON_VALUE(c.value, N'$.id') = d.outcome_contract) sc
+WHERE @mode = N'document' AND d.terminal = 1 AND NOT EXISTS (SELECT 1 FROM #dvar v WHERE v.fid = d.fid AND v.scenario_id = d.scenario_id);
 CREATE TABLE #dop(fid int NOT NULL, scenario_id nvarchar(400) COLLATE Latin1_General_100_BIN2 NOT NULL, operation_id nvarchar(400) COLLATE Latin1_General_100_BIN2 NOT NULL);
 INSERT #dop SELECT d.fid, d.scenario_id, o.operation_id FROM #dsc d JOIN model.execution_operation o ON o.execution_authority_version_pk = d.eavpk WHERE o.operation_id IS NOT NULL;
+INSERT #dop SELECT d.fid, d.scenario_id, x.operationId FROM #dsc d
+CROSS APPLY OPENJSON(d.envelope, N'$.operations') WITH (operationId nvarchar(400) N'$.operationId') x WHERE @mode = N'document' AND x.operationId IS NOT NULL;
+-- The provider capability each operation names by identity: in the declared execution authority's operations, or the document's.
+CREATE TABLE #dprov(fid int NOT NULL, scenario_id nvarchar(400) COLLATE Latin1_General_100_BIN2 NOT NULL,
+  operation_id nvarchar(400) COLLATE Latin1_General_100_BIN2 NULL, provider_id nvarchar(400) COLLATE Latin1_General_100_BIN2 NOT NULL);
+INSERT #dprov SELECT d.fid, d.scenario_id, x.operationId, x.providerCapabilityId FROM #dsc d
+CROSS APPLY OPENJSON(d.envelope, N'$.operations') WITH (operationId nvarchar(400) N'$.operationId', providerCapabilityId nvarchar(400) N'$.providerCapabilityId') x
+WHERE @mode = N'document' AND x.providerCapabilityId IS NOT NULL;
+INSERT #dprov SELECT d.fid, d.scenario_id, x.operationId, x.providerCapabilityId
+FROM #dsc d JOIN model.execution_authority_version av ON av.execution_authority_version_pk = d.eavpk
+JOIN model.semantic_object_definition sd ON sd.semantic_object_definition_pk = av.semantic_object_definition_pk
+JOIN source.content_object co ON co.content_object_pk = sd.canonical_content_pk
+CROSS APPLY (SELECT CONVERT(nvarchar(max), CONVERT(varchar(max), co.content_bytes) COLLATE Latin1_General_100_BIN2_UTF8) AS env) a
+CROSS APPLY OPENJSON(CASE WHEN ISJSON(a.env) = 1 THEN a.env END, N'$.semantics.authority.operations')
+  WITH (operationId nvarchar(400) N'$.operationId', providerCapabilityId nvarchar(400) N'$.providerCapabilityId') x
+WHERE @mode <> N'document' AND x.providerCapabilityId IS NOT NULL;
 
 -- 5. Findings. Feature identity and entry.
 DECLARE @hasDecl TABLE(fid int PRIMARY KEY);
@@ -449,6 +499,34 @@ SELECT f.fid, 'FEATURE_PIN_UNTAGGED', s.scenario_id
 FROM #feat f JOIN model.feature_scenario fs ON fs.feature_version_pk = f.fvpk JOIN model.scenario s ON s.scenario_pk = fs.scenario_pk
 WHERE f.fvpk IS NOT NULL AND NOT EXISTS (SELECT 1 FROM #case c JOIN #pt t ON t.pk = c.pk AND t.tkey = N'scenario'
   AND t.tval = s.scenario_id COLLATE Latin1_General_100_BIN2 WHERE c.fid = f.fid);
+
+-- Provider tags equal the provider capabilities the scenario's operations name, in both directions. A tag that does not
+-- resolve is PROVIDER_UNKNOWN only.
+INSERT #fd(fid, code, scenario_id, line, fval)
+SELECT c.fid, 'PROVIDER_TAG_UNBOUND', s.tval, MIN(c.line), p.tval
+FROM #case c JOIN #pt s ON s.pk = c.pk AND s.tkey = N'scenario' JOIN #pt p ON p.pk = c.pk AND p.tkey = N'provider'
+WHERE EXISTS (SELECT 1 FROM #dsc d WHERE d.fid = c.fid AND d.scenario_id = s.tval)
+  AND NOT EXISTS (SELECT 1 FROM #dprov v WHERE v.fid = c.fid AND v.scenario_id = s.tval AND v.provider_id = p.tval)
+  AND EXISTS (SELECT 1 FROM model.estate_capability ec JOIN model.capability cp ON cp.capability_pk = ec.capability_pk
+    JOIN model.identity_namespace ns ON ns.namespace_pk = cp.namespace_pk AND ns.namespace_id = N'sidefx:capabilities'
+    WHERE ec.estate_model_pk = @e AND cp.capability_id COLLATE Latin1_General_100_BIN2 = p.tval)
+GROUP BY c.fid, s.tval, p.tval;
+INSERT #fd(fid, code, scenario_id, fval, dval)
+SELECT v.fid, 'PROVIDER_BINDING_UNTAGGED', v.scenario_id, v.operation_id, v.provider_id FROM #dprov v
+WHERE EXISTS (SELECT 1 FROM #case c JOIN #pt s ON s.pk = c.pk AND s.tkey = N'scenario' AND s.tval = v.scenario_id WHERE c.fid = v.fid)
+  AND NOT EXISTS (SELECT 1 FROM #case c JOIN #pt s ON s.pk = c.pk AND s.tkey = N'scenario' AND s.tval = v.scenario_id
+    JOIN #pt p ON p.pk = c.pk AND p.tkey = N'provider' AND p.tval = v.provider_id WHERE c.fid = v.fid);
+
+-- The installed capability document pins the feature it was compiled against; a pin other than the bound feature is drift.
+INSERT #fd(fid, code, fval, dval)
+SELECT f.fid, 'DSL_FEATURE_STALE', f.content_digest, x.pinned
+FROM #feat f JOIN #cap k ON k.fid = f.fid
+CROSS APPLY (SELECT TOP (1) JSON_VALUE(d.definition_json, N'$.semantics.document_digest') AS dig FROM analysis.v_selected_semantic_definition d
+  WHERE d.estate_model_pk = @e AND d.object_kind = 'CAPABILITY_DOCUMENT' AND d.namespace_id = N'sidefx:capability-documents'
+    AND d.declared_id = k.capability_id) doc
+JOIN source.content_object co ON co.content_digest = TRY_CONVERT(binary(32), doc.dig, 2)
+CROSS APPLY (SELECT JSON_VALUE(CONVERT(nvarchar(max), CONVERT(varchar(max), co.content_bytes) COLLATE Latin1_General_100_BIN2_UTF8), N'$.feature.digest') AS pinned) x
+WHERE @mode <> N'baseline' AND f.source = 'binding' AND x.pinned IS NOT NULL AND x.pinned COLLATE Latin1_General_100_BIN2 <> f.content_digest COLLATE Latin1_General_100_BIN2;
 
 -- Provider tags resolve exactly to a selected capability.
 INSERT #fd(fid, code, case_id, line, fval)
@@ -695,8 +773,8 @@ INSERT @r(fid, status)
 SELECT k.fid, CASE
     WHEN k.lookup = 'NOT_FOUND' THEN 'NOT_FOUND'
     WHEN k.lookup IN ('NOT_BOUND', 'AMBIGUOUS') THEN 'NOT_BOUND'
-    WHEN EXISTS (SELECT 1 FROM #fd f WHERE f.fid = k.fid) THEN CASE WHEN k.cvpk IS NULL THEN 'MALFORMED' ELSE 'DRIFT' END
-    ELSE CASE WHEN k.cvpk IS NULL THEN 'WELL_FORMED' ELSE 'CONFORMANT' END END
+    WHEN EXISTS (SELECT 1 FROM #fd f WHERE f.fid = k.fid) THEN CASE WHEN k.cvpk IS NULL AND k.lookup <> 'DOCUMENT' THEN 'MALFORMED' ELSE 'DRIFT' END
+    ELSE CASE WHEN k.cvpk IS NULL AND k.lookup <> 'DOCUMENT' THEN 'WELL_FORMED' ELSE 'CONFORMANT' END END
 FROM #cap k;
 UPDATE r SET signature = N'status=' + r.status + ISNULL((SELECT STRING_AGG(CONVERT(nvarchar(max), N';' + x.code + N'=' + CONVERT(nvarchar(10), x.cnt)), N'')
   WITHIN GROUP (ORDER BY x.code) FROM (SELECT code, COUNT(*) AS cnt FROM #fd f WHERE f.fid = r.fid GROUP BY code) x), N'')
@@ -749,5 +827,6 @@ BEGIN
     FROM #cap k LEFT JOIN #feat f ON f.fid = k.fid WHERE k.fid = @fid
     FOR JSON PATH, WITHOUT_ARRAY_WRAPPER);
 END
-SELECT @res AS value;
+SET @result = @res;
+IF @emit = 1 SELECT @res AS value;
 END

@@ -184,6 +184,7 @@ const drift = [
   ["outcome-terminal", "no @outcome-terminal on a terminal scenario", "status=DRIFT;OUTCOME_TERMINAL_MISMATCH=1", (t) => t.replace("  @outcome-terminal\n", "")],
   ["declared-step", "a declared step the feature does not hold", "status=DRIFT;SCENARIO_STEP_NOT_IN_FEATURE=1", (t) => t.replace("When the resolver parses every line and validates the whole document", "When the resolver parses each line")],
   ["provider-unknown", "a provider tag differing only in case", "status=DRIFT;PROVIDER_UNKNOWN=1", (t) => t.replace("    @case:drift-base\n", "    @case:drift-base\n    @provider:Sql-Database-Reader\n")],
+  ["provider-unbound", "a provider tag no operation of the scenario uses", "status=DRIFT;PROVIDER_TAG_UNBOUND=1", (t) => t.replace("    @case:drift-base\n", "    @case:drift-base\n    @provider:sql-database-reader\n")],
   ["outcome-undeclared", "a status the circuit cannot return", "status=DRIFT;OUTCOME_UNDECLARED=1", (t) => t.replace("| $.status | REFUSED |", "| $.status | COMPILING |")],
   ["operation-undeclared", "an assertion on an operation the scenario does not declare", "status=DRIFT;ASSERTION_OPERATION_UNDECLARED=1", (t) => t.replace("        | compile-capability-dsl.compile | $.status", "        | compile-capability-dsl.parse   | $.status")],
   ["case-identity-missing", "a case without @case", "status=DRIFT;CASE_IDENTITY_MISSING=1", (t) => t.replace("    @case:drift-base\n", "")],

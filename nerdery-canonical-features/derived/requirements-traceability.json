@@ -1,0 +1,546 @@
+{
+  "kind": "DERIVED_REVIEW_INDEX",
+  "sourceId": "NRD-SOURCE",
+  "requirements": [
+    {
+      "id": "NRD-U01",
+      "sourcePage": 2,
+      "requirement": "Biologists add, update and remove animal definitions and animal attributes in distinct sections.",
+      "scope": "mvp",
+      "caseIds": [
+        "nrd-access-biologist-animal-definitions-admin",
+        "nrd-access-citizen-animal-definitions-admin",
+        "nrd-access-biologist-animal-attributes-admin",
+        "nrd-access-citizen-animal-attributes-admin",
+        "nrd-access-role-revoked",
+        "nrd-definition-add",
+        "nrd-definition-citizen-add",
+        "nrd-definition-anonymous-add",
+        "nrd-definition-update",
+        "nrd-definition-update-attribute-association",
+        "nrd-definition-update-citizen",
+        "nrd-definition-update-stale",
+        "nrd-definition-update-missing",
+        "nrd-definition-remove-unreferenced",
+        "nrd-definition-remove-referenced",
+        "nrd-definition-remove-citizen",
+        "nrd-definition-remove-stale",
+        "nrd-definition-remove-missing",
+        "nrd-attribute-add",
+        "nrd-attribute-citizen-add",
+        "nrd-attribute-update",
+        "nrd-attribute-update-citizen",
+        "nrd-attribute-update-stale",
+        "nrd-attribute-remove-used-value",
+        "nrd-attribute-update-missing",
+        "nrd-attribute-remove-unreferenced",
+        "nrd-attribute-remove-shared",
+        "nrd-attribute-remove-citizen",
+        "nrd-attribute-remove-missing",
+        "nrd-presentation-biologist-animal-definitions-admin",
+        "nrd-presentation-citizen-animal-definitions-admin",
+        "nrd-presentation-biologist-animal-attributes-admin",
+        "nrd-presentation-citizen-animal-attributes-admin"
+      ]
+    },
+    {
+      "id": "NRD-U02",
+      "sourcePage": 2,
+      "requirement": "State citizens record collected animals and construct their team.",
+      "scope": "mvp",
+      "caseIds": [
+        "nrd-access-citizen-collection",
+        "nrd-access-citizen-collected-animals",
+        "nrd-access-citizen-team",
+        "nrd-access-citizen-home",
+        "nrd-access-unauthenticated",
+        "nrd-encounter-manual",
+        "nrd-encounter-another-individual",
+        "nrd-encounter-anonymous",
+        "nrd-encounter-same-id-other-owner",
+        "nrd-team-two-individuals"
+      ]
+    },
+    {
+      "id": "NRD-U03",
+      "sourcePage": 2,
+      "requirement": "Biologists can also collect animals and build a team.",
+      "scope": "mvp",
+      "caseIds": [
+        "nrd-access-biologist-collection",
+        "nrd-access-biologist-collected-animals",
+        "nrd-access-biologist-team",
+        "nrd-access-biologist-home",
+        "nrd-animal-detail-biologist-locked",
+        "nrd-photo-upload-biologist",
+        "nrd-encounter-biologist",
+        "nrd-collected-biologist",
+        "nrd-team-biologist"
+      ]
+    },
+    {
+      "id": "NRD-U04",
+      "sourcePage": 2,
+      "requirement": "In-application user administration is fast-follow; MVP roles may be managed externally.",
+      "scope": "boundary",
+      "caseIds": [
+        "nrd-access-role-revoked"
+      ],
+      "scopeNote": "Boundary retained in review/scope-and-decisions.md; no fast-follow or future functionality is introduced."
+    },
+    {
+      "id": "NRD-U05",
+      "sourcePage": 2,
+      "requirement": "Users can sign up and log in using the DNR identity technologies extended to this application.",
+      "scope": "mvp",
+      "caseIds": [
+        "nrd-registration-created",
+        "nrd-registration-duplicate-email",
+        "nrd-registration-missing-firstname",
+        "nrd-registration-missing-lastname",
+        "nrd-registration-missing-email",
+        "nrd-registration-untrusted-identity",
+        "nrd-registration-provider-unavailable",
+        "nrd-sign-in-citizen",
+        "nrd-sign-in-biologist",
+        "nrd-sign-in-invalid",
+        "nrd-sign-in-expired",
+        "nrd-sign-in-unavailable",
+        "nrd-presentation-sign-up",
+        "nrd-presentation-sign-in"
+      ]
+    },
+    {
+      "id": "NRD-U06",
+      "sourcePage": 2,
+      "requirement": "User properties are first name, last name and a unique email address.",
+      "scope": "mvp",
+      "caseIds": [
+        "nrd-registration-created",
+        "nrd-registration-duplicate-email",
+        "nrd-registration-missing-firstname",
+        "nrd-registration-missing-lastname",
+        "nrd-registration-missing-email"
+      ]
+    },
+    {
+      "id": "NRD-D01",
+      "sourcePage": 2,
+      "requirement": "Animal definitions contain common name, scientific name and an on-file avatar picture.",
+      "scope": "mvp",
+      "caseIds": [
+        "nrd-definition-add",
+        "nrd-definition-missing-commonname",
+        "nrd-definition-missing-scientificname",
+        "nrd-definition-missing-avatarphotoref",
+        "nrd-definition-update",
+        "nrd-animal-detail-locked",
+        "nrd-animal-detail-unlocked"
+      ]
+    },
+    {
+      "id": "NRD-D02",
+      "sourcePage": 2,
+      "requirement": "The public collection number represents the definition index order.",
+      "scope": "mvp",
+      "caseIds": [
+        "nrd-definition-add",
+        "nrd-definition-duplicate-number",
+        "nrd-definition-missing-collectionnumber",
+        "nrd-collection-ordered",
+        "nrd-collection-number-search",
+        "nrd-animal-detail-locked"
+      ]
+    },
+    {
+      "id": "NRD-D03",
+      "sourcePage": 2,
+      "requirement": "Range is a list of counties within the state where the animal can commonly be found.",
+      "scope": "mvp",
+      "caseIds": [
+        "nrd-definition-add",
+        "nrd-definition-unknown-county",
+        "nrd-definition-missing-range",
+        "nrd-definition-update",
+        "nrd-animal-detail-locked"
+      ]
+    },
+    {
+      "id": "NRD-D04",
+      "sourcePage": 2,
+      "requirement": "An animal has up to two types from a list of 15; five examples are supplied, not the complete list.",
+      "scope": "mvp",
+      "caseIds": [
+        "nrd-definition-add",
+        "nrd-definition-zero-types",
+        "nrd-definition-two-types",
+        "nrd-definition-three-types",
+        "nrd-definition-unknown-type",
+        "nrd-definition-missing-types",
+        "nrd-definition-update-three-types",
+        "nrd-animal-detail-unlocked"
+      ]
+    },
+    {
+      "id": "NRD-D05",
+      "sourcePage": 2,
+      "requirement": "Stats such as Strength, Size and Speed differentiate animals; future gamification is not implemented now.",
+      "scope": "mvp",
+      "caseIds": [
+        "nrd-definition-add",
+        "nrd-definition-missing-stats",
+        "nrd-attribute-does-not-change-stats",
+        "nrd-animal-detail-unlocked"
+      ]
+    },
+    {
+      "id": "NRD-D06",
+      "sourcePage": 2,
+      "requirement": "MVP has approximately 1000 animal definitions.",
+      "scope": "quality",
+      "qualityProfiles": [
+        "Q-CAPACITY"
+      ]
+    },
+    {
+      "id": "NRD-A01",
+      "sourcePage": 2,
+      "requirement": "Special attributes can be shared among many animals or be unique to one.",
+      "scope": "mvp",
+      "caseIds": [
+        "nrd-definition-add",
+        "nrd-definition-unknown-attribute-value",
+        "nrd-definition-update-attribute-association",
+        "nrd-attribute-update",
+        "nrd-attribute-remove-used-value",
+        "nrd-attribute-remove-unreferenced",
+        "nrd-attribute-remove-shared",
+        "nrd-animal-detail-unlocked",
+        "nrd-animal-detail-attribute-information"
+      ]
+    },
+    {
+      "id": "NRD-A02",
+      "sourcePage": 3,
+      "requirement": "Each special attribute has a name, description and a list of selectable values.",
+      "scope": "mvp",
+      "caseIds": [
+        "nrd-definition-add",
+        "nrd-definition-unknown-attribute-value",
+        "nrd-definition-update-attribute-association",
+        "nrd-attribute-add",
+        "nrd-attribute-missing-name",
+        "nrd-attribute-missing-description",
+        "nrd-attribute-missing-selectablevalues",
+        "nrd-attribute-update",
+        "nrd-attribute-remove-used-value",
+        "nrd-animal-detail-attribute-information",
+        "nrd-presentation-biologist-animal-attributes-admin"
+      ]
+    },
+    {
+      "id": "NRD-A03",
+      "sourcePage": 3,
+      "requirement": "More specific attribute types and selectable-value stat bonuses are future scope.",
+      "scope": "future",
+      "caseIds": [
+        "nrd-attribute-does-not-change-stats"
+      ],
+      "scopeNote": "Boundary retained in review/scope-and-decisions.md; no fast-follow or future functionality is introduced."
+    },
+    {
+      "id": "NRD-C01",
+      "sourcePage": 3,
+      "requirement": "The collection overview lists animal definitions with collected or uncollected state per user.",
+      "scope": "mvp",
+      "caseIds": [
+        "nrd-collection-uncollected",
+        "nrd-collection-ordered",
+        "nrd-collection-collected",
+        "nrd-collection-owner-specific",
+        "nrd-collection-removed-definition",
+        "nrd-collection-anonymous",
+        "nrd-collection-storage-failure",
+        "nrd-encounter-manual",
+        "nrd-encounter-write-failure",
+        "nrd-presentation-en",
+        "nrd-presentation-es"
+      ]
+    },
+    {
+      "id": "NRD-C02",
+      "sourcePage": 3,
+      "requirement": "Before collection, only common name, collection number, range and on-file photo are viewable; remaining information unlocks through collection.",
+      "scope": "mvp",
+      "caseIds": [
+        "nrd-collection-uncollected",
+        "nrd-collection-collected",
+        "nrd-collection-owner-specific",
+        "nrd-collection-no-locked-search-leak",
+        "nrd-animal-detail-locked",
+        "nrd-animal-detail-unlocked",
+        "nrd-animal-detail-missing",
+        "nrd-animal-detail-cross-user-cache",
+        "nrd-animal-detail-attribute-information",
+        "nrd-animal-detail-biologist-locked"
+      ]
+    },
+    {
+      "id": "NRD-C03",
+      "sourcePage": 3,
+      "requirement": "The definition collection is ordered by collection number.",
+      "scope": "mvp",
+      "caseIds": [
+        "nrd-collection-ordered"
+      ]
+    },
+    {
+      "id": "NRD-C04",
+      "sourcePage": 3,
+      "requirement": "The collection can be searched to quickly find an animal.",
+      "scope": "mvp",
+      "caseIds": [
+        "nrd-collection-name-search",
+        "nrd-collection-number-search",
+        "nrd-collection-no-matches",
+        "nrd-collection-no-locked-search-leak",
+        "nrd-collection-removed-definition",
+        "nrd-collection-storage-failure"
+      ]
+    },
+    {
+      "id": "NRD-E01",
+      "sourcePage": 3,
+      "requirement": "Recording an encounter requires selecting the animal, supplying its location and uploading a photo.",
+      "scope": "mvp",
+      "caseIds": [
+        "nrd-photo-upload",
+        "nrd-photo-upload-biologist",
+        "nrd-photo-upload-anonymous",
+        "nrd-photo-upload-missing",
+        "nrd-photo-upload-storage-failure",
+        "nrd-encounter-manual",
+        "nrd-encounter-device",
+        "nrd-encounter-biologist",
+        "nrd-encounter-missing-definitionid",
+        "nrd-encounter-missing-location",
+        "nrd-encounter-missing-photoref",
+        "nrd-encounter-unknown-definition",
+        "nrd-encounter-removed-definition",
+        "nrd-encounter-foreign-photo",
+        "nrd-encounter-unretained-photo",
+        "nrd-encounter-anonymous",
+        "nrd-encounter-write-failure",
+        "nrd-offline-capture",
+        "nrd-offline-missing-localphotoref",
+        "nrd-offline-missing-location",
+        "nrd-offline-no-catalog",
+        "nrd-offline-local-storage-failure",
+        "nrd-offline-sync",
+        "nrd-offline-sync-network-loss",
+        "nrd-offline-sync-definition-removed",
+        "nrd-offline-sync-photo-failed"
+      ]
+    },
+    {
+      "id": "NRD-E02",
+      "sourcePage": 3,
+      "requirement": "The encounter location may be entered manually or obtained from the device.",
+      "scope": "mvp",
+      "caseIds": [
+        "nrd-encounter-manual",
+        "nrd-encounter-device",
+        "nrd-offline-capture",
+        "nrd-offline-device-location"
+      ]
+    },
+    {
+      "id": "NRD-E03",
+      "sourcePage": 3,
+      "requirement": "Photo verification is out of scope for this phase and comes later.",
+      "scope": "boundary",
+      "caseIds": [
+        "nrd-photo-upload",
+        "nrd-photo-upload-biologist",
+        "nrd-encounter-manual"
+      ],
+      "scopeNote": "Boundary retained in review/scope-and-decisions.md; no fast-follow or future functionality is introduced."
+    },
+    {
+      "id": "NRD-E04",
+      "sourcePage": 3,
+      "requirement": "An animal nickname is optional.",
+      "scope": "mvp",
+      "caseIds": [
+        "nrd-encounter-manual",
+        "nrd-encounter-no-nickname",
+        "nrd-offline-capture"
+      ]
+    },
+    {
+      "id": "NRD-E05",
+      "sourcePage": 3,
+      "requirement": "A user can collect an animal multiple times.",
+      "scope": "mvp",
+      "caseIds": [
+        "nrd-encounter-another-individual",
+        "nrd-encounter-retry",
+        "nrd-encounter-id-conflict",
+        "nrd-encounter-same-id-other-owner",
+        "nrd-collected-individuals",
+        "nrd-team-two-individuals",
+        "nrd-offline-sync-ack-lost"
+      ]
+    },
+    {
+      "id": "NRD-E06",
+      "sourcePage": 3,
+      "requirement": "The collected-animals view contains the individual animals the user recorded.",
+      "scope": "mvp",
+      "caseIds": [
+        "nrd-definition-remove-referenced",
+        "nrd-encounter-another-individual",
+        "nrd-encounter-retry",
+        "nrd-encounter-id-conflict",
+        "nrd-encounter-same-id-other-owner",
+        "nrd-collected-individuals",
+        "nrd-collected-fallback-name",
+        "nrd-collected-empty",
+        "nrd-collected-ownership",
+        "nrd-collected-biologist",
+        "nrd-collected-anonymous",
+        "nrd-team-two-individuals",
+        "nrd-team-uncollected",
+        "nrd-team-foreign",
+        "nrd-offline-sync",
+        "nrd-offline-sync-ack-lost",
+        "nrd-offline-sync-wrong-owner"
+      ]
+    },
+    {
+      "id": "NRD-E07",
+      "sourcePage": 3,
+      "requirement": "The user photo and optional nickname are used instead of the definition values for collected individuals.",
+      "scope": "mvp",
+      "caseIds": [
+        "nrd-collected-individuals",
+        "nrd-collected-fallback-name",
+        "nrd-home-saved-team",
+        "nrd-presentation-home"
+      ]
+    },
+    {
+      "id": "NRD-T01",
+      "sourcePage": 3,
+      "requirement": "Users select up to six animals as their team.",
+      "scope": "mvp",
+      "caseIds": [
+        "nrd-access-unauthenticated",
+        "nrd-team-two-individuals",
+        "nrd-team-six",
+        "nrd-team-clear",
+        "nrd-team-seven",
+        "nrd-team-uncollected",
+        "nrd-team-foreign",
+        "nrd-team-duplicate",
+        "nrd-team-stale",
+        "nrd-team-biologist",
+        "nrd-team-anonymous",
+        "nrd-team-storage-failure"
+      ]
+    },
+    {
+      "id": "NRD-T02",
+      "sourcePage": 3,
+      "requirement": "The selected team is displayed on the home page when logged in.",
+      "scope": "mvp",
+      "caseIds": [
+        "nrd-definition-remove-referenced",
+        "nrd-home-saved-team",
+        "nrd-home-no-team",
+        "nrd-home-user-specific",
+        "nrd-home-team-anonymous",
+        "nrd-presentation-home"
+      ]
+    },
+    {
+      "id": "NRD-T03",
+      "sourcePage": 3,
+      "requirement": "Interactions between teams and social-media sharing are future scope.",
+      "scope": "future",
+      "scopeNote": "Boundary retained in review/scope-and-decisions.md; no fast-follow or future functionality is introduced."
+    },
+    {
+      "id": "NRD-Q01",
+      "sourcePage": 3,
+      "requirement": "Support modern Chrome, Firefox, Safari and Edge browsers.",
+      "scope": "quality",
+      "qualityProfiles": [
+        "Q-BROWSER"
+      ]
+    },
+    {
+      "id": "NRD-Q02",
+      "sourcePage": 3,
+      "requirement": "Responsive design must optimize the experience for mobile and desktop sizes.",
+      "scope": "quality",
+      "qualityProfiles": [
+        "Q-RESPONSIVE"
+      ]
+    },
+    {
+      "id": "NRD-Q03",
+      "sourcePage": 3,
+      "requirement": "Multiple languages must be supported. The languages are not named.",
+      "scope": "quality",
+      "caseIds": [
+        "nrd-presentation-en",
+        "nrd-presentation-es"
+      ],
+      "qualityProfiles": [
+        "Q-LANGUAGE"
+      ]
+    },
+    {
+      "id": "NRD-Q04",
+      "sourcePage": 4,
+      "requirement": "The specified accessibility target is WCAG 2.1 AA.",
+      "scope": "quality",
+      "qualityProfiles": [
+        "Q-ACCESSIBILITY"
+      ]
+    },
+    {
+      "id": "NRD-Q05",
+      "sourcePage": 4,
+      "requirement": "The system should accommodate tens of thousands of users and up to 2000 concurrent users at maximum load.",
+      "scope": "quality",
+      "qualityProfiles": [
+        "Q-CAPACITY"
+      ]
+    },
+    {
+      "id": "NRD-Q06",
+      "sourcePage": 4,
+      "requirement": "DNR is interested in collection without internet connectivity; MVP commitment is not stated.",
+      "scope": "candidate",
+      "caseIds": [
+        "nrd-offline-capture",
+        "nrd-offline-device-location",
+        "nrd-offline-missing-localphotoref",
+        "nrd-offline-missing-location",
+        "nrd-offline-no-catalog",
+        "nrd-offline-local-storage-failure",
+        "nrd-offline-sync",
+        "nrd-offline-sync-ack-lost",
+        "nrd-offline-sync-network-loss",
+        "nrd-offline-sync-wrong-owner",
+        "nrd-offline-sync-definition-removed",
+        "nrd-offline-sync-photo-failed"
+      ],
+      "qualityProfiles": [
+        "Q-OFFLINE"
+      ]
+    }
+  ]
+}
