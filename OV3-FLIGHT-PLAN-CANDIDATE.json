@@ -1,0 +1,24 @@
+{
+  "documentType": "ov3-flight-plan-candidate.v1",
+  "schemaNotice": "ILLUSTRATIVE. NOT VERIFIED AGAINST AN INSTALLED OV3 FLIGHT PLAN SCHEMA.",
+  "missionId": "ov3-estate-workflow-fidelity-v1",
+  "specification": "OV3-WORKFLOW-AUTHORITY-SPECIFICATION.md",
+  "promise": "A user can inspect the admitted downstream workflow of any estate-owned scenario entry without product or provider edges being treated as execution.",
+  "authority": {"source": "existing-server-side-sidefx-estate", "mode": "inspect-first", "mayInventAdmission": false},
+  "inferenceRole": "PROPOSE_ONLY",
+  "orchestratorRole": "OV3_VALIDATE_ADMIT_ASSIGN_OBSERVE",
+  "firstTask": "W0 — discover exact current server-side authority and available read/projection capabilities",
+  "workPackages": ["W0", "W1", "W2", "W3", "W4", "W5", "W6", "W7", "B0", "B1", "B2", "B3", "B4", "B5", "B6", "B7"],
+  "gates": [
+    "W0_SOURCE_BOUNDARY_VERIFIED",
+    "W1_CLASSIFICATION_AUTHORITY_VERIFIED",
+    "W2_NEGATIVE_FIXTURE_RED",
+    "W3_ONE_REAL_WORKFLOW_RESULT",
+    "W4_PROJECTION_PARITY",
+    "W5_TRUE_OBSERVATION_LINEAGE",
+    "W6_ADVERSARIAL_CONFORMANCE",
+    "W7_EXISTING_ADMISSION_LIFECYCLE", "B_PHASE_WILDLIFE_CONSUMER_PROOF_AFTER_W7"
+  ],
+  "forbidden": ["provider-as-workflow-root", "infer-transition-from-data-link", "client-as-proof-of-server-runtime", "parallel-execution-authority", "fake-execution-receipts"],
+  "completion": "EVIDENCE_GATED_NOT_SELF_DECLARED"
+}

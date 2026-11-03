@@ -1,0 +1,237 @@
+{
+ "note": "sha256 of every control and fixture file, written by conformance/make-controls.mjs",
+ "files": [
+  {
+   "id": "census-1-provider-calls",
+   "path": "conformance/controls/census-1.acceptance.json",
+   "sha256": "91a7997c784833639dba357b07911bcfc3e5a34e8895bd64a23617f981ce7530",
+   "evidence": "census-1.bee2eee7.evidence.json"
+  },
+  {
+   "id": "capability-tag-only",
+   "path": "conformance/controls/census-negative/capability-tag-only.acceptance.json",
+   "sha256": "80faf2e259327b96250f4aeb98b10259b59a803ba479664c01531b994c0e1dc9",
+   "evidence": "conformance/controls/census-1.bee2eee7.evidence.json"
+  },
+  {
+   "id": "tag-case-differs",
+   "path": "conformance/controls/census-negative/tag-case-differs.acceptance.json",
+   "sha256": "3bf4a2542c899cea403801e1fed5e40285c94276cd9ebcccc23e80d3828d049a",
+   "evidence": "conformance/controls/census-1.bee2eee7.evidence.json"
+  },
+  {
+   "id": "tag-not-step-binding",
+   "path": "conformance/controls/census-negative/tag-not-step-binding.acceptance.json",
+   "sha256": "7e2896786e9d316ddf2f42f451e0b878dfd4cf5450a0a5e8871a42c67a5cb320",
+   "evidence": "conformance/controls/census-1.bee2eee7.evidence.json"
+  },
+  {
+   "id": "other-plan-revision",
+   "path": "conformance/controls/census-negative/other-plan-revision.acceptance.json",
+   "sha256": "fabc3abfb8f15969433d2e2961ad7ec658b71a3d9f4941095590811a999506dc",
+   "evidence": "conformance/controls/census-1.bee2eee7.evidence.json"
+  },
+  {
+   "id": "other-graph-digest",
+   "path": "conformance/controls/census-negative/other-graph-digest.acceptance.json",
+   "sha256": "e544edd04e481bf410eec72e2a0500d9026675595a2de4aa7d151cb5e9c2c78d",
+   "evidence": "conformance/controls/census-1.bee2eee7.evidence.json"
+  },
+  {
+   "id": "substituted-provider",
+   "path": "conformance/controls/census-negative/substituted-provider.acceptance.json",
+   "sha256": "96b4b8a2be94bce585b458c866a929c4e9071c45025ed82e53be1b7a95c86bd2",
+   "evidence": "conformance/controls/census-negative/substituted-provider.evidence.json"
+  },
+  {
+   "id": "graph-without-outcome",
+   "path": "conformance/controls/census-negative/graph-without-outcome.acceptance.json",
+   "sha256": "00dee85ced930415a26faf7154c243559c2de7013bf394df1b266d475058ad67",
+   "evidence": "conformance/controls/census-negative/graph-without-outcome.evidence.json"
+  },
+  {
+   "id": "another-run",
+   "path": "conformance/controls/census-negative/another-run.acceptance.json",
+   "sha256": "7d6e8ea31bd45c28952f102ea6f62def5e8f23cdcc1c8429930b88a203555c10",
+   "evidence": "conformance/controls/census-negative/another-run.evidence.json"
+  },
+  {
+   "id": "another-step",
+   "path": "conformance/controls/census-negative/another-step.acceptance.json",
+   "sha256": "a6b39e706edbb6bd2a2dea171dd620652af8687810fa9ee685409ed26789d654",
+   "evidence": "conformance/controls/census-negative/another-step.evidence.json"
+  },
+  {
+   "id": "another-attempt",
+   "path": "conformance/controls/census-negative/another-attempt.acceptance.json",
+   "sha256": "91ad3b745007bbc60f802659465c47b37501aecb50637c85ca677a3aa4378dea",
+   "evidence": "conformance/controls/census-negative/another-attempt.evidence.json"
+  },
+  {
+   "id": "unsatisfying-outcome",
+   "path": "conformance/controls/census-negative/unsatisfying-outcome.acceptance.json",
+   "sha256": "7bc8ff2839371f94f2902f6c50e374dc09c4b70b1617fc31e6f8bbe2dbf38f2f",
+   "evidence": "conformance/controls/census-negative/unsatisfying-outcome.evidence.json"
+  },
+  {
+   "id": "attribution-gap",
+   "path": "conformance/controls/census-negative/attribution-gap.acceptance.json",
+   "sha256": "c63e6436d4bed77cb391dc32cda61eb2f0c2d897e56ad2d93ed0b92b1842a1a6",
+   "evidence": "conformance/controls/census-negative/attribution-gap.evidence.json"
+  },
+  {
+   "id": "tampered-evidence",
+   "path": "conformance/controls/census-negative/tampered-evidence.acceptance.json",
+   "sha256": "91a7997c784833639dba357b07911bcfc3e5a34e8895bd64a23617f981ce7530",
+   "evidence": "conformance/controls/census-negative/tampered-evidence.evidence.json"
+  },
+  {
+   "id": "reveal-stale-pin",
+   "path": "conformance/controls/reveal-stale-pin.acceptance.json",
+   "sha256": "6f301c9b03f2795627ecd1a191759d46668fa53aea33b9609abeb0ce13001ae4",
+   "evidence": "conformance/controls/reveal-stale.d1175d72.evidence.json"
+  },
+  {
+   "id": "resolved-run-as-stale-proof",
+   "path": "conformance/controls/reveal-negative/resolved-run-as-stale-proof.acceptance.json",
+   "sha256": "eaa9aefc2bbbe24883d2b7cc7e52200287dd1dce2e0ba2c9b8a90a467c8e8ff2",
+   "evidence": "conformance/controls/reveal-resolved.f6b88ab2.evidence.json"
+  },
+  {
+   "id": "stale-request-wrong-result",
+   "path": "conformance/controls/reveal-negative/stale-request-wrong-result.acceptance.json",
+   "sha256": "d17f4d1f7d48827632be49011f2767d3d49c9fc0670d039fc174ff22bd26c953",
+   "evidence": "conformance/controls/reveal-negative/stale-request-wrong-result.evidence.json"
+  },
+  {
+   "id": "reveal-without-stale-assertion",
+   "path": "conformance/fixtures/reveal-without-stale-assertion.feature",
+   "sha256": "e3661c01493c528c68a707c6e1997104a377db31b1e976e672741d52e880e559"
+  },
+  {
+   "id": "drift:base-conforms",
+   "path": "conformance/fixtures/drift/base-conforms.feature",
+   "sha256": "54d815256aba8b082f9a4f2f20a540a8a23468c2b0e75d9bdb7a9e16b44feb79"
+  },
+  {
+   "id": "drift:feature-capability",
+   "path": "conformance/fixtures/drift/feature-capability.feature",
+   "sha256": "5268f33d875fa4e07411661e0fb5513c2a2c1249491988c16ef0f3c50e72b27f"
+  },
+  {
+   "id": "drift:root-scenario",
+   "path": "conformance/fixtures/drift/root-scenario.feature",
+   "sha256": "180b11be4d5cfd2ca1886279061f5f7b86daa4968d42d17f5395725b40d8aa76"
+  },
+  {
+   "id": "drift:scenario-undeclared",
+   "path": "conformance/fixtures/drift/scenario-undeclared.feature",
+   "sha256": "b40a7c9a3304d9f6a821207a6a4fe0d3cf023de92b0eba960bdad6040e285804"
+  },
+  {
+   "id": "drift:scenario-not-in-feature",
+   "path": "conformance/fixtures/drift/scenario-not-in-feature.feature",
+   "sha256": "63c1c62e1baa4acd946e6f0c7505771d269c6ca63407050f8a0ae82d17c4a535"
+  },
+  {
+   "id": "drift:scenario-tag-missing",
+   "path": "conformance/fixtures/drift/scenario-tag-missing.feature",
+   "sha256": "793fecc0df05344409c44b3bf57eb7259dcf483d91b15a45d0ddbdf89155423f"
+  },
+  {
+   "id": "drift:input-identity",
+   "path": "conformance/fixtures/drift/input-identity.feature",
+   "sha256": "70fb0fcbe8bcf6b21475e09fee07d24914dafef602435711e845ea7f45926705"
+  },
+  {
+   "id": "drift:input-contract",
+   "path": "conformance/fixtures/drift/input-contract.feature",
+   "sha256": "763c45009a326cd7f359f71f8e8a099b905ffe776b1c58d463a3bfbdd6c863d2"
+  },
+  {
+   "id": "drift:event-identity",
+   "path": "conformance/fixtures/drift/event-identity.feature",
+   "sha256": "4f9adc6afb38f8f5ad0c97ecfde32a1936402e898766202382f838e2c5753798"
+  },
+  {
+   "id": "drift:event-authority",
+   "path": "conformance/fixtures/drift/event-authority.feature",
+   "sha256": "a16fc47b47533965943a375853a15a1145ca02173778d450d31f390d945fd029"
+  },
+  {
+   "id": "drift:outcome-identity",
+   "path": "conformance/fixtures/drift/outcome-identity.feature",
+   "sha256": "76471d9863bb36795fe9cd6aca42b3440eb30a1a23430ddc654739658db7aa12"
+  },
+  {
+   "id": "drift:outcome-contract",
+   "path": "conformance/fixtures/drift/outcome-contract.feature",
+   "sha256": "c84ecb367a885bb90e6687a38233a7eba2d81d7895ce82f1c33f2c7657c43894"
+  },
+  {
+   "id": "drift:outcome-terminal",
+   "path": "conformance/fixtures/drift/outcome-terminal.feature",
+   "sha256": "35ccec411a511a64927806883afbe36667daece880370bc38c2c9ac00920190b"
+  },
+  {
+   "id": "drift:declared-step",
+   "path": "conformance/fixtures/drift/declared-step.feature",
+   "sha256": "b506d1051bc84bb96372dc595475e14c58fa2d011aa12db599174c4cbc6f1be3"
+  },
+  {
+   "id": "drift:provider-unknown",
+   "path": "conformance/fixtures/drift/provider-unknown.feature",
+   "sha256": "dbe6c5352e84273bcf7645bcb369777063f2eb12bf38b0bd860616873776f9ac"
+  },
+  {
+   "id": "drift:outcome-undeclared",
+   "path": "conformance/fixtures/drift/outcome-undeclared.feature",
+   "sha256": "ab201ea851c92b72643d9bbeaa6460cc0877fdf72d29003be6c5619437312f7f"
+  },
+  {
+   "id": "drift:operation-undeclared",
+   "path": "conformance/fixtures/drift/operation-undeclared.feature",
+   "sha256": "fad000704ba75ac2311c1a405e4c2145ec8dbc3690db20717635661bfb58d3f4"
+  },
+  {
+   "id": "drift:case-identity-missing",
+   "path": "conformance/fixtures/drift/case-identity-missing.feature",
+   "sha256": "c638d45b54be8a6dc3873b84b426b4acc254621ae1fcee76417d2b711e5af9a8"
+  },
+  {
+   "id": "drift:case-identity-duplicate",
+   "path": "conformance/fixtures/drift/case-identity-duplicate.feature",
+   "sha256": "ce61bd572e387178ee9d7ef188e128c08f809ec46669f395238f246c0fb5dfff"
+  },
+  {
+   "id": "drift:case-identity-ambiguous",
+   "path": "conformance/fixtures/drift/case-identity-ambiguous.feature",
+   "sha256": "f94915d20db851dc52150e09afaee21b70ba818ffd9865efd8d831f5ad86f381"
+  },
+  {
+   "id": "drift:case-request-missing",
+   "path": "conformance/fixtures/drift/case-request-missing.feature",
+   "sha256": "afa7018d45a1def3e8bacd8d85489beffd35eaae7adfd6c726a770aa5f701d80"
+  },
+  {
+   "id": "drift:case-request-invalid",
+   "path": "conformance/fixtures/drift/case-request-invalid.feature",
+   "sha256": "fd339cd9373fe553247d6e259e0d6640f68beb05a9b4de893ff0e8795eddadea"
+  },
+  {
+   "id": "drift:case-assertion-missing",
+   "path": "conformance/fixtures/drift/case-assertion-missing.feature",
+   "sha256": "09458938b39ea6e27c16c013794af0aa3d5c7701935593d09ce660162d572d54"
+  },
+  {
+   "id": "drift:case-status-unasserted",
+   "path": "conformance/fixtures/drift/case-status-unasserted.feature",
+   "sha256": "4066a9c8c4d86031979e6072032d52051f1b09f415d1d843242a84aad8ccb462"
+  },
+  {
+   "id": "drift:parse-error",
+   "path": "conformance/fixtures/drift/parse-error.feature",
+   "sha256": "04aee29bfce507e2399faac1e89da4a9bd31c5be062c616f390cbe8e8c1b5c72"
+  }
+ ]
+}

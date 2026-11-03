@@ -1,0 +1,535 @@
+{
+ "contractId": "flight-run-evidence.v1",
+ "runId": "0d0d0d0d-0000-4000-8000-000000000001",
+ "read": {
+  "argv": "run bee2eee7-755d-c85f-2a1c-9b5506272cf7 --json --events --auth user",
+  "retrievedAt": "2026-11-02T22:10:00Z",
+  "state": "completed",
+  "partial": false,
+  "gaps": [],
+  "eventCount": 1607,
+  "nextCursor": 1607,
+  "selection": "every nested-capability-invocation.v1, execution-graph-captured.v1 and execution-outcome-returned.v1 event whose rootExecutionId is the nested execution of a cell:mechanic:fly-flight-step.dispatch cell"
+ },
+ "flight": {
+  "promiseId": "ov3-harness-census",
+  "agentId": "claude-code-opus-5-5-ov3-harness-census",
+  "planRevision": 1,
+  "planDigest": "sha256:698d488c222fd96af1d710c870e8145696b3a79f423eaace1731e9732ef72006",
+  "flightId": "c80e0e9d-413e-43bf-95de-ac464a5beb97",
+  "status": "WAITING"
+ },
+ "planSteps": [
+  {
+   "stepId": "track-census",
+   "capabilityId": "apply-declared-change",
+   "expect": {
+    "path": "$.disposition",
+    "equals": "COMMITTED"
+   }
+  },
+  {
+   "stepId": "declare-census-decision",
+   "capabilityId": "model-declare-semantic-object",
+   "expect": {
+    "path": "$.status",
+    "equals": "COMMITTED"
+   }
+  },
+  {
+   "stepId": "prove-census-decision",
+   "capabilityId": "analysis-read-selected-definition",
+   "expect": {
+    "path": "$.rows[0].declared_id",
+    "equals": "ov3-complete-agentic-harness/census"
+   }
+  },
+  {
+   "stepId": "read-spec",
+   "capabilityId": "sql-database-reader",
+   "expect": {
+    "path": "$.value.found",
+    "equals": 1
+   }
+  },
+  {
+   "stepId": "write-census",
+   "capabilityId": "ask-model",
+   "expect": {
+    "path": "$.disposition",
+    "equals": "MODEL_RESPONSE_OBTAINED"
+   }
+  },
+  {
+   "stepId": "check-census",
+   "capabilityId": "sql-database-reader",
+   "expect": {
+    "path": "$.value.status",
+    "equals": "CENSUS_READY"
+   }
+  },
+  {
+   "stepId": "retain-census",
+   "capabilityId": "apply-declared-change",
+   "expect": {
+    "path": "$.disposition",
+    "equals": "COMMITTED"
+   }
+  },
+  {
+   "stepId": "deliver-census",
+   "capabilityId": "author-workspace-file",
+   "expect": {
+    "path": "$.status",
+    "equals": "AUTHORED"
+   }
+  },
+  {
+   "stepId": "await-census-decision",
+   "capabilityId": "await-owner-decision",
+   "expect": {
+    "path": "$.status",
+    "equals": "DECIDED"
+   }
+  }
+ ],
+ "steps": [
+  {
+   "stepId": "track-census",
+   "ordinal": 0,
+   "capabilityId": "apply-declared-change",
+   "status": "PASSED",
+   "attempts": [
+    {
+     "attempt": 1,
+     "status": "PASSED",
+     "actual": "COMMITTED",
+     "resultStatus": "COMMITTED",
+     "receipt": null
+    }
+   ]
+  },
+  {
+   "stepId": "declare-census-decision",
+   "ordinal": 1,
+   "capabilityId": "model-declare-semantic-object",
+   "status": "PASSED",
+   "attempts": [
+    {
+     "attempt": 1,
+     "status": "PASSED",
+     "actual": "COMMITTED",
+     "resultStatus": "COMMITTED",
+     "receipt": {}
+    }
+   ]
+  },
+  {
+   "stepId": "prove-census-decision",
+   "ordinal": 2,
+   "capabilityId": "analysis-read-selected-definition",
+   "status": "PASSED",
+   "attempts": [
+    {
+     "attempt": 1,
+     "status": "PASSED",
+     "actual": "ov3-complete-agentic-harness/census",
+     "resultStatus": "READ",
+     "receipt": null
+    }
+   ]
+  },
+  {
+   "stepId": "read-spec",
+   "ordinal": 3,
+   "capabilityId": "sql-database-reader",
+   "status": "PASSED",
+   "attempts": [
+    {
+     "attempt": 1,
+     "status": "PASSED",
+     "actual": "1",
+     "resultStatus": "READ",
+     "receipt": null
+    }
+   ]
+  },
+  {
+   "stepId": "write-census",
+   "ordinal": 4,
+   "capabilityId": "ask-model",
+   "status": "PASSED",
+   "attempts": [
+    {
+     "attempt": 1,
+     "status": "PASSED",
+     "actual": "MODEL_RESPONSE_OBTAINED",
+     "resultStatus": "MODEL_RESPONSE_OBTAINED",
+     "receipt": {
+      "modelProviderId": "deepseek/deepseek-flash",
+      "model": "deepseek-flash"
+     }
+    }
+   ]
+  },
+  {
+   "stepId": "check-census",
+   "ordinal": 5,
+   "capabilityId": "sql-database-reader",
+   "status": "PASSED",
+   "attempts": [
+    {
+     "attempt": 1,
+     "status": "PASSED",
+     "actual": "CENSUS_READY",
+     "resultStatus": "READ",
+     "receipt": null
+    }
+   ]
+  },
+  {
+   "stepId": "retain-census",
+   "ordinal": 6,
+   "capabilityId": "apply-declared-change",
+   "status": "PASSED",
+   "attempts": [
+    {
+     "attempt": 1,
+     "status": "PASSED",
+     "actual": "COMMITTED",
+     "resultStatus": "COMMITTED",
+     "receipt": null
+    }
+   ]
+  },
+  {
+   "stepId": "deliver-census",
+   "ordinal": 7,
+   "capabilityId": "author-workspace-file",
+   "status": "PASSED",
+   "attempts": [
+    {
+     "attempt": 1,
+     "status": "PASSED",
+     "actual": "AUTHORED",
+     "resultStatus": "AUTHORED",
+     "receipt": null
+    }
+   ]
+  },
+  {
+   "stepId": "await-census-decision",
+   "ordinal": 8,
+   "capabilityId": "await-owner-decision",
+   "status": "WAITING",
+   "attempts": [
+    {
+     "attempt": 1,
+     "status": "WAITING",
+     "actual": "AWAITING_DECISION",
+     "resultStatus": "AWAITING_DECISION",
+     "receipt": null
+    }
+   ]
+  }
+ ],
+ "events": [
+  {
+   "eventId": "urn:sfx-api:run-event:0d0d0d0d-0000-4000-8000-000000000001:246",
+   "cursor": 246,
+   "at": "2026-11-02T17:36:38.977Z",
+   "kind": "nested-capability-invocation.v1",
+   "rootExecutionId": "nested:nested:nested:execution:graph:request-capability-from-objective-v3:cell:mechanic:request-capability-from-objective-v3.routed-fly:1:cell:mechanic:fly-flight-plan.fly:1:cell:mechanic:fly-flight-step.dispatch:1",
+   "capabilityId": "apply-declared-change",
+   "invokingCellId": "cell:mechanic:fly-flight-step.dispatch",
+   "invokingCellExecutionId": "nested:nested:execution:graph:request-capability-from-objective-v3:cell:mechanic:request-capability-from-objective-v3.routed-fly:1:cell:mechanic:fly-flight-plan.fly:1:cell:mechanic:fly-flight-step.dispatch:1",
+   "payloadKind": "admission",
+   "rawSha256": "sha256:b5224075a5230ed7dafb30c70b328ef82492d518799ae37de126153e5cc0e8e9"
+  },
+  {
+   "eventId": "urn:sfx-api:run-event:0d0d0d0d-0000-4000-8000-000000000001:252",
+   "cursor": 252,
+   "at": "2026-11-02T17:36:39.152Z",
+   "kind": "execution-graph-captured.v1",
+   "rootExecutionId": "nested:nested:nested:execution:graph:request-capability-from-objective-v3:cell:mechanic:request-capability-from-objective-v3.routed-fly:1:cell:mechanic:fly-flight-plan.fly:1:cell:mechanic:fly-flight-step.dispatch:1",
+   "graphId": "graph:apply-declared-change",
+   "canonicalGraphDigest": "sha256:e9a36b01e3d5e7979c86de7f49f242fc680034fe5b7785580ef63e0f211b4763",
+   "rawSha256": "sha256:9f9b9fa87e0635088b87d3ca2f59ec575cd66be70dac21bc16910e4caa4f644c"
+  },
+  {
+   "eventId": "urn:sfx-api:run-event:0d0d0d0d-0000-4000-8000-000000000001:295",
+   "cursor": 295,
+   "at": "2026-11-02T17:36:39.472Z",
+   "kind": "execution-outcome-returned.v1",
+   "rootExecutionId": "nested:nested:nested:execution:graph:request-capability-from-objective-v3:cell:mechanic:request-capability-from-objective-v3.routed-fly:1:cell:mechanic:fly-flight-plan.fly:1:cell:mechanic:fly-flight-step.dispatch:1",
+   "disposition": "completed",
+   "outcomeVariant": "COMMITTED",
+   "payloadKind": "return",
+   "rawSha256": "sha256:338818e44a74ae5918c57aabaa9473912d2e65aed74c00964dd1f9b84909d3d1"
+  },
+  {
+   "eventId": "urn:sfx-api:run-event:0d0d0d0d-0000-4000-8000-000000000001:390",
+   "cursor": 390,
+   "at": "2026-11-02T17:36:39.778Z",
+   "kind": "nested-capability-invocation.v1",
+   "rootExecutionId": "nested:nested:nested:execution:graph:request-capability-from-objective-v3:cell:mechanic:request-capability-from-objective-v3.routed-fly:1:cell:mechanic:fly-flight-plan.fly:1:cell:mechanic:fly-flight-step.dispatch:1",
+   "capabilityId": "model-declare-semantic-object",
+   "invokingCellId": "cell:mechanic:fly-flight-step.dispatch",
+   "invokingCellExecutionId": "nested:nested:execution:graph:request-capability-from-objective-v3:cell:mechanic:request-capability-from-objective-v3.routed-fly:1:cell:mechanic:fly-flight-plan.fly:1:cell:mechanic:fly-flight-step.dispatch:1",
+   "payloadKind": "admission",
+   "rawSha256": "sha256:42b458441a5840edc374f0790942a5352995d7ea84d16f109ef5a7324542177e"
+  },
+  {
+   "eventId": "urn:sfx-api:run-event:0d0d0d0d-0000-4000-8000-000000000001:396",
+   "cursor": 396,
+   "at": "2026-11-02T17:36:39.937Z",
+   "kind": "execution-graph-captured.v1",
+   "rootExecutionId": "nested:nested:nested:execution:graph:request-capability-from-objective-v3:cell:mechanic:request-capability-from-objective-v3.routed-fly:1:cell:mechanic:fly-flight-plan.fly:1:cell:mechanic:fly-flight-step.dispatch:1",
+   "graphId": "graph:model-declare-semantic-object",
+   "canonicalGraphDigest": "sha256:cce881eb3a699e35e335396bc294aa778a26a9c7e013b6c836657bf94794cb49",
+   "rawSha256": "sha256:e89157e8be756adea85dbd5fe33be2423272de17b3907d5f6045912c4dd420d1"
+  },
+  {
+   "eventId": "urn:sfx-api:run-event:0d0d0d0d-0000-4000-8000-000000000001:457",
+   "cursor": 457,
+   "at": "2026-11-02T17:36:40.109Z",
+   "kind": "execution-outcome-returned.v1",
+   "rootExecutionId": "nested:nested:nested:execution:graph:request-capability-from-objective-v3:cell:mechanic:request-capability-from-objective-v3.routed-fly:1:cell:mechanic:fly-flight-plan.fly:1:cell:mechanic:fly-flight-step.dispatch:1",
+   "disposition": "completed",
+   "outcomeVariant": "COMMITTED",
+   "payloadKind": "return",
+   "rawSha256": "sha256:2faae924294b929a50940cd2d72e85fc10277a378819b8c8feae043d5df84bf5"
+  },
+  {
+   "eventId": "urn:sfx-api:run-event:0d0d0d0d-0000-4000-8000-000000000001:552",
+   "cursor": 552,
+   "at": "2026-11-02T17:36:40.389Z",
+   "kind": "nested-capability-invocation.v1",
+   "rootExecutionId": "nested:nested:nested:execution:graph:request-capability-from-objective-v3:cell:mechanic:request-capability-from-objective-v3.routed-fly:1:cell:mechanic:fly-flight-plan.fly:1:cell:mechanic:fly-flight-step.dispatch:1",
+   "capabilityId": "analysis-read-selected-definition",
+   "invokingCellId": "cell:mechanic:fly-flight-step.dispatch",
+   "invokingCellExecutionId": "nested:nested:execution:graph:request-capability-from-objective-v3:cell:mechanic:request-capability-from-objective-v3.routed-fly:1:cell:mechanic:fly-flight-plan.fly:1:cell:mechanic:fly-flight-step.dispatch:1",
+   "payloadKind": "admission",
+   "rawSha256": "sha256:90e1ab655b8a3bd51a12bfc01b95106eb03be07b26d783766f410376e937ea84"
+  },
+  {
+   "eventId": "urn:sfx-api:run-event:0d0d0d0d-0000-4000-8000-000000000001:558",
+   "cursor": 558,
+   "at": "2026-11-02T17:36:40.486Z",
+   "kind": "execution-graph-captured.v1",
+   "rootExecutionId": "nested:nested:nested:execution:graph:request-capability-from-objective-v3:cell:mechanic:request-capability-from-objective-v3.routed-fly:1:cell:mechanic:fly-flight-plan.fly:1:cell:mechanic:fly-flight-step.dispatch:1",
+   "graphId": "graph:analysis-read-selected-definition",
+   "canonicalGraphDigest": "sha256:a6b2bf7a278099379586a27e34bf39cd4b5dbed590994f37175f5508f1d35be8",
+   "rawSha256": "sha256:1681f453f31dcdc1ef8c15b97933c9594ba7bbb76301e83b09dd93f0bfe59ff5"
+  },
+  {
+   "eventId": "urn:sfx-api:run-event:0d0d0d0d-0000-4000-8000-000000000001:565",
+   "cursor": 565,
+   "at": "2026-11-02T17:36:40.500Z",
+   "kind": "execution-outcome-returned.v1",
+   "rootExecutionId": "nested:nested:nested:execution:graph:request-capability-from-objective-v3:cell:mechanic:request-capability-from-objective-v3.routed-fly:1:cell:mechanic:fly-flight-plan.fly:1:cell:mechanic:fly-flight-step.dispatch:1",
+   "disposition": "completed",
+   "outcomeVariant": "READ",
+   "payloadKind": "return",
+   "rawSha256": "sha256:9a2e25011b046f77e08fada2e67f8ac93da407d86cfce8e340b2df6a47b02496"
+  },
+  {
+   "eventId": "urn:sfx-api:run-event:0d0d0d0d-0000-4000-8000-000000000001:660",
+   "cursor": 660,
+   "at": "2026-11-02T17:36:40.749Z",
+   "kind": "nested-capability-invocation.v1",
+   "rootExecutionId": "nested:nested:nested:execution:graph:request-capability-from-objective-v3:cell:mechanic:request-capability-from-objective-v3.routed-fly:1:cell:mechanic:fly-flight-plan.fly:1:cell:mechanic:fly-flight-step.dispatch:1",
+   "capabilityId": "sql-database-reader",
+   "invokingCellId": "cell:mechanic:fly-flight-step.dispatch",
+   "invokingCellExecutionId": "nested:nested:execution:graph:request-capability-from-objective-v3:cell:mechanic:request-capability-from-objective-v3.routed-fly:1:cell:mechanic:fly-flight-plan.fly:1:cell:mechanic:fly-flight-step.dispatch:1",
+   "payloadKind": "admission",
+   "rawSha256": "sha256:7fef53ab2d00d69c8a00410992ffd184e69d61c11e5f485fa2aef72a45488c16"
+  },
+  {
+   "eventId": "urn:sfx-api:run-event:0d0d0d0d-0000-4000-8000-000000000001:666",
+   "cursor": 666,
+   "at": "2026-11-02T17:36:40.766Z",
+   "kind": "execution-graph-captured.v1",
+   "rootExecutionId": "nested:nested:nested:execution:graph:request-capability-from-objective-v3:cell:mechanic:request-capability-from-objective-v3.routed-fly:1:cell:mechanic:fly-flight-plan.fly:1:cell:mechanic:fly-flight-step.dispatch:1",
+   "graphId": "graph:sql-database-reader",
+   "canonicalGraphDigest": "sha256:dbb29dc8172312c3546bb706e32b30c32b59cb1ecad3b4dfff7e35826f6f0596",
+   "rawSha256": "sha256:e933551602657cc22ae4c0319be06685a4d85434fc9c3ab6afe14ea4bd9ce5e7"
+  },
+  {
+   "eventId": "urn:sfx-api:run-event:0d0d0d0d-0000-4000-8000-000000000001:683",
+   "cursor": 683,
+   "at": "2026-11-02T17:36:40.876Z",
+   "kind": "execution-outcome-returned.v1",
+   "rootExecutionId": "nested:nested:nested:execution:graph:request-capability-from-objective-v3:cell:mechanic:request-capability-from-objective-v3.routed-fly:1:cell:mechanic:fly-flight-plan.fly:1:cell:mechanic:fly-flight-step.dispatch:1",
+   "disposition": "completed",
+   "outcomeVariant": "READ",
+   "payloadKind": "return",
+   "rawSha256": "sha256:9501fe3907d4467bac6fa2764d30ed82056d84a4baa5047cdfb76a0ca95cd97c"
+  },
+  {
+   "eventId": "urn:sfx-api:run-event:0d0d0d0d-0000-4000-8000-000000000001:778",
+   "cursor": 778,
+   "at": "2026-11-02T17:36:41.469Z",
+   "kind": "nested-capability-invocation.v1",
+   "rootExecutionId": "nested:nested:nested:execution:graph:request-capability-from-objective-v3:cell:mechanic:request-capability-from-objective-v3.routed-fly:1:cell:mechanic:fly-flight-plan.fly:1:cell:mechanic:fly-flight-step.dispatch:1",
+   "capabilityId": "ask-model",
+   "invokingCellId": "cell:mechanic:fly-flight-step.dispatch",
+   "invokingCellExecutionId": "nested:nested:execution:graph:request-capability-from-objective-v3:cell:mechanic:request-capability-from-objective-v3.routed-fly:1:cell:mechanic:fly-flight-plan.fly:1:cell:mechanic:fly-flight-step.dispatch:1",
+   "payloadKind": "admission",
+   "rawSha256": "sha256:b94fab84112e16ba2c75b7f780b9b48dca3e9389c4e8dcf28ff11deafde47595"
+  },
+  {
+   "eventId": "urn:sfx-api:run-event:0d0d0d0d-0000-4000-8000-000000000001:784",
+   "cursor": 784,
+   "at": "2026-11-02T17:36:41.896Z",
+   "kind": "execution-graph-captured.v1",
+   "rootExecutionId": "nested:nested:nested:execution:graph:request-capability-from-objective-v3:cell:mechanic:request-capability-from-objective-v3.routed-fly:1:cell:mechanic:fly-flight-plan.fly:1:cell:mechanic:fly-flight-step.dispatch:1",
+   "graphId": "graph:ask-model",
+   "canonicalGraphDigest": "sha256:f6563ca4e5e09732a861f0743c092e8023df1cf31c57cc6144deb226d60e8751",
+   "rawSha256": "sha256:d92561f5a32b123dae53ad71e3655077504c20ccdfb74eead497982152f4f2fb"
+  },
+  {
+   "eventId": "urn:sfx-api:run-event:0d0d0d0d-0000-4000-8000-000000000001:839",
+   "cursor": 839,
+   "at": "2026-11-02T17:36:57.474Z",
+   "kind": "execution-outcome-returned.v1",
+   "rootExecutionId": "nested:nested:nested:execution:graph:request-capability-from-objective-v3:cell:mechanic:request-capability-from-objective-v3.routed-fly:1:cell:mechanic:fly-flight-plan.fly:1:cell:mechanic:fly-flight-step.dispatch:1",
+   "disposition": "completed",
+   "outcomeVariant": "MODEL_RESPONSE_OBTAINED",
+   "payloadKind": "return",
+   "rawSha256": "sha256:5a391da75f529da004da52184ab2bb083721d673c1f507650ccb81b187c1d8f0"
+  },
+  {
+   "eventId": "urn:sfx-api:run-event:0d0d0d0d-0000-4000-8000-000000000001:934",
+   "cursor": 934,
+   "at": "2026-11-02T17:36:58.046Z",
+   "kind": "nested-capability-invocation.v1",
+   "rootExecutionId": "nested:nested:nested:execution:graph:request-capability-from-objective-v3:cell:mechanic:request-capability-from-objective-v3.routed-fly:1:cell:mechanic:fly-flight-plan.fly:1:cell:mechanic:fly-flight-step.dispatch:1",
+   "capabilityId": "sql-database-reader",
+   "invokingCellId": "cell:mechanic:fly-flight-step.dispatch",
+   "invokingCellExecutionId": "nested:nested:execution:graph:request-capability-from-objective-v3:cell:mechanic:request-capability-from-objective-v3.routed-fly:1:cell:mechanic:fly-flight-plan.fly:1:cell:mechanic:fly-flight-step.dispatch:1",
+   "payloadKind": "admission",
+   "rawSha256": "sha256:f76c8959981cdb51e27f7e065ea9578c60f8d9545504034207e7ddeef47bd929"
+  },
+  {
+   "eventId": "urn:sfx-api:run-event:0d0d0d0d-0000-4000-8000-000000000001:940",
+   "cursor": 940,
+   "at": "2026-11-02T17:36:58.058Z",
+   "kind": "execution-graph-captured.v1",
+   "rootExecutionId": "nested:nested:nested:execution:graph:request-capability-from-objective-v3:cell:mechanic:request-capability-from-objective-v3.routed-fly:1:cell:mechanic:fly-flight-plan.fly:1:cell:mechanic:fly-flight-step.dispatch:1",
+   "graphId": "graph:sql-database-reader",
+   "canonicalGraphDigest": "sha256:dbb29dc8172312c3546bb706e32b30c32b59cb1ecad3b4dfff7e35826f6f0596",
+   "rawSha256": "sha256:ee82e9f75da14043c6cd3a156185e00569f02659c2ed3ec5f5bc7ccfc0fb0426"
+  },
+  {
+   "eventId": "urn:sfx-api:run-event:0d0d0d0d-0000-4000-8000-000000000001:957",
+   "cursor": 957,
+   "at": "2026-11-02T17:36:58.222Z",
+   "kind": "execution-outcome-returned.v1",
+   "rootExecutionId": "nested:nested:nested:execution:graph:request-capability-from-objective-v3:cell:mechanic:request-capability-from-objective-v3.routed-fly:1:cell:mechanic:fly-flight-plan.fly:1:cell:mechanic:fly-flight-step.dispatch:1",
+   "disposition": "completed",
+   "outcomeVariant": "READ",
+   "payloadKind": "return",
+   "rawSha256": "sha256:7a608aeefb667ef56e41b413dd0bc9a81d183c7d00bb74e37ded861eb8300e71"
+  },
+  {
+   "eventId": "urn:sfx-api:run-event:0d0d0d0d-0000-4000-8000-000000000001:1052",
+   "cursor": 1052,
+   "at": "2026-11-02T17:36:58.672Z",
+   "kind": "nested-capability-invocation.v1",
+   "rootExecutionId": "nested:nested:nested:execution:graph:request-capability-from-objective-v3:cell:mechanic:request-capability-from-objective-v3.routed-fly:1:cell:mechanic:fly-flight-plan.fly:1:cell:mechanic:fly-flight-step.dispatch:1",
+   "capabilityId": "apply-declared-change",
+   "invokingCellId": "cell:mechanic:fly-flight-step.dispatch",
+   "invokingCellExecutionId": "nested:nested:execution:graph:request-capability-from-objective-v3:cell:mechanic:request-capability-from-objective-v3.routed-fly:1:cell:mechanic:fly-flight-plan.fly:1:cell:mechanic:fly-flight-step.dispatch:1",
+   "payloadKind": "admission",
+   "rawSha256": "sha256:e92bb22133420a8586f34192ee6b84669906fbc64f846896f8da4bc179839b7c"
+  },
+  {
+   "eventId": "urn:sfx-api:run-event:0d0d0d0d-0000-4000-8000-000000000001:1058",
+   "cursor": 1058,
+   "at": "2026-11-02T17:36:58.690Z",
+   "kind": "execution-graph-captured.v1",
+   "rootExecutionId": "nested:nested:nested:execution:graph:request-capability-from-objective-v3:cell:mechanic:request-capability-from-objective-v3.routed-fly:1:cell:mechanic:fly-flight-plan.fly:1:cell:mechanic:fly-flight-step.dispatch:1",
+   "graphId": "graph:apply-declared-change",
+   "canonicalGraphDigest": "sha256:e9a36b01e3d5e7979c86de7f49f242fc680034fe5b7785580ef63e0f211b4763",
+   "rawSha256": "sha256:642a177f33a4e40da5f9d3178347371cbaa77ed55b8520bb75ff5a2e3463892e"
+  },
+  {
+   "eventId": "urn:sfx-api:run-event:0d0d0d0d-0000-4000-8000-000000000001:1101",
+   "cursor": 1101,
+   "at": "2026-11-02T17:36:58.852Z",
+   "kind": "execution-outcome-returned.v1",
+   "rootExecutionId": "nested:nested:nested:execution:graph:request-capability-from-objective-v3:cell:mechanic:request-capability-from-objective-v3.routed-fly:1:cell:mechanic:fly-flight-plan.fly:1:cell:mechanic:fly-flight-step.dispatch:1",
+   "disposition": "completed",
+   "outcomeVariant": "COMMITTED",
+   "payloadKind": "return",
+   "rawSha256": "sha256:bf89dccad6d7fa3b7cfb36027476b18070be95a55564030eb8c1fa80e015f3cb"
+  },
+  {
+   "eventId": "urn:sfx-api:run-event:0d0d0d0d-0000-4000-8000-000000000001:1196",
+   "cursor": 1196,
+   "at": "2026-11-02T17:36:59.075Z",
+   "kind": "nested-capability-invocation.v1",
+   "rootExecutionId": "nested:nested:nested:execution:graph:request-capability-from-objective-v3:cell:mechanic:request-capability-from-objective-v3.routed-fly:1:cell:mechanic:fly-flight-plan.fly:1:cell:mechanic:fly-flight-step.dispatch:1",
+   "capabilityId": "author-workspace-file",
+   "invokingCellId": "cell:mechanic:fly-flight-step.dispatch",
+   "invokingCellExecutionId": "nested:nested:execution:graph:request-capability-from-objective-v3:cell:mechanic:request-capability-from-objective-v3.routed-fly:1:cell:mechanic:fly-flight-plan.fly:1:cell:mechanic:fly-flight-step.dispatch:1",
+   "payloadKind": "admission",
+   "rawSha256": "sha256:3828fbd2e0a0bec3409fd7f75f9052ff3fe8abb9b8451aba477c83604d29908a"
+  },
+  {
+   "eventId": "urn:sfx-api:run-event:0d0d0d0d-0000-4000-8000-000000000001:1202",
+   "cursor": 1202,
+   "at": "2026-11-02T17:36:59.238Z",
+   "kind": "execution-graph-captured.v1",
+   "rootExecutionId": "nested:nested:nested:execution:graph:request-capability-from-objective-v3:cell:mechanic:request-capability-from-objective-v3.routed-fly:1:cell:mechanic:fly-flight-plan.fly:1:cell:mechanic:fly-flight-step.dispatch:1",
+   "graphId": "graph:author-workspace-file",
+   "canonicalGraphDigest": "sha256:8cb416bf2b29a3d77623c9098eeecbb7d027a22526a3e906fdb39d318ed1050a",
+   "rawSha256": "sha256:d2a351bc0b97f01be3a75826052fa3a99b6baa25572edaece8e77e4f89f7a308"
+  },
+  {
+   "eventId": "urn:sfx-api:run-event:0d0d0d0d-0000-4000-8000-000000000001:1283",
+   "cursor": 1283,
+   "at": "2026-11-02T17:36:59.570Z",
+   "kind": "execution-outcome-returned.v1",
+   "rootExecutionId": "nested:nested:nested:execution:graph:request-capability-from-objective-v3:cell:mechanic:request-capability-from-objective-v3.routed-fly:1:cell:mechanic:fly-flight-plan.fly:1:cell:mechanic:fly-flight-step.dispatch:1",
+   "disposition": "completed",
+   "outcomeVariant": "DELIVERED",
+   "payloadKind": "return",
+   "rawSha256": "sha256:87c0bd35e6f31ffd2d387bb37793095ac46500b5641d90e0012cb46b1ddc5c04"
+  },
+  {
+   "eventId": "urn:sfx-api:run-event:0d0d0d0d-0000-4000-8000-000000000001:1378",
+   "cursor": 1378,
+   "at": "2026-11-02T17:36:59.846Z",
+   "kind": "nested-capability-invocation.v1",
+   "rootExecutionId": "nested:nested:nested:execution:graph:request-capability-from-objective-v3:cell:mechanic:request-capability-from-objective-v3.routed-fly:1:cell:mechanic:fly-flight-plan.fly:1:cell:mechanic:fly-flight-step.dispatch:1",
+   "capabilityId": "await-owner-decision",
+   "invokingCellId": "cell:mechanic:fly-flight-step.dispatch",
+   "invokingCellExecutionId": "nested:nested:execution:graph:request-capability-from-objective-v3:cell:mechanic:request-capability-from-objective-v3.routed-fly:1:cell:mechanic:fly-flight-plan.fly:1:cell:mechanic:fly-flight-step.dispatch:1",
+   "payloadKind": "admission",
+   "rawSha256": "sha256:41e1d06362e8f245cffcdae23a953a17d7604c8407d5eecedfffd9d034dd8ead"
+  },
+  {
+   "eventId": "urn:sfx-api:run-event:0d0d0d0d-0000-4000-8000-000000000001:1384",
+   "cursor": 1384,
+   "at": "2026-11-02T17:36:59.942Z",
+   "kind": "execution-graph-captured.v1",
+   "rootExecutionId": "nested:nested:nested:execution:graph:request-capability-from-objective-v3:cell:mechanic:request-capability-from-objective-v3.routed-fly:1:cell:mechanic:fly-flight-plan.fly:1:cell:mechanic:fly-flight-step.dispatch:1",
+   "graphId": "graph:await-owner-decision",
+   "canonicalGraphDigest": "sha256:b935cb5c87f2668da1108fcc2517d038ea562b6003a4b6712a152f7fa683005c",
+   "rawSha256": "sha256:3ddc5741196af6d4cd1ea0f92e145d73a839dd5f2faca2fd21b8b53b0555e6b8"
+  },
+  {
+   "eventId": "urn:sfx-api:run-event:0d0d0d0d-0000-4000-8000-000000000001:1441",
+   "cursor": 1441,
+   "at": "2026-11-02T17:37:00.080Z",
+   "kind": "execution-outcome-returned.v1",
+   "rootExecutionId": "nested:nested:nested:execution:graph:request-capability-from-objective-v3:cell:mechanic:request-capability-from-objective-v3.routed-fly:1:cell:mechanic:fly-flight-plan.fly:1:cell:mechanic:fly-flight-step.dispatch:1",
+   "disposition": "completed",
+   "outcomeVariant": "AWAITING_DECISION",
+   "payloadKind": "return",
+   "rawSha256": "sha256:c4ddf205b23cbab2ca5ecbe7c392eef48ce29121d65c6f422035bdcdc4563b18"
+  }
+ ]
+}

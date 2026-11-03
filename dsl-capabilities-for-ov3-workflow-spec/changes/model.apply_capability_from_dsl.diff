@@ -1,0 +1,25 @@
+--- model.apply_capability_from_dsl.base.sql
++++ model.apply_capability_from_dsl.new.sql
+@@ -41,6 +41,22 @@
+     WHERE ec.estate_model_pk=@estate AND c.capability_id=@cap) THEN 1 ELSE 0 END;
+   SELECT N'capability_from_dsl' AS result_set,N'COMPILED' AS status,@cap AS capability_id,
+     @sdigest AS source_digest,@ddigest AS document_digest,CONVERT(bit,@is_mcp) AS is_mcp_tooling;
++  -- Each provider binding the source declares is minted as raw content-addressed authority before the document that names
++  -- its digest is declared. Its content must hash to the digest the compiler reported.
++  DECLARE @pbi int=0,@pbn int=(SELECT COUNT(*) FROM OPENJSON(@res,N'$.providerBindings'));
++  WHILE @pbi<@pbn
++  BEGIN
++    DECLARE @pb nvarchar(max)=JSON_QUERY(@res,N'$.providerBindings['+CONVERT(nvarchar(10),@pbi)+N']');
++    DECLARE @pbid nvarchar(200)=JSON_VALUE(@pb,N'$.providerBindingId'),@pbdigest nvarchar(71)=JSON_VALUE(@pb,N'$.digest');
++    DECLARE @pbbytes varbinary(max)=CONVERT(varbinary(max),CONVERT(varchar(max),JSON_QUERY(@pb,N'$.content') COLLATE Latin1_General_100_BIN2_UTF8));
++    DECLARE @pbhash binary(32)=HASHBYTES('SHA2_256',@pbbytes);
++    IF @pbid IS NULL OR @pbbytes IS NULL OR ISNULL(@pbdigest,N'')<>N'sha256:'+LOWER(CONVERT(varchar(64),@pbhash,2))
++      THROW 51000,N'CAPABILITY_FROM_DSL_PROVIDER_BINDING_INTEGRITY',1;
++    IF NOT EXISTS(SELECT 1 FROM source.content_object WHERE content_digest=@pbhash)
++      INSERT source.content_object(content_digest,content_bytes,byte_length) VALUES(@pbhash,@pbbytes,DATALENGTH(@pbbytes));
++    SELECT N'provider_binding_minted' AS result_set,@pbid AS provider_binding_id,@pbdigest AS digest;
++    SET @pbi+=1;
++  END
+   EXEC model.declare_capability_document @document=@doc;
+   EXEC model.repoint_capability_feature @capability_id=@cap;
+   IF @is_mcp=1 EXEC model.set_capability_mcp_tooling N'sidefx:capabilities',@cap,1;

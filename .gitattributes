@@ -1,0 +1,2 @@
+# Keep every file byte for byte. The SQL and flight plans are checked by digest, so git must never change their line endings.
+* -text

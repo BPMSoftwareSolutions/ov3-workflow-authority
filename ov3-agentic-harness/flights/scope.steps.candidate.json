@@ -1,0 +1,327 @@
+{
+  "agentId": "claude-code-opus-5-5-ov3-harness-scope",
+  "promise": {
+    "contractId": "flight-promise.v1",
+    "promiseId": "ov3-harness-scope",
+    "workClass": "owner-authorized-build-and-invoke",
+    "statement": "OV3 writes the scope of its complete agentic harness from the retained specification, retains it, delivers it for review and waits for the owner's decision at a declared decision point; the project that tracks the work is open.",
+    "obligations": [
+      {
+        "obligationId": "O1",
+        "statement": "The project ov3-complete-agentic-harness and its tasks are committed.",
+        "evidence": "project-tracking COMMITTED"
+      },
+      {
+        "obligationId": "O2",
+        "statement": "The scope decision point is declared and reads back.",
+        "evidence": "model-declare-semantic-object COMMITTED; analysis-read-selected-definition rows[0].declared_id"
+      },
+      {
+        "obligationId": "O3",
+        "statement": "OV3 writes the scope and retains it by digest.",
+        "evidence": "design-intent-and-scope SECTION_READY; content-artifact-change COMMITTED with the bound section"
+      },
+      {
+        "obligationId": "O4",
+        "statement": "The scope is delivered for the owner to read.",
+        "evidence": "author-workspace-file AUTHORED"
+      },
+      {
+        "obligationId": "O5",
+        "statement": "The owner decides at the decision point.",
+        "evidence": "await-owner-decision DECIDED"
+      }
+    ]
+  },
+  "objective": "Open project ov3-complete-agentic-harness and have OV3 write, retain and deliver the scope of its complete agentic harness, then wait for the owner's decision.",
+  "steps": [
+    {
+      "stepId": "plan-header",
+      "contractId": "estate-flight-plan.v1",
+      "promiseId": "ov3-harness-scope",
+      "flightType": "execution",
+      "workClass": "owner-authorized-build-and-invoke",
+      "unknowns": []
+    },
+    {
+      "stepId": "open-project",
+      "capabilityId": "apply-declared-change",
+      "historicalBasis": "project-tracking with read-project-tracker verification PASSED in plans 358 to 440",
+      "input": {
+        "contractId": "declared-change.v1",
+        "changeKind": "project-tracking",
+        "payload": {
+          "contractId": "project-tracking-change.v1",
+          "project": {
+            "projectId": "ov3-complete-agentic-harness",
+            "displayName": "OV3 Complete Agentic Harness",
+            "capabilityId": "request-capability-from-objective-v3",
+            "planMd": "Owner direction 2026-11-02 (owner-direction:ov3-complete-agentic-harness). OV3 writes its own scope and canonical features from specification:ov3-complete-agentic-harness (sha256:a344104861ea0cb7e9557cc9b359a9e9567f7f3e921477d0cd596de0a6413c09), the owner accepts them at declared decision points, and OV3 then plans and builds its own future state from them. Bootstrap: the Frontier planner projected the specification from estate rows and planned the first two flights (long-value binds; scope). Plan approval is pending the owner.",
+            "status": "ACTIVE",
+            "createdBy": "sidney",
+            "projectSponsor": "sidney",
+            "assignedActor": "SFX Objective Agent",
+            "actorRole": "Objective Agent",
+            "goal": "OV3 becomes a complete agentic harness - including, and not limited to, elaborate planning, self-improvement, multi-agent consensus and extra control-plane pieces - with deterministic multi-step task execution and no fuzziness or bespokeness for one line of work. It writes its own canonical features and then builds its own future state from them.",
+            "benefit": "The harness design becomes durable authority in the estate, written and accepted before it is built, so no undocumented stance can become the implemented design again.",
+            "agentUserStory": "As the OV3 network, I need to write my own scope and canonical features as a complete agentic harness from the owner's recorded directions and my declared state, have the owner accept them at declared decision points, and then plan and build my own future state from them, so that my design is durable authority in the estate.",
+            "acceptanceCriteria": "The scope and one canonical feature per accepted capability area are written by OV3 capabilities from the retained specification, retained by digest, delivered for review and accepted by the owner at declared decision points; every later build task names the accepted feature it implements; each built capability declares its accepted feature as canonical; no stance that contradicts the owner direction remains unsuperseded."
+          },
+          "tasks": [
+            {
+              "projectTaskId": "oah-long-bind",
+              "description": "Flight steps bind values longer than 4,000 characters",
+              "status": "OPEN",
+              "requiredOutcome": "analysis.fly_flight_step_cell binds a member of any length from an earlier step's retained result; every bind that resolved before resolves the same way; proven by flight ov3-harness-long-bind reading PROMISE_CLOSED.",
+              "capabilityRef": "owner migration ov3-harness-01 + fly-flight-plan (performs); read-flight-closure ov3-harness-long-bind (verifies)",
+              "dependencyRefs": "",
+              "assignedActor": "SFX Objective Agent",
+              "md": "Owner direction 2026-11-02 (owner-direction:ov3-complete-agentic-harness); specification:ov3-complete-agentic-harness sha256:a344104861ea0cb7e9557cc9b359a9e9567f7f3e921477d0cd596de0a6413c09."
+            },
+            {
+              "projectTaskId": "oah-scope",
+              "description": "OV3 writes the scope of its complete agentic harness",
+              "status": "OPEN",
+              "requiredOutcome": "design-intent-and-scope writes the scope from the retained specification, naming each capability area with a proposed capability id; the scope is retained as harness-scope:ov3-complete-agentic-harness, delivered for review, and the owner decides at decision point ov3-complete-agentic-harness/scope.",
+              "capabilityRef": "design-intent-and-scope + apply-declared-change content-artifact-change (performs); await-owner-decision ov3-complete-agentic-harness/scope (verifies)",
+              "dependencyRefs": "oah-long-bind",
+              "assignedActor": "SFX Objective Agent",
+              "md": "Owner direction 2026-11-02 (owner-direction:ov3-complete-agentic-harness); specification:ov3-complete-agentic-harness sha256:a344104861ea0cb7e9557cc9b359a9e9567f7f3e921477d0cd596de0a6413c09."
+            },
+            {
+              "projectTaskId": "oah-features",
+              "description": "OV3 writes one canonical feature per accepted capability area",
+              "status": "OPEN",
+              "requiredOutcome": "design-feature-gherkin writes one complete @-annotated feature per capability area of the accepted scope; each is retained as harness-feature:<capabilityId>, delivered for review, and accepted by the owner at a declared decision point.",
+              "capabilityRef": "design-feature-gherkin + apply-declared-change content-artifact-change (performs); await-owner-decision (verifies)",
+              "dependencyRefs": "oah-scope",
+              "assignedActor": "SFX Objective Agent",
+              "md": "Owner direction 2026-11-02 (owner-direction:ov3-complete-agentic-harness); specification:ov3-complete-agentic-harness sha256:a344104861ea0cb7e9557cc9b359a9e9567f7f3e921477d0cd596de0a6413c09."
+            },
+            {
+              "projectTaskId": "oah-build",
+              "description": "OV3 plans and builds its own future state from the accepted features",
+              "status": "OPEN",
+              "requiredOutcome": "Every build task and flight names the accepted feature it implements; the capability areas are built through the declared pipeline and proven by flights that run their Gherkin.",
+              "capabilityRef": "UNRESOLVED: planning from accepted features (performs); read-flight-closure (verifies)",
+              "dependencyRefs": "oah-features",
+              "assignedActor": "SFX Objective Agent",
+              "md": "Owner direction 2026-11-02 (owner-direction:ov3-complete-agentic-harness); specification:ov3-complete-agentic-harness sha256:a344104861ea0cb7e9557cc9b359a9e9567f7f3e921477d0cd596de0a6413c09."
+            },
+            {
+              "projectTaskId": "oah-canonical-binding",
+              "description": "Each built capability declares its accepted feature as canonical",
+              "status": "OPEN",
+              "requiredOutcome": "For each built capability, its accepted feature is its canonical feature in sidefx:features with every scenario it declares.",
+              "capabilityRef": "UNRESOLVED: declared change for model.declare_capability_feature (performs); analysis-read-selected-definition sidefx:features (verifies)",
+              "dependencyRefs": "oah-build",
+              "assignedActor": "SFX Objective Agent",
+              "md": "Owner direction 2026-11-02 (owner-direction:ov3-complete-agentic-harness); specification:ov3-complete-agentic-harness sha256:a344104861ea0cb7e9557cc9b359a9e9567f7f3e921477d0cd596de0a6413c09."
+            },
+            {
+              "projectTaskId": "oah-supersede-minimal-loop",
+              "description": "Retire the minimal-loop stance with rows",
+              "status": "OPEN",
+              "requiredOutcome": "The owner direction of 2026-11-02 is retained as owner-direction:ov3-complete-agentic-harness and recorded as superseding docs/projects/objective-agent-loop.md section 2; every project, task and skill that relies on that stance names the supersession.",
+              "capabilityRef": "apply-declared-change content-artifact-change (performs); read-project-tracker (verifies)",
+              "dependencyRefs": "",
+              "assignedActor": "SFX Objective Agent",
+              "md": "Owner direction 2026-11-02 (owner-direction:ov3-complete-agentic-harness); specification:ov3-complete-agentic-harness sha256:a344104861ea0cb7e9557cc9b359a9e9567f7f3e921477d0cd596de0a6413c09."
+            },
+            {
+              "projectTaskId": "oah-spec-assembly",
+              "description": "OV3 assembles its own specifications from estate rows",
+              "status": "OPEN",
+              "requiredOutcome": "A declared capability assembles a specification from tracker rows, the owner's recorded words and current declared state, and retains it by digest; this project's specification was projected by the Frontier planner as a bootstrap.",
+              "capabilityRef": "UNRESOLVED: specification assembly (performs); design-intent-and-scope on the assembled digest (verifies)",
+              "dependencyRefs": "oah-scope",
+              "assignedActor": "SFX Objective Agent",
+              "md": "Owner direction 2026-11-02 (owner-direction:ov3-complete-agentic-harness); specification:ov3-complete-agentic-harness sha256:a344104861ea0cb7e9557cc9b359a9e9567f7f3e921477d0cd596de0a6413c09."
+            },
+            {
+              "projectTaskId": "oah-finding-compound-objectives",
+              "description": "Finding: OV3 dropped a request from a compound objective",
+              "status": "OPEN",
+              "requiredOutcome": "Observed 2026-11-02: \"Approve and fly ...\" was routed to fly-flight-plan alone by the System One fast path (run f9b4ec49). The accepted features state how OV3 executes compound objectives without dropping a request; the finding closes when a compound objective runs every request it names.",
+              "capabilityRef": "UNRESOLVED: per the accepted features (performs); a compound-objective flight (verifies)",
+              "dependencyRefs": "oah-features",
+              "assignedActor": "SFX Objective Agent",
+              "md": "Owner direction 2026-11-02 (owner-direction:ov3-complete-agentic-harness); specification:ov3-complete-agentic-harness sha256:a344104861ea0cb7e9557cc9b359a9e9567f7f3e921477d0cd596de0a6413c09."
+            }
+          ],
+          "verificationCapabilityId": "read-project-tracker",
+          "preflight": {
+            "input": {
+              "payload": {
+                "projectId": "ov3-complete-agentic-harness"
+              }
+            },
+            "expected": {
+              "disposition": "terminated"
+            }
+          },
+          "route": {
+            "resolvedDisposition": "terminated"
+          }
+        }
+      },
+      "obligationIds": [
+        "O1"
+      ],
+      "expect": {
+        "path": "$.disposition",
+        "equals": "COMMITTED"
+      }
+    },
+    {
+      "stepId": "declare-scope-decision",
+      "capabilityId": "model-declare-semantic-object",
+      "historicalBasis": "plan 19 step declare-workflow COMMITTED through model-declare-semantic-object (flight 30b9f6b4); decision points are DECISION_POINT rows in sidefx:decision-points (provider-registry-intake/first-provider-family, run 1fccba35)",
+      "input": {
+        "object_kind": "DECISION_POINT",
+        "namespace_id": "sidefx:decision-points",
+        "declared_id": "ov3-complete-agentic-harness/scope",
+        "semantics_json": {
+          "contractId": "decision-point.v1",
+          "decisionId": "ov3-complete-agentic-harness/scope",
+          "project": "ov3-complete-agentic-harness",
+          "question": "Does the scope OV3 wrote for its complete agentic harness become the basis for its canonical features?",
+          "options": [
+            {
+              "optionId": "accept",
+              "label": "Accept: OV3 writes one canonical feature per capability area in this scope"
+            },
+            {
+              "optionId": "revise",
+              "label": "Revise: the decision's words say what to change, and OV3 rewrites the scope"
+            }
+          ],
+          "context": "The scope is retained as harness-scope:ov3-complete-agentic-harness and delivered to docs/projects/ov3-complete-agentic-harness/scope.md; written from specification:ov3-complete-agentic-harness (sha256:a344104861ea0cb7e9557cc9b359a9e9567f7f3e921477d0cd596de0a6413c09). The owner, 2026-10-25: \"All of these decisions will be decided in intentional workflows.\""
+        }
+      },
+      "obligationIds": [
+        "O2"
+      ],
+      "expect": {
+        "path": "$.status",
+        "equals": "COMMITTED"
+      }
+    },
+    {
+      "stepId": "prove-scope-decision",
+      "capabilityId": "analysis-read-selected-definition",
+      "historicalBasis": "plan 19 step prove-workflow-declared PASSED (flight 30b9f6b4); read of sidefx:decision-points/provider-registry-intake/first-provider-family (run 1fccba35)",
+      "input": {
+        "namespace_id": "sidefx:decision-points",
+        "declared_id": "ov3-complete-agentic-harness/scope"
+      },
+      "obligationIds": [
+        "O2"
+      ],
+      "expect": {
+        "path": "$.rows[0].declared_id",
+        "equals": "ov3-complete-agentic-harness/scope"
+      }
+    },
+    {
+      "stepId": "write-scope",
+      "capabilityId": "design-intent-and-scope",
+      "historicalBasis": "design-intent-and-scope ran singly on 2026-10-17 (docs/projects/OV3 Software Engineering Harness.md, pieces already built); it reads the specification by digest from source.content_object (analysis.design_build_element_request sha256:a796ff6e) and reports SECTION_READY with the section at sections.\"1\" (analysis.design_fragment_snapshot sha256:84effaa0)",
+      "input": {
+        "specDigest": "sha256:a344104861ea0cb7e9557cc9b359a9e9567f7f3e921477d0cd596de0a6413c09",
+        "capabilityId": "ov3-complete-agentic-harness"
+      },
+      "obligationIds": [
+        "O3"
+      ],
+      "expect": {
+        "path": "$.status",
+        "equals": "SECTION_READY"
+      }
+    },
+    {
+      "stepId": "retain-scope",
+      "capabilityId": "apply-declared-change",
+      "historicalBasis": "every flight promise is retained through content-artifact-change (plan 19 step retain-workflow-promise, flight 30b9f6b4); the section is bound from write-scope, which needs flight ov3-harness-long-bind closed first",
+      "input": {
+        "changeKind": "content-artifact-change",
+        "contractId": "declared-change.v1",
+        "payload": {
+          "contractId": "content-artifact-change.v1",
+          "artifactKind": "harness-scope:ov3-complete-agentic-harness",
+          "text": "(bound from write-scope)",
+          "preflight": {
+            "input": {
+              "changeKind": "content-artifact-change",
+              "includeDefinitions": true
+            },
+            "expected": {
+              "disposition": "terminated"
+            }
+          },
+          "route": {
+            "resolvedDisposition": "terminated"
+          },
+          "verificationCapabilityId": "read-harness-authoring-state"
+        }
+      },
+      "bind": [
+        {
+          "target": "payload.text",
+          "fromStep": "write-scope",
+          "path": "$.sections.\"1\""
+        }
+      ],
+      "obligationIds": [
+        "O3"
+      ],
+      "expect": {
+        "path": "$.disposition",
+        "equals": "COMMITTED"
+      }
+    },
+    {
+      "stepId": "deliver-scope",
+      "capabilityId": "author-workspace-file",
+      "historicalBasis": "plan 19 step project-dsl AUTHORED (flight 30b9f6b4); the text is bound from write-scope",
+      "input": {
+        "workspaceId": "7817ea10-28bd-45a6-8084-0b22067d3949",
+        "path": "docs/projects/ov3-complete-agentic-harness/scope.md",
+        "text": "(bound from write-scope)"
+      },
+      "bind": [
+        {
+          "target": "text",
+          "fromStep": "write-scope",
+          "path": "$.sections.\"1\""
+        }
+      ],
+      "obligationIds": [
+        "O4"
+      ],
+      "expect": {
+        "path": "$.status",
+        "equals": "AUTHORED"
+      }
+    },
+    {
+      "stepId": "await-scope-decision",
+      "capabilityId": "await-owner-decision",
+      "historicalBasis": "prove-decision-point stage await-proof-decision waited AWAITING_DECISION and resumed DECIDED (recording 9ae2b3c1, COMPLETE)",
+      "input": {
+        "decisionId": "ov3-complete-agentic-harness/scope"
+      },
+      "obligationIds": [
+        "O5"
+      ],
+      "expect": {
+        "path": "$.status",
+        "equals": "DECIDED"
+      },
+      "waitWhen": {
+        "path": "$.status",
+        "equals": "AWAITING_DECISION"
+      }
+    }
+  ]
+}

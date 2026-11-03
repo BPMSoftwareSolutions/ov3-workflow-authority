@@ -1,0 +1,22 @@
+{
+  "changeKind": "content-artifact-change",
+  "contractId": "declared-change.v1",
+  "payload": {
+    "contractId": "content-artifact-change.v1",
+    "artifactKind": "flight-promise:wf-declare-discover-spec-estate-baseline",
+    "text": "{\"contractId\":\"flight-promise.v1\",\"promiseId\":\"wf-declare-discover-spec-estate-baseline\",\"workClass\":\"capability-build\",\"statement\":\"The workflow capability discover-spec-estate-baseline is declared - its run promise retained, its CAPABILITY_WORKFLOW in sidefx:workflows and its three-port capability document (MCP-flagged) - and its DSL projection is in the repository.\",\"obligations\":[{\"obligationId\":\"O1\",\"statement\":\"The run promise and the CAPABILITY_WORKFLOW declaration are retained and read back.\",\"evidence\":\"promise COMMITTED; model-declare-semantic-object COMMITTED; analysis-read-selected-definition rows[0].declared_id\"},{\"obligationId\":\"O2\",\"statement\":\"The capability is declared from its DSL and reads back with its first operation.\",\"evidence\":\"capability-from-dsl COMMITTED; read-declared-capability-document operations[0] = discover-spec-estate-baseline.start-request\"},{\"obligationId\":\"O3\",\"statement\":\"The DSL projection is authored into the repository.\",\"evidence\":\"author-workspace-file status AUTHORED\"}]}",
+    "preflight": {
+      "input": {
+        "changeKind": "content-artifact-change",
+        "includeDefinitions": true
+      },
+      "expected": {
+        "disposition": "terminated"
+      }
+    },
+    "route": {
+      "resolvedDisposition": "terminated"
+    },
+    "verificationCapabilityId": "read-harness-authoring-state"
+  }
+}

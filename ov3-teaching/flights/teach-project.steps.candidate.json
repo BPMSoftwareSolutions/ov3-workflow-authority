@@ -1,0 +1,265 @@
+{
+  "status": "CANDIDATE: fly after both teach-skills flights read PROMISE_CLOSED",
+  "agentId": "claude-code-opus-5-5-ov3-teaching-project",
+  "promise": {
+    "contractId": "flight-promise.v1",
+    "promiseId": "ov3-teach-spec-project",
+    "workClass": "project-tracking",
+    "statement": "Project ov3-estate-workflow-fidelity exists with its 16 tasks, each pinning the specification-pack skills at revision 1, with plan approval left to the owner.",
+    "obligations": [
+      {
+        "obligationId": "O1",
+        "statement": "The project and its tasks are committed through project-tracking.",
+        "evidence": "apply-declared-change disposition COMMITTED, verified by read-project-tracker"
+      }
+    ]
+  },
+  "objective": "Open the tracker project for specification ov3.estate-workflow-discovery.v1 with its tasks and skill pins.",
+  "steps": [
+    {
+      "stepId": "plan-header",
+      "contractId": "estate-flight-plan.v1",
+      "promiseId": "ov3-teach-spec-project",
+      "flightType": "execution",
+      "workClass": "project-tracking",
+      "unknowns": []
+    },
+    {
+      "stepId": "open-project",
+      "capabilityId": "apply-declared-change",
+      "historicalBasis": "project-tracking with read-project-tracker verification PASSED in plans 358 to 430; the project writer refuses unknown skill refs (PROJECT_TASK_SKILL_UNKNOWN), so this flight follows the skill flights",
+      "input": {
+        "contractId": "declared-change.v1",
+        "changeKind": "project-tracking",
+        "payload": {
+          "contractId": "project-tracking-change.v1",
+          "project": {
+            "projectId": "ov3-estate-workflow-fidelity",
+            "displayName": "OV3 Estate Workflow Fidelity",
+            "capabilityId": "request-capability-from-objective-v3",
+            "planMd": "Specification pack ov3.estate-workflow-discovery.v1: Phase A W0-W7 (faithful, estate-rooted workflow discovery and reveal) then Phase B B0-B7 (DNR wildlife reference estate) behind the W7 gate. The pack is retained by digest at W0. Plan approval is pending the owner.",
+            "status": "ACTIVE",
+            "createdBy": "sidney",
+            "projectSponsor": "sidney",
+            "assignedActor": "SFX Objective Agent",
+            "actorRole": "Objective Agent",
+            "goal": "What SideFX displays as a workflow is exactly the admitted executable progression from a declared estate entry; providers and consumable products appear as related but distinct connections, never as invented roots or automatic execution edges. Then the DNR wildlife reference estate is built and verified under the same law.",
+            "benefit": "Workflow views become trustworthy projections of declared authority, and the network gains a repeatable path from a specification pack to declared, verified capabilities.",
+            "agentUserStory": "As the SFX Objective Agent, I need to bind a specification pack to installed estate surfaces, declare its capabilities and scenario workflows through declared writers, and prove them with real runs, so that every displayed route is source-inspectable and no provider or product relation masquerades as execution.",
+            "acceptanceCriteria": "One rooted, source-inspectable workflow lens over the real estate, demonstrated with the wildlife provider-root defect as a RED-then-GREEN regression; separate route, composition, provider and product inventories from one snapshot; PROMISE_CLOSED with disposition COMPLETE or PARTIAL_WITH_HELD_GAPS; Phase B only after W7, with its own measured exit evidence."
+          },
+          "tasks": [
+            {
+              "projectTaskId": "oewf-w0-discover",
+              "description": "W0 Discover: source-grounded inventory and reuse map",
+              "status": "OPEN",
+              "requiredOutcome": "A retained estate baseline (a discover-spec-estate-baseline run, or the same declared reads) and a binding map giving every specification term a disposition with installed identity, digest and read run id. No edits.",
+              "capabilityRef": "discover-spec-estate-baseline (performs; UNRESOLVED until declared: read-mcp-catalog, read-agent-specializations, read-capability-dsl-specification, read-declared-capability-document meanwhile); read-flight-closure (verifies)",
+              "dependencyRefs": "",
+              "assignedActor": "SFX Objective Agent",
+              "skillRefs": "spec-pack-intake@1;spec-acceptance-and-closure@1",
+              "md": "Source: specification ov3.estate-workflow-discovery.v1, section 8 W0. Read the pinned skills by exact revision and the W0 binding map first. Pins grant no authority (read-specialist-selection)."
+            },
+            {
+              "projectTaskId": "oewf-w1-classify",
+              "description": "W1 Classify: entry eligibility and edge classification authority",
+              "status": "OPEN",
+              "requiredOutcome": "For each relation class (entry, route, composition, provider binding, product dependency, navigation) the estate carrier is named with source pointers, or an AUTHORITY_GAP is recorded with its owner; the cross-capability route form is put to the owner as a decision.",
+              "capabilityRef": "read-scenario-authority + read-declared-composition + read-declared-port-bindings + read-declared-contracts (performs); read-topology-conformance (verifies)",
+              "dependencyRefs": "oewf-w0-discover",
+              "assignedActor": "SFX Objective Agent",
+              "skillRefs": "spec-pack-intake@1;spec-scenario-topology@1",
+              "md": "Source: specification ov3.estate-workflow-discovery.v1, sections 3 and 8 W1. Read the pinned skills by exact revision and the W0 binding map first. Pins grant no authority (read-specialist-selection)."
+            },
+            {
+              "projectTaskId": "oewf-w1-dsl-route-progress",
+              "description": "W1 gap: DSL routes compile without semanticProgress",
+              "status": "OPEN",
+              "requiredOutcome": "analysis.compile_capability_dsl writes semanticProgress on every route, broadcast, join and failure transition by the law declare-route-semantic-progress declared (selection narrowing, or terminating at a terminal target; broadcast expanding; join converging; failure converging with a join slot), as recur already does; the existing conformance vectors still compile, and a routed vector shows the key on every transition carried to the envelope by capability-from-dsl.",
+              "capabilityRef": "draft-object-revision + apply-engineering-change (performs); compile-capability-dsl + read-declared-capability-document (verifies)",
+              "dependencyRefs": "oewf-w0-discover",
+              "assignedActor": "SFX Objective Agent",
+              "skillRefs": "spec-capability-declaration@1;spec-scenario-topology@1",
+              "md": "Source: specification ov3.estate-workflow-discovery.v1, sections 3.2 and 7C. Read the pinned skills by exact revision and the W0 binding map first. Pins grant no authority (read-specialist-selection)."
+            },
+            {
+              "projectTaskId": "oewf-w2-seed-red",
+              "description": "W2 Seed RED: negative wildlife specimen and acceptance vectors",
+              "status": "OPEN",
+              "requiredOutcome": "The original four-visual-root diagram retained as a negative specimen with at least 12 acceptance vectors as reviewed flight steps; a real run shows the existing surface rejects or cannot consume the conflated specimen (RED), recorded as a finding.",
+              "capabilityRef": "UNRESOLVED: specimen carrier (performs); review-flight-plan + read-flight-closure (verifies)",
+              "dependencyRefs": "oewf-w1-classify",
+              "assignedActor": "SFX Objective Agent",
+              "skillRefs": "spec-acceptance-and-closure@1;spec-scenario-topology@1",
+              "md": "Source: specification ov3.estate-workflow-discovery.v1, sections 4, 8 W2 and 9. Read the pinned skills by exact revision and the W0 binding map first. Pins grant no authority (read-specialist-selection)."
+            },
+            {
+              "projectTaskId": "oewf-w3-resolve",
+              "description": "W3 Resolve: one real read-only workflow lens result",
+              "status": "OPEN",
+              "requiredOutcome": "reveal-estate-workflows, or an installed equivalent found at W0, declared through the pipeline and returning entries, route closure, composition, provider and product lists from one pinned snapshot for one real capability, with held routes as findings.",
+              "capabilityRef": "draft-capability-from-spec + plan-capability-flight (performs); read-declared-capability-document + first-call run (verifies)",
+              "dependencyRefs": "oewf-w1-classify;oewf-w2-seed-red",
+              "assignedActor": "SFX Objective Agent",
+              "skillRefs": "spec-capability-declaration@1;spec-scenario-topology@1",
+              "md": "Source: specification ov3.estate-workflow-discovery.v1, sections 5, 6 and 8 W3. Read the pinned skills by exact revision and the W0 binding map first. Pins grant no authority (read-specialist-selection)."
+            },
+            {
+              "projectTaskId": "oewf-w4-project",
+              "description": "W4 Project: projection parity",
+              "status": "OPEN",
+              "requiredOutcome": "Every projection target actually admitted preserves the root set, identities, route membership and edge classes of the same snapshot; parity is a recorded comparison, not a screenshot.",
+              "capabilityRef": "read-live-scenario-circuit (performs); UNRESOLVED: projection parity read (verifies)",
+              "dependencyRefs": "oewf-w3-resolve",
+              "assignedActor": "SFX Objective Agent",
+              "skillRefs": "spec-scenario-topology@1;spec-acceptance-and-closure@1",
+              "md": "Source: specification ov3.estate-workflow-discovery.v1, sections 7F and 8 W4. Read the pinned skills by exact revision and the W0 binding map first. Pins grant no authority (read-specialist-selection)."
+            },
+            {
+              "projectTaskId": "oewf-w5-observe",
+              "description": "W5 Observe: declared versus observed overlay",
+              "status": "OPEN",
+              "requiredOutcome": "The lens overlays real run testimony and marks fixture expectations NOT_OBSERVED; no synthetic receipt; evidence lineage reaches the execution root.",
+              "capabilityRef": "read-run-cell-testimony + read-flight-recording (performs); read-flight-closure (verifies)",
+              "dependencyRefs": "oewf-w3-resolve",
+              "assignedActor": "SFX Objective Agent",
+              "skillRefs": "spec-acceptance-and-closure@1",
+              "md": "Source: specification ov3.estate-workflow-discovery.v1, sections 5 and 8 W5. Read the pinned skills by exact revision and the W0 binding map first. Pins grant no authority (read-specialist-selection)."
+            },
+            {
+              "projectTaskId": "oewf-w6-adversarial",
+              "description": "W6 Adversarial conformance",
+              "status": "OPEN",
+              "requiredOutcome": "The 20 Gherkin scenarios and the 18-item acceptance matrix run as reviewed flight steps with real results, negatives included; local HOLD and unauthorized-viewer cases proven by real signals.",
+              "capabilityRef": "fly-flight-plan (performs); read-flight-closure (verifies)",
+              "dependencyRefs": "oewf-w4-project;oewf-w5-observe",
+              "assignedActor": "SFX Objective Agent",
+              "skillRefs": "spec-acceptance-and-closure@1;spec-scenario-topology@1",
+              "md": "Source: specification ov3.estate-workflow-discovery.v1, sections 7, 8 W6 and 9. Read the pinned skills by exact revision and the W0 binding map first. Pins grant no authority (read-specialist-selection)."
+            },
+            {
+              "projectTaskId": "oewf-w7-admit",
+              "description": "W7 Admit and publish Phase A",
+              "status": "OPEN",
+              "requiredOutcome": "The capability is admitted through the existing lifecycle, its promise reads PROMISE_CLOSED, and the Phase A final report is published with disposition COMPLETE, PARTIAL_WITH_HELD_GAPS or NOT_ADMITTED.",
+              "capabilityRef": "apply-declared-change + publish-workflow-verification (performs); read-flight-closure + read-declared-capability-document (verifies)",
+              "dependencyRefs": "oewf-w6-adversarial",
+              "assignedActor": "SFX Objective Agent",
+              "skillRefs": "spec-acceptance-and-closure@1;spec-capability-declaration@1",
+              "md": "Source: specification ov3.estate-workflow-discovery.v1, sections 8 W7 and 10. Read the pinned skills by exact revision and the W0 binding map first. Pins grant no authority (read-specialist-selection)."
+            },
+            {
+              "projectTaskId": "oewf-b0-domain-mapping",
+              "description": "B0 Wildlife domain source mapping and decisions",
+              "status": "OPEN",
+              "requiredOutcome": "Every challenge requirement traced to a scenario, contract, projection, policy or deferred feature; owner decisions recorded where missing meaning blocks the first slice (offline MVP timing, cross-capability route form, identity fixture).",
+              "capabilityRef": "UNRESOLVED: challenge document retention (performs); read-project-tracker (verifies)",
+              "dependencyRefs": "oewf-w7-admit",
+              "assignedActor": "SFX Objective Agent",
+              "skillRefs": "spec-pack-intake@1",
+              "md": "Source: specification ov3.estate-workflow-discovery.v1, WILDLIFE-ESTATE-BUILD-PROFILE B0. Read the pinned skills by exact revision and the W0 binding map first. Pins grant no authority (read-specialist-selection)."
+            },
+            {
+              "projectTaskId": "oewf-b1-first-effect",
+              "description": "B1 Domain contracts and first user effect",
+              "status": "OPEN",
+              "requiredOutcome": "The encounter-registration entry persists exactly one UNVERIFIED encounter for a fixture owner, one catalog animal, a manual location and one photo reference; idempotent replay creates none; the receipt traces scenario, provider descent and outcome.",
+              "capabilityRef": "draft-capability-from-spec + plan-capability-flight (performs); first-call run + read-declared-port-bindings (verifies)",
+              "dependencyRefs": "oewf-b0-domain-mapping;oewf-w1-dsl-route-progress",
+              "assignedActor": "SFX Objective Agent",
+              "skillRefs": "spec-capability-declaration@1;spec-acceptance-and-closure@1",
+              "md": "Source: specification ov3.estate-workflow-discovery.v1, WILDLIFE-ESTATE-BUILD-PROFILE B1 and minimum proof. Read the pinned skills by exact revision and the W0 binding map first. Pins grant no authority (read-specialist-selection)."
+            },
+            {
+              "projectTaskId": "oewf-b2-catalog",
+              "description": "B2 Catalog and attributes",
+              "status": "OPEN",
+              "requiredOutcome": "Biologist-only create, update and retire of definitions and attributes with ordering, the two-type bound, range, selectable values and history; catalog changes do not execute browsing or knowledge views.",
+              "capabilityRef": "draft-capability-from-spec + plan-capability-flight (performs); read-declared-composition + read-topology-conformance (verifies)",
+              "dependencyRefs": "oewf-b1-first-effect",
+              "assignedActor": "SFX Objective Agent",
+              "skillRefs": "spec-capability-declaration@1;spec-scenario-topology@1",
+              "md": "Source: specification ov3.estate-workflow-discovery.v1, WILDLIFE-ESTATE-BUILD-PROFILE B2. Read the pinned skills by exact revision and the W0 binding map first. Pins grant no authority (read-specialist-selection)."
+            },
+            {
+              "projectTaskId": "oewf-b3-consumption",
+              "description": "B3 Citizen consumption",
+              "status": "OPEN",
+              "requiredOutcome": "Browse, reveal and compare are independently invocable entries; uncollected animals disclose only common name, collection number, range and catalog image, enforced at the server read.",
+              "capabilityRef": "draft-capability-from-spec + plan-capability-flight (performs); first-call runs + read-topology-conformance (verifies)",
+              "dependencyRefs": "oewf-b2-catalog",
+              "assignedActor": "SFX Objective Agent",
+              "skillRefs": "spec-capability-declaration@1;spec-scenario-topology@1",
+              "md": "Source: specification ov3.estate-workflow-discovery.v1, WILDLIFE-ESTATE-BUILD-PROFILE B3. Read the pinned skills by exact revision and the W0 binding map first. Pins grant no authority (read-specialist-selection)."
+            },
+            {
+              "projectTaskId": "oewf-b4-collection-team",
+              "description": "B4 Personal collection and team",
+              "status": "OPEN",
+              "requiredOutcome": "The collection shows every recorded instance with its own photo and nickname, repeat species allowed; the team holds zero to six owned instances under concurrent edits, proven by real signals.",
+              "capabilityRef": "draft-capability-from-spec + plan-capability-flight (performs); first-call runs + read-flight-closure (verifies)",
+              "dependencyRefs": "oewf-b1-first-effect",
+              "assignedActor": "SFX Objective Agent",
+              "skillRefs": "spec-capability-declaration@1;spec-acceptance-and-closure@1",
+              "md": "Source: specification ov3.estate-workflow-discovery.v1, WILDLIFE-ESTATE-BUILD-PROFILE B4. Read the pinned skills by exact revision and the W0 binding map first. Pins grant no authority (read-specialist-selection)."
+            },
+            {
+              "projectTaskId": "oewf-b5-offline",
+              "description": "B5 Offline profile (only if the owner scopes it)",
+              "status": "OPEN",
+              "requiredOutcome": "Only when the owner scopes offline into the MVP: pending capture, eventual synchronization through an admitted entry, duplicate replay safety, no false on-server collection, no second registration authority. Otherwise dispositioned out of scope by the owner.",
+              "capabilityRef": "UNRESOLVED: owner scoping decision (performs); read-flight-closure (verifies)",
+              "dependencyRefs": "oewf-b0-domain-mapping;oewf-b1-first-effect",
+              "assignedActor": "SFX Objective Agent",
+              "skillRefs": "spec-capability-declaration@1;spec-scenario-topology@1",
+              "md": "Source: specification ov3.estate-workflow-discovery.v1, WILDLIFE-ESTATE-BUILD-PROFILE B5. Read the pinned skills by exact revision and the W0 binding map first. Pins grant no authority (read-specialist-selection)."
+            },
+            {
+              "projectTaskId": "oewf-b6-quality",
+              "description": "B6 Multi-surface delivery and measured quality",
+              "status": "OPEN",
+              "requiredOutcome": "Responsive UI and API or CLI inspection projected from the same estate; language set, WCAG 2.1 AA, browser behavior and the 2,000 concurrent user profile measured on real runs, not assumed.",
+              "capabilityRef": "UNRESOLVED: sfx-platform delivery and measurement (performs); retained measurement runs (verifies)",
+              "dependencyRefs": "oewf-b3-consumption;oewf-b4-collection-team",
+              "assignedActor": "SFX Platform Team",
+              "skillRefs": "spec-acceptance-and-closure@1",
+              "md": "Source: specification ov3.estate-workflow-discovery.v1, WILDLIFE-ESTATE-BUILD-PROFILE B6. Read the pinned skills by exact revision and the W0 binding map first. Pins grant no authority (read-specialist-selection)."
+            },
+            {
+              "projectTaskId": "oewf-b7-review-promote",
+              "description": "B7 Review and promotion of the wildlife estate",
+              "status": "OPEN",
+              "requiredOutcome": "The Phase A lens shows the DNR identity provider only under descent and catalog products only as overlays; negative authorization and privacy fixtures pass on real runs; the estate is admitted and published through the lifecycle.",
+              "capabilityRef": "apply-declared-change + publish-workflow-verification (performs); read-flight-closure (verifies)",
+              "dependencyRefs": "oewf-b2-catalog;oewf-b3-consumption;oewf-b4-collection-team;oewf-b5-offline;oewf-b6-quality",
+              "assignedActor": "SFX Objective Agent",
+              "skillRefs": "spec-acceptance-and-closure@1;spec-scenario-topology@1",
+              "md": "Source: specification ov3.estate-workflow-discovery.v1, WILDLIFE-ESTATE-BUILD-PROFILE B7 and exit. Read the pinned skills by exact revision and the W0 binding map first. Pins grant no authority (read-specialist-selection)."
+            }
+          ],
+          "verificationCapabilityId": "read-project-tracker",
+          "preflight": {
+            "input": {
+              "payload": {
+                "projectId": "ov3-estate-workflow-fidelity"
+              }
+            },
+            "expected": {
+              "disposition": "terminated"
+            }
+          },
+          "route": {
+            "resolvedDisposition": "terminated"
+          }
+        }
+      },
+      "obligationIds": [
+        "O1"
+      ],
+      "expect": {
+        "path": "$.disposition",
+        "equals": "COMMITTED"
+      }
+    }
+  ]
+}

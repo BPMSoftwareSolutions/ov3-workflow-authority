@@ -1,0 +1,22 @@
+{
+  "changeKind": "content-artifact-change",
+  "contractId": "declared-change.v1",
+  "payload": {
+    "contractId": "content-artifact-change.v1",
+    "artifactKind": "flight-promise:ov3-teach-spec-project",
+    "text": "{\"contractId\":\"flight-promise.v1\",\"promiseId\":\"ov3-teach-spec-project\",\"workClass\":\"project-tracking\",\"statement\":\"Project ov3-estate-workflow-fidelity exists with its 16 tasks, each pinning the specification-pack skills at revision 1, with plan approval left to the owner.\",\"obligations\":[{\"obligationId\":\"O1\",\"statement\":\"The project and its tasks are committed through project-tracking.\",\"evidence\":\"apply-declared-change disposition COMMITTED, verified by read-project-tracker\"}]}",
+    "preflight": {
+      "input": {
+        "changeKind": "content-artifact-change",
+        "includeDefinitions": true
+      },
+      "expected": {
+        "disposition": "terminated"
+      }
+    },
+    "route": {
+      "resolvedDisposition": "terminated"
+    },
+    "verificationCapabilityId": "read-harness-authoring-state"
+  }
+}

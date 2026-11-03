@@ -1,0 +1,436 @@
+{
+  "agentId": "claude-code-opus-5-5-ov3-harness-census",
+  "promise": {
+    "contractId": "flight-promise.v1",
+    "promiseId": "ov3-harness-census",
+    "workClass": "owner-authorized-build-and-invoke",
+    "statement": "OV3 writes the capability-area census of its complete agentic harness as data from the retained specification; a deterministic check passes it before it is retained and delivered; the owner decides at a declared decision point; the tracker records the change of plan.",
+    "obligations": [
+      {
+        "obligationId": "O1",
+        "statement": "The tracker records oah-long-bind done, the scope task superseded, and the census and its promotion as tasks.",
+        "evidence": "project-tracking COMMITTED"
+      },
+      {
+        "obligationId": "O2",
+        "statement": "The census decision point is declared and reads back.",
+        "evidence": "model-declare-semantic-object COMMITTED; analysis-read-selected-definition rows[0].declared_id"
+      },
+      {
+        "obligationId": "O3",
+        "statement": "OV3 writes the census as JSON and the deterministic check passes it.",
+        "evidence": "read-spec found 1; ask-model MODEL_RESPONSE_OBTAINED; check-census CENSUS_READY"
+      },
+      {
+        "obligationId": "O4",
+        "statement": "The checked census is retained and delivered.",
+        "evidence": "content-artifact-change COMMITTED; author-workspace-file AUTHORED"
+      },
+      {
+        "obligationId": "O5",
+        "statement": "The owner decides at the decision point.",
+        "evidence": "await-owner-decision DECIDED"
+      }
+    ]
+  },
+  "objective": "Have OV3 write the capability-area census of its complete agentic harness as checked data, retain and deliver it, and wait for the owner's decision.",
+  "steps": [
+    {
+      "stepId": "plan-header",
+      "contractId": "estate-flight-plan.v1",
+      "promiseId": "ov3-harness-census",
+      "flightType": "execution",
+      "workClass": "owner-authorized-build-and-invoke",
+      "unknowns": []
+    },
+    {
+      "stepId": "track-census",
+      "capabilityId": "apply-declared-change",
+      "historicalBasis": "project-tracking PASSED in plans 358 to 440 and in flight ov3-harness-scope step open-project (recording b1b16e76)",
+      "input": {
+        "contractId": "declared-change.v1",
+        "changeKind": "project-tracking",
+        "payload": {
+          "contractId": "project-tracking-change.v1",
+          "project": {
+            "projectId": "ov3-complete-agentic-harness"
+          },
+          "tasks": [
+            {
+              "projectTaskId": "oah-long-bind",
+              "status": "DONE",
+              "completionDisposition": "SATISFIED",
+              "executionEvidenceRef": "{\"contractId\":\"task-execution-evidence.v1\",\"capabilityId\":\"read-flight-closure\",\"objective\":\"A flight step binds a string longer than 4,000 characters from an earlier step's retained result, and a short bind resolves as before.\",\"runRef\":\"f8f5e598-3a55-daa1-94ea-55115cfe0684\",\"disposition\":\"PROMISE_CLOSED\",\"resultState\":\"ov3-harness-long-bind closed 2/2 obligations and passed 3/3 steps. bind-long returned 6000 and bind-short returned short. The scope flight then bound the generated scope into both retention and delivery. The retained and local file digests match.\",\"executedBy\":\"OV3 Network\",\"recordedAt\":\"2026-11-02T17:03:26.780334Z\",\"trackerWriteReceipt\":{\"authorityDigest\":\"sha256:721bd89b7e131994839b36a884d82053e4c0049f4ec5e96c1a8aaa7783d99e04\",\"parametersDigest\":\"recomputable: digest of this evidence content\"},\"executionDigest\":\"sha256:a9409b5d18eb083487139d25066416073544e67239642d1e0c7bf76db16e733a\",\"corroboration\":{\"runRef\":\"d737aec2-c878-da13-62f1-01d7e6405555\",\"flightRecordingId\":\"b1b16e76-a576-4556-896f-2ea2756bc464\",\"stepIds\":[\"write-scope\",\"retain-scope\",\"deliver-scope\"],\"byteLength\":8304,\"contentDigest\":\"sha256:39ea1983a7f7cb0b5028d4b1bc0833e16c1401f2020bae997f3b45e9a1faae9e\"}}"
+            },
+            {
+              "projectTaskId": "oah-scope",
+              "statusDescription": "Superseded by oah-census: design-intent-and-scope wrote the scope as prose and named no capability areas (docs/projects/ov3-complete-agentic-harness/scope.md, sha256:39ea1983a7f7cb0b5028d4b1bc0833e16c1401f2020bae997f3b45e9a1faae9e), so nothing could check it or plan from it."
+            },
+            {
+              "projectTaskId": "oah-census",
+              "description": "OV3 writes the capability-area census as checked data",
+              "status": "OPEN",
+              "requiredOutcome": "ask-model writes the census of the complete agentic harness from specification:ov3-complete-agentic-harness as JSON; a deterministic check passes it (1 to 30 areas, valid unique ids, every required concern covered, every cited project and capability resolved in the estate, unresolved citations removed and reported); the checked census is retained as capability-census:ov3-complete-agentic-harness, delivered for review, and the owner decides at decision point ov3-complete-agentic-harness/census.",
+              "capabilityRef": "ask-model + sql-database-reader census check (performs); await-owner-decision ov3-complete-agentic-harness/census (verifies)",
+              "dependencyRefs": "oah-long-bind",
+              "assignedActor": "SFX Objective Agent",
+              "md": "Owner direction 2026-11-02 (owner-direction:ov3-complete-agentic-harness); specification:ov3-complete-agentic-harness sha256:a344104861ea0cb7e9557cc9b359a9e9567f7f3e921477d0cd596de0a6413c09."
+            },
+            {
+              "projectTaskId": "oah-features",
+              "dependencyRefs": "oah-census",
+              "requiredOutcome": "design-feature-gherkin writes one complete @-annotated feature per capability area of the accepted census (capability-census:ov3-complete-agentic-harness); each is retained as harness-feature:<capabilityId>, delivered for review, and accepted by the owner at a declared decision point."
+            },
+            {
+              "projectTaskId": "oah-spec-assembly",
+              "dependencyRefs": "oah-census"
+            },
+            {
+              "projectTaskId": "oah-census-capability",
+              "description": "Promote the census flight into a reusable capability",
+              "status": "OPEN",
+              "requiredOutcome": "Once flight ov3-harness-census reads PROMISE_CLOSED, its steps become a declared workflow capability that turns any retained specification into a checked capability-area census (parameters specDigest, projectId, requiredCoverage), declared through the declare-once pattern and proven by one run reading PROMISE_CLOSED.",
+              "capabilityRef": "model-declare-semantic-object + apply-declared-change capability-from-dsl (performs); a run of the workflow reading PROMISE_CLOSED (verifies)",
+              "dependencyRefs": "oah-census",
+              "assignedActor": "SFX Objective Agent",
+              "md": "Owner direction 2026-11-02 (owner-direction:ov3-complete-agentic-harness); specification:ov3-complete-agentic-harness sha256:a344104861ea0cb7e9557cc9b359a9e9567f7f3e921477d0cd596de0a6413c09."
+            }
+          ],
+          "verificationCapabilityId": "read-project-tracker",
+          "preflight": {
+            "input": {
+              "payload": {
+                "projectId": "ov3-complete-agentic-harness"
+              }
+            },
+            "expected": {
+              "disposition": "terminated"
+            }
+          },
+          "route": {
+            "resolvedDisposition": "terminated"
+          }
+        }
+      },
+      "obligationIds": [
+        "O1"
+      ],
+      "expect": {
+        "path": "$.disposition",
+        "equals": "COMMITTED"
+      }
+    },
+    {
+      "stepId": "declare-census-decision",
+      "capabilityId": "model-declare-semantic-object",
+      "historicalBasis": "flight ov3-harness-scope step declare-scope-decision PASSED (recording b1b16e76)",
+      "input": {
+        "object_kind": "DECISION_POINT",
+        "namespace_id": "sidefx:decision-points",
+        "declared_id": "ov3-complete-agentic-harness/census",
+        "semantics_json": {
+          "contractId": "decision-point.v1",
+          "decisionId": "ov3-complete-agentic-harness/census",
+          "project": "ov3-complete-agentic-harness",
+          "question": "Does the capability-area census OV3 wrote become the set of areas OV3 writes one canonical feature for?",
+          "options": [
+            {
+              "optionId": "accept",
+              "label": "Accept: OV3 writes one canonical feature per area in this census"
+            },
+            {
+              "optionId": "revise",
+              "label": "Revise: the decision's words say what to change, and OV3 rewrites the census"
+            }
+          ],
+          "context": "The checked census is retained as capability-census:ov3-complete-agentic-harness and delivered to docs/projects/ov3-complete-agentic-harness/census.md; written by ask-model from specification:ov3-complete-agentic-harness (sha256:a344104861ea0cb7e9557cc9b359a9e9567f7f3e921477d0cd596de0a6413c09) and passed by the flight's deterministic check before it was kept."
+        }
+      },
+      "obligationIds": [
+        "O2"
+      ],
+      "expect": {
+        "path": "$.status",
+        "equals": "COMMITTED"
+      }
+    },
+    {
+      "stepId": "prove-census-decision",
+      "capabilityId": "analysis-read-selected-definition",
+      "historicalBasis": "flight ov3-harness-scope step prove-scope-decision PASSED (recording b1b16e76)",
+      "input": {
+        "namespace_id": "sidefx:decision-points",
+        "declared_id": "ov3-complete-agentic-harness/census"
+      },
+      "obligationIds": [
+        "O2"
+      ],
+      "expect": {
+        "path": "$.rows[0].declared_id",
+        "equals": "ov3-complete-agentic-harness/census"
+      }
+    },
+    {
+      "stepId": "read-spec",
+      "capabilityId": "sql-database-reader",
+      "historicalBasis": "planning read c22895d9 of this statement: found 1, 61,272 bytes, 39 project ids, 669 capability ids; sql-database-reader inline statements PASSED in flight ov3-harness-long-bind",
+      "input": {
+        "dataSource": "sfx-estate-database",
+        "statement": "SET NOCOUNT ON; DECLARE @d binary(32)=CONVERT(binary(32),SUBSTRING(JSON_VALUE(@input,N'$.specDigest'),8,64),2); DECLARE @e bigint=(SELECT estate_model_pk FROM source.current_model WHERE singleton_id=1); SELECT (SELECT CASE WHEN co.content_object_pk IS NULL THEN 0 ELSE 1 END AS found,co.byte_length AS bytes,  CONVERT(nvarchar(max),CONVERT(varchar(max),co.content_bytes) COLLATE Latin1_General_100_BIN2_UTF8) AS text,  (SELECT STRING_AGG(CONVERT(nvarchar(max),p.project_id),N', ') WITHIN GROUP (ORDER BY p.project_id) FROM model.project p) AS projectIds,  (SELECT STRING_AGG(CONVERT(nvarchar(max),c.capability_id),N', ') WITHIN GROUP (ORDER BY c.capability_id) FROM model.capability c    JOIN model.identity_namespace n ON n.namespace_pk=c.namespace_pk JOIN model.estate_capability ec ON ec.capability_pk=c.capability_pk AND ec.estate_model_pk=@e    WHERE n.namespace_id=N'sidefx:capabilities') AS capabilityIds  FROM (SELECT 1 AS one) x LEFT JOIN source.content_object co ON co.content_digest=@d FOR JSON PATH,WITHOUT_ARRAY_WRAPPER) AS value;",
+        "resultColumn": "value",
+        "input": {
+          "specDigest": "sha256:a344104861ea0cb7e9557cc9b359a9e9567f7f3e921477d0cd596de0a6413c09"
+        }
+      },
+      "obligationIds": [
+        "O3"
+      ],
+      "expect": {
+        "path": "$.value.found",
+        "equals": 1
+      }
+    },
+    {
+      "stepId": "write-census",
+      "capabilityId": "ask-model",
+      "historicalBasis": "planning probes d69020ed and 066e0fc0 sent this request to ask-model, which resolved deepseek/deepseek-flash and returned MODEL_RESPONSE_OBTAINED in 22 s and 24 s; values over 4,000 characters bind whole (flight ov3-harness-long-bind, PROMISE_CLOSED)",
+      "input": {
+        "requestId": "ov3-harness-census",
+        "modelRequest": {
+          "interaction": {
+            "messages": [
+              {
+                "role": "system",
+                "content": "You decompose the product a specification describes into capability areas for the SideFX estate, where every capability is declared data and holds exactly one canonical feature. The product is OV3 itself: the agentic harness that plans, executes, verifies, remembers, coordinates and improves work through the estate. The recorded projects are evidence of what the harness must do and of the work it has run; a project's own domain (for example financial analysis, resume documents or infrastructure) is not a harness area, but a harness need that the project reveals is. The first user message is the specification. The second lists the installed capability ids. The third lists the project ids of the tracker. Return one JSON object: product (the product name) and areas, at most 30. Each area is one capability the harness needs, named by a proposed capability id (lowercase ASCII letters, digits, dots and hyphens; unique), with its name (a few words), its responsibility (what it does and what it guarantees, at most 300 characters), covers (which of elaborate-planning, self-improvement, multi-agent-consensus, control-plane, deterministic-multi-step-execution and other the area serves), sources (the project ids from the third message, or owner-direction, that the area answers; at least one), and existingCapabilities (installed capability ids from the second message that the area extends or reuses; empty when none or when unsure). Each of elaborate-planning, self-improvement, multi-agent-consensus, control-plane and deterministic-multi-step-execution must be served by at least one area. Use only the given material. Cite only ids that appear verbatim in the second and third messages; never invent a project or capability id."
+              },
+              {
+                "role": "user",
+                "content": "(bound from read-spec)"
+              },
+              {
+                "role": "user",
+                "content": "(bound from read-spec)"
+              },
+              {
+                "role": "user",
+                "content": "(bound from read-spec)"
+              }
+            ]
+          },
+          "responsePolicy": {
+            "format": "json",
+            "schema": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "product",
+                "areas"
+              ],
+              "properties": {
+                "product": {
+                  "type": "string"
+                },
+                "areas": {
+                  "type": "array",
+                  "minItems": 1,
+                  "maxItems": 30,
+                  "items": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "capabilityId",
+                      "name",
+                      "responsibility",
+                      "covers",
+                      "sources",
+                      "existingCapabilities"
+                    ],
+                    "properties": {
+                      "capabilityId": {
+                        "type": "string",
+                        "pattern": "^[a-z0-9][a-z0-9.-]*$"
+                      },
+                      "name": {
+                        "type": "string"
+                      },
+                      "responsibility": {
+                        "type": "string",
+                        "maxLength": 300
+                      },
+                      "covers": {
+                        "type": "array",
+                        "items": {
+                          "type": "string",
+                          "enum": [
+                            "elaborate-planning",
+                            "self-improvement",
+                            "multi-agent-consensus",
+                            "control-plane",
+                            "deterministic-multi-step-execution",
+                            "other"
+                          ]
+                        }
+                      },
+                      "sources": {
+                        "type": "array",
+                        "minItems": 1,
+                        "items": {
+                          "type": "string"
+                        }
+                      },
+                      "existingCapabilities": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "maximumOutputTokens": 12000,
+            "temperature": 0.2
+          }
+        }
+      },
+      "bind": [
+        {
+          "target": "modelRequest.interaction.messages[1].content",
+          "fromStep": "read-spec",
+          "path": "$.value.text"
+        },
+        {
+          "target": "modelRequest.interaction.messages[2].content",
+          "fromStep": "read-spec",
+          "path": "$.value.capabilityIds"
+        },
+        {
+          "target": "modelRequest.interaction.messages[3].content",
+          "fromStep": "read-spec",
+          "path": "$.value.projectIds"
+        }
+      ],
+      "obligationIds": [
+        "O3"
+      ],
+      "expect": {
+        "path": "$.disposition",
+        "equals": "MODEL_RESPONSE_OBTAINED"
+      }
+    },
+    {
+      "stepId": "check-census",
+      "capabilityId": "sql-database-reader",
+      "historicalBasis": "planning checks 12b42cd6 and 6e1bc08d returned CENSUS_READY (30 areas) for the probe answers; 470bb3c1 returned CENSUS_INVALID for an earlier 44-area answer, so the check fails a wrong census inside the flight",
+      "input": {
+        "dataSource": "sfx-estate-database",
+        "statement": "SET NOCOUNT ON; DECLARE @t nvarchar(max)=(SELECT [value] FROM OPENJSON(@input) WHERE [key]=N'censusText'); DECLARE @req nvarchar(4000)=ISNULL(JSON_VALUE(@input,N'$.requiredCoverage'),N''),@spec nvarchar(80)=JSON_VALUE(@input,N'$.specDigest'); DECLARE @a TABLE(o int PRIMARY KEY,capability_id nvarchar(400),name nvarchar(400),responsibility nvarchar(max),covers nvarchar(max),sources nvarchar(max),existing nvarchar(max),sources_ok nvarchar(max),existing_ok nvarchar(max)); IF ISJSON(@t)=1 INSERT @a(o,capability_id,name,responsibility,covers,sources,existing) SELECT CONVERT(int,x.[key]),j.capabilityId,j.name,j.responsibility,j.covers,j.sources,j.existing FROM OPENJSON(@t,N'$.areas') x  CROSS APPLY OPENJSON(x.[value]) WITH (capabilityId nvarchar(400) N'$.capabilityId',name nvarchar(400) N'$.name',responsibility nvarchar(max) N'$.responsibility',   covers nvarchar(max) N'$.covers' AS JSON,sources nvarchar(max) N'$.sources' AS JSON,existing nvarchar(max) N'$.existingCapabilities' AS JSON) j WHERE x.[type]=5; UPDATE a SET sources_ok=ISNULL((SELECT N'['+STRING_AGG(N'\"'+STRING_ESCAPE(CONVERT(nvarchar(400),s.[value]),'json')+N'\"',N',')+N']' FROM OPENJSON(ISNULL(a.sources,N'[]')) s   WHERE s.[value]=N'owner-direction' OR EXISTS (SELECT 1 FROM model.project p WHERE p.project_id=CONVERT(nvarchar(400),s.[value]) COLLATE DATABASE_DEFAULT)),N'[]'),  existing_ok=ISNULL((SELECT N'['+STRING_AGG(N'\"'+STRING_ESCAPE(CONVERT(nvarchar(400),e.[value]),'json')+N'\"',N',')+N']' FROM OPENJSON(ISNULL(a.existing,N'[]')) e   WHERE EXISTS (SELECT 1 FROM model.capability c WHERE c.capability_id=CONVERT(nvarchar(400),e.[value]) COLLATE DATABASE_DEFAULT)),N'[]') FROM @a a; DECLARE @n int=(SELECT COUNT(*) FROM @a); DECLARE @invalid nvarchar(max)=(SELECT STRING_AGG(ISNULL(capability_id,N'(none)'),N', ') FROM @a WHERE capability_id IS NULL OR capability_id COLLATE Latin1_General_100_BIN2 NOT LIKE N'[0-9a-z]%' OR capability_id COLLATE Latin1_General_100_BIN2 LIKE N'%[^-.0-9a-z]%'); DECLARE @dup nvarchar(max)=(SELECT STRING_AGG(d.capability_id,N', ') FROM (SELECT capability_id FROM @a GROUP BY capability_id HAVING COUNT(*)>1) d); DECLARE @incomplete nvarchar(max)=(SELECT STRING_AGG(ISNULL(capability_id,N'(none)'),N', ') FROM @a WHERE NULLIF(TRIM(ISNULL(name,N'')),N'') IS NULL OR NULLIF(TRIM(ISNULL(responsibility,N'')),N'') IS NULL OR sources_ok=N'[]'); DECLARE @missing nvarchar(max)=(SELECT STRING_AGG(r.v,N', ') FROM (SELECT LTRIM(RTRIM(value)) AS v FROM STRING_SPLIT(@req,N',') WHERE LTRIM(RTRIM(value))<>N'') r  WHERE NOT EXISTS (SELECT 1 FROM @a CROSS APPLY OPENJSON(ISNULL(covers,N'[]')) c WHERE c.[value]=r.v COLLATE DATABASE_DEFAULT)); DECLARE @droppedSources nvarchar(max)=(SELECT STRING_AGG(u.v,N', ') FROM (SELECT DISTINCT CONVERT(nvarchar(400),s.[value]) AS v FROM @a CROSS APPLY OPENJSON(ISNULL(sources,N'[]')) s  WHERE NOT EXISTS (SELECT 1 FROM OPENJSON(sources_ok) k WHERE k.[value]=s.[value])) u); DECLARE @droppedCaps nvarchar(max)=(SELECT STRING_AGG(u.v,N', ') FROM (SELECT DISTINCT CONVERT(nvarchar(400),e.[value]) AS v FROM @a CROSS APPLY OPENJSON(ISNULL(existing,N'[]')) e  WHERE NOT EXISTS (SELECT 1 FROM OPENJSON(existing_ok) k WHERE k.[value]=e.[value])) u); DECLARE @status nvarchar(40)=CASE WHEN ISJSON(@t)<>1 THEN N'NOT_JSON' WHEN @n BETWEEN 1 AND 30 AND @invalid IS NULL AND @dup IS NULL AND @incomplete IS NULL AND @missing IS NULL THEN N'CENSUS_READY' ELSE N'CENSUS_INVALID' END; DECLARE @product nvarchar(400)=CASE WHEN ISJSON(@t)=1 THEN JSON_VALUE(@t,N'$.product') END; DECLARE @census nvarchar(max)=(SELECT @product AS product,@spec AS specDigest,JSON_QUERY(ISNULL((SELECT capability_id AS capabilityId,name,responsibility,JSON_QUERY(ISNULL(covers,N'[]')) AS covers,  JSON_QUERY(sources_ok) AS sources,JSON_QUERY(existing_ok) AS existingCapabilities FROM @a ORDER BY o FOR JSON PATH),N'[]')) AS areas FOR JSON PATH,WITHOUT_ARRAY_WRAPPER); DECLARE @cell TABLE(o int PRIMARY KEY,line nvarchar(max)); INSERT @cell SELECT o,CONCAT(N'| ',o+1,N' | `',capability_id,N'` | ',REPLACE(REPLACE(ISNULL(name,N''),N'|',N'/'),NCHAR(10),N' '),N' | ',REPLACE(REPLACE(ISNULL(responsibility,N''),N'|',N'/'),NCHAR(10),N' '),N' | ',  ISNULL((SELECT STRING_AGG(CONVERT(nvarchar(max),c.[value]),N', ') FROM OPENJSON(ISNULL(covers,N'[]')) c),N''),N' | ',ISNULL((SELECT STRING_AGG(CONVERT(nvarchar(max),k.[value]),N', ') FROM OPENJSON(sources_ok) k),N''),N' | ',  ISNULL((SELECT STRING_AGG(CONVERT(nvarchar(max),k.[value]),N', ') FROM OPENJSON(existing_ok) k),N''),N' |') FROM @a; DECLARE @md nvarchar(max)=CONCAT(N'# Capability-area census: ',ISNULL(@product,N'(no product)'),NCHAR(10),NCHAR(10),  N'Written by ask-model from specification ',ISNULL(@spec,N'(unnamed)'),N'. Checked by the flight: ',@status,N', ',@n,N' areas; required coverage ',CASE WHEN @missing IS NULL THEN N'complete' ELSE N'missing '+@missing END,N'.',NCHAR(10),NCHAR(10),  CASE WHEN @droppedSources IS NULL AND @droppedCaps IS NULL THEN N'' ELSE CONCAT(N'Citations removed because the estate does not hold them: ',ISNULL(@droppedCaps,N''),CASE WHEN @droppedCaps IS NOT NULL AND @droppedSources IS NOT NULL THEN N'; ' ELSE N'' END,ISNULL(@droppedSources,N''),N'.',NCHAR(10),NCHAR(10)) END,  N'| # | Capability id | Area | Responsibility | Covers | Sources | Extends or reuses |',NCHAR(10),N'| --- | --- | --- | --- | --- | --- | --- |',NCHAR(10),  ISNULL((SELECT STRING_AGG(line,NCHAR(10)) WITHIN GROUP (ORDER BY o) FROM @cell),N''),NCHAR(10)); SELECT (SELECT @status AS status,@n AS areaCount,@invalid AS invalidIds,@dup AS duplicateIds,@incomplete AS incompleteAreas,@missing AS missingCoverage,  @droppedSources AS droppedSources,@droppedCaps AS droppedCapabilities,@census AS censusJson,@md AS markdown FOR JSON PATH,WITHOUT_ARRAY_WRAPPER,INCLUDE_NULL_VALUES) AS value;",
+        "resultColumn": "value",
+        "input": {
+          "censusText": "(bound from write-census)",
+          "requiredCoverage": "elaborate-planning,self-improvement,multi-agent-consensus,control-plane,deterministic-multi-step-execution",
+          "specDigest": "sha256:a344104861ea0cb7e9557cc9b359a9e9567f7f3e921477d0cd596de0a6413c09"
+        }
+      },
+      "bind": [
+        {
+          "target": "input.censusText",
+          "fromStep": "write-census",
+          "path": "$.response.text"
+        }
+      ],
+      "obligationIds": [
+        "O3"
+      ],
+      "expect": {
+        "path": "$.value.status",
+        "equals": "CENSUS_READY"
+      }
+    },
+    {
+      "stepId": "retain-census",
+      "capabilityId": "apply-declared-change",
+      "historicalBasis": "flight ov3-harness-scope step retain-scope PASSED with a bound text (recording b1b16e76)",
+      "input": {
+        "changeKind": "content-artifact-change",
+        "contractId": "declared-change.v1",
+        "payload": {
+          "contractId": "content-artifact-change.v1",
+          "artifactKind": "capability-census:ov3-complete-agentic-harness",
+          "text": "(bound from check-census)",
+          "preflight": {
+            "input": {
+              "changeKind": "content-artifact-change",
+              "includeDefinitions": true
+            },
+            "expected": {
+              "disposition": "terminated"
+            }
+          },
+          "route": {
+            "resolvedDisposition": "terminated"
+          },
+          "verificationCapabilityId": "read-harness-authoring-state"
+        }
+      },
+      "bind": [
+        {
+          "target": "payload.text",
+          "fromStep": "check-census",
+          "path": "$.value.censusJson"
+        }
+      ],
+      "obligationIds": [
+        "O4"
+      ],
+      "expect": {
+        "path": "$.disposition",
+        "equals": "COMMITTED"
+      }
+    },
+    {
+      "stepId": "deliver-census",
+      "capabilityId": "author-workspace-file",
+      "historicalBasis": "flight ov3-harness-scope step deliver-scope PASSED with a bound text (recording b1b16e76)",
+      "input": {
+        "workspaceId": "7817ea10-28bd-45a6-8084-0b22067d3949",
+        "path": "docs/projects/ov3-complete-agentic-harness/census.md",
+        "text": "(bound from check-census)"
+      },
+      "bind": [
+        {
+          "target": "text",
+          "fromStep": "check-census",
+          "path": "$.value.markdown"
+        }
+      ],
+      "obligationIds": [
+        "O4"
+      ],
+      "expect": {
+        "path": "$.status",
+        "equals": "AUTHORED"
+      }
+    },
+    {
+      "stepId": "await-census-decision",
+      "capabilityId": "await-owner-decision",
+      "historicalBasis": "prove-decision-point waited AWAITING_DECISION and resumed DECIDED (recording 9ae2b3c1); flight ov3-harness-scope step await-scope-decision WAITING as declared (recording b1b16e76)",
+      "input": {
+        "decisionId": "ov3-complete-agentic-harness/census"
+      },
+      "obligationIds": [
+        "O5"
+      ],
+      "expect": {
+        "path": "$.status",
+        "equals": "DECIDED"
+      },
+      "waitWhen": {
+        "path": "$.status",
+        "equals": "AWAITING_DECISION"
+      }
+    }
+  ]
+}
