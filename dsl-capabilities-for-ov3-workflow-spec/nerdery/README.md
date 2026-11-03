@@ -104,7 +104,23 @@ That shell change adds:
 
 Opening a page never admits a run, and nothing polls.
 
-[ui/make-pages.mjs](ui/make-pages.mjs) writes the pages and the SQL, and validates each page with the shell's own `validatePage`. [ui/preview-pages.mjs](ui/preview-pages.mjs) renders them in the shell's own files in Chromium and walks the journey. Only the transport is stubbed: it serves the mechanics' real outputs from the 77-case run. [ui/screens/](ui/screens/) holds the screens it captured. There, the hero circuits show their pending state, because only the gateway serves the database scene.
+### The photo of a collected animal
+
+Each My animals card has a **See the photo** link. It opens `/circuit/wildlife-individual?encounter=<id>`, where **Show the photo** runs `nerdery-view-collected-animal`. The page then shows your stored photo, checked against its digest, next to what you recorded.
+
+| Step | What | Where |
+| --- | --- | --- |
+| Feature | [features/nerdery-view-collected-animal.feature](features/nerdery-view-collected-animal.feature), 6 cases over [fixtures/cases/](fixtures/cases/) | all met read-only, run ef3510aa |
+| DSL | [dsl/nerdery-view-collected-animal.dsl](dsl/nerdery-view-collected-animal.dsl) | COMPILED read-only, run 2e4b4b4c, document `sha256:e6f62d7e…` |
+| Mechanics | `wildlife.view_collected_animal`, plus one dispatch line in `wildlife.invoke_operation` | [wildlife/wildlife.procedures.sql](wildlife/wildlife.procedures.sql) |
+| Estate | [sql/photo-1-estate.commit.sql](sql/photo-1-estate.commit.sql) retains the feature and the promise, compiles the DSL, and publishes wildlife-mine revision 2 and wildlife-individual revision 1 | owner SQL |
+| Identity | [sql/photo-2-identity.commit.sql](sql/photo-2-identity.commit.sql) installs the mechanics, smoke-calls them, and records plan `sha256:aa443b90…` | owner SQL, after photo-1 |
+| Flight | [flights/individual.steps.json](flights/individual.steps.json) declares the capability and proves its stored document | OV3 |
+| Shell | sfx-platform PR #86 lets a figure's `src` be a digest-checked image data URL, and adds the map's `concat` and `encode` | merge deploys staging |
+
+[make-individual.mjs](make-individual.mjs) generates all of it.
+
+[ui/make-pages.mjs](ui/make-pages.mjs) writes the pages and validates each one with the shell's own `validatePage`. Since pages-1 has run, it no longer writes SQL. [ui/preview-pages.mjs](ui/preview-pages.mjs) renders them in the shell's own files in Chromium and walks the journey. Only the transport is stubbed: it serves the mechanics' real outputs from the 77-case run. [ui/screens/](ui/screens/) holds the screens it captured. There, the hero circuits show their pending state, because only the gateway serves the database scene.
 
 ## The interview journey in the Explorer
 

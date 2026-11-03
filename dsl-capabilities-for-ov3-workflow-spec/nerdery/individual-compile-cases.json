@@ -1,0 +1,48 @@
+[
+ {
+  "name": "nerdery-view-collected-animal",
+  "source": "nerdery/dsl/nerdery-view-collected-animal.dsl",
+  "retain": [
+   "nerdery/features/nerdery-view-collected-animal.feature"
+  ],
+  "compiledRun": "2e4b4b4c",
+  "expect": [
+   [
+    "$.status",
+    "COMPILED"
+   ],
+   [
+    "$.document.feature.digest",
+    "sha256:d01b38d276d161ba76402d4f3fbd10cd88a98f4c40c9f07e00f7f068b5874e45"
+   ],
+   [
+    "$.document.scenarios[0].operations[4].operationId",
+    "nerdery-view-collected-animal.view"
+   ],
+   [
+    "$.document.scenarios[0].operations[4].providerCapabilityId",
+    "sql-database-reader"
+   ],
+   [
+    "$.document.scenarios[0].portBindings[2].platformCapabilityId",
+    "sfx-vault-reference-carry-port.v1"
+   ],
+   [
+    "$.document.scenarios[0].portBindings[7].platformCapabilityId",
+    "sfx-vault-reference-carry-port.v1"
+   ],
+   [
+    "$.document.scenarios[0].portBindings[3].configuration.commandTimeout",
+    "30"
+   ],
+   [
+    "$.document.scenarios[0].portBindings[8].configuration.commandTimeout",
+    "30"
+   ],
+   [
+    "$.documentDigest",
+    "sha256:e6f62d7eb71418ca3a2cd7d5963af711b78feb2a7b529aee316e33844b68e796"
+   ]
+  ]
+ }
+]

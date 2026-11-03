@@ -3,7 +3,7 @@
  "pageId": "ui-page-wildlife-mine",
  "namespaceId": "sidefx:ui",
  "path": "/circuit/wildlife-mine",
- "revision": 1,
+ "revision": 2,
  "title": "My animals",
  "layoutRef": {
   "layoutId": "ui-layout-marketing.v1",
@@ -63,7 +63,7 @@
    "props": {
     "eyebrow": "Personal collection",
     "headline": "My animals",
-    "lede": "Every encounter you recorded is its own individual, shown with your photo and nickname. Two herons are two animals.",
+    "lede": "Every encounter you recorded is its own individual, shown with your photo and nickname. Two herons are two animals. Open one to see your photo.",
     "primaryActionId": "open-circuit"
    },
    "bindings": {
@@ -178,7 +178,19 @@
        "default": "No nickname: shown by its species name"
       },
       "promise": "/photoRef",
-      "meta": "/encounterId"
+      "meta": "/encounterId",
+      "linkLabel": "See the photo",
+      "link": {
+       "concat": [
+        {
+         "literal": "/circuit/wildlife-individual?encounter="
+        },
+        {
+         "pointer": "/encounterId",
+         "encode": "uri"
+        }
+       ]
+      }
      }
     }
    }

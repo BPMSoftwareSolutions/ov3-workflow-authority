@@ -1,13 +1,16 @@
 // The wildlife application's presentation: declared ui-page-definition.v1 pages over the slice's declared
 // capabilities, published through the estate's own page writers and served by the SideFX shell.
-//   nerdery/ui/pages/<slug>.json                the eight page declarations
-//   nerdery/sql/pages-1-estate(.commit).sql     stages and promotes them (revision 1) through sidefx_ui.stage_ui_page
-//                                               and sidefx_ui.promote_ui_page, then reads each back
+//   nerdery/ui/pages/<slug>.json                the page declarations, each at the revision it is published as
+//   nerdery/ui/manifest.json                    each page's revision and the digest of its staged text
+// Publication: nerdery/sql/pages-1-estate(.commit).sql staged and promoted the first eight pages as revision 1 on
+// 2026-11-03 and has run; this generator no longer writes it. A later revision is published by the package that
+// needs it: nerdery/make-individual.mjs publishes wildlife-mine revision 2 and wildlife-individual revision 1.
 // Each page runs a capability only when the viewer submits a form or presses a button; the caller comes from
 // the signed-in session (/workspace/session) and the capability verifies it against [identity].session. The
 // results are the capabilities' own outputs, projected for display; no business rule lives in a page.
 // Needs the shell's observe results (sfx-platform live-circuit/circuit/page-runtime.js): nested input bindings,
-// the run source, read maps and when.result. Every page is validated here against that runtime's validatePage.
+// the run source, read maps and when.result; the individual's photo also needs a figure that shows a digest-checked
+// image data URL and the map's concat. Every page is validated here against that runtime's validatePage.
 import fs from "node:fs";
 import path from "node:path";
 import crypto from "node:crypto";
@@ -53,10 +56,10 @@ const navigation = { items: [
   { label: "My animals", href: "/circuit/wildlife-mine" }, { label: "Team", href: "/circuit/wildlife-team" },
   { label: "Home", href: "/circuit/wildlife-home" }, { label: "Refusals", href: "/circuit/wildlife-refusals" }
 ] };
-const page = (slug, title, sections, extraSources = []) => ({ document: "ui-page-definition.v1", pageId: `ui-page-${slug}`, namespaceId: "sidefx:ui",
-  path: `/circuit/${slug}`, revision: 1, title, layoutRef: LAYOUT, navigation, sources: [{ sourceId: "session", reader: "session" }, ...extraSources], sections });
+const page = (slug, title, sections, extraSources = [], revision = 1) => ({ document: "ui-page-definition.v1", pageId: `ui-page-${slug}`, namespaceId: "sidefx:ui",
+  path: `/circuit/${slug}`, revision, title, layoutRef: LAYOUT, navigation, sources: [{ sourceId: "session", reader: "session" }, ...extraSources], sections });
 const pages = [];
-const add = (slug, title, build, extraSources) => { order = 0; pages.push(page(slug, title, build(), extraSources)); };
+const add = (slug, title, build, extraSources, revision) => { order = 0; pages.push(page(slug, title, build(), extraSources, revision)); };
 
 // ---------- the pages ----------
 add("wildlife", "Wildlife Collection", () => [
@@ -164,16 +167,35 @@ add("wildlife-capture", "Capture an encounter", () => [
     actions: [{ actionId: "go-animal", kind: "navigate", to: "/circuit/wildlife-animal" }], when: when("record", "/status", "RECORDED") })
 ]);
 
+// Revision 2: each card opens its individual, with the photo, on wildlife-individual.
 add("wildlife-mine", "My animals", () => [
   hero("nerdery-view-collected-animals", "Personal collection", "My animals",
-    "Every encounter you recorded is its own individual, shown with your photo and nickname. Two herons are two animals."),
+    "Every encounter you recorded is its own individual, shown with your photo and nickname. Two herons are two animals. Open one to see your photo."),
   section("load", "section", { props: { actions: [{ actionId: "mine", label: "Show my animals" }] },
     actions: [observe("mine", "nerdery-view-collected-animals", {}, "mine")] }),
   section("mine-total", "stat", { props: { label: "Individuals" }, bindings: { value: run("mine", "/total") }, when: when("mine", "/status", "LISTED") }),
   section("mine-cards", "card-list", { when: when("mine", "/status", "LISTED"),
     bindings: { cards: run("mine", "/items", { title: "/displayName", body: { pointer: "/nickname", default: "No nickname: shown by its species name" },
-      promise: "/photoRef", meta: "/encounterId" }) } }),
+      promise: "/photoRef", meta: "/encounterId", linkLabel: "See the photo",
+      link: { concat: [{ literal: "/circuit/wildlife-individual?encounter=" }, { pointer: "/encounterId", encode: "uri" }] } }) } }),
   refused("mine-refused", "mine")
+], [], 2);
+
+add("wildlife-individual", "My animal", () => [
+  hero("nerdery-view-collected-animal", "One of your animals", "Your animal, with your photo",
+    "The photo you uploaded, read back from the store for you alone, with what you recorded about it. Anyone else asking for this animal is told it does not exist."),
+  section("show", "section", { props: { actions: [{ actionId: "view", label: "Show the photo" }] },
+    actions: [observe("view", "nerdery-view-collected-animal", { encounterId: { kind: "route", name: "encounter" } }, "animal")] }),
+  section("photo", "media.figure", { when: when("animal", "/status", "VISIBLE"),
+    bindings: { src: run("animal", "", { concat: ["data:", "/animal/photo/mediaType", ";base64,", "/animal/photo/contentBase64"] }),
+      digest: run("animal", "/animal/photo/contentSha256"), alt: run("animal", "/animal/displayName"), caption: run("animal", "/animal/commonName") } }),
+  section("facts", "field-list", { props: { label: "What you recorded" }, when: when("animal", "/status", "VISIBLE"),
+    bindings: { fields: run("animal", "/animal", { "Name": "/displayName", "Animal": "/commonName", "Nickname": { pointer: "/nickname", default: "None" },
+      "Where": { pointer: "/location/description", default: "Recorded from the device position" }, "Encounter": "/encounterId",
+      "Photo": "/photo/photoRef", "Media type": "/photo/mediaType", "Bytes": "/photo/byteLength", "Photo digest": "/photo/contentSha256" }) } }),
+  refused("animal-refused", "animal"),
+  section("back", "notice", { props: { tone: "info", title: "Your other animals", body: "Every individual you recorded is on My animals. Open any of them here.", actionId: "go-mine" },
+    actions: [{ actionId: "go-mine", kind: "navigate", to: "/circuit/wildlife-mine" }] })
 ]);
 
 add("wildlife-team", "Team", () => [
@@ -242,63 +264,12 @@ for (const p of pages) {
 const files = {};
 for (const p of pages) files[`ui/pages/${p.path.slice("/circuit/".length)}.json`] = JSON.stringify(p, null, 1) + "\n";
 const docs = pages.map((p) => ({ ...p, text: JSON.stringify(p) }));
-const banner = (commit) => commit
-  ? ["-- ============================== COMMIT - THIS WRITES ==============================", "-- Byte-identical to the preflight twin except this banner and the terminal statement. The preflight is optional:",
-    "-- this file verifies everything inside its transaction and keeps nothing when a check fails."]
-  : ["-- ============================== PREFLIGHT - NOT A WRITE ==============================", "-- Byte-identical to the .commit twin except this banner and the terminal statement. Nothing is written.", "--"];
-const stop = (tag, why) => ["BEGIN", ` RAISERROR(N'${tag}: ${why.split("'").join("''")}',16,1);`, " ROLLBACK TRANSACTION;", " SET NOEXEC ON;", "END"];
-const body = [
-  "-- WHAT THIS DOES, in one transaction on the estate database: declares the wildlife application's eight pages as",
-  "-- ui-page-definition.v1 revision 1 through sidefx_ui.stage_ui_page, points each page at that revision through",
-  "-- sidefx_ui.promote_ui_page, and reads every page back through analysis.read_ui_page_document.",
-  `-- Pages: ${docs.map((d) => d.path).join(", ")}.`,
-  "-- They render in the SideFX shell once it carries the observe results (sfx-platform page-runtime.js); an older",
-  "-- shell shows their refusals instead of running anything. WHERE: the estate database (a few seconds).",
-  "-- RESULT SETS: base (existing 0); one STAGED and one PROMOTED row per page; verify (8 rows, digest_matches 1, read_status READ).",
-  "SET NOCOUNT ON;", "SET XACT_ABORT ON;", "BEGIN TRANSACTION;",
-  "DECLARE @pages TABLE(ordinal int PRIMARY KEY,page_id nvarchar(400) COLLATE Latin1_General_100_BIN2,path nvarchar(400) COLLATE Latin1_General_100_BIN2,",
-  " document nvarchar(max),digest char(64) COLLATE Latin1_General_100_BIN2);",
-  ...docs.map((d, i) => `INSERT @pages VALUES(${i + 1},${lit(d.pageId)},${lit(d.path)},${lit(d.text)},'${sha(d.text)}');`),
-  "DECLARE @existing int=(SELECT COUNT(*) FROM sidefx_ui.ui_page_definition d JOIN @pages p ON p.page_id=d.page_id COLLATE Latin1_General_100_BIN2 OR p.path=d.path COLLATE Latin1_General_100_BIN2);",
-  "DECLARE @layout int=(SELECT COUNT(*) FROM sidefx_ui.ui_layout_definition WHERE layout_id=N'" + LAYOUT.layoutId + "' AND digest='" + LAYOUT.digest + "');",
-  "SELECT N'base' AS result_set,@existing AS existing_pages,@layout AS layout_declared;",
-  "IF @existing<>0 OR @layout<>1",
-  ...stop("PAGES1_BASE", "a wildlife page or path is already declared, or the marketing layout is not the reviewed one; nothing is changed."),
-  "DECLARE @i int=1,@n int=(SELECT COUNT(*) FROM @pages),@id nvarchar(400),@path nvarchar(400),@doc nvarchar(max);",
-  "WHILE @i<=@n",
-  "BEGIN",
-  " SELECT @id=page_id,@path=path,@doc=document FROM @pages WHERE ordinal=@i;",
-  ` EXEC sidefx_ui.stage_ui_page @page_id=@id,@path=@path,@revision=1,@document_json=@doc,@namespace_id=N'sidefx:ui',@published_by=N'${PUBLISHER}';`,
-  ` EXEC sidefx_ui.promote_ui_page @candidate_revision=1,@expected_current_revision=NULL,@actor=N'${PUBLISHER}',@page_id=@id;`,
-  " SET @i+=1;",
-  "END",
-  "DECLARE @verify TABLE(ordinal int,path nvarchar(400),digest_matches int,read_status nvarchar(40));",
-  "SET @i=1;",
-  "WHILE @i<=@n",
-  "BEGIN",
-  " DECLARE @read nvarchar(max),@in nvarchar(max);",
-  " SELECT @path=path FROM @pages WHERE ordinal=@i;",
-  " SET @in=(SELECT @path AS [payload.path] FOR JSON PATH,WITHOUT_ARRAY_WRAPPER);",
-  " EXEC analysis.read_ui_page_document @input=@in,@estate_model_pk=NULL,@result=@read OUTPUT,@emit=0;",
-  " INSERT @verify SELECT p.ordinal,p.path,CASE WHEN d.digest COLLATE Latin1_General_100_BIN2=p.digest THEN 1 ELSE 0 END,JSON_VALUE(@read,N'$.status')",
-  "  FROM @pages p JOIN sidefx_ui.ui_current_page c ON c.page_id=p.page_id COLLATE Latin1_General_100_BIN2 AND c.revision=1",
-  "  JOIN sidefx_ui.ui_page_definition d ON d.page_id=c.page_id AND d.revision=1 WHERE p.ordinal=@i;",
-  " SET @i+=1;",
-  "END",
-  "SELECT N'verify' AS result_set,ordinal,path,digest_matches,read_status FROM @verify ORDER BY ordinal;",
-  "IF (SELECT COUNT(*) FROM @verify WHERE digest_matches=1 AND read_status=N'READ')<>@n",
-  ...stop("PAGES1_VERIFY_FAILED", "a page is not current at the reviewed digest or does not read back READ; nothing is kept.")
-];
-for (const commit of [false, true]) {
-  files[`sql/pages-1-estate${commit ? ".commit" : ""}.sql`] = [`-- pages-1-estate${commit ? ".commit" : ""}.sql`, "--", ...banner(commit), "--", ...body,
-    commit ? "COMMIT TRANSACTION;" : "ROLLBACK TRANSACTION;", "GO", "SET NOEXEC OFF;", ""].join("\n");
-}
 for (const [rel, content] of Object.entries(files)) {
   if (/[^\x09\x0a\x20-\x7e]/.test(content)) throw new Error(`${rel}: non-ASCII`);
   fs.mkdirSync(path.dirname(path.join(nerdery, rel)), { recursive: true });
   fs.writeFileSync(path.join(nerdery, rel), content);
 }
-const manifest = { generated: "2026-11-03", runtime: RUNTIME, pages: docs.map((d) => ({ path: d.path, pageId: d.pageId, sections: d.sections.length, digest: `sha256:${sha(d.text)}` })),
+const manifest = { generated: "2026-11-03", runtime: RUNTIME, pages: docs.map((d) => ({ path: d.path, pageId: d.pageId, revision: d.revision, sections: d.sections.length, digest: `sha256:${sha(d.text)}` })),
   files: Object.keys(files).map((f) => ({ file: `nerdery/${f}`, sha256: `sha256:${sha(files[f])}` })) };
 fs.writeFileSync(path.join(nerdery, "ui/manifest.json"), JSON.stringify(manifest, null, 1) + "\n");
 console.log(JSON.stringify(manifest.pages, null, 1));

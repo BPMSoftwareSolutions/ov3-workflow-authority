@@ -4,6 +4,8 @@
 // (the trusted boundary the fixture names) and reads the stored state back. Nothing is written to the database.
 //
 // usage: node run-cases.mjs <nerdery-canonical-features dir> <outBase> <gherkin node_modules> <capability-id>... [--case <id>]...
+//   A capability the package has no feature for is read from nerdery/features, and its arrangements from
+//   nerdery/fixtures/cases; the base state and media are always the package's.
 //   Storage faults are real failures of the store: a refused write (a CHECK constraint that rejects every row) for
 //   FAIL_BEFORE_COMMIT, an absent table for UNAVAILABLE. A case passes when every Then row holds and the stored state
 //   agrees: a refusal or a read leaves it unchanged, an applied mutation is read back as returned.
@@ -26,15 +28,18 @@ const read = (p) => fs.readFileSync(p, "utf8").replace(/\r\n/g, "\n");
 // ---------- the cases ----------
 const cases = [];
 for (const cap of caps) {
-  const dir = fs.existsSync(path.join(pkg, "features/mvp", cap + ".feature")) ? "mvp" : "offline-candidate";
+  const file = [path.join(pkg, "features/mvp", cap + ".feature"), path.join(pkg, "features/offline-candidate", cap + ".feature"),
+    path.join(here, "../features", cap + ".feature")].find((f) => fs.existsSync(f));
+  if (!file) throw new Error(`${cap}: no feature`);
+  const fixtures = file.startsWith(path.join(pkg, "features")) ? path.join(pkg, "fixtures/cases") : path.join(here, "../fixtures/cases");
   const id = IdGenerator.incrementing();
-  const doc = new gherkin.Parser(new gherkin.AstBuilder(id), new gherkin.GherkinClassicTokenMatcher()).parse(read(path.join(pkg, "features", dir, cap + ".feature")));
+  const doc = new gherkin.Parser(new gherkin.AstBuilder(id), new gherkin.GherkinClassicTokenMatcher()).parse(read(file));
   for (const p of gherkin.compile(doc, "f", id)) {
     const caseId = p.tags.find((t) => t.name.startsWith("@case:")).name.slice(6);
     if (only.length && !only.includes(caseId)) continue;
     const ds = p.steps.map((s) => s.argument && s.argument.docString).find((d) => d);
     const tbl = p.steps.map((s) => s.argument && s.argument.dataTable).find((t) => t);
-    const fx = JSON.parse(read(path.join(pkg, "fixtures/cases", caseId + ".json")));
+    const fx = JSON.parse(read(path.join(fixtures, caseId + ".json")));
     cases.push({ cap, caseId, request: JSON.parse(ds.content), fx, then: tbl.rows.slice(1).map((r) => r.cells.map((c) => c.value)) });
   }
 }

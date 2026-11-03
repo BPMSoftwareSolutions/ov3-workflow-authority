@@ -112,6 +112,38 @@ BEGIN
     FOR JSON PATH,WITHOUT_ARRAY_WRAPPER);
 END;
 GO
+CREATE OR ALTER PROCEDURE wildlife.view_collected_animal
+  @request nvarchar(max),@user_id nvarchar(100),@result nvarchar(max) OUTPUT
+WITH EXECUTE AS OWNER
+AS
+BEGIN
+  SET NOCOUNT ON;
+  DECLARE @contract nvarchar(100)=N'nerdery-view-collected-animal-result.v1',@code nvarchar(60)=NULL;
+  DECLARE @id nvarchar(100)=JSON_VALUE(@request,N'$.encounterId');
+  IF @user_id IS NULL SET @code=N'AUTHENTICATION_REQUIRED';
+  ELSE IF @id IS NULL OR LEN(@id)=0 SET @code=N'ENCOUNTER_SELECTION_REQUIRED';
+  -- D05: another user's individual is answered as not found, so its existence is not revealed.
+  ELSE IF NOT EXISTS(SELECT 1 FROM wildlife.encounter e WHERE e.owner_user_id=@user_id AND e.encounter_id=@id) SET @code=N'ENCOUNTER_NOT_FOUND';
+  IF @code IS NOT NULL
+  BEGIN
+    SET @result=(SELECT @contract AS contractId,N'REFUSED' AS status,JSON_QUERY((SELECT @code AS code FOR JSON PATH,WITHOUT_ARRAY_WRAPPER)) AS reason FOR JSON PATH,WITHOUT_ARRAY_WRAPPER);
+    RETURN;
+  END
+  -- D10: the individual is shown with the bytes of the owner's photo it was recorded with, base64 encoded by FOR JSON,
+  -- and the media type and digest kept at upload.
+  SET @result=(SELECT @contract AS contractId,N'VISIBLE' AS status,
+    JSON_QUERY((SELECT e.encounter_id AS encounterId,e.owner_user_id AS ownerUserId,e.definition_id AS definitionId,d.common_name AS commonName,
+        e.nickname AS nickname,ISNULL(e.nickname,d.common_name) AS displayName,JSON_QUERY(e.location_json) AS location,
+        JSON_QUERY((SELECT p.photo_ref AS photoRef,p.media_type AS mediaType,p.byte_length AS byteLength,
+            N'sha256:'+LOWER(CONVERT(varchar(64),p.content_sha256,2)) AS contentSha256,p.content_bytes AS contentBase64
+          FROM wildlife.photo p WHERE p.photo_ref=e.photo_ref AND p.owner_user_id=e.owner_user_id
+          FOR JSON PATH,WITHOUT_ARRAY_WRAPPER,INCLUDE_NULL_VALUES)) AS photo
+      FROM wildlife.encounter e JOIN wildlife.animal_definition d ON d.definition_id=e.definition_id
+      WHERE e.owner_user_id=@user_id AND e.encounter_id=@id
+      FOR JSON PATH,WITHOUT_ARRAY_WRAPPER,INCLUDE_NULL_VALUES)) AS animal
+    FOR JSON PATH,WITHOUT_ARRAY_WRAPPER);
+END;
+GO
 CREATE OR ALTER PROCEDURE wildlife.view_wildlife_home
   @request nvarchar(max),@user_id nvarchar(100),@result nvarchar(max) OUTPUT
 WITH EXECUTE AS OWNER
@@ -421,6 +453,7 @@ BEGIN
     IF @operation=N'nerdery-browse-animal-collection' EXEC wildlife.browse_animal_collection @request=@request,@user_id=@user_id,@result=@result OUTPUT;
     ELSE IF @operation=N'nerdery-view-animal-definition' EXEC wildlife.view_animal_definition @request=@request,@user_id=@user_id,@result=@result OUTPUT;
     ELSE IF @operation=N'nerdery-view-collected-animals' EXEC wildlife.view_collected_animals @request=@request,@user_id=@user_id,@result=@result OUTPUT;
+    ELSE IF @operation=N'nerdery-view-collected-animal' EXEC wildlife.view_collected_animal @request=@request,@user_id=@user_id,@result=@result OUTPUT;
     ELSE IF @operation=N'nerdery-view-wildlife-home' EXEC wildlife.view_wildlife_home @request=@request,@user_id=@user_id,@result=@result OUTPUT;
     ELSE IF @operation=N'nerdery-upload-encounter-photo' EXEC wildlife.upload_encounter_photo @request=@request,@user_id=@user_id,@result=@result OUTPUT;
     ELSE IF @operation=N'nerdery-record-animal-encounter' EXEC wildlife.record_animal_encounter @request=@request,@user_id=@user_id,@result=@result OUTPUT;
@@ -437,6 +470,7 @@ BEGIN
         WHEN N'nerdery-upload-encounter-photo' THEN N'PHOTO_STORAGE_UNAVAILABLE'
         WHEN N'nerdery-record-animal-encounter' THEN N'COLLECTION_STORAGE_UNAVAILABLE'
         WHEN N'nerdery-view-collected-animals' THEN N'COLLECTION_STORAGE_UNAVAILABLE'
+        WHEN N'nerdery-view-collected-animal' THEN N'COLLECTION_STORAGE_UNAVAILABLE'
         WHEN N'nerdery-set-animal-team' THEN N'TEAM_STORAGE_UNAVAILABLE'
         WHEN N'nerdery-view-wildlife-home' THEN N'TEAM_STORAGE_UNAVAILABLE'
         ELSE N'CATALOG_STORAGE_UNAVAILABLE' END AS code FOR JSON PATH,WITHOUT_ARRAY_WRAPPER)) AS reason,

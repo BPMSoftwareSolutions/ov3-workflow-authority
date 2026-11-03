@@ -5,48 +5,63 @@
   {
    "path": "/circuit/wildlife",
    "pageId": "ui-page-wildlife",
+   "revision": 1,
    "sections": 5,
    "digest": "sha256:193069c1cf3cb4fd7b2e3d4acbfefe346ea9241a97821170a0f448b132064bb3"
   },
   {
    "path": "/circuit/wildlife-collection",
    "pageId": "ui-page-wildlife-collection",
+   "revision": 1,
    "sections": 6,
    "digest": "sha256:cd4d5b5daa304fa1f96fa88c6f8aee027d9a4b8dca7813e528ef71aee3bb7f98"
   },
   {
    "path": "/circuit/wildlife-animal",
    "pageId": "ui-page-wildlife-animal",
+   "revision": 1,
    "sections": 7,
    "digest": "sha256:e5d17d9f8569d4b66bf7fb47ba5a4ad9ac63d4de7ee9dba8b08eb25645a777ae"
   },
   {
    "path": "/circuit/wildlife-capture",
    "pageId": "ui-page-wildlife-capture",
+   "revision": 1,
    "sections": 11,
    "digest": "sha256:012207fd9d5e72520902cca10edfbf43f41a4deb5795cf7db77d83d3a8fa6753"
   },
   {
    "path": "/circuit/wildlife-mine",
    "pageId": "ui-page-wildlife-mine",
+   "revision": 2,
    "sections": 5,
-   "digest": "sha256:4610946505f48000ca9a781114f66993f1552b7dc4535e3e36978310ddb5919b"
+   "digest": "sha256:17ae6f9c171c4902d574e63670baf56c51edbbfcf20699f087c8cb5272259a0e"
+  },
+  {
+   "path": "/circuit/wildlife-individual",
+   "pageId": "ui-page-wildlife-individual",
+   "revision": 1,
+   "sections": 6,
+   "digest": "sha256:bbf4d443ef54562fda5c86f5cf563d7a6db2f2c879124f730da741d73a891597"
   },
   {
    "path": "/circuit/wildlife-team",
    "pageId": "ui-page-wildlife-team",
+   "revision": 1,
    "sections": 9,
    "digest": "sha256:303b4960089c7887a6161b8224c32616bb22797b352a79b1e6dcdc31c9f6d263"
   },
   {
    "path": "/circuit/wildlife-home",
    "pageId": "ui-page-wildlife-home",
+   "revision": 1,
    "sections": 6,
    "digest": "sha256:82dc35d5183782dcc8d8f4afc504832aaf262912d690dfd78617e026f5473ae2"
   },
   {
    "path": "/circuit/wildlife-refusals",
    "pageId": "ui-page-wildlife-refusals",
+   "revision": 1,
    "sections": 8,
    "digest": "sha256:51ce3a5db173b36c8a1607aee5d43c9073cadda574cf94bec40df9c8df145e3b"
   }
@@ -70,7 +85,11 @@
   },
   {
    "file": "nerdery/ui/pages/wildlife-mine.json",
-   "sha256": "sha256:6fb6c82f697fa33ae2d92739779f4c198923963c06e75d6be9a8ba1225b17c03"
+   "sha256": "sha256:78ff492410c1003f745a8c0496a0e006afeb0859e8ebc03820059a3b01593698"
+  },
+  {
+   "file": "nerdery/ui/pages/wildlife-individual.json",
+   "sha256": "sha256:3969f18374440556346de1e5a6c8c1b6a0e79792ddb6a491bd13ebfb9754325b"
   },
   {
    "file": "nerdery/ui/pages/wildlife-team.json",
@@ -83,14 +102,6 @@
   {
    "file": "nerdery/ui/pages/wildlife-refusals.json",
    "sha256": "sha256:3b419d7bfecbf2a207274fa0234f1b9625fb1f44b4d7c7f34c273db690635285"
-  },
-  {
-   "file": "nerdery/sql/pages-1-estate.sql",
-   "sha256": "sha256:9e4509167d5020849f23f5c02a72bb02303238d3cad4491ae28f6a4f324a5022"
-  },
-  {
-   "file": "nerdery/sql/pages-1-estate.commit.sql",
-   "sha256": "sha256:6f447b354fca6e9e13f980d6ae59b284392d64baeeafaafe6aede5dbee3ad034"
   }
  ]
 }
