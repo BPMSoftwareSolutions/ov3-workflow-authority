@@ -1,0 +1,202 @@
+[
+ {
+  "name": "nerdery-browse-animal-collection compiles against its feature",
+  "source": "nerdery/dsl/nerdery-browse-animal-collection.dsl",
+  "retain": [
+   "nerdery/features/nerdery-browse-animal-collection.feature"
+  ],
+  "expect": [
+   [
+    "$.status",
+    "COMPILED"
+   ],
+   [
+    "$.document.feature.digest",
+    "sha256:dc19f2defcd1b0dcc5beead0fe42a0976336238216422d87397ccbcfcb7588c5"
+   ],
+   [
+    "$.document.scenarios[0].operations[4].operationId",
+    "nerdery-browse-animal-collection.browse"
+   ],
+   [
+    "$.document.scenarios[0].operations[4].providerCapabilityId",
+    "sql-database-reader"
+   ]
+  ]
+ },
+ {
+  "name": "nerdery-view-animal-definition compiles against its feature",
+  "source": "nerdery/dsl/nerdery-view-animal-definition.dsl",
+  "retain": [
+   "nerdery/features/nerdery-view-animal-definition.feature"
+  ],
+  "expect": [
+   [
+    "$.status",
+    "COMPILED"
+   ],
+   [
+    "$.document.feature.digest",
+    "sha256:2b4c55fd4f28e46b17394b620ba9b9d78f854557b4c85a909989023a036472c5"
+   ],
+   [
+    "$.document.scenarios[0].operations[4].operationId",
+    "nerdery-view-animal-definition.view"
+   ],
+   [
+    "$.document.scenarios[0].operations[4].providerCapabilityId",
+    "sql-database-reader"
+   ]
+  ]
+ },
+ {
+  "name": "nerdery-upload-encounter-photo compiles against its feature",
+  "source": "nerdery/dsl/nerdery-upload-encounter-photo.dsl",
+  "retain": [
+   "nerdery/features/nerdery-upload-encounter-photo.feature"
+  ],
+  "expect": [
+   [
+    "$.status",
+    "COMPILED"
+   ],
+   [
+    "$.document.feature.digest",
+    "sha256:38e58430acc3a39e88078f4a71000dacb3d585124a7a0cef2f906bcb35716de5"
+   ],
+   [
+    "$.document.scenarios[0].operations[4].operationId",
+    "nerdery-upload-encounter-photo.upload"
+   ],
+   [
+    "$.document.scenarios[0].operations[4].providerCapabilityId",
+    "sql-database-reader"
+   ]
+  ]
+ },
+ {
+  "name": "nerdery-record-animal-encounter compiles against its feature",
+  "source": "nerdery/dsl/nerdery-record-animal-encounter.dsl",
+  "retain": [
+   "nerdery/features/nerdery-record-animal-encounter.feature"
+  ],
+  "expect": [
+   [
+    "$.status",
+    "COMPILED"
+   ],
+   [
+    "$.document.feature.digest",
+    "sha256:df6cea9ceb5ce4d6a63755f8c42e80bc285191fecc18598e695ab6bd73e03a23"
+   ],
+   [
+    "$.document.scenarios[0].operations[4].operationId",
+    "nerdery-record-animal-encounter.record"
+   ],
+   [
+    "$.document.scenarios[0].operations[4].providerCapabilityId",
+    "sql-database-reader"
+   ]
+  ]
+ },
+ {
+  "name": "nerdery-view-collected-animals compiles against its feature",
+  "source": "nerdery/dsl/nerdery-view-collected-animals.dsl",
+  "retain": [
+   "nerdery/features/nerdery-view-collected-animals.feature"
+  ],
+  "expect": [
+   [
+    "$.status",
+    "COMPILED"
+   ],
+   [
+    "$.document.feature.digest",
+    "sha256:a8f1920e6569b46ab5924fe841bebd5cc63a0993accb26f5a2e78cd20bcd835c"
+   ],
+   [
+    "$.document.scenarios[0].operations[4].operationId",
+    "nerdery-view-collected-animals.view"
+   ],
+   [
+    "$.document.scenarios[0].operations[4].providerCapabilityId",
+    "sql-database-reader"
+   ]
+  ]
+ },
+ {
+  "name": "nerdery-set-animal-team compiles against its feature",
+  "source": "nerdery/dsl/nerdery-set-animal-team.dsl",
+  "retain": [
+   "nerdery/features/nerdery-set-animal-team.feature"
+  ],
+  "expect": [
+   [
+    "$.status",
+    "COMPILED"
+   ],
+   [
+    "$.document.feature.digest",
+    "sha256:6dd6c439568c45a7b63b8ad2745ac200f73c3d6d45e043d06b858cf0926048d2"
+   ],
+   [
+    "$.document.scenarios[0].operations[4].operationId",
+    "nerdery-set-animal-team.set"
+   ],
+   [
+    "$.document.scenarios[0].operations[4].providerCapabilityId",
+    "sql-database-reader"
+   ]
+  ]
+ },
+ {
+  "name": "nerdery-view-wildlife-home compiles against its feature",
+  "source": "nerdery/dsl/nerdery-view-wildlife-home.dsl",
+  "retain": [
+   "nerdery/features/nerdery-view-wildlife-home.feature"
+  ],
+  "expect": [
+   [
+    "$.status",
+    "COMPILED"
+   ],
+   [
+    "$.document.feature.digest",
+    "sha256:d91ded8a312cb3eca7c69a6004026db720227bfb8582623674705d6dfe7e4bc4"
+   ],
+   [
+    "$.document.scenarios[0].operations[4].operationId",
+    "nerdery-view-wildlife-home.view"
+   ],
+   [
+    "$.document.scenarios[0].operations[4].providerCapabilityId",
+    "sql-database-reader"
+   ]
+  ]
+ },
+ {
+  "name": "nerdery-add-animal-definition compiles against its feature",
+  "source": "nerdery/dsl/nerdery-add-animal-definition.dsl",
+  "retain": [
+   "nerdery/features/nerdery-add-animal-definition.feature"
+  ],
+  "expect": [
+   [
+    "$.status",
+    "COMPILED"
+   ],
+   [
+    "$.document.feature.digest",
+    "sha256:cecfea79150494650b84f119ec59e26c742c7bc3822601f831aaf17ee1b2c4f2"
+   ],
+   [
+    "$.document.scenarios[0].operations[4].operationId",
+    "nerdery-add-animal-definition.add"
+   ],
+   [
+    "$.document.scenarios[0].operations[4].providerCapabilityId",
+    "sql-database-reader"
+   ]
+  ]
+ }
+]

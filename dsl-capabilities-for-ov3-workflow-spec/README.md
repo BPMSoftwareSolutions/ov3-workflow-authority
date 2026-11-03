@@ -1,6 +1,7 @@
 # DSL capabilities for the OV3 workflow-authority specification
 
 **Status, 2026-11-02:**
+- **The Nerdery wildlife application, citizen slice (Phase B's first slice): BUILT and PROVEN read-only; your SQL is ready (`nrd-01` to `nrd-03`, after Part 3).** All 77 cases of its eight capabilities pass, and every DSL compiles against its finalized canonical feature. See [nerdery/README.md](nerdery/README.md).
 - **Part 3 (feature first, installed): BUILT and PROBED read-only; your SQL is ready (`dsl-06` to `dsl-11`). Nothing is installed yet.** See [Part 3](#part-3-feature-first-installed).
   - The compiler's `feature`, `uses provider`, `input … from` and `outcome from` lines: all 11 cases of its feature are met.
   - The check compares each operation's provider with the `@provider` tags, and checks a feature against a compiled document before anything is declared. All 57 probed cases are met.

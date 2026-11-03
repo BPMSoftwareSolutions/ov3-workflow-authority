@@ -1,0 +1,236 @@
+{
+ "note": "DRAFT for review: the operations to add to sidefx-api-interface.v1 (sidefx:authorities) so a browser reaches the slice with the caller bound by the frontdoor. Not installed; the writer of that authority is still to be identified.",
+ "operations": [
+  {
+   "operationId": "wildlife-browse-collection",
+   "method": "GET",
+   "path": "/wildlife/collection",
+   "callers": [
+    "user"
+   ],
+   "resolves": {
+    "kind": "capability",
+    "capabilityId": "nerdery-browse-animal-collection",
+    "outputContractId": "nerdery-browse-animal-collection-result.v1"
+   },
+   "input": {
+    "caller": {
+     "principalId": "$caller.principalId",
+     "sessionId": "$caller.sessionId"
+    },
+    "request": {
+     "search": "$query.search"
+    }
+   },
+   "meaning": "Browse and search the animal-definition collection for the signed-in user; uncollected entries carry only the four permitted properties.",
+   "segments": {
+    "0": "",
+    "1": "sfx",
+    "2": "v1",
+    "3": "wildlife",
+    "4": "collection"
+   }
+  },
+  {
+   "operationId": "wildlife-view-animal",
+   "method": "GET",
+   "path": "/wildlife/animals/{definitionId}",
+   "callers": [
+    "user"
+   ],
+   "resolves": {
+    "kind": "capability",
+    "capabilityId": "nerdery-view-animal-definition",
+    "outputContractId": "nerdery-view-animal-definition-result.v1"
+   },
+   "input": {
+    "caller": {
+     "principalId": "$caller.principalId",
+     "sessionId": "$caller.sessionId"
+    },
+    "request": {
+     "definitionId": "$path.definitionId"
+    }
+   },
+   "meaning": "Read one animal definition with the information the signed-in user has unlocked.",
+   "segments": {
+    "0": "",
+    "1": "sfx",
+    "2": "v1",
+    "3": "wildlife",
+    "4": "animals",
+    "5": {
+     "param": "definitionId"
+    }
+   }
+  },
+  {
+   "operationId": "wildlife-upload-photo",
+   "method": "POST",
+   "path": "/wildlife/photos",
+   "callers": [
+    "user"
+   ],
+   "resolves": {
+    "kind": "capability",
+    "capabilityId": "nerdery-upload-encounter-photo",
+    "outputContractId": "nerdery-upload-encounter-photo-result.v1"
+   },
+   "input": {
+    "caller": {
+     "principalId": "$caller.principalId",
+     "sessionId": "$caller.sessionId"
+    },
+    "request": "$body"
+   },
+   "meaning": "Retain an encounter photo for the signed-in user; retaining it is not verification.",
+   "segments": {
+    "0": "",
+    "1": "sfx",
+    "2": "v1",
+    "3": "wildlife",
+    "4": "photos"
+   }
+  },
+  {
+   "operationId": "wildlife-record-encounter",
+   "method": "POST",
+   "path": "/wildlife/encounters",
+   "callers": [
+    "user"
+   ],
+   "resolves": {
+    "kind": "capability",
+    "capabilityId": "nerdery-record-animal-encounter",
+    "outputContractId": "nerdery-record-animal-encounter-result.v1"
+   },
+   "input": {
+    "caller": {
+     "principalId": "$caller.principalId",
+     "sessionId": "$caller.sessionId"
+    },
+    "request": "$body"
+   },
+   "meaning": "Record an animal encounter of the signed-in user; the encounterId is the retry key.",
+   "segments": {
+    "0": "",
+    "1": "sfx",
+    "2": "v1",
+    "3": "wildlife",
+    "4": "encounters"
+   }
+  },
+  {
+   "operationId": "wildlife-view-individuals",
+   "method": "GET",
+   "path": "/wildlife/individuals",
+   "callers": [
+    "user"
+   ],
+   "resolves": {
+    "kind": "capability",
+    "capabilityId": "nerdery-view-collected-animals",
+    "outputContractId": "nerdery-view-collected-animals-result.v1"
+   },
+   "input": {
+    "caller": {
+     "principalId": "$caller.principalId",
+     "sessionId": "$caller.sessionId"
+    },
+    "request": {}
+   },
+   "meaning": "Read the individual animals the signed-in user has recorded.",
+   "segments": {
+    "0": "",
+    "1": "sfx",
+    "2": "v1",
+    "3": "wildlife",
+    "4": "individuals"
+   }
+  },
+  {
+   "operationId": "wildlife-set-team",
+   "method": "PUT",
+   "path": "/wildlife/team",
+   "callers": [
+    "user"
+   ],
+   "resolves": {
+    "kind": "capability",
+    "capabilityId": "nerdery-set-animal-team",
+    "outputContractId": "nerdery-set-animal-team-result.v1"
+   },
+   "input": {
+    "caller": {
+     "principalId": "$caller.principalId",
+     "sessionId": "$caller.sessionId"
+    },
+    "request": "$body"
+   },
+   "meaning": "Replace the signed-in user team of up to six of their own individuals at the expected revision.",
+   "segments": {
+    "0": "",
+    "1": "sfx",
+    "2": "v1",
+    "3": "wildlife",
+    "4": "team"
+   }
+  },
+  {
+   "operationId": "wildlife-view-home",
+   "method": "GET",
+   "path": "/wildlife/home",
+   "callers": [
+    "user"
+   ],
+   "resolves": {
+    "kind": "capability",
+    "capabilityId": "nerdery-view-wildlife-home",
+    "outputContractId": "nerdery-view-wildlife-home-result.v1"
+   },
+   "input": {
+    "caller": {
+     "principalId": "$caller.principalId",
+     "sessionId": "$caller.sessionId"
+    },
+    "request": {}
+   },
+   "meaning": "Read the signed-in user team for the home page.",
+   "segments": {
+    "0": "",
+    "1": "sfx",
+    "2": "v1",
+    "3": "wildlife",
+    "4": "home"
+   }
+  },
+  {
+   "operationId": "wildlife-add-animal",
+   "method": "POST",
+   "path": "/wildlife/animals",
+   "callers": [
+    "user"
+   ],
+   "resolves": {
+    "kind": "capability",
+    "capabilityId": "nerdery-add-animal-definition",
+    "outputContractId": "nerdery-add-animal-definition-result.v1"
+   },
+   "input": {
+    "caller": {
+     "principalId": "$caller.principalId",
+     "sessionId": "$caller.sessionId"
+    },
+    "request": "$body"
+   },
+   "meaning": "Add an animal definition; a biologist role is required.",
+   "segments": {
+    "0": "",
+    "1": "sfx",
+    "2": "v1",
+    "3": "wildlife",
+    "4": "animals"
+   }
+  }
+ ]
+}
