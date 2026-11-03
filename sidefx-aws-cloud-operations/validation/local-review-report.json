@@ -1,0 +1,28 @@
+{
+  "testType": "local-review-structure-only.v1",
+  "generatedAt": "2026-11-03",
+  "disposition": "LOCAL_STRUCTURAL_PASS",
+  "notSidefxEstateConformance": true,
+  "notAwsEvidence": true,
+  "notRuntimeProof": true,
+  "featureCount": 14,
+  "acceptanceCaseCount": 91,
+  "assertionCount": 242,
+  "fixtureCount": 91,
+  "statusTags": {
+    "not-built": 91,
+    "proven": 0
+  },
+  "checks": [
+    "each feature exact 10 canonical identity tags",
+    "every acceptance case has own identity and JSON request",
+    "exact primary Given/When/Then repeated across cases",
+    "case uniqueness",
+    "fixture bytes SHA256 pinned",
+    "result status declared as terminal variant",
+    "no @status:proven claims",
+    "provider capability tags not invented",
+    "all AWS documentation reference IDs resolved"
+  ],
+  "errors": []
+}

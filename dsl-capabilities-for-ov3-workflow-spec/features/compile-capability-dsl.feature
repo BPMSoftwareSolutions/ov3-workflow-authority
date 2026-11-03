@@ -176,16 +176,24 @@ Feature: Compile capability DSL into the declared document, or refuse with named
       And the source pins them with "feature dsl02-probe-feature-first sha256:a27afaf6...", names its provider with "uses provider sql-database-reader" and takes its outcome with "outcome from dsl02-probe-feature-first.read $"
       When the resolver parses every line and validates the whole document
       Then the compiled capability document with its digests, or the named DSL_* refusals with line numbers
-        | operation                      | path                                                       | equals                                                                  |
-        | compile-capability-dsl.compile | $.status                                                   | COMPILED                                                                |
-        | compile-capability-dsl.compile | $.document.feature.capabilityId                            | dsl02-probe-feature-first                                               |
-        | compile-capability-dsl.compile | $.document.feature.digest                                  | sha256:a27afaf641cbb246f8c330346bce96f9731c1bed1ab6408341414daf7881addc |
-        | compile-capability-dsl.compile | $.document.scenarios[0].operations[4].operationId          | dsl02-probe-feature-first.read                                          |
-        | compile-capability-dsl.compile | $.document.scenarios[0].operations[4].providerCapabilityId | sql-database-reader                                                     |
-        | compile-capability-dsl.compile | $.document.scenarios[0].operations[8].operationId          | dsl02-probe-feature-first.outcome                                       |
-        | compile-capability-dsl.compile | $.documentDigest                                           | sha256:74acfefad613ef94ada2048aefa7bd47f076d5a20becf30fe413170a837e9aec |
-      # Run 41a325bf. Operations 0 to 3 are the vault, credential, open and composing statement the provider operation
-      # compiles to, and 5 to 8 the outcome's. The source conforms to the feature's bytes, so the check found no drift.
+        | operation                      | path                                                                 | equals                                                                  |
+        | compile-capability-dsl.compile | $.status                                                             | COMPILED                                                                |
+        | compile-capability-dsl.compile | $.document.feature.capabilityId                                      | dsl02-probe-feature-first                                               |
+        | compile-capability-dsl.compile | $.document.feature.digest                                            | sha256:a27afaf641cbb246f8c330346bce96f9731c1bed1ab6408341414daf7881addc |
+        | compile-capability-dsl.compile | $.document.scenarios[0].operations[4].operationId                    | dsl02-probe-feature-first.read                                          |
+        | compile-capability-dsl.compile | $.document.scenarios[0].operations[4].providerCapabilityId           | sql-database-reader                                                     |
+        | compile-capability-dsl.compile | $.document.scenarios[0].operations[8].operationId                    | dsl02-probe-feature-first.outcome                                       |
+        | compile-capability-dsl.compile | $.document.scenarios[0].portBindings[2].platformCapabilityId         | sfx-vault-reference-carry-port.v1                                       |
+        | compile-capability-dsl.compile | $.document.scenarios[0].portBindings[7].platformCapabilityId         | sfx-vault-reference-carry-port.v1                                       |
+        | compile-capability-dsl.compile | $.document.scenarios[0].portBindings[3].configuration.commandTimeout | 30                                                                      |
+        | compile-capability-dsl.compile | $.document.scenarios[0].portBindings[8].configuration.commandTimeout | 30                                                                      |
+        | compile-capability-dsl.compile | $.documentDigest                                                     | sha256:a156c4c882a42b95866bb907a262d45b5f61f07d05833f5e43a54769d4bae066 |
+      # Run 1d307448. Operations 0 to 3 are the vault, credential, open and composing statement the provider operation
+      # compiles to, and 5 to 8 the outcome's, bound as the estate's PORT definitions bind every statement chain: the open
+      # port carries the vault and credential reference on to the statement, which opens the credential itself, and each
+      # statement has its command timeout. With the opening port the first call fails DECLARED_PROVIDER_TARGET_MISSING:vault
+      # (run d37c4351); without the timeout, DECLARED_PROVIDER_CONFIGURATION_VALUE_MISSING:commandTimeout (run 53ad6ca6). The
+      # source conforms to the feature's bytes, so the check found no drift.
 
     @case:compile-feature-pin-unretained
     @status:probed

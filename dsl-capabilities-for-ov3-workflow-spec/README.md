@@ -1,8 +1,17 @@
 # DSL capabilities for the OV3 workflow-authority specification
 
-**Status, 2026-11-02:**
-- **The Nerdery wildlife application, citizen slice (Phase B's first slice): BUILT and PROVEN read-only; your SQL is ready (`nrd-01` to `nrd-03`, after Part 3).** All 77 cases of its eight capabilities pass, and every DSL compiles against its finalized canonical feature. See [nerdery/README.md](nerdery/README.md).
-- **Part 3 (feature first, installed): BUILT and PROBED read-only; your SQL is ready (`dsl-06` to `dsl-11`). Nothing is installed yet.** See [Part 3](#part-3-feature-first-installed).
+**Status, 2026-11-03, 01:15 EST:**
+- **The Nerdery wildlife application, citizen slice (Phase B's first slice): DECLARED, but its first live call FAILED. The repair is ready: two SQL files and one OV3 flight.**
+  - `nerdery/sql/fast-1-estate`, `fast-2-identity` and flight `9810b9af` (20 of 20 steps, 22:15–22:30 EST) installed Part 3, then declared the check and the eight slice capabilities.
+  - The first call (run `53ad6ca6`) failed at the compiled composing statement with `DECLARED_PROVIDER_CONFIGURATION_VALUE_MISSING:commandTimeout`. The compiler's provider expansion left out the timeout that `sfx-estate-run-statement-port.v1` requires.
+  - See [nerdery/README.md](nerdery/README.md).
+- **Part 3 (feature first, installed): INSTALLED on 2026-11-03 by `nerdery/sql/fast-1-estate` and flight `9810b9af`.** See [Part 3](#part-3-feature-first-installed).
+  - The installed compiler and author path bodies are the reviewed ones (run `bfb09aa2`). The check is installed (definition `sha256:ffd7c3a9…`) and declared.
+  - `dsl-06` to `dsl-11` were never run and are superseded.
+  - The provider expansion is repaired in [source/analysis.compile_capability_dsl.v3.sql](source/analysis.compile_capability_dsl.v3.sql): both of its statements now carry `commandTimeout` 30. `nerdery/sql/repair-1-estate` installs it.
+  - [features/compile-capability-dsl.feature](features/compile-capability-dsl.feature) now asserts that timeout. The check's own feature still pins the previous compile feature (`sha256:7f758d75…`), so these two are revised together next:
+    - the check's feature;
+    - `check-capability-feature-conformance`, whose declared document also lacks the timeout. Nothing runs it as a capability; the author path calls its procedure.
   - The compiler's `feature`, `uses provider`, `input … from` and `outcome from` lines: all 11 cases of its feature are met.
   - The check compares each operation's provider with the `@provider` tags, and checks a feature against a compiled document before anything is declared. All 57 probed cases are met.
   - The author path binds the feature a source pins and commits only when the check finds the binding `CONFORMANT`.

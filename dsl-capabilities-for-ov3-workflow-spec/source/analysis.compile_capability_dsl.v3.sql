@@ -233,7 +233,7 @@ BEGIN
             INSERT @bindings(scenario_ordinal,port_id,form,platform_id,config_json,bind_line,platform_line)
               VALUES(@cur_scenario,@pop_base+N'-credential',N'platform',N'sfx-estate-credential-port.v1',N'{"providerId":"sfx-estate-database-credential","dependency":{"objectKind":"DEPENDENCY","namespace":"sidefx:dependencies","id":"sfx-estate-database"}}',@i,@i);
             INSERT @bindings(scenario_ordinal,port_id,form,platform_id,config_json,bind_line,platform_line)
-              VALUES(@cur_scenario,@pop_base+N'-open',N'platform',N'sfx-vault-reference-open-port.v1',N'{"providerId":"sfx-vault-secret-service-reference","dependency":{"objectKind":"DEPENDENCY","namespace":"sidefx:dependencies","id":"sfx-vault-secret-service"}}',@i,@i);
+              VALUES(@cur_scenario,@pop_base+N'-open',N'platform',N'sfx-vault-reference-carry-port.v1',N'{"providerId":"sfx-vault-secret-service-reference-carry","dependency":{"objectKind":"DEPENDENCY","namespace":"sidefx:dependencies","id":"sfx-vault-secret-service"}}',@i,@i);
             INSERT @bindings(scenario_ordinal,port_id,form,platform_id,config_json,bind_line,platform_line)
               VALUES(@cur_scenario,@pop_base+N'-compose',N'platform',N'sfx-estate-run-statement-port.v1',NULL,@i,@i);
             DECLARE @pop_compose int=SCOPE_IDENTITY();
@@ -669,7 +669,7 @@ BEGIN
         INSERT @bindings(scenario_ordinal,port_id,form,platform_id,config_json,bind_line,platform_line)
           VALUES(@cur_scenario,@oc_base+N'-credential',N'platform',N'sfx-estate-credential-port.v1',N'{"providerId":"sfx-estate-database-credential","dependency":{"objectKind":"DEPENDENCY","namespace":"sidefx:dependencies","id":"sfx-estate-database"}}',@i,@i);
         INSERT @bindings(scenario_ordinal,port_id,form,platform_id,config_json,bind_line,platform_line)
-          VALUES(@cur_scenario,@oc_base+N'-open',N'platform',N'sfx-vault-reference-open-port.v1',N'{"providerId":"sfx-vault-secret-service-reference","dependency":{"objectKind":"DEPENDENCY","namespace":"sidefx:dependencies","id":"sfx-vault-secret-service"}}',@i,@i);
+          VALUES(@cur_scenario,@oc_base+N'-open',N'platform',N'sfx-vault-reference-carry-port.v1',N'{"providerId":"sfx-vault-secret-service-reference-carry","dependency":{"objectKind":"DEPENDENCY","namespace":"sidefx:dependencies","id":"sfx-vault-secret-service"}}',@i,@i);
         INSERT @bindings(scenario_ordinal,port_id,form,platform_id,config_json,bind_line,platform_line)
           VALUES(@cur_scenario,@oc_base,N'platform',N'sfx-estate-run-statement-port.v1',NULL,@i,@i);
         INSERT @scenario_outcomes(scenario_ordinal,source_ref,json_path,first_ordinal,op_ordinal,stmt_binding,line_no)
@@ -950,18 +950,20 @@ BEGIN
   BEGIN
     SET @status=N'COMPILED';
     -- Each provider operation's composing statement builds the dispatch the generic invocation reads: the provider, its
-    -- root scenario and its request, the config: members as written and each input member from its path.
-    UPDATE b SET config_json=JSON_MODIFY(JSON_MODIFY(N'{"providerId":"sfx-estate-database-run-statement","dependency":{"objectKind":"DEPENDENCY","namespace":"sidefx:dependencies","id":"sfx-estate-database"}}',N'$.statement',
+    -- root scenario and its request, the config: members as written and each input member from its path. Both statements
+    -- carry the command timeout the run-statement port requires (DECLARED_PROVIDER_CONFIGURATION_VALUE_MISSING without it),
+    -- 30 seconds as the estate's own composing statements declare it.
+    UPDATE b SET config_json=JSON_MODIFY(JSON_MODIFY(JSON_MODIFY(N'{"providerId":"sfx-estate-database-run-statement","dependency":{"objectKind":"DEPENDENCY","namespace":"sidefx:dependencies","id":"sfx-estate-database"}}',N'$.statement',
         N'DECLARE @r nvarchar(max)=N'''+REPLACE(ISNULL(p.config_json,N'{}'),N'''',N'''''')+N''';'
         +ISNULL((SELECT STRING_AGG(CONVERT(nvarchar(max),N' SET @r=CASE WHEN JSON_QUERY(@input,N'''+i.carrier_path+N''') IS NOT NULL THEN JSON_MODIFY(@r,N''$."'
           +i.member COLLATE DATABASE_DEFAULT+N'"'',JSON_QUERY(@input,N'''+i.carrier_path+N''')) ELSE JSON_MODIFY(@r,N''$."'+i.member COLLATE DATABASE_DEFAULT
           +N'"'',JSON_VALUE(@input,N'''+i.carrier_path+N''')) END;'),N'') WITHIN GROUP (ORDER BY i.ordinal) FROM @provider_inputs i WHERE i.op_ordinal=p.op_ordinal),N'')
         +N' SELECT (SELECT N'''+p.provider_id COLLATE DATABASE_DEFAULT+N''' AS executionTarget,N''sidefx:capabilities'' AS executionNamespace,N'''
         +p.provider_scenario+N''' AS executionScenario,N''json'' AS inputType,JSON_QUERY(@r) AS dispatchRequest FOR JSON PATH,WITHOUT_ARRAY_WRAPPER) AS value;'),
-      N'$.resultColumn',N'value')
+      N'$.resultColumn',N'value'),N'$.commandTimeout',30)
     FROM @bindings b JOIN @provider_ops p ON p.compose_binding=b.ordinal;
-    UPDATE b SET config_json=JSON_MODIFY(JSON_MODIFY(N'{"providerId":"sfx-estate-database-run-statement","dependency":{"objectKind":"DEPENDENCY","namespace":"sidefx:dependencies","id":"sfx-estate-database"}}',N'$.statement',
-        N'SELECT JSON_QUERY(@input,N'''+so.carrier_path+N''') AS value;'),N'$.resultColumn',N'value')
+    UPDATE b SET config_json=JSON_MODIFY(JSON_MODIFY(JSON_MODIFY(N'{"providerId":"sfx-estate-database-run-statement","dependency":{"objectKind":"DEPENDENCY","namespace":"sidefx:dependencies","id":"sfx-estate-database"}}',N'$.statement',
+        N'SELECT JSON_QUERY(@input,N'''+so.carrier_path+N''') AS value;'),N'$.resultColumn',N'value'),N'$.commandTimeout',30)
     FROM @bindings b JOIN @scenario_outcomes so ON so.stmt_binding=b.ordinal;
     UPDATE o SET variants_json=(SELECT STRING_AGG(CONVERT(nvarchar(max),N'{"variantId":"'+ov.variant_id COLLATE DATABASE_DEFAULT+N'","classification":"'+ov.classification+N'"'
         +CASE WHEN ov.is_terminal=1 THEN N',"terminal":true' ELSE N'' END+N'}'),N',') WITHIN GROUP (ORDER BY ov.ordinal)

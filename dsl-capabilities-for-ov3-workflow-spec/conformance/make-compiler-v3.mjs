@@ -16,10 +16,15 @@ const edit = (anchor, replacement) => {
   t = t.replace(anchor, () => replacement);
 };
 
-// The vault, credential and open ports every statement port needs, as the estate binds them.
+// The vault, credential and open ports every statement port needs, as the estate's PORT definitions bind them: the kernel
+// runs those, not a document's portBindings. The open port carries its input on (sfx-vault-reference-carry-port.v1),
+// because the run-statement provider opens the credential itself from vault, credentialReference, keyReference and
+// keyService; the opening port (sfx-vault-reference-open-port.v1) replaces them with the secret, and the statement then
+// fails DECLARED_PROVIDER_TARGET_MISSING:vault (run d37c4351). Only read-vault-credential still opens.
 const VAULT = String.raw`{"providerId":"sfx-vault-file-host","dependency":{"objectKind":"DEPENDENCY","namespace":"sidefx:dependencies","id":"sfx-vault-file"}}`;
 const CREDENTIAL = String.raw`{"providerId":"sfx-estate-database-credential","dependency":{"objectKind":"DEPENDENCY","namespace":"sidefx:dependencies","id":"sfx-estate-database"}}`;
-const OPEN = String.raw`{"providerId":"sfx-vault-secret-service-reference","dependency":{"objectKind":"DEPENDENCY","namespace":"sidefx:dependencies","id":"sfx-vault-secret-service"}}`;
+const OPEN_PLATFORM = "sfx-vault-reference-carry-port.v1";
+const OPEN = String.raw`{"providerId":"sfx-vault-secret-service-reference-carry","dependency":{"objectKind":"DEPENDENCY","namespace":"sidefx:dependencies","id":"sfx-vault-secret-service"}}`;
 const STATEMENT = String.raw`{"providerId":"sfx-estate-database-run-statement","dependency":{"objectKind":"DEPENDENCY","namespace":"sidefx:dependencies","id":"sfx-estate-database"}}`;
 const INVOKE = String.raw`{"providerId":"ScenarioKernel.NodePlatform","authoritySource":"DATABASE","capabilityIdPath":"executionTarget","namespacePath":"executionNamespace","scenarioPath":"executionScenario","requestPath":"dispatchRequest","resultPath":"result","lineageMode":"retain-nested-execution"}`;
 
@@ -110,7 +115,7 @@ edit(String.raw`        ELSE IF @rest NOT LIKE N'kind % port %' AND @rest NOT LI
             INSERT @bindings(scenario_ordinal,port_id,form,platform_id,config_json,bind_line,platform_line)
               VALUES(@cur_scenario,@pop_base+N'-credential',N'platform',N'sfx-estate-credential-port.v1',N'${CREDENTIAL}',@i,@i);
             INSERT @bindings(scenario_ordinal,port_id,form,platform_id,config_json,bind_line,platform_line)
-              VALUES(@cur_scenario,@pop_base+N'-open',N'platform',N'sfx-vault-reference-open-port.v1',N'${OPEN}',@i,@i);
+              VALUES(@cur_scenario,@pop_base+N'-open',N'platform',N'${OPEN_PLATFORM}',N'${OPEN}',@i,@i);
             INSERT @bindings(scenario_ordinal,port_id,form,platform_id,config_json,bind_line,platform_line)
               VALUES(@cur_scenario,@pop_base+N'-compose',N'platform',N'sfx-estate-run-statement-port.v1',NULL,@i,@i);
             DECLARE @pop_compose int=SCOPE_IDENTITY();
@@ -205,7 +210,7 @@ edit(String.raw`      ELSE INSERT @readings(reading,altitudes) VALUES(LEFT(@tail
         INSERT @bindings(scenario_ordinal,port_id,form,platform_id,config_json,bind_line,platform_line)
           VALUES(@cur_scenario,@oc_base+N'-credential',N'platform',N'sfx-estate-credential-port.v1',N'${CREDENTIAL}',@i,@i);
         INSERT @bindings(scenario_ordinal,port_id,form,platform_id,config_json,bind_line,platform_line)
-          VALUES(@cur_scenario,@oc_base+N'-open',N'platform',N'sfx-vault-reference-open-port.v1',N'${OPEN}',@i,@i);
+          VALUES(@cur_scenario,@oc_base+N'-open',N'platform',N'${OPEN_PLATFORM}',N'${OPEN}',@i,@i);
         INSERT @bindings(scenario_ordinal,port_id,form,platform_id,config_json,bind_line,platform_line)
           VALUES(@cur_scenario,@oc_base,N'platform',N'sfx-estate-run-statement-port.v1',NULL,@i,@i);
         INSERT @scenario_outcomes(scenario_ordinal,source_ref,json_path,first_ordinal,op_ordinal,stmt_binding,line_no)
@@ -295,18 +300,20 @@ edit(String.raw`  IF @capability_id IS NULL
 edit(String.raw`    SET @status=N'COMPILED';`,
   String.raw`    SET @status=N'COMPILED';
     -- Each provider operation's composing statement builds the dispatch the generic invocation reads: the provider, its
-    -- root scenario and its request, the config: members as written and each input member from its path.
-    UPDATE b SET config_json=JSON_MODIFY(JSON_MODIFY(N'${STATEMENT}',N'$.statement',
+    -- root scenario and its request, the config: members as written and each input member from its path. Both statements
+    -- carry the command timeout the run-statement port requires (DECLARED_PROVIDER_CONFIGURATION_VALUE_MISSING without it),
+    -- 30 seconds as the estate's own composing statements declare it.
+    UPDATE b SET config_json=JSON_MODIFY(JSON_MODIFY(JSON_MODIFY(N'${STATEMENT}',N'$.statement',
         N'DECLARE @r nvarchar(max)=N'''+REPLACE(ISNULL(p.config_json,N'{}'),N'''',N'''''')+N''';'
         +ISNULL((SELECT STRING_AGG(CONVERT(nvarchar(max),N' SET @r=CASE WHEN JSON_QUERY(@input,N'''+i.carrier_path+N''') IS NOT NULL THEN JSON_MODIFY(@r,N''$."'
           +i.member COLLATE DATABASE_DEFAULT+N'"'',JSON_QUERY(@input,N'''+i.carrier_path+N''')) ELSE JSON_MODIFY(@r,N''$."'+i.member COLLATE DATABASE_DEFAULT
           +N'"'',JSON_VALUE(@input,N'''+i.carrier_path+N''')) END;'),N'') WITHIN GROUP (ORDER BY i.ordinal) FROM @provider_inputs i WHERE i.op_ordinal=p.op_ordinal),N'')
         +N' SELECT (SELECT N'''+p.provider_id COLLATE DATABASE_DEFAULT+N''' AS executionTarget,N''sidefx:capabilities'' AS executionNamespace,N'''
         +p.provider_scenario+N''' AS executionScenario,N''json'' AS inputType,JSON_QUERY(@r) AS dispatchRequest FOR JSON PATH,WITHOUT_ARRAY_WRAPPER) AS value;'),
-      N'$.resultColumn',N'value')
+      N'$.resultColumn',N'value'),N'$.commandTimeout',30)
     FROM @bindings b JOIN @provider_ops p ON p.compose_binding=b.ordinal;
-    UPDATE b SET config_json=JSON_MODIFY(JSON_MODIFY(N'${STATEMENT}',N'$.statement',
-        N'SELECT JSON_QUERY(@input,N'''+so.carrier_path+N''') AS value;'),N'$.resultColumn',N'value')
+    UPDATE b SET config_json=JSON_MODIFY(JSON_MODIFY(JSON_MODIFY(N'${STATEMENT}',N'$.statement',
+        N'SELECT JSON_QUERY(@input,N'''+so.carrier_path+N''') AS value;'),N'$.resultColumn',N'value'),N'$.commandTimeout',30)
     FROM @bindings b JOIN @scenario_outcomes so ON so.stmt_binding=b.ordinal;`);
 
 // 9. A provider operation states its provider and its request members in the document.

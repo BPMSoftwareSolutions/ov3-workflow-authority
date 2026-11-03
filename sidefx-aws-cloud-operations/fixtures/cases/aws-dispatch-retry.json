@@ -1,0 +1,22 @@
+{
+  "fixtureType": "sidefx-aws-cloud-ops-acceptance-arrangement.v1",
+  "caseId": "aws-dispatch-retry",
+  "capabilityId": "sfx-aws-dispatch-approved-automation",
+  "fictional": true,
+  "trustedIdentity": {
+    "subject": "operator",
+    "source": "test-harness-only"
+  },
+  "target": {
+    "accountId": "111122223333",
+    "region": "us-east-2",
+    "resourceArn": "arn:aws:ec2:us-east-2:111122223333:instance/i-0123456789abcdef0"
+  },
+  "providerObservations": {
+    "previousDispatch": {
+      "clientToken": "remedy-001",
+      "automationExecutionId": "ssm-execution-001"
+    }
+  },
+  "notes": "Synthetic, isolated acceptance arrangement. Not an AWS call or evidence of SideFX behavior."
+}

@@ -1,10 +1,21 @@
 # Nerdery wildlife application: the citizen slice through SideFX
 
-**Status, 2026-11-02, 21:50 EST:**
-- **Built and proven read-only; your SQL is ready. Nothing is installed yet.**
-- All 77 cases of the eight slice capabilities pass against the wildlife mechanics, run as session copies on sfx-identity. Each refusal leaves the stored state unchanged, and each applied write is read back from storage as returned.
-- All eight DSL sources compile against the retained bytes of their finalized canonical features. For a pinned source this means the no-drift check found no drift.
-- Every batch of the SQL compiles. The seed and the smoke calls pass against session copies. Your live session verifies as Avery, and the same session presented under another principal is refused.
+**Status, 2026-11-03, 01:15 EST:**
+- **Declared in the estate, but not working yet: the first live call failed. The repair is two SQL files and one OV3 flight ([below](#the-repair-two-files-and-one-flight)).**
+- **What happened on 2026-11-02:**
+  - You ran `fast-1` at 22:10 EST and `fast-2` at 22:11.
+  - Flight `9810b9af` flew all 20 steps from 22:15 to 22:30. It installed and declared the check, then declared the eight capabilities and read each one's feature pin back.
+  - The wildlife store is installed (14 tables, 10 procedures). Avery has collected nothing yet.
+- **What failed:**
+  - The first live call, as Avery (run `53ad6ca6`), failed at the capability's composing statement with `DECLARED_PROVIDER_CONFIGURATION_VALUE_MISSING:commandTimeout`.
+  - The compiler's `uses provider` expansion wrote its composing and outcome statements without the `commandTimeout` that `sfx-estate-run-statement-port.v1` requires.
+  - The estate has 39 declared documents on that port. Only nine lack the timeout: the eight and the check.
+  - This is a defect in my Part 3 compiler. The cases compiled the documents and ran the mechanics, but never ran a compiled document end to end.
+- **What the repair changes:** the repaired compiler compiles each of the eight unchanged sources to its declared document plus the two timeouts, and nothing else (read-only, runs `a170c9ba` to `9e276d31`).
+- **Still true from the read-only build:**
+  - All 77 cases pass against the wildlife mechanics, run as session copies on sfx-identity.
+  - All eight sources conform to their retained canonical features.
+  - Your live session verifies as Avery, and the same session presented under another principal is refused.
 
 The canonical features are the owner-review candidates in [nerdery-canonical-features](../../nerdery-canonical-features/README.md), which belong to the other agent. That folder is read only, and the finalized copies are in [features/](features/).
 
@@ -42,42 +53,49 @@ These are the existing mechanics, with no new kernel, admission store or identit
 
 **The proposed decisions are implemented as written.** All of them (D04 search, D05 private resources, D06 team membership, D07 retry identity, D10 media, D13 expected revision, D14 ordering) are still marked PROPOSED in [scope-and-decisions.md](../../nerdery-canonical-features/review/scope-and-decisions.md). Changing one changes the case's feature, so its digest and declaration change too.
 
-## Your SQL, then OV3
+## The repair, round 2: two files and one flight
 
-**First, Part 3 of the DSL work** ([../README.md](../README.md#part-3-feature-first-installed)): `dsl-06` to `dsl-10`, then the check's build flight. The declarations below need its `feature` pin, its `uses provider` line and the installed check. Without them each declaration refuses `CHECK_NOT_INSTALLED`.
+Round 1 (`repair-1`, `repair-2`, flight `c0cd676c`) gave the composing and outcome statements their timeout, and has run. The next live call (run `d37c4351`) then failed with `DECLARED_PROVIDER_TARGET_MISSING:vault`:
+- The kernel runs the estate's PORT definitions.
+- The compiled open steps used `sfx-vault-reference-open-port.v1`, which replaces the vault and credential reference with the secret.
+- Every other statement chain in the estate uses `sfx-vault-reference-carry-port.v1` and passes them on.
 
-Run each file whole, in one session: the preflight `.sql`, then its `.commit.sql`.
+The repaired compiler binds the carrying port. Its chain now equals `ask-system-one`'s runtime ports one for one (runs `fa3d0621`, `b50b9384`).
+
+Run each file whole, in one session. The preflight `.sql` is optional.
 
 | Order | File | Database | What to expect |
 | --- | --- | --- | --- |
-| 1 | `sql/nrd-01-wildlife-store` | `sfx-identity` | `base`: `wildlife_schema_id` NULL, `identity_tables` 1, `owner_principal_active` 1. `verify`: tables 14, procedures 10, `digest_mismatches` 0, `seed_counts` = `seed_expected`, every `digest_matches` 1. `smoke`: every `passed` 1 |
-| 2 | `sql/nrd-02-slice-features-and-promise` | estate | `base`: installed = expected. `minted`: 9 rows (the eight features and the promise). `readback`: `retained` 1, nine times |
-| 3 | `sql/nrd-03-slice-declare-plan` | `sfx-identity` | `guard`: 4 parameters, owner active. `plans`: `plan_revision` 1, `matches_reviewed_file` 1, `plan_digest` `sha256:d651f4fbd376338b2ca2ef41f4d42de63c23c8ef0f0f21e05775d6100c4d8dcd` |
+| 1 | `sql/repair-3-estate.commit.sql` (under a minute) | estate | `base`: `compiler_body` = `compiler_expected` (`sha256:7197986a…`). `verify`: `compiler_body` = `compiler_expected` (`sha256:a437984d…`), `smoke_document` = `smoke_expected` (`sha256:85386b4e…`), `compose_open_platform` and `outcome_open_platform` `sfx-vault-reference-carry-port.v1`, both timeouts 30. `minted`: 1 row. `readback`: `retained` 1 |
+| 2 | `sql/repair-4-identity.commit.sql` (a few seconds) | `sfx-identity` | `base`: `current_plan` `sha256:31a62748…`. `plans`: `plan_revision` 3, `matches_reviewed_file` 1 |
 
 Then tell OV3, one sentence at a time:
 
 1. "Review the current flight plan of agent claude-code-opus-5-5-nerdery-slice and generate its plan report."
-2. "I approve flight plan digest sha256:d651f4fbd376338b2ca2ef41f4d42de63c23c8ef0f0f21e05775d6100c4d8dcd of agent claude-code-opus-5-5-nerdery-slice."
+2. "I approve flight plan digest sha256:d718a828997c60c867ae0b34c7202fc20c0f51b325dd4077e4ea351cb8605d56 of agent claude-code-opus-5-5-nerdery-slice."
 3. "Fly the current flight plan of agent claude-code-opus-5-5-nerdery-slice."
-4. "Read the flight closure of promise nerdery-citizen-slice-declare."
 
-The plan is in work class `owner-objective`. Sentence 2 is needed only while `flight-clearance-policy:owner-objective` is not declared, which is the case today. The flight ([flights/slice-declare.steps.json](flights/slice-declare.steps.json)) declares each capability through `capability-from-dsl`. The author path commits each one only when the check finds its binding `CONFORMANT`. The flight then reads each declared feature pin back.
+The flight ([flights/repair-2.steps.json](flights/repair-2.steps.json)) re-declares the eight and the check from their unchanged sources. It proves each by the digest of its stored document (`repair-2-compile-cases.json`).
 
-## The live demo
+**Already run, don't run again:**
+- `fast-1` and `fast-2`. Their guards would stop them anyway: the compiler has moved, and the schema exists.
+- `nrd-01` to `nrd-03`, and `dsl-06` to `dsl-11`, are superseded. `nrd-03` would replace the plan under the same agent.
 
-```
-sfx-api login
-node nerdery/demo/run-journey.mjs
-```
+## The interview journey
 
-[demo/run-journey.mjs](demo/run-journey.mjs) reads your session (`sfx-api whoami`) and runs the slice as Avery through the declared capabilities, 13 calls in all. Each call prints its run id beside the result fields that matter: the restricted animal before collection, the unlocked one after, the two individuals, the saved team on home, and the three refusals. Read any run with `sfx-api run <id> --json --events`. Encounter ids carry a timestamp, so the script can run again.
+The journey runs in the browser, in the SideFX Explorer on the staging web host. [journey/README.md](journey/README.md) gives each step's capability, input and expected result. Every run plays live on the circuit, with its result.
 
-Your session expires at 10:04 EST on 2026-11-03. Sign in again before the interview.
+`node nerdery/demo/run-journey.mjs --check` checks the capability path from the CLI: reads, two refusals and a forged caller, changing nothing. CLI evidence proves the path, but it is not the demo.
 
 ## Evidence
 
 | What | Result | Runs |
 | --- | --- | --- |
+| The fast path, live | compiler and author path bodies are the reviewed ones; 14 tables and 10 procedures; plan revision 1 `sha256:8ffc4ac2…`; flight `9810b9af` COMPLETE, 20 of 20 steps passed on their first attempt; 9 capabilities declared, 11 texts retained | `371426cf`, `bfb09aa2`, `56124b1f`, `1e495921`, `cb3628a6` (flight run `4c5b1567`) |
+| The first live call | FAILED at `nerdery-browse-animal-collection.browse-compose`: `DECLARED_PROVIDER_CONFIGURATION_VALUE_MISSING:commandTimeout` | `53ad6ca6` |
+| The cause, across the estate | 39 declared documents use `sfx-estate-run-statement-port.v1`; only these nine lack `commandTimeout`. `ask-system-one` has the same compose, invoke and outcome shape with `commandTimeout` 30 on both statements. 90 working bindings use the same nested invocation | `e2eb731c`, `3e991ec1`, `779c19b8` |
+| The repaired compiler, read-only | the eight and the check COMPILED with `commandTimeout` 30 on both statements; each document equals its declared one apart from those two values; the compile feature's three provider cases met | `a170c9ba`, `5a4126dd`, `e9610d68`, `8dc9fddc`, `db3ee8d9`, `862af3e0`, `fa52a79b`, `9e276d31`, `bca6d319`; declared documents `8c7503ae`; `13878374`, `80ada4cd`, `786baf10` |
+| Every batch of `repair-1` and `repair-2` compiles; nothing runs | all | `4e649cbd`, `da376a51` |
 | All 77 slice cases, as the fixture's subject, with state digests and read-back ([conformance/run-cases.mjs](conformance/run-cases.mjs)) | 77 of 77 | `84ff8efb`, `c901e190`, `8e66151b`, `7837a8f1`, `b28d02da`, `25e64090` |
 | Each DSL against its retained feature ([compile-cases.json](compile-cases.json)) | 8 of 8 COMPILED | `e850ff59`, `996453fc`, `8f6cef9a`, `ad02949f`, `9afb0f75`, `a29350c3`, `a01f53b3`, `4a175b03` |
 | Every batch of `nrd-01` to `nrd-03` compiles; nothing runs | all; the first `nrd-01` pass caught one DECLARE error, fixed and recompiled | `4314f467` (`nrd-01`), `6ea275cf` (`nrd-02`), `f0ca2aae` (`nrd-03`) |
@@ -102,9 +120,10 @@ The bridge runs storage faults as real failures of the store: a refused write (a
 | `dsl/` | Their feature-first DSL sources |
 | `wildlife/wildlife.tables.sql`, `wildlife/wildlife.procedures.sql` | The store and its mechanics, the reviewed texts |
 | `conformance/run-cases.mjs` | The test bridge: cases read-only on session copies, with state digests and read-back |
-| `make-slice.mjs`, `make-sql.mjs` | Generators: finalized features and DSL; owner SQL and the declaration plan |
-| `sql/` | `nrd-01` to `nrd-03`, each a preflight and a byte-identical commit twin |
-| `flights/slice-declare.steps.json` | The declaration flight's promise, objective, steps and digest |
+| `make-slice.mjs`, `make-sql.mjs`, `make-fast-path.mjs`, `make-repair.mjs` | Generators: finalized features and DSL; owner SQL and the declaration plan; the two-file fast path built from their validated batches; the runtime repair |
+| `repair-compile-cases.json` | Each declared source compiled read-only by the repaired compiler, with the document digest its re-declaration must store |
+| `sql/` | `repair-1-estate` and `repair-2-identity` (run these); `fast-1-estate` and `fast-2-identity` (run on 2026-11-02); `nrd-01` to `nrd-03` (superseded). Each is a preflight and a byte-identical commit twin |
+| `flights/repair.steps.json` | The repair flight's promise, objective, steps and digest (`fast-path.steps.json` has flown; `slice-declare.steps.json` is superseded) |
 | `demo/run-journey.mjs` | The live interview slice |
 | `api/wildlife-operations.json` | Draft API operations for the browser path |
-| `manifest.json`, `slice.manifest.json` | Every digest and the twins' parity |
+| `manifest.json`, `slice.manifest.json`, `manifest.fast.json`, `manifest.repair.json` | Every digest and the twins' parity |
