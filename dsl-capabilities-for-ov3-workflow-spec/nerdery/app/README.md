@@ -27,6 +27,14 @@ If Drew tries to sign in, sign-in answers REGISTRATION_REQUIRED and the app offe
 
 Before every screen, the app asks `nerdery-resolve-wildlife-access` for that screen's section, using the user's current roles. The menu offers Catalog only when access to `animal-definitions-admin` is allowed, so the page never decides from roles itself.
 
+## Languages
+
+The **EN | ES** switch in the header changes the language. Every screen takes its labels and title from `nerdery-present-wildlife-experience`, in the chosen locale.
+
+Only the labels change. Animal names, types, stats, places and attribute values are data and read the same in both languages, as decision D11 sets out. Refusals read in the chosen language and keep their code.
+
+The labels are in [lib/labels.mjs](lib/labels.mjs), 210 per language, and are seeded into the store's `uiTranslations` beside the fixture's own.
+
 ## Screens
 
 | Screen | Operations used |

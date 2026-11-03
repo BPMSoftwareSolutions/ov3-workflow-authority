@@ -18,6 +18,8 @@ img { max-width: 100%; }
 .nav a.active { background: var(--green); color: #fff; }
 .who { margin-left: auto; display: flex; align-items: center; gap: 10px; font-size: 14px; }
 .who .name { font-weight: 600; }
+.locale { display: inline-flex; gap: 4px; margin-right: 6px; }
+.locale .button { padding: 5px 9px; }
 
 .view { flex: 1; width: 100%; max-width: 1100px; margin: 0 auto; padding: 28px 24px 48px; }
 .footer { text-align: center; color: var(--muted); font-size: 12px; padding: 16px 24px 24px; }

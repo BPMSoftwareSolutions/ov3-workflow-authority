@@ -5,6 +5,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import crypto from "node:crypto";
+import { LABELS } from "./labels.mjs";
 
 export class StorageError extends Error {
   constructor(collection) { super(`storage for ${collection} failed`); this.collection = collection; }
@@ -84,9 +85,18 @@ export function stateFromFixture(base, media, fixture = {}) {
     encounters: (s.encounters || []).map((e) => ({ encounterId: e.encounterId, ownerUserId: e.ownerUserId, definitionId: e.definitionId,
       location: canonicalLocation(e.location) ?? e.location, photoRef: e.photoRef, nickname: e.nickname ?? null })),
     teams: (s.teams || []).map((t) => ({ ownerUserId: t.ownerUserId, revision: t.revision, encounterIds: [...t.encounterIds] })),
-    identityResponses: structuredClone(s.identityResponses || {})
+    identityResponses: structuredClone(s.identityResponses || {}),
+    uiTranslations: structuredClone(s.uiTranslations || {})
   };
   return { state, blobs };
+}
+
+// The application's labels over the stored translations, so each start serves the labels this version ships.
+function withLabels(state) {
+  const stored = state.uiTranslations || {};
+  state.uiTranslations = Object.fromEntries([...new Set([...Object.keys(stored), ...Object.keys(LABELS)])]
+    .map((locale) => [locale, { ...(stored[locale] || {}), ...(LABELS[locale] || {}) }]));
+  return state;
 }
 
 // The faults a case arranges: storage per collection, and the DNR identity service.
@@ -177,11 +187,11 @@ export function openDiskStore(dataDir, packageDir, { reset = false } = {}) {
   if (!fs.existsSync(statePath)) {
     const { base, media } = readFixtures(packageDir);
     const { state, blobs } = demoSeed(base, media);
-    const store = new Store({ state, blobs, persist });
+    const store = new Store({ state: withLabels(state), blobs, persist });
     persist(store, [...blobs.keys()]);
     return store;
   }
-  const state = JSON.parse(fs.readFileSync(statePath, "utf8"));
+  const state = withLabels(JSON.parse(fs.readFileSync(statePath, "utf8")));
   const blobs = new Map();
   for (const file of fs.readdirSync(photoDir)) if (file.endsWith(".bin")) blobs.set(file.slice(0, -4), fs.readFileSync(path.join(photoDir, file)));
   return new Store({ state, blobs, persist });

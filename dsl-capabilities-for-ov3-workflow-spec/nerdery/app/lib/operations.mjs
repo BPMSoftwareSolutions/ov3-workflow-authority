@@ -443,6 +443,31 @@ function resolveWildlifeAccess(tx, request, userId) {
   return { contractId: contract(op), status: "ALLOWED", section, permissions: [...rule.permissions] };
 }
 
+// A page in a supported locale. D11: the locale changes labels only; the animals, their identities and the
+// permissions are the same in every locale. Account pages are DNR's and need no session; the catalog
+// administration pages need the biologist role; every other page needs a signed-in user.
+const LOCALES = ["en", "es"];
+const PAGES = { "sign-in": "account", "sign-up": "account", home: "personal", collection: "personal", animal: "personal", capture: "personal",
+  "collected-animals": "personal", individual: "personal", team: "personal", "animal-definitions-admin": "biologist", "animal-attributes-admin": "biologist" };
+function presentWildlifeExperience(tx, request, userId) {
+  const op = "nerdery-present-wildlife-experience";
+  const page = scalar(request.page), locale = scalar(request.locale) ?? "en";
+  const kind = page === null ? null : PAGES[page] ?? null;
+  if (kind === null) return refused(op, "PAGE_UNKNOWN");
+  if (!LOCALES.includes(locale)) return refused(op, "LOCALE_UNSUPPORTED");
+  if (kind !== "account" && userId === null) return refused(op, "AUTHENTICATION_REQUIRED");
+  if (kind === "biologist" && !isBiologist(tx, userId)) return refused(op, "BIOLOGIST_ROLE_REQUIRED");
+  const translations = tx.get("uiTranslations");
+  const labels = { ...(translations.en || {}), ...(translations[locale] || {}) };
+  const presentation = compact({ page, locale, title: labels[`${page}.title`], labels });
+  if (kind === "account") Object.assign(presentation, { identityOwner: "DNR", localPasswordStore: false });
+  if (page === "collection") presentation.items = browseAnimalCollection(tx, { search: "" }, userId).items;
+  if (page === "home") presentation.team = viewWildlifeHome(tx, {}, userId).team;
+  if (page === "animal-definitions-admin") presentation.definitions = [...tx.get("definitions")].sort(byNumber).map(definitionRecord);
+  if (page === "animal-attributes-admin") presentation.attributes = [...tx.get("attributes")].sort((a, b) => byCodePoint(a.attributeId, b.attributeId)).map(attributeRecord);
+  return { contractId: contract(op), status: "PRESENTED", presentation };
+}
+
 export const OPERATIONS = {
   "nerdery-browse-animal-collection": browseAnimalCollection,
   "nerdery-view-animal-definition": viewAnimalDefinition,
@@ -460,6 +485,7 @@ export const OPERATIONS = {
   "nerdery-remove-animal-attribute": removeAnimalAttribute,
   "nerdery-view-catalog-for-maintenance": viewCatalogForMaintenance,
   "nerdery-resolve-wildlife-access": resolveWildlifeAccess,
+  "nerdery-present-wildlife-experience": presentWildlifeExperience,
   "nerdery-register-wildlife-user": registerWildlifeUser,
   "nerdery-sign-in-wildlife-user": signInWildlifeUser
 };
