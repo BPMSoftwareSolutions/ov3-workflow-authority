@@ -24,13 +24,22 @@ function h(tag, attrs, ...children) {
 }
 // The SideFX run behind each answer, for its evidence line and its circuit link.
 const runIds = new WeakMap();
+// A run takes the SideFX API a few seconds: while any call is out, the bar at the top of the page moves.
+let outstanding = 0;
 async function call(method, url, body) {
-  const response = await fetch(url, { method, credentials: "same-origin", headers: body ? { "content-type": "application/json" } : {},
-    body: body ? JSON.stringify(body) : undefined });
-  const answer = await response.json();
-  const runId = response.headers.get("x-sfx-run-id");
-  if (runId && answer && typeof answer === "object") runIds.set(answer, runId);
-  return answer;
+  outstanding += 1;
+  document.body.classList.add("working");
+  try {
+    const response = await fetch(url, { method, credentials: "same-origin", headers: body ? { "content-type": "application/json" } : {},
+      body: body ? JSON.stringify(body) : undefined });
+    const answer = await response.json();
+    const runId = response.headers.get("x-sfx-run-id");
+    if (runId && answer && typeof answer === "object") runIds.set(answer, runId);
+    return answer;
+  } finally {
+    outstanding -= 1;
+    if (!outstanding) document.body.classList.remove("working");
+  }
 }
 const run = (capability, request = {}) => call("POST", `/api/run/${capability}`, request);
 const declared = (capability) => (session.declared || []).includes(capability);
@@ -84,31 +93,53 @@ async function sideFxSignInView() {
     h("p", {}, h("button", { class: "button", text: t("sign-in.sidefx.retry"), onclick: () => render() })));
 }
 async function signInView() {
-  if (!declared("nerdery-sign-in-wildlife-user")) return sideFxSignInView();
+  if (!session.authenticated || !declared("nerdery-sign-in-wildlife-user")) return sideFxSignInView();
   const identities = await call("GET", "/api/identities");
   const message = h("div");
-  const cards = identities.map((i) => {
+  const grid = h("div", { class: "grid" });
+  // A sign-in is a run of a few seconds: the chosen card says so at once, and the others wait for it.
+  const working = (text) => h("span", {}, h("span", { class: "spinner", "aria-hidden": "true" }), text);
+  const hold = (card, text) => {
+    for (const other of grid.children) other.disabled = true;
+    card.classList.add("busy");
+    card.querySelector(".sub").replaceChildren(working(text));
+  };
+  const release = (card, detail) => {
+    for (const other of grid.children) other.disabled = false;
+    card.classList.remove("busy");
+    card.querySelector(".sub").textContent = detail;
+  };
+  for (const i of identities) {
     const valid = i.validation === "VALID";
     const label = i.name ?? (i.validation === "EXPIRED" ? t("sign-in.expired") : t("sign-in.rejected"));
     const detail = !valid ? t("sign-in.answers", { value: i.validation }) : i.registered
       ? t("sign-in.roles", { roles: i.roles.map((r) => labels[`role.${r}`] ?? r).join(", ") || t("sign-in.none") }) : t("sign-in.unregistered");
     const initials = i.name ? i.name.split(" ").map((p) => p[0]).join("") : "?";
     // A validated DNR subject without a wildlife profile is told so by sign-in, and offered registration.
-    const register = async () => {
-      const answer = await call("POST", "/api/register", { identityResponseRef: i.identityResponseRef });
-      if (answer.signIn?.status === "SIGNED_IN") { location.hash = "#/"; return; }
-      message.replaceChildren(refusal(answer.signIn ?? answer.registration, "sign-in.notRegistered"), evidence("nerdery-register-wildlife-user", answer.registration),
-        answer.signIn ? evidence("nerdery-sign-in-wildlife-user", answer.signIn) : null);
+    const register = async (event) => {
+      const button = event.currentTarget;
+      button.disabled = true;
+      button.replaceChildren(working(t("sign-in.registering")));
+      hold(card, t("sign-in.registering"));
+      const answer = await call("POST", "/api/register", { identityResponseRef: i.identityResponseRef }).catch(() => null);
+      if (answer?.signIn?.status === "SIGNED_IN") { hold(card, t("sign-in.opening")); location.hash = "#/"; return; }
+      release(card, detail);
+      message.replaceChildren(refusal(answer?.signIn ?? answer?.registration, "sign-in.notRegistered"), evidence("nerdery-register-wildlife-user", answer?.registration ?? null),
+        answer?.signIn ? evidence("nerdery-sign-in-wildlife-user", answer.signIn) : null);
     };
-    return h("button", { class: `card identity${valid && i.registered ? "" : " refusal"}`, onclick: async () => {
-      const result = await call("POST", "/api/sign-in", { identityResponseRef: i.identityResponseRef });
-      if (result.status === "SIGNED_IN") { location.hash = "#/"; return; }
+    const card = h("button", { class: `card identity${valid && i.registered ? "" : " refusal"}`, onclick: async () => {
+      hold(card, t("sign-in.signingIn"));
+      message.replaceChildren();
+      const result = await call("POST", "/api/sign-in", { identityResponseRef: i.identityResponseRef }).catch(() => null);
+      if (result?.status === "SIGNED_IN") { hold(card, t("sign-in.opening")); location.hash = "#/"; return; }
+      release(card, detail);
       message.replaceChildren(refusal(result, "sign-in.refused"),
-        result.reason?.code === "REGISTRATION_REQUIRED" ? h("p", {}, h("button", { class: "button", text: t("sign-in.register", { name: i.name ?? "" }), onclick: register })) : null,
+        result?.reason?.code === "REGISTRATION_REQUIRED" ? h("p", {}, h("button", { class: "button", text: t("sign-in.register", { name: i.name ?? "" }), onclick: register })) : null,
         evidence("nerdery-sign-in-wildlife-user", result));
     } }, h("div", { class: "body row" }, h("div", { class: "avatar", text: initials }), h("div", {}, h("div", { class: "title", text: label }), h("div", { class: "sub", text: detail }))));
-  });
-  return page(t("sign-in.title"), t("sign-in.lede"), h("div", { class: "grid" }, cards), message);
+    grid.append(card);
+  }
+  return page(t("sign-in.title"), t("sign-in.lede"), grid, message);
 }
 
 async function homeView() {
@@ -453,9 +484,9 @@ const routes = [
   [/^\/team$/, teamView, "team", "team"], [/^\/catalog$/, catalogView, "animal-definitions-admin", "animal-definitions-admin"]
 ];
 let maintenance = null;
-function renderChrome(path) {
+function renderChrome(path, signedIn) {
   document.documentElement.lang = locale;
-  nav.hidden = !session.authenticated;
+  nav.hidden = !signedIn;
   for (const link of nav.querySelectorAll("a")) {
     const target = link.getAttribute("href").slice(1);
     link.classList.toggle("active", target === "/" ? path === "/" : path.startsWith(target));
@@ -484,8 +515,10 @@ async function render() {
   const mine = ++ticket;
   const [path, query] = (location.hash.replace(/^#/, "") || "/").split("?");
   session = await call("GET", "/api/session");
-  if (!session.authenticated && path !== "/sign-in") { location.hash = "#/sign-in"; return; }
-  if (session.authenticated && path === "/sign-in") { location.hash = "#/"; return; }
+  // Signed in means a SideFX session and, once the estate declares sign-in, a user who signed in through DNR.
+  const signedIn = session.authenticated && (declared("nerdery-sign-in-wildlife-user") ? Boolean(session.user) : true);
+  if (!signedIn && path !== "/sign-in") { location.hash = "#/sign-in"; return; }
+  if (signedIn && path === "/sign-in") { location.hash = "#/"; return; }
   const [pattern, screen, pageKey, section] = routes.find(([re]) => re.test(path)) ?? routes[1];
   // The page's labels and title in the chosen locale: from nerdery-present-wildlife-experience once the estate
   // declares it, until then from the interface's own labels. A page the user may not see still gets the account labels.
@@ -497,9 +530,9 @@ async function render() {
   } else labels = (await call("GET", `/api/labels?locale=${locale}`)).labels;
   // Section access from nerdery-resolve-wildlife-access once the estate declares it; each capability refuses on its own regardless.
   const guarded = declared("nerdery-resolve-wildlife-access");
-  maintenance = guarded && session.authenticated && declared("nerdery-view-catalog-for-maintenance")
+  maintenance = guarded && signedIn && declared("nerdery-view-catalog-for-maintenance")
     ? await run("nerdery-resolve-wildlife-access", { section: "animal-definitions-admin" }) : null;
-  renderChrome(path);
+  renderChrome(path, signedIn);
   view.replaceChildren(h("p", { class: "lede", text: t("chrome.loading") }));
   if (section && guarded) {
     const access = section === "animal-definitions-admin" ? maintenance : await run("nerdery-resolve-wildlife-access", { section });

@@ -57,7 +57,7 @@ const stateOf = (fx) => {
 const faultsOf = (fx) => {
   const f = { check: [], omit: [] };
   for (const [k, v] of Object.entries(fx.providerBehavior || {})) {
-    const table = { catalogStorage: "animal_definition", photoStorage: "photo", encounterStorage: "encounter", teamStorage: "team" }[k];
+    const table = { catalogStorage: "animal_definition", photoStorage: "photo", encounterStorage: "encounter", teamStorage: "team", dnrIdentity: "identity_response" }[k];
     if (!table) throw new Error(`${fx.caseId}: no fault injection for ${k}`);
     if (v === "UNAVAILABLE") f.omit.push(table); else if (v === "FAIL_BEFORE_COMMIT") f.check.push(table); else throw new Error(`${fx.caseId}: fault ${k}=${v}`);
   }
@@ -112,11 +112,13 @@ INSERT #w_photo(photo_ref,owner_user_id,purpose,media_type,content_sha256,conten
 ${guard("encounter", `INSERT #w_encounter(owner_user_id,encounter_id,definition_id,location_json,photo_ref,nickname)
   SELECT e.ownerUserId,e.encounterId,e.definitionId,${canonicalLocation("e.location")},e.photoRef,e.nickname
   FROM OPENJSON(@state,N'$.encounters') WITH (encounterId nvarchar(100),ownerUserId nvarchar(100),definitionId nvarchar(100),location nvarchar(max) AS JSON,photoRef nvarchar(100),nickname nvarchar(200)) e;`)}
+${guard("identity_response", `INSERT #w_identity_response(response_ref,validation,subject,first_name,last_name,email,roles_json) SELECT [key],JSON_VALUE([value],N'$.validation'),JSON_VALUE([value],N'$.subject'),JSON_VALUE([value],N'$.firstName'),JSON_VALUE([value],N'$.lastName'),JSON_VALUE([value],N'$.email'),JSON_QUERY([value],N'$.roles') FROM OPENJSON(@state,N'$.identityResponses');`)}
 ${guard("team", `INSERT #w_team(owner_user_id,revision) SELECT ownerUserId,revision FROM OPENJSON(@state,N'$.teams') WITH (ownerUserId nvarchar(100),revision int);`)}
 ${guard("team_member", `INSERT #w_team_member(owner_user_id,ordinal,encounter_id) SELECT t.ownerUserId,CONVERT(int,m.[key]),m.[value] FROM OPENJSON(@state,N'$.teams') WITH (ownerUserId nvarchar(100),ids nvarchar(max) N'$.encounterIds' AS JSON) t CROSS APPLY OPENJSON(t.ids) m;`)}
 END`;
 const digestOf = (omit) => {
-  const parts = [["encounter", "owner_user_id,encounter_id,definition_id,location_json,photo_ref,nickname", "owner_user_id,encounter_id"], ["team", "owner_user_id,revision", "owner_user_id"],
+  const parts = [["app_user", "user_id,principal_id,identity_subject,first_name,last_name,email", "user_id"], ["user_role", "user_id,role", "user_id,role"],
+    ["encounter", "owner_user_id,encounter_id,definition_id,location_json,photo_ref,nickname", "owner_user_id,encounter_id"], ["team", "owner_user_id,revision", "owner_user_id"],
     ["team_member", "owner_user_id,ordinal,encounter_id", "owner_user_id,ordinal"], ["photo", "photo_ref,owner_user_id,purpose,media_type,content_sha256,byte_length,durable", "photo_ref"],
     ["animal_definition", "definition_id,revision,active,common_name,scientific_name,avatar_photo_ref,collection_number,range_json,types_json,stats_json,attributes_json", "definition_id"],
     ["definition_county", "definition_id,county_id", "definition_id,county_id"], ["definition_type", "definition_id,type_name", "definition_id,type_name"],
@@ -146,12 +148,12 @@ INSERT @cases SELECT CONVERT(int,[key]),[value] FROM OPENJSON(@input,N'$.cases')
 DECLARE @out TABLE(k int PRIMARY KEY,v nvarchar(max));
 DECLARE @i int=0,@n int=(SELECT COUNT(*) FROM @cases),@c nvarchar(max),@state nvarchar(max),@request nvarchar(max),@subject nvarchar(100),@operation nvarchar(100),
   @result nvarchar(max),@before varchar(64),@after varchar(64),@rb nvarchar(max),@err nvarchar(2048),@media nvarchar(max)=JSON_QUERY(@input,N'$.media'),@spid nvarchar(10)=CONVERT(nvarchar(10),@@SPID),
-  @pre nvarchar(max),@pre_result nvarchar(max),@pre_subject nvarchar(100),@pre_request nvarchar(max);
+  @pre nvarchar(max),@pre_result nvarchar(max),@pre_subject nvarchar(100),@pre_request nvarchar(max),@sid uniqueidentifier;
 WHILE @i<@n
 BEGIN
   SELECT @c=c FROM @cases WHERE k=@i;
   SELECT @state=JSON_QUERY(@c,N'$.state'),@request=JSON_QUERY(@c,N'$.request'),@subject=JSON_VALUE(@c,N'$.subject'),@operation=JSON_VALUE(@c,N'$.operation'),
-    @pre=JSON_QUERY(@c,N'$.prewarm'),@result=NULL,@err=NULL,@rb=NULL,@before=NULL,@after=NULL,@pre_result=NULL;
+    @pre=JSON_QUERY(@c,N'$.prewarm'),@result=NULL,@err=NULL,@rb=NULL,@before=NULL,@after=NULL,@pre_result=NULL,@sid=NEWID();
   BEGIN TRY
     EXEC #load_state @state=@state,@media=@media;
     SET @before=${digestOf(omit)};
@@ -161,7 +163,7 @@ BEGIN
       EXEC #wp_invoke_operation @operation=@operation,@request=@pre_request,@user_id=@pre_subject,@result=@pre_result OUTPUT;
     END
 ${checks.map((t) => `    IF EXISTS(SELECT 1 FROM OPENJSON(@c,N'$.check') WHERE [value]=N'${t}') EXEC(N'ALTER TABLE #w_${t} WITH NOCHECK ADD CONSTRAINT nrd_fault_${t}_'+@spid+N' CHECK (1=0)');`).join("\n")}
-    EXEC #wp_invoke_operation @operation=@operation,@request=@request,@user_id=@subject,@result=@result OUTPUT;
+    EXEC #wp_invoke_operation @operation=@operation,@request=@request,@user_id=@subject,@result=@result OUTPUT,@session_id=@sid;
 ${checks.map((t) => `    IF EXISTS(SELECT 1 FROM OPENJSON(@c,N'$.check') WHERE [value]=N'${t}') EXEC(N'ALTER TABLE #w_${t} DROP CONSTRAINT nrd_fault_${t}_'+@spid);`).join("\n")}
     SET @after=${digestOf(omit)};
     SET @rb=${readBack(omit)};

@@ -1,0 +1,94 @@
+[
+ {
+  "name": "nerdery-sign-in-wildlife-user",
+  "source": "nerdery/dsl/nerdery-sign-in-wildlife-user.dsl",
+  "retain": [
+   "nerdery/features/nerdery-sign-in-wildlife-user.feature"
+  ],
+  "compiledRun": "1dd86a71",
+  "expect": [
+   [
+    "$.status",
+    "COMPILED"
+   ],
+   [
+    "$.document.feature.digest",
+    "sha256:bf9ff42f4a1c96eec6cb938f3bf40e57b8c13aed9b94e4a64dc73f90b6250cd6"
+   ],
+   [
+    "$.document.scenarios[0].operations[4].operationId",
+    "nerdery-sign-in-wildlife-user.sign-in"
+   ],
+   [
+    "$.document.scenarios[0].operations[4].providerCapabilityId",
+    "sql-database-reader"
+   ],
+   [
+    "$.document.scenarios[0].portBindings[2].platformCapabilityId",
+    "sfx-vault-reference-carry-port.v1"
+   ],
+   [
+    "$.document.scenarios[0].portBindings[7].platformCapabilityId",
+    "sfx-vault-reference-carry-port.v1"
+   ],
+   [
+    "$.document.scenarios[0].portBindings[3].configuration.commandTimeout",
+    "30"
+   ],
+   [
+    "$.document.scenarios[0].portBindings[8].configuration.commandTimeout",
+    "30"
+   ],
+   [
+    "$.documentDigest",
+    "sha256:8d80e177396ad14f72b937aab911022b68f12b34b25fcd03628a9b8c21f389d9"
+   ]
+  ]
+ },
+ {
+  "name": "nerdery-register-wildlife-user",
+  "source": "nerdery/dsl/nerdery-register-wildlife-user.dsl",
+  "retain": [
+   "nerdery/features/nerdery-register-wildlife-user.feature"
+  ],
+  "compiledRun": "3a10274e",
+  "expect": [
+   [
+    "$.status",
+    "COMPILED"
+   ],
+   [
+    "$.document.feature.digest",
+    "sha256:24ce719da85308c66551cae6d5f38a8477765ebff52dd7308e68db2dd7e0c666"
+   ],
+   [
+    "$.document.scenarios[0].operations[4].operationId",
+    "nerdery-register-wildlife-user.register"
+   ],
+   [
+    "$.document.scenarios[0].operations[4].providerCapabilityId",
+    "sql-database-reader"
+   ],
+   [
+    "$.document.scenarios[0].portBindings[2].platformCapabilityId",
+    "sfx-vault-reference-carry-port.v1"
+   ],
+   [
+    "$.document.scenarios[0].portBindings[7].platformCapabilityId",
+    "sfx-vault-reference-carry-port.v1"
+   ],
+   [
+    "$.document.scenarios[0].portBindings[3].configuration.commandTimeout",
+    "30"
+   ],
+   [
+    "$.document.scenarios[0].portBindings[8].configuration.commandTimeout",
+    "30"
+   ],
+   [
+    "$.documentDigest",
+    "sha256:a015138ada6c7327a6c802401f08a1e213d537d7c3b3dac8cee6be7ee555bb01"
+   ]
+  ]
+ }
+]

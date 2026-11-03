@@ -819,8 +819,98 @@ BEGIN
   SET @result=(SELECT @contract AS contractId,N'ALLOWED' AS status,@section AS section,JSON_QUERY(@permissions) AS permissions FOR JSON PATH,WITHOUT_ARRAY_WRAPPER);
 END;
 GO
+CREATE OR ALTER PROCEDURE wildlife.sign_in_wildlife_user
+  @request nvarchar(max),@session_id uniqueidentifier,@result nvarchar(max) OUTPUT
+WITH EXECUTE AS OWNER
+AS
+BEGIN
+  SET NOCOUNT ON;
+  DECLARE @contract nvarchar(100)=N'nerdery-sign-in-wildlife-user-result.v1',@code nvarchar(60)=NULL;
+  DECLARE @ref nvarchar(100)=JSON_VALUE(@request,N'$.identityResponseRef');
+  DECLARE @validation nvarchar(20)=NULL,@subject nvarchar(200)=NULL,@user_id nvarchar(100)=NULL;
+  -- D02: the DNR response is resolved and validated on the server; the application keeps no passwords. Only a
+  -- validated response for a registered wildlife user starts a session, bound to the verified SideFX session.
+  IF @ref IS NULL OR LEN(LTRIM(RTRIM(@ref)))=0 SET @code=N'IDENTITY_RESPONSE_REQUIRED';
+  ELSE
+  BEGIN
+    SELECT @validation=r.validation,@subject=r.subject FROM wildlife.identity_response r WHERE r.response_ref=@ref;
+    IF @validation=N'EXPIRED' SET @code=N'IDENTITY_RESPONSE_EXPIRED';
+    ELSE IF @validation IS NULL OR @validation<>N'VALID' SET @code=N'IDENTITY_NOT_VALIDATED';
+    ELSE
+    BEGIN
+      SELECT @user_id=u.user_id FROM wildlife.app_user u WHERE u.identity_subject=@subject;
+      IF @user_id IS NULL SET @code=N'REGISTRATION_REQUIRED';
+      ELSE IF @session_id IS NULL SET @code=N'SESSION_REQUIRED';
+    END
+  END
+  IF @code IS NOT NULL
+  BEGIN
+    SET @result=(SELECT @contract AS contractId,N'REFUSED' AS status,JSON_QUERY((SELECT @code AS code FOR JSON PATH,WITHOUT_ARRAY_WRAPPER)) AS reason,
+      JSON_QUERY(N'{"established":false}') AS session FOR JSON PATH,WITHOUT_ARRAY_WRAPPER);
+    RETURN;
+  END
+  UPDATE wildlife.signed_in_session SET user_id=@user_id,signed_in_at=SYSUTCDATETIME() WHERE session_id=@session_id;
+  IF @@ROWCOUNT=0 INSERT wildlife.signed_in_session(session_id,user_id,signed_in_at) VALUES(@session_id,@user_id,SYSUTCDATETIME());
+  SET @result=(SELECT @contract AS contractId,N'SIGNED_IN' AS status,
+    JSON_QUERY((SELECT u.user_id AS userId,u.first_name AS firstName,u.last_name AS lastName,u.email,
+      JSON_QUERY(ISNULL((SELECT N'['+STRING_AGG(CONVERT(nvarchar(max),N'"'+STRING_ESCAPE(r.role,'json')+N'"'),N',') WITHIN GROUP (ORDER BY r.role)+N']'
+        FROM wildlife.user_role r WHERE r.user_id=u.user_id),N'[]')) AS roles
+      FROM wildlife.app_user u WHERE u.user_id=@user_id FOR JSON PATH,WITHOUT_ARRAY_WRAPPER)) AS [user],
+    JSON_QUERY(N'{"established":true}') AS session FOR JSON PATH,WITHOUT_ARRAY_WRAPPER);
+END;
+GO
+CREATE OR ALTER PROCEDURE wildlife.register_wildlife_user
+  @request nvarchar(max),@result nvarchar(max) OUTPUT
+WITH EXECUTE AS OWNER
+AS
+BEGIN
+  SET NOCOUNT ON;
+  DECLARE @contract nvarchar(100)=N'nerdery-register-wildlife-user-result.v1',@code nvarchar(60)=NULL;
+  DECLARE @ref nvarchar(100)=JSON_VALUE(@request,N'$.identityResponseRef');
+  DECLARE @validation nvarchar(20)=NULL,@subject nvarchar(200)=NULL,@first nvarchar(200)=NULL,@last nvarchar(200)=NULL,@email nvarchar(320)=NULL,@roles nvarchar(max)=NULL;
+  -- A validated DNR subject not yet registered becomes a wildlife user with the required profile and a unique email;
+  -- its roles are the ones DNR assigns, managed outside the application.
+  IF @ref IS NULL OR LEN(LTRIM(RTRIM(@ref)))=0 SET @code=N'IDENTITY_RESPONSE_REQUIRED';
+  ELSE
+  BEGIN
+    SELECT @validation=r.validation,@subject=r.subject,@first=r.first_name,@last=r.last_name,@email=r.email,@roles=r.roles_json
+    FROM wildlife.identity_response r WHERE r.response_ref=@ref;
+    IF @validation=N'EXPIRED' SET @code=N'IDENTITY_RESPONSE_EXPIRED';
+    ELSE IF @validation IS NULL OR @validation<>N'VALID' SET @code=N'IDENTITY_NOT_VALIDATED';
+    ELSE IF EXISTS(SELECT 1 FROM wildlife.app_user u WHERE u.identity_subject=@subject) SET @code=N'ALREADY_REGISTERED';
+    ELSE IF LEN(LTRIM(RTRIM(ISNULL(@first,N''))))=0 OR LEN(LTRIM(RTRIM(ISNULL(@last,N''))))=0 OR LEN(LTRIM(RTRIM(ISNULL(@email,N''))))=0
+      SET @code=N'USER_PROFILE_INCOMPLETE';
+    ELSE IF EXISTS(SELECT 1 FROM wildlife.app_user u WHERE LTRIM(RTRIM(u.email))=LTRIM(RTRIM(@email)) COLLATE Latin1_General_100_CI_AS) SET @code=N'EMAIL_NOT_UNIQUE';
+  END
+  IF @code IS NOT NULL
+  BEGIN
+    SET @result=(SELECT @contract AS contractId,N'REFUSED' AS status,JSON_QUERY((SELECT @code AS code FOR JSON PATH,WITHOUT_ARRAY_WRAPPER)) AS reason,
+      JSON_QUERY(N'{"applied":false}') AS mutation FOR JSON PATH,WITHOUT_ARRAY_WRAPPER);
+    RETURN;
+  END
+  DECLARE @id nvarchar(100)=N'user-'+LOWER(LEFT(REPLACE(CONVERT(nvarchar(36),NEWID()),N'-',N''),8)),@tc int=@@TRANCOUNT;
+  BEGIN TRY
+    IF @tc=0 BEGIN TRANSACTION; ELSE SAVE TRANSACTION wildlife_register;
+    INSERT wildlife.app_user(user_id,principal_id,identity_subject,first_name,last_name,email) VALUES(@id,NULL,@subject,@first,@last,@email);
+    INSERT wildlife.user_role(user_id,role) SELECT DISTINCT @id,[value] FROM OPENJSON(ISNULL(@roles,N'[]')) WHERE [type]=1;
+    IF @tc=0 COMMIT TRANSACTION;
+  END TRY
+  BEGIN CATCH
+    IF XACT_STATE()=-1 OR (@tc=0 AND @@TRANCOUNT>0) ROLLBACK TRANSACTION; ELSE IF XACT_STATE()=1 ROLLBACK TRANSACTION wildlife_register;
+    SET @result=(SELECT @contract AS contractId,N'REFUSED' AS status,JSON_QUERY(N'{"code":"USER_STORAGE_UNAVAILABLE"}') AS reason,
+      JSON_QUERY(N'{"applied":false}') AS mutation FOR JSON PATH,WITHOUT_ARRAY_WRAPPER);
+    RETURN;
+  END CATCH
+  SET @result=(SELECT @contract AS contractId,N'REGISTERED' AS status,
+    JSON_QUERY((SELECT u.user_id AS userId,u.first_name AS firstName,u.last_name AS lastName,u.email,
+      JSON_QUERY(ISNULL((SELECT N'['+STRING_AGG(CONVERT(nvarchar(max),N'"'+STRING_ESCAPE(r.role,'json')+N'"'),N',') WITHIN GROUP (ORDER BY r.role)+N']'
+        FROM wildlife.user_role r WHERE r.user_id=u.user_id),N'[]')) AS roles
+      FROM wildlife.app_user u WHERE u.user_id=@id FOR JSON PATH,WITHOUT_ARRAY_WRAPPER)) AS [user],
+    JSON_QUERY(N'{"applied":true}') AS mutation FOR JSON PATH,WITHOUT_ARRAY_WRAPPER);
+END;
+GO
 CREATE OR ALTER PROCEDURE wildlife.invoke_operation
-  @operation nvarchar(100),@request nvarchar(max),@user_id nvarchar(100),@result nvarchar(max) OUTPUT
+  @operation nvarchar(100),@request nvarchar(max),@user_id nvarchar(100),@result nvarchar(max) OUTPUT,@session_id uniqueidentifier=NULL
 WITH EXECUTE AS OWNER
 AS
 BEGIN
@@ -843,13 +933,16 @@ BEGIN
     ELSE IF @operation=N'nerdery-remove-animal-attribute' EXEC wildlife.remove_animal_attribute @request=@request,@user_id=@user_id,@result=@result OUTPUT;
     ELSE IF @operation=N'nerdery-view-catalog-for-maintenance' EXEC wildlife.view_catalog_for_maintenance @request=@request,@user_id=@user_id,@result=@result OUTPUT;
     ELSE IF @operation=N'nerdery-resolve-wildlife-access' EXEC wildlife.resolve_wildlife_access @request=@request,@user_id=@user_id,@result=@result OUTPUT;
+    ELSE IF @operation=N'nerdery-sign-in-wildlife-user' EXEC wildlife.sign_in_wildlife_user @request=@request,@session_id=@session_id,@result=@result OUTPUT;
+    ELSE IF @operation=N'nerdery-register-wildlife-user' EXEC wildlife.register_wildlife_user @request=@request,@result=@result OUTPUT;
     ELSE SET @result=(SELECT N'REFUSED' AS status,JSON_QUERY(N'{"code":"OPERATION_NOT_DECLARED"}') AS reason FOR JSON PATH,WITHOUT_ARRAY_WRAPPER);
   END TRY
   BEGIN CATCH
     -- A store that cannot be read or written answers the operation's own storage refusal; nothing is kept.
     IF @@TRANCOUNT>@tc ROLLBACK TRANSACTION;
     DECLARE @write bit=CASE WHEN @operation IN (N'nerdery-upload-encounter-photo',N'nerdery-record-animal-encounter',N'nerdery-set-animal-team',N'nerdery-add-animal-definition',
-      N'nerdery-update-animal-definition',N'nerdery-remove-animal-definition',N'nerdery-add-animal-attribute',N'nerdery-update-animal-attribute',N'nerdery-remove-animal-attribute') THEN 1 ELSE 0 END;
+      N'nerdery-update-animal-definition',N'nerdery-remove-animal-definition',N'nerdery-add-animal-attribute',N'nerdery-update-animal-attribute',N'nerdery-remove-animal-attribute',
+      N'nerdery-register-wildlife-user') THEN 1 ELSE 0 END;
     SET @result=(SELECT @operation+N'-result.v1' AS contractId,N'REFUSED' AS status,
       JSON_QUERY((SELECT CASE @operation
         WHEN N'nerdery-upload-encounter-photo' THEN N'PHOTO_STORAGE_UNAVAILABLE'
@@ -858,8 +951,11 @@ BEGIN
         WHEN N'nerdery-view-collected-animal' THEN N'COLLECTION_STORAGE_UNAVAILABLE'
         WHEN N'nerdery-set-animal-team' THEN N'TEAM_STORAGE_UNAVAILABLE'
         WHEN N'nerdery-view-wildlife-home' THEN N'TEAM_STORAGE_UNAVAILABLE'
+        WHEN N'nerdery-sign-in-wildlife-user' THEN N'IDENTITY_SERVICE_UNAVAILABLE'
+        WHEN N'nerdery-register-wildlife-user' THEN N'IDENTITY_SERVICE_UNAVAILABLE'
         ELSE N'CATALOG_STORAGE_UNAVAILABLE' END AS code FOR JSON PATH,WITHOUT_ARRAY_WRAPPER)) AS reason,
-      JSON_QUERY(CASE WHEN @write=1 THEN N'{"applied":false}' END) AS mutation FOR JSON PATH,WITHOUT_ARRAY_WRAPPER);
+      JSON_QUERY(CASE WHEN @write=1 THEN N'{"applied":false}' END) AS mutation,
+      JSON_QUERY(CASE WHEN @operation=N'nerdery-sign-in-wildlife-user' THEN N'{"established":false}' END) AS session FOR JSON PATH,WITHOUT_ARRAY_WRAPPER);
   END CATCH
 END;
 GO
@@ -870,17 +966,22 @@ AS
 BEGIN
   SET NOCOUNT ON;
   -- The caller is bound by the declared API operation from the session the frontdoor validated ($caller); it is
-  -- verified again here, so a run admitted with someone else's principalId is anonymous. A verified principal
-  -- without a wildlife profile is anonymous too.
+  -- verified again here, so a run admitted with someone else's principalId is anonymous. A verified session answers
+  -- as the wildlife user it signed in as through DNR, otherwise as the wildlife user its principal maps to; a
+  -- verified principal with neither is anonymous too.
   DECLARE @principal uniqueidentifier=TRY_CONVERT(uniqueidentifier,JSON_VALUE(@input,N'$.caller.principalId')),
-    @session uniqueidentifier=TRY_CONVERT(uniqueidentifier,JSON_VALUE(@input,N'$.caller.sessionId')),@user_id nvarchar(100)=NULL,@result nvarchar(max);
-  IF @principal IS NOT NULL AND @session IS NOT NULL
-    SELECT @user_id=u.user_id
-    FROM wildlife.app_user u
-    JOIN [identity].session s ON s.principal_id=u.principal_id AND s.session_id=@session AND s.revoked_at IS NULL AND s.expires_at>SYSUTCDATETIME()
-    JOIN [identity].principal p ON p.principal_id=s.principal_id AND p.active=1
-    WHERE u.principal_id=@principal;
+    @session uniqueidentifier=TRY_CONVERT(uniqueidentifier,JSON_VALUE(@input,N'$.caller.sessionId')),@user_id nvarchar(100)=NULL,@result nvarchar(max),
+    @verified uniqueidentifier=NULL;
+  IF @principal IS NOT NULL AND @session IS NOT NULL AND EXISTS(SELECT 1 FROM [identity].session s
+      JOIN [identity].principal p ON p.principal_id=s.principal_id AND p.active=1
+      WHERE s.session_id=@session AND s.principal_id=@principal AND s.revoked_at IS NULL AND s.expires_at>SYSUTCDATETIME())
+    SET @verified=@session;
+  IF @verified IS NOT NULL
+  BEGIN
+    SELECT @user_id=su.user_id FROM wildlife.signed_in_session su WHERE su.session_id=@verified;
+    IF @user_id IS NULL SELECT @user_id=u.user_id FROM wildlife.app_user u WHERE u.principal_id=@principal;
+  END
   DECLARE @request nvarchar(max)=ISNULL(JSON_QUERY(@input,N'$.request'),N'{}');
-  EXEC wildlife.invoke_operation @operation=@operation,@request=@request,@user_id=@user_id,@result=@result OUTPUT;
+  EXEC wildlife.invoke_operation @operation=@operation,@request=@request,@user_id=@user_id,@result=@result OUTPUT,@session_id=@verified;
   SELECT @result AS value;
 END;
