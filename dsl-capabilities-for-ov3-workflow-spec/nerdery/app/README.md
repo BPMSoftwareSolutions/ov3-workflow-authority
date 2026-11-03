@@ -1,43 +1,28 @@
-# Wildlife Collection: the local demo
+# Wildlife Collection: the local frontend
 
-This is a local web app for the Nerdery wildlife challenge. Its behavior is defined by the challenge's canonical features: each operation returns exactly the result its feature specifies, and those features' cases run as the app's acceptance tests.
+This is the web frontend for the Nerdery wildlife demo. It runs locally, and every screen is a run of a capability declared in the SideFX estate, made through the SideFX API as your signed-in session. The runs work on the estate's wildlife store. The local server stores nothing.
 
 ## Run it
 
 ```
+sfx-api login      # once; the runs go out as this SideFX session
 cd dsl-capabilities-for-ov3-workflow-spec/nerdery/app
 npm start          # http://localhost:4310
-npm run reset      # start again from the seed: Avery owns nothing yet
-npm test           # run every canonical case against the operations
 ```
 
-You need Node 20 or later. There are no dependencies and nothing to install.
+You need Node 20 or later and the installed SideFX API client (`sfx-api.mjs`), and nothing else.
 
-## Signing in
+A run costs the SideFX API about 3–4 seconds, whatever the capability. The server calls the API directly in-process: the client's session is read once, and each run is two requests, admit and read the output. To keep the app responsive, the server:
+- runs every answer a screen can show once at start, in about a minute;
+- answers screens from those runs, in about 100 ms;
+- refreshes an answer older than a minute in the background while still serving it;
+- after a write, re-runs only the reads that write can change.
 
-The app stands in for the DNR identity service with the identity responses from the challenge fixtures:
-- **Avery** is a citizen.
-- **Casey** is a biologist.
-- **Drew** is validated by DNR but not registered.
-- An **invalid** response and an **expired** response show the named refusals.
+Runs still go one at a time, and a run someone is waiting for goes ahead of background ones. A write waits for its own run, about 3–4 seconds.
 
-The app keeps no passwords. A session starts only from a response DNR validated, for a registered wildlife user.
+## What runs where
 
-If Drew tries to sign in, sign-in answers REGISTRATION_REQUIRED and the app offers registration. `nerdery-register-wildlife-user` creates the account with the roles DNR assigns, and the same response then signs Drew in.
-
-Before every screen, the app asks `nerdery-resolve-wildlife-access` for that screen's section, using the user's current roles. The menu offers Catalog only when access to `animal-definitions-admin` is allowed, so the page never decides from roles itself.
-
-## Languages
-
-The **EN | ES** switch in the header changes the language. Every screen takes its labels and title from `nerdery-present-wildlife-experience`, in the chosen locale.
-
-Only the labels change. Animal names, types, stats, places and attribute values are data and read the same in both languages, as decision D11 sets out. Refusals read in the chosen language and keep their code.
-
-The labels are in [lib/labels.mjs](lib/labels.mjs), 210 per language, and are seeded into the store's `uiTranslations` beside the fixture's own.
-
-## Screens
-
-| Screen | Operations used |
+| Screen | Capability in the estate |
 | --- | --- |
 | Home | `nerdery-view-wildlife-home`, `nerdery-view-collected-animals` |
 | Collection | `nerdery-browse-animal-collection` |
@@ -46,21 +31,17 @@ The labels are in [lib/labels.mjs](lib/labels.mjs), 210 per language, and are se
 | My animals | `nerdery-view-collected-animals`, plus `nerdery-view-collected-animal` for each photo |
 | Individual | `nerdery-view-collected-animal`, which returns the stored photo bytes, checked in the browser against their digest |
 | Team | `nerdery-set-animal-team` |
-| Catalog (biologists only) | `nerdery-view-catalog-for-maintenance`, `nerdery-add-animal-definition`, `nerdery-update-animal-definition`, `nerdery-remove-animal-definition`, `nerdery-add-animal-attribute`, `nerdery-update-animal-attribute`, `nerdery-remove-animal-attribute` |
 
-The menu offers Catalog only to biologists. Even so, every catalog operation refuses a citizen on its own, with BIOLOGIST_ROLE_REQUIRED.
+Each screen shows the capability's own answer at its foot, with its SideFX run id and a link to that run on the circuit.
 
-`nerdery-view-catalog-for-maintenance` is a feature written for this app, in `../features`: the package's update and remove features need each definition's revision, and its reads never return one.
+The page applies no rules of its own. The capabilities verify your session against `[identity].session` and refuse with named reasons.
 
-At the foot of each screen, the operation's own answer is shown under its capability name. The page applies no rules of its own: every refusal you see is named by an operation.
+A capability the estate does not declare yet is refused as `CAPABILITY_NOT_DECLARED` and never answered locally. That currently covers content management, section access, presentation and the maintenance read.
 
-## Where things are
+The **EN | ES** switch changes the interface labels, which live in [lib/labels.mjs](lib/labels.mjs). The estate's data reads the same in both languages.
 
-| Path | What it holds |
-| --- | --- |
-| [server.mjs](server.mjs) | The HTTP server. An operation runs as the user of the session this server started, never as a user named in the request. |
-| [lib/operations.mjs](lib/operations.mjs) | One function per feature, ported from the slice's mechanics in `../wildlife/wildlife.procedures.sql`. |
-| [lib/store.mjs](lib/store.mjs) | The store: seeded from the fixtures, transactional, with storage faults the cases can inject. Its data lives in `data/`, which git ignores. |
-| [test/run-features.mjs](test/run-features.mjs) | The acceptance runner. It reads the cases from `nerdery-canonical-features/features` and `../features`, with their fixtures. |
+## The reference model, not served
 
-The features are read where they live and are never copied. The review package is `nerdery-canonical-features`, read only. Features written for the build, such as the photo view, live in `../features`.
+[lib/operations.mjs](lib/operations.mjs) and [lib/store.mjs](lib/store.mjs) model every MVP feature in JavaScript. `npm test` runs all 148 canonical cases against them.
+
+They are the model the remaining estate mechanics are ported from (T-SQL in `../wildlife/wildlife.procedures.sql`). The server does not use them.

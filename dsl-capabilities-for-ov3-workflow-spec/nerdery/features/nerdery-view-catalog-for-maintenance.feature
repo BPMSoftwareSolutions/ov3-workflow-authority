@@ -6,7 +6,10 @@
 # nerdery-canonical-features name each definition's and attribute's expectedRevision, and the reads of that package never
 # return a revision or, for an uncollected animal, its locked fields. This read returns both, to biologists only. Its
 # arrangements are nerdery/fixtures/cases/*.json over that package's pinned base state.
-# @status:probed: the case ran against the local application's operations through nerdery/app/test/run-features.mjs.
+# @status:probed: the case ran read-only against the wildlife procedures through nerdery/conformance/run-cases.mjs
+# (runs 869e7203, 669ba146, dce56efb).
+# Provider: the operation is one sql-database-reader statement on sfx-identity (EXEC wildlife.serve), so every case is
+# tagged @provider:sql-database-reader.
 # Every Scenario below is an acceptance case of the ONE circuit scenario tagged on this Feature.
 # Given / When / Then are exact across cases. Given holds the request JSON. Then holds operation/path/equals.
 # Values: true/false/null/numbers/arrays/objects are JSON values; other values are strings; (absent) selects nothing.
@@ -40,6 +43,7 @@ Feature: View the catalog for maintenance
     # Casey has collected only Demo Heron; maintenance still shows Demo Fox's locked fields.
     @case:nrd-maintenance-biologist
     @status:probed
+    @provider:sql-database-reader
     Scenario: A biologist sees the whole catalog with revisions
       Given a request to view the catalog for maintenance
         """json
@@ -63,6 +67,7 @@ Feature: View the catalog for maintenance
     # Arrangement: nerdery/fixtures/cases/nrd-maintenance-inactive.json (sha256:375e20ab7e62975204e93404c755c049ded944dbc3f9ebb6a32b113f934e8498).
     @case:nrd-maintenance-inactive
     @status:probed
+    @provider:sql-database-reader
     Scenario: A removed definition stays visible to maintenance as inactive
       Given a request to view the catalog for maintenance
         """json
@@ -84,6 +89,7 @@ Feature: View the catalog for maintenance
     # Arrangement: nerdery/fixtures/cases/nrd-maintenance-citizen.json (sha256:be24516f717be7ca191d54bd26feab26146e9515134fc96631f52f91efd8fbca).
     @case:nrd-maintenance-citizen
     @status:probed
+    @provider:sql-database-reader
     Scenario: A citizen cannot read the catalog for maintenance
       Given a request to view the catalog for maintenance
         """json
@@ -102,6 +108,7 @@ Feature: View the catalog for maintenance
     # Arrangement: nerdery/fixtures/cases/nrd-maintenance-anonymous.json (sha256:6d1275003ba3140df1b3c17ab2f5a088498b0f576196fe7066b62eb1967adf22).
     @case:nrd-maintenance-anonymous
     @status:probed
+    @provider:sql-database-reader
     Scenario: An unauthenticated request cannot read the catalog for maintenance
       Given a request to view the catalog for maintenance
         """json

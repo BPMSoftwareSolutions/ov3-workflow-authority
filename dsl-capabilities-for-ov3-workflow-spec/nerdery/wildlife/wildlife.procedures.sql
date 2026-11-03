@@ -442,6 +442,383 @@ BEGIN
     JSON_QUERY(N'{"applied":true}') AS mutation FOR JSON PATH,WITHOUT_ARRAY_WRAPPER);
 END;
 GO
+CREATE OR ALTER PROCEDURE wildlife.update_animal_definition
+  @request nvarchar(max),@user_id nvarchar(100),@result nvarchar(max) OUTPUT
+WITH EXECUTE AS OWNER
+AS
+BEGIN
+  SET NOCOUNT ON;
+  DECLARE @contract nvarchar(100)=N'nerdery-update-animal-definition-result.v1',@code nvarchar(60)=NULL,@current int=NULL;
+  DECLARE @id nvarchar(100)=JSON_VALUE(@request,N'$.definitionId'),@expected int=TRY_CONVERT(int,JSON_VALUE(@request,N'$.expectedRevision'));
+  DECLARE @revision int=NULL,@active bit=NULL;
+  DECLARE @a nvarchar(max)=JSON_QUERY(@request,N'$.animal');
+  DECLARE @common nvarchar(200)=JSON_VALUE(@a,N'$.commonName'),@scientific nvarchar(200)=JSON_VALUE(@a,N'$.scientificName'),
+    @avatar nvarchar(100)=JSON_VALUE(@a,N'$.avatarPhotoRef'),@number int=TRY_CONVERT(int,JSON_VALUE(@a,N'$.collectionNumber')),
+    @range nvarchar(max)=JSON_QUERY(@a,N'$.range'),@types nvarchar(max)=JSON_QUERY(@a,N'$.types'),@stats nvarchar(max)=JSON_QUERY(@a,N'$.stats'),
+    @attributes nvarchar(max)=ISNULL(JSON_QUERY(@a,N'$.attributes'),N'[]');
+  DECLARE @range_rows TABLE(ordinal int PRIMARY KEY,county_id nvarchar(100) COLLATE Latin1_General_100_BIN2 NULL,value_type int NOT NULL);
+  DECLARE @type_rows TABLE(ordinal int PRIMARY KEY,type_name nvarchar(100) COLLATE Latin1_General_100_BIN2 NULL,value_type int NOT NULL);
+  DECLARE @attr_rows TABLE(ordinal int PRIMARY KEY,attribute_id nvarchar(100) COLLATE Latin1_General_100_BIN2 NULL,value_ids nvarchar(max) NULL);
+  DECLARE @value_rows TABLE(attribute_id nvarchar(100) COLLATE Latin1_General_100_BIN2 NOT NULL,ordinal int NOT NULL,value_id nvarchar(100) COLLATE Latin1_General_100_BIN2 NULL,value_type int NOT NULL);
+  IF @range IS NOT NULL AND LEFT(LTRIM(@range),1)=N'['
+    INSERT @range_rows SELECT CONVERT(int,[key]),CASE WHEN [type]=1 THEN [value] END,[type] FROM OPENJSON(@range);
+  IF @types IS NOT NULL AND LEFT(LTRIM(@types),1)=N'['
+    INSERT @type_rows SELECT CONVERT(int,[key]),CASE WHEN [type]=1 THEN [value] END,[type] FROM OPENJSON(@types);
+  IF LEFT(LTRIM(@attributes),1)=N'['
+  BEGIN
+    INSERT @attr_rows SELECT CONVERT(int,j.[key]),JSON_VALUE(j.[value],N'$.attributeId'),JSON_QUERY(j.[value],N'$.valueIds') FROM OPENJSON(@attributes) j;
+    INSERT @value_rows SELECT r.attribute_id,CONVERT(int,v.[key]),CASE WHEN v.[type]=1 THEN v.[value] END,v.[type]
+    FROM @attr_rows r CROSS APPLY OPENJSON(ISNULL(r.value_ids,N'[]')) v WHERE r.attribute_id IS NOT NULL;
+  END
+  -- D13: a change names the revision its author saw; a stale change is refused and changes nothing.
+  IF @user_id IS NULL SET @code=N'AUTHENTICATION_REQUIRED';
+  ELSE IF NOT EXISTS(SELECT 1 FROM wildlife.user_role r WHERE r.user_id=@user_id AND r.role=N'biologist') SET @code=N'BIOLOGIST_ROLE_REQUIRED';
+  ELSE IF @id IS NULL OR LEN(LTRIM(RTRIM(@id)))=0 SET @code=N'ANIMAL_SELECTION_REQUIRED';
+  ELSE IF @expected IS NULL SET @code=N'REVISION_REQUIRED';
+  ELSE
+  BEGIN
+    SELECT @revision=d.revision,@active=d.active FROM wildlife.animal_definition d WHERE d.definition_id=@id;
+    IF @revision IS NULL SET @code=N'ANIMAL_DEFINITION_NOT_FOUND';
+    ELSE IF @revision<>@expected SELECT @code=N'REVISION_CONFLICT',@current=@revision;
+  END
+  -- The proposed properties are checked as an addition checks them; the definition's own collection number is no conflict.
+  IF @code IS NULL
+  BEGIN
+    IF @a IS NULL OR LEN(LTRIM(RTRIM(ISNULL(@common,N''))))=0 OR LEN(LTRIM(RTRIM(ISNULL(@scientific,N''))))=0 OR LEN(LTRIM(RTRIM(ISNULL(@avatar,N''))))=0
+      OR @number IS NULL OR @number<1 OR @range IS NULL OR LEFT(LTRIM(@range),1)<>N'[' OR @types IS NULL OR LEFT(LTRIM(@types),1)<>N'['
+      OR @stats IS NULL OR LEFT(LTRIM(@stats),1)<>N'{' OR LEFT(LTRIM(@attributes),1)<>N'['
+      OR EXISTS(SELECT 1 FROM @range_rows WHERE value_type<>1) OR EXISTS(SELECT 1 FROM @type_rows WHERE value_type<>1)
+      OR EXISTS(SELECT 1 FROM @attr_rows WHERE attribute_id IS NULL OR value_ids IS NULL OR LEFT(LTRIM(value_ids),1)<>N'[') OR EXISTS(SELECT 1 FROM @value_rows WHERE value_type<>1)
+      SET @code=N'ANIMAL_DEFINITION_INCOMPLETE';
+    ELSE IF (SELECT COUNT(*) FROM @type_rows)>2 SET @code=N'ANIMAL_TYPE_LIMIT_EXCEEDED';
+    ELSE IF EXISTS(SELECT 1 FROM @type_rows t WHERE NOT EXISTS(SELECT 1 FROM wildlife.animal_type x WHERE x.type_name=t.type_name)) SET @code=N'ANIMAL_TYPE_UNKNOWN';
+    ELSE IF EXISTS(SELECT type_name FROM @type_rows GROUP BY type_name HAVING COUNT(*)>1) SET @code=N'ANIMAL_TYPE_DUPLICATE';
+    ELSE IF EXISTS(SELECT 1 FROM @range_rows r WHERE NOT EXISTS(SELECT 1 FROM wildlife.county c WHERE c.county_id=r.county_id)) SET @code=N'COUNTY_UNKNOWN';
+    ELSE IF EXISTS(SELECT county_id FROM @range_rows GROUP BY county_id HAVING COUNT(*)>1) SET @code=N'COUNTY_DUPLICATE';
+    ELSE IF EXISTS(SELECT 1 FROM wildlife.animal_definition d WHERE d.collection_number=@number AND d.definition_id<>@id) SET @code=N'COLLECTION_NUMBER_NOT_UNIQUE';
+    ELSE IF EXISTS(SELECT 1 FROM @attr_rows r WHERE NOT EXISTS(SELECT 1 FROM wildlife.attribute x WHERE x.attribute_id=r.attribute_id AND x.active=1)) SET @code=N'ATTRIBUTE_UNKNOWN';
+    ELSE IF EXISTS(SELECT attribute_id FROM @attr_rows GROUP BY attribute_id HAVING COUNT(*)>1) SET @code=N'ATTRIBUTE_DUPLICATE';
+    ELSE IF EXISTS(SELECT 1 FROM @value_rows v WHERE NOT EXISTS(SELECT 1 FROM wildlife.attribute_value x WHERE x.attribute_id=v.attribute_id AND x.value_id=v.value_id))
+      SET @code=N'ATTRIBUTE_VALUE_NOT_SELECTABLE';
+    ELSE IF EXISTS(SELECT attribute_id,value_id FROM @value_rows GROUP BY attribute_id,value_id HAVING COUNT(*)>1) SET @code=N'ATTRIBUTE_VALUE_DUPLICATE';
+    ELSE IF NOT EXISTS(SELECT 1 FROM wildlife.photo p WHERE p.photo_ref=@avatar AND p.purpose=N'avatar' AND p.durable=1) SET @code=N'AVATAR_PHOTO_NOT_RETAINED';
+  END
+  IF @code IS NOT NULL
+  BEGIN
+    SET @result=(SELECT @contract AS contractId,N'REFUSED' AS status,JSON_QUERY((SELECT @code AS code FOR JSON PATH,WITHOUT_ARRAY_WRAPPER)) AS reason,
+      @current AS currentRevision,JSON_QUERY(N'{"applied":false}') AS mutation FOR JSON PATH,WITHOUT_ARRAY_WRAPPER);
+    RETURN;
+  END
+  DECLARE @range_json nvarchar(max)=ISNULL((SELECT N'['+STRING_AGG(CONVERT(nvarchar(max),N'"'+STRING_ESCAPE(county_id,'json')+N'"'),N',') WITHIN GROUP (ORDER BY ordinal)+N']' FROM @range_rows),N'[]');
+  DECLARE @types_json nvarchar(max)=ISNULL((SELECT N'['+STRING_AGG(CONVERT(nvarchar(max),N'"'+STRING_ESCAPE(type_name,'json')+N'"'),N',') WITHIN GROUP (ORDER BY ordinal)+N']' FROM @type_rows),N'[]');
+  DECLARE @attr_json nvarchar(max)=ISNULL((SELECT N'['+STRING_AGG(CONVERT(nvarchar(max),x.j),N',') WITHIN GROUP (ORDER BY x.ordinal)+N']' FROM (
+      SELECT r.ordinal,N'{"attributeId":"'+STRING_ESCAPE(r.attribute_id,'json')+N'","valueIds":'
+        +ISNULL((SELECT N'['+STRING_AGG(CONVERT(nvarchar(max),N'"'+STRING_ESCAPE(v.value_id,'json')+N'"'),N',') WITHIN GROUP (ORDER BY v.ordinal)+N']' FROM @value_rows v WHERE v.attribute_id=r.attribute_id),N'[]')+N'}' AS j
+      FROM @attr_rows r) x),N'[]');
+  -- The definition keeps its identity: encounters, teams and unlocks that name it keep naming it.
+  DECLARE @tc int=@@TRANCOUNT;
+  BEGIN TRY
+    IF @tc=0 BEGIN TRANSACTION; ELSE SAVE TRANSACTION wildlife_definition_update;
+    UPDATE wildlife.animal_definition SET revision=@revision+1,common_name=@common,scientific_name=@scientific,avatar_photo_ref=@avatar,collection_number=@number,
+      range_json=@range_json,types_json=@types_json,stats_json=@stats,attributes_json=@attr_json WHERE definition_id=@id;
+    DELETE wildlife.definition_county WHERE definition_id=@id;
+    INSERT wildlife.definition_county(definition_id,county_id) SELECT @id,county_id FROM @range_rows;
+    DELETE wildlife.definition_type WHERE definition_id=@id;
+    INSERT wildlife.definition_type(definition_id,type_name) SELECT @id,type_name FROM @type_rows;
+    DELETE wildlife.definition_attribute_value WHERE definition_id=@id;
+    INSERT wildlife.definition_attribute_value(definition_id,attribute_id,value_id) SELECT @id,attribute_id,value_id FROM @value_rows;
+    IF @tc=0 COMMIT TRANSACTION;
+  END TRY
+  BEGIN CATCH
+    IF XACT_STATE()=-1 OR (@tc=0 AND @@TRANCOUNT>0) ROLLBACK TRANSACTION; ELSE IF XACT_STATE()=1 ROLLBACK TRANSACTION wildlife_definition_update;
+    SET @result=(SELECT @contract AS contractId,N'REFUSED' AS status,JSON_QUERY(N'{"code":"CATALOG_STORAGE_UNAVAILABLE"}') AS reason,
+      JSON_QUERY(N'{"applied":false}') AS mutation FOR JSON PATH,WITHOUT_ARRAY_WRAPPER);
+    RETURN;
+  END CATCH
+  SET @result=(SELECT @contract AS contractId,N'UPDATED' AS status,
+    JSON_QUERY((SELECT @id AS definitionId,@revision+1 AS revision,@active AS active,@common AS commonName,@scientific AS scientificName,@avatar AS avatarPhotoRef,
+      @number AS collectionNumber,JSON_QUERY(@range_json) AS [range],JSON_QUERY(@types_json) AS types,JSON_QUERY(@stats) AS stats,JSON_QUERY(@attr_json) AS attributes
+      FOR JSON PATH,WITHOUT_ARRAY_WRAPPER)) AS animal,
+    JSON_QUERY(N'{"applied":true}') AS mutation FOR JSON PATH,WITHOUT_ARRAY_WRAPPER);
+END;
+GO
+CREATE OR ALTER PROCEDURE wildlife.remove_animal_definition
+  @request nvarchar(max),@user_id nvarchar(100),@result nvarchar(max) OUTPUT
+WITH EXECUTE AS OWNER
+AS
+BEGIN
+  SET NOCOUNT ON;
+  DECLARE @contract nvarchar(100)=N'nerdery-remove-animal-definition-result.v1',@code nvarchar(60)=NULL,@current int=NULL;
+  DECLARE @id nvarchar(100)=JSON_VALUE(@request,N'$.definitionId'),@expected int=TRY_CONVERT(int,JSON_VALUE(@request,N'$.expectedRevision'));
+  DECLARE @revision int=NULL,@active bit=NULL;
+  IF @user_id IS NULL SET @code=N'AUTHENTICATION_REQUIRED';
+  ELSE IF NOT EXISTS(SELECT 1 FROM wildlife.user_role r WHERE r.user_id=@user_id AND r.role=N'biologist') SET @code=N'BIOLOGIST_ROLE_REQUIRED';
+  ELSE IF @id IS NULL OR LEN(LTRIM(RTRIM(@id)))=0 SET @code=N'ANIMAL_SELECTION_REQUIRED';
+  ELSE IF @expected IS NULL SET @code=N'REVISION_REQUIRED';
+  ELSE
+  BEGIN
+    SELECT @revision=d.revision,@active=d.active FROM wildlife.animal_definition d WHERE d.definition_id=@id;
+    IF @revision IS NULL SET @code=N'ANIMAL_DEFINITION_NOT_FOUND';
+    ELSE IF @revision<>@expected SELECT @code=N'REVISION_CONFLICT',@current=@revision;
+    ELSE IF @active=0 SET @code=N'ANIMAL_DEFINITION_UNAVAILABLE';
+  END
+  IF @code IS NOT NULL
+  BEGIN
+    SET @result=(SELECT @contract AS contractId,N'REFUSED' AS status,JSON_QUERY((SELECT @code AS code FOR JSON PATH,WITHOUT_ARRAY_WRAPPER)) AS reason,
+      @current AS currentRevision,JSON_QUERY(N'{"applied":false}') AS mutation FOR JSON PATH,WITHOUT_ARRAY_WRAPPER);
+    RETURN;
+  END
+  -- Removal takes the definition out of the active catalog; recorded individuals and team memberships stay as they are.
+  DECLARE @encounters int=(SELECT COUNT(*) FROM wildlife.encounter e WHERE e.definition_id=@id);
+  DECLARE @places int=(SELECT COUNT(*) FROM wildlife.team_member m JOIN wildlife.encounter e ON e.owner_user_id=m.owner_user_id AND e.encounter_id=m.encounter_id
+    WHERE e.definition_id=@id);
+  DECLARE @tc int=@@TRANCOUNT;
+  BEGIN TRY
+    IF @tc=0 BEGIN TRANSACTION; ELSE SAVE TRANSACTION wildlife_definition_remove;
+    UPDATE wildlife.animal_definition SET active=0,revision=@revision+1 WHERE definition_id=@id;
+    IF @tc=0 COMMIT TRANSACTION;
+  END TRY
+  BEGIN CATCH
+    IF XACT_STATE()=-1 OR (@tc=0 AND @@TRANCOUNT>0) ROLLBACK TRANSACTION; ELSE IF XACT_STATE()=1 ROLLBACK TRANSACTION wildlife_definition_remove;
+    SET @result=(SELECT @contract AS contractId,N'REFUSED' AS status,JSON_QUERY(N'{"code":"CATALOG_STORAGE_UNAVAILABLE"}') AS reason,
+      JSON_QUERY(N'{"applied":false}') AS mutation FOR JSON PATH,WITHOUT_ARRAY_WRAPPER);
+    RETURN;
+  END CATCH
+  SET @result=(SELECT @contract AS contractId,N'REMOVED' AS status,@id AS definitionId,CONVERT(bit,0) AS active,@revision+1 AS revision,
+    JSON_QUERY((SELECT @encounters AS encountersRetained,@places AS teamReferencesRetained FOR JSON PATH,WITHOUT_ARRAY_WRAPPER)) AS history,
+    JSON_QUERY(N'{"applied":true}') AS mutation FOR JSON PATH,WITHOUT_ARRAY_WRAPPER);
+END;
+GO
+CREATE OR ALTER PROCEDURE wildlife.add_animal_attribute
+  @request nvarchar(max),@user_id nvarchar(100),@result nvarchar(max) OUTPUT
+WITH EXECUTE AS OWNER
+AS
+BEGIN
+  SET NOCOUNT ON;
+  DECLARE @contract nvarchar(100)=N'nerdery-add-animal-attribute-result.v1',@code nvarchar(60)=NULL;
+  DECLARE @a nvarchar(max)=JSON_QUERY(@request,N'$.attribute');
+  DECLARE @name nvarchar(200)=JSON_VALUE(@a,N'$.name'),@description nvarchar(2000)=JSON_VALUE(@a,N'$.description'),@values nvarchar(max)=JSON_QUERY(@a,N'$.selectableValues');
+  DECLARE @rows TABLE(ordinal int PRIMARY KEY,value_id nvarchar(100) COLLATE Latin1_General_100_BIN2 NULL,label nvarchar(200) COLLATE Latin1_General_100_BIN2 NULL,value_type int NOT NULL);
+  IF @values IS NOT NULL AND LEFT(LTRIM(@values),1)=N'['
+    INSERT @rows SELECT CONVERT(int,[key]),CASE WHEN [type]=5 THEN JSON_VALUE([value],N'$.valueId') END,CASE WHEN [type]=5 THEN JSON_VALUE([value],N'$.label') END,[type] FROM OPENJSON(@values);
+  IF @user_id IS NULL SET @code=N'AUTHENTICATION_REQUIRED';
+  ELSE IF NOT EXISTS(SELECT 1 FROM wildlife.user_role r WHERE r.user_id=@user_id AND r.role=N'biologist') SET @code=N'BIOLOGIST_ROLE_REQUIRED';
+  ELSE IF LEN(LTRIM(RTRIM(ISNULL(@name,N''))))=0 OR LEN(LTRIM(RTRIM(ISNULL(@description,N''))))=0 OR @values IS NULL OR LEFT(LTRIM(@values),1)<>N'['
+    OR NOT EXISTS(SELECT 1 FROM @rows) OR EXISTS(SELECT 1 FROM @rows WHERE value_type<>5 OR LEN(LTRIM(RTRIM(ISNULL(value_id,N''))))=0 OR LEN(LTRIM(RTRIM(ISNULL(label,N''))))=0)
+    SET @code=N'ANIMAL_ATTRIBUTE_INCOMPLETE';
+  ELSE IF EXISTS(SELECT value_id FROM @rows GROUP BY value_id HAVING COUNT(*)>1) SET @code=N'ATTRIBUTE_VALUE_DUPLICATE';
+  ELSE IF EXISTS(SELECT 1 FROM wildlife.attribute x WHERE x.active=1 AND LOWER(LTRIM(RTRIM(x.name))) COLLATE Latin1_General_100_CI_AS=LOWER(LTRIM(RTRIM(@name))) COLLATE Latin1_General_100_CI_AS)
+    SET @code=N'ATTRIBUTE_NAME_NOT_UNIQUE';
+  IF @code IS NOT NULL
+  BEGIN
+    SET @result=(SELECT @contract AS contractId,N'REFUSED' AS status,JSON_QUERY((SELECT @code AS code FOR JSON PATH,WITHOUT_ARRAY_WRAPPER)) AS reason,
+      JSON_QUERY(N'{"applied":false}') AS mutation FOR JSON PATH,WITHOUT_ARRAY_WRAPPER);
+    RETURN;
+  END
+  -- The attribute's identity is its name in lower case with every other character run made a hyphen, numbered when taken.
+  DECLARE @lower nvarchar(200)=LOWER(LTRIM(RTRIM(@name))),@slug nvarchar(200)=N'',@i int=1,@ch nchar(1);
+  WHILE @i<=LEN(@lower)
+  BEGIN
+    SET @ch=SUBSTRING(@lower,@i,1);
+    IF @ch COLLATE Latin1_General_100_BIN2 LIKE N'[a-z0-9]' SET @slug+=@ch;
+    ELSE IF RIGHT(@slug,1)<>N'-' AND LEN(@slug)>0 SET @slug+=N'-';
+    SET @i+=1;
+  END
+  WHILE RIGHT(@slug,1)=N'-' SET @slug=LEFT(@slug,LEN(@slug)-1);
+  IF @slug=N'' SET @slug=N'attribute';
+  DECLARE @id nvarchar(100)=@slug,@n int=2;
+  WHILE EXISTS(SELECT 1 FROM wildlife.attribute x WHERE x.attribute_id=@id) BEGIN SET @id=@slug+N'-'+CONVERT(nvarchar(10),@n); SET @n+=1; END
+  DECLARE @tc int=@@TRANCOUNT;
+  BEGIN TRY
+    IF @tc=0 BEGIN TRANSACTION; ELSE SAVE TRANSACTION wildlife_attribute_add;
+    INSERT wildlife.attribute(attribute_id,revision,active,name,description) VALUES(@id,1,1,@name,@description);
+    INSERT wildlife.attribute_value(attribute_id,value_id,label,ordinal) SELECT @id,value_id,label,ordinal FROM @rows;
+    IF @tc=0 COMMIT TRANSACTION;
+  END TRY
+  BEGIN CATCH
+    IF XACT_STATE()=-1 OR (@tc=0 AND @@TRANCOUNT>0) ROLLBACK TRANSACTION; ELSE IF XACT_STATE()=1 ROLLBACK TRANSACTION wildlife_attribute_add;
+    SET @result=(SELECT @contract AS contractId,N'REFUSED' AS status,JSON_QUERY(N'{"code":"CATALOG_STORAGE_UNAVAILABLE"}') AS reason,
+      JSON_QUERY(N'{"applied":false}') AS mutation FOR JSON PATH,WITHOUT_ARRAY_WRAPPER);
+    RETURN;
+  END CATCH
+  -- An attribute describes animals; adding one changes no animal's stats.
+  SET @result=(SELECT @contract AS contractId,N'ADDED' AS status,
+    JSON_QUERY((SELECT @id AS attributeId,1 AS revision,CONVERT(bit,1) AS active,@name AS name,@description AS description,
+      JSON_QUERY(ISNULL((SELECT r.value_id AS valueId,r.label AS label FROM @rows r ORDER BY r.ordinal FOR JSON PATH),N'[]')) AS selectableValues
+      FOR JSON PATH,WITHOUT_ARRAY_WRAPPER)) AS attribute,
+    JSON_QUERY(N'{"applied":true,"animalStatChanges":0}') AS mutation FOR JSON PATH,WITHOUT_ARRAY_WRAPPER);
+END;
+GO
+CREATE OR ALTER PROCEDURE wildlife.update_animal_attribute
+  @request nvarchar(max),@user_id nvarchar(100),@result nvarchar(max) OUTPUT
+WITH EXECUTE AS OWNER
+AS
+BEGIN
+  SET NOCOUNT ON;
+  DECLARE @contract nvarchar(100)=N'nerdery-update-animal-attribute-result.v1',@code nvarchar(60)=NULL,@current int=NULL;
+  DECLARE @id nvarchar(100)=JSON_VALUE(@request,N'$.attributeId'),@expected int=TRY_CONVERT(int,JSON_VALUE(@request,N'$.expectedRevision'));
+  DECLARE @revision int=NULL,@active bit=NULL;
+  DECLARE @a nvarchar(max)=JSON_QUERY(@request,N'$.attribute');
+  DECLARE @name nvarchar(200)=JSON_VALUE(@a,N'$.name'),@description nvarchar(2000)=JSON_VALUE(@a,N'$.description'),@values nvarchar(max)=JSON_QUERY(@a,N'$.selectableValues');
+  DECLARE @rows TABLE(ordinal int PRIMARY KEY,value_id nvarchar(100) COLLATE Latin1_General_100_BIN2 NULL,label nvarchar(200) COLLATE Latin1_General_100_BIN2 NULL,value_type int NOT NULL);
+  IF @values IS NOT NULL AND LEFT(LTRIM(@values),1)=N'['
+    INSERT @rows SELECT CONVERT(int,[key]),CASE WHEN [type]=5 THEN JSON_VALUE([value],N'$.valueId') END,CASE WHEN [type]=5 THEN JSON_VALUE([value],N'$.label') END,[type] FROM OPENJSON(@values);
+  IF @user_id IS NULL SET @code=N'AUTHENTICATION_REQUIRED';
+  ELSE IF NOT EXISTS(SELECT 1 FROM wildlife.user_role r WHERE r.user_id=@user_id AND r.role=N'biologist') SET @code=N'BIOLOGIST_ROLE_REQUIRED';
+  ELSE IF @id IS NULL OR LEN(LTRIM(RTRIM(@id)))=0 SET @code=N'ATTRIBUTE_SELECTION_REQUIRED';
+  ELSE IF @expected IS NULL SET @code=N'REVISION_REQUIRED';
+  ELSE
+  BEGIN
+    SELECT @revision=x.revision,@active=x.active FROM wildlife.attribute x WHERE x.attribute_id=@id;
+    IF @revision IS NULL SET @code=N'ANIMAL_ATTRIBUTE_NOT_FOUND';
+    ELSE IF @revision<>@expected SELECT @code=N'REVISION_CONFLICT',@current=@revision;
+    ELSE IF LEN(LTRIM(RTRIM(ISNULL(@name,N''))))=0 OR LEN(LTRIM(RTRIM(ISNULL(@description,N''))))=0 OR @values IS NULL OR LEFT(LTRIM(@values),1)<>N'['
+      OR NOT EXISTS(SELECT 1 FROM @rows) OR EXISTS(SELECT 1 FROM @rows WHERE value_type<>5 OR LEN(LTRIM(RTRIM(ISNULL(value_id,N''))))=0 OR LEN(LTRIM(RTRIM(ISNULL(label,N''))))=0)
+      SET @code=N'ANIMAL_ATTRIBUTE_INCOMPLETE';
+    ELSE IF EXISTS(SELECT value_id FROM @rows GROUP BY value_id HAVING COUNT(*)>1) SET @code=N'ATTRIBUTE_VALUE_DUPLICATE';
+    -- A value a definition still selects cannot be dropped here; migrating those definitions is a separate decision.
+    ELSE IF EXISTS(SELECT 1 FROM wildlife.definition_attribute_value dv WHERE dv.attribute_id=@id AND NOT EXISTS(SELECT 1 FROM @rows r WHERE r.value_id=dv.value_id))
+      SET @code=N'ATTRIBUTE_VALUE_IN_USE';
+  END
+  IF @code IS NOT NULL
+  BEGIN
+    SET @result=(SELECT @contract AS contractId,N'REFUSED' AS status,JSON_QUERY((SELECT @code AS code FOR JSON PATH,WITHOUT_ARRAY_WRAPPER)) AS reason,
+      @current AS currentRevision,JSON_QUERY(N'{"applied":false}') AS mutation FOR JSON PATH,WITHOUT_ARRAY_WRAPPER);
+    RETURN;
+  END
+  DECLARE @tc int=@@TRANCOUNT;
+  BEGIN TRY
+    IF @tc=0 BEGIN TRANSACTION; ELSE SAVE TRANSACTION wildlife_attribute_update;
+    UPDATE wildlife.attribute SET name=@name,description=@description,revision=@revision+1 WHERE attribute_id=@id;
+    DELETE wildlife.attribute_value WHERE attribute_id=@id;
+    INSERT wildlife.attribute_value(attribute_id,value_id,label,ordinal) SELECT @id,value_id,label,ordinal FROM @rows;
+    IF @tc=0 COMMIT TRANSACTION;
+  END TRY
+  BEGIN CATCH
+    IF XACT_STATE()=-1 OR (@tc=0 AND @@TRANCOUNT>0) ROLLBACK TRANSACTION; ELSE IF XACT_STATE()=1 ROLLBACK TRANSACTION wildlife_attribute_update;
+    SET @result=(SELECT @contract AS contractId,N'REFUSED' AS status,JSON_QUERY(N'{"code":"CATALOG_STORAGE_UNAVAILABLE"}') AS reason,
+      JSON_QUERY(N'{"applied":false}') AS mutation FOR JSON PATH,WITHOUT_ARRAY_WRAPPER);
+    RETURN;
+  END CATCH
+  SET @result=(SELECT @contract AS contractId,N'UPDATED' AS status,
+    JSON_QUERY((SELECT @id AS attributeId,@revision+1 AS revision,@active AS active,@name AS name,@description AS description,
+      JSON_QUERY(ISNULL((SELECT r.value_id AS valueId,r.label AS label FROM @rows r ORDER BY r.ordinal FOR JSON PATH),N'[]')) AS selectableValues
+      FOR JSON PATH,WITHOUT_ARRAY_WRAPPER)) AS attribute,
+    JSON_QUERY(N'{"applied":true}') AS mutation FOR JSON PATH,WITHOUT_ARRAY_WRAPPER);
+END;
+GO
+CREATE OR ALTER PROCEDURE wildlife.remove_animal_attribute
+  @request nvarchar(max),@user_id nvarchar(100),@result nvarchar(max) OUTPUT
+WITH EXECUTE AS OWNER
+AS
+BEGIN
+  SET NOCOUNT ON;
+  DECLARE @contract nvarchar(100)=N'nerdery-remove-animal-attribute-result.v1',@code nvarchar(60)=NULL,@current int=NULL;
+  DECLARE @id nvarchar(100)=JSON_VALUE(@request,N'$.attributeId'),@expected int=TRY_CONVERT(int,JSON_VALUE(@request,N'$.expectedRevision'));
+  DECLARE @revision int=NULL,@active bit=NULL;
+  IF @user_id IS NULL SET @code=N'AUTHENTICATION_REQUIRED';
+  ELSE IF NOT EXISTS(SELECT 1 FROM wildlife.user_role r WHERE r.user_id=@user_id AND r.role=N'biologist') SET @code=N'BIOLOGIST_ROLE_REQUIRED';
+  ELSE IF @id IS NULL OR LEN(LTRIM(RTRIM(@id)))=0 SET @code=N'ATTRIBUTE_SELECTION_REQUIRED';
+  ELSE IF @expected IS NULL SET @code=N'REVISION_REQUIRED';
+  ELSE
+  BEGIN
+    SELECT @revision=x.revision,@active=x.active FROM wildlife.attribute x WHERE x.attribute_id=@id;
+    IF @revision IS NULL SET @code=N'ANIMAL_ATTRIBUTE_NOT_FOUND';
+    ELSE IF @revision<>@expected SELECT @code=N'REVISION_CONFLICT',@current=@revision;
+    ELSE IF @active=0 SET @code=N'ANIMAL_ATTRIBUTE_UNAVAILABLE';
+  END
+  IF @code IS NOT NULL
+  BEGIN
+    SET @result=(SELECT @contract AS contractId,N'REFUSED' AS status,JSON_QUERY((SELECT @code AS code FOR JSON PATH,WITHOUT_ARRAY_WRAPPER)) AS reason,
+      @current AS currentRevision,JSON_QUERY(N'{"applied":false}') AS mutation FOR JSON PATH,WITHOUT_ARRAY_WRAPPER);
+    RETURN;
+  END
+  -- Removal ends new selections of the attribute; definitions that reference it keep resolving it.
+  DECLARE @kept int=(SELECT COUNT(*) FROM wildlife.animal_definition d
+    WHERE EXISTS(SELECT 1 FROM OPENJSON(d.attributes_json) j WHERE JSON_VALUE(j.[value],N'$.attributeId')=@id));
+  DECLARE @tc int=@@TRANCOUNT;
+  BEGIN TRY
+    IF @tc=0 BEGIN TRANSACTION; ELSE SAVE TRANSACTION wildlife_attribute_remove;
+    UPDATE wildlife.attribute SET active=0,revision=@revision+1 WHERE attribute_id=@id;
+    IF @tc=0 COMMIT TRANSACTION;
+  END TRY
+  BEGIN CATCH
+    IF XACT_STATE()=-1 OR (@tc=0 AND @@TRANCOUNT>0) ROLLBACK TRANSACTION; ELSE IF XACT_STATE()=1 ROLLBACK TRANSACTION wildlife_attribute_remove;
+    SET @result=(SELECT @contract AS contractId,N'REFUSED' AS status,JSON_QUERY(N'{"code":"CATALOG_STORAGE_UNAVAILABLE"}') AS reason,
+      JSON_QUERY(N'{"applied":false}') AS mutation FOR JSON PATH,WITHOUT_ARRAY_WRAPPER);
+    RETURN;
+  END CATCH
+  SET @result=(SELECT @contract AS contractId,N'REMOVED' AS status,@id AS attributeId,CONVERT(bit,0) AS active,@revision+1 AS revision,
+    JSON_QUERY((SELECT @kept AS definitionReferencesRetained FOR JSON PATH,WITHOUT_ARRAY_WRAPPER)) AS history,
+    JSON_QUERY(N'{"applied":true}') AS mutation FOR JSON PATH,WITHOUT_ARRAY_WRAPPER);
+END;
+GO
+CREATE OR ALTER PROCEDURE wildlife.view_catalog_for_maintenance
+  @request nvarchar(max),@user_id nvarchar(100),@result nvarchar(max) OUTPUT
+WITH EXECUTE AS OWNER
+AS
+BEGIN
+  SET NOCOUNT ON;
+  DECLARE @contract nvarchar(100)=N'nerdery-view-catalog-for-maintenance-result.v1',@code nvarchar(60)=NULL;
+  IF @user_id IS NULL SET @code=N'AUTHENTICATION_REQUIRED';
+  ELSE IF NOT EXISTS(SELECT 1 FROM wildlife.user_role r WHERE r.user_id=@user_id AND r.role=N'biologist') SET @code=N'BIOLOGIST_ROLE_REQUIRED';
+  IF @code IS NOT NULL
+  BEGIN
+    SET @result=(SELECT @contract AS contractId,N'REFUSED' AS status,JSON_QUERY((SELECT @code AS code FOR JSON PATH,WITHOUT_ARRAY_WRAPPER)) AS reason FOR JSON PATH,WITHOUT_ARRAY_WRAPPER);
+    RETURN;
+  END
+  -- Everything a biologist maintains, with the revisions a change must name: every definition in collection-number order,
+  -- active or removed, and every attribute in attributeId order with its selectable values in their order.
+  DECLARE @definitions nvarchar(max)=ISNULL((SELECT N'['+STRING_AGG(CONVERT(nvarchar(max),x.j),N',') WITHIN GROUP (ORDER BY x.n)+N']' FROM (
+      SELECT d.collection_number AS n,(SELECT d.definition_id AS definitionId,d.revision,d.active,d.common_name AS commonName,d.scientific_name AS scientificName,
+        d.avatar_photo_ref AS avatarPhotoRef,d.collection_number AS collectionNumber,JSON_QUERY(d.range_json) AS [range],JSON_QUERY(d.types_json) AS types,
+        JSON_QUERY(d.stats_json) AS stats,JSON_QUERY(d.attributes_json) AS attributes FOR JSON PATH,WITHOUT_ARRAY_WRAPPER) AS j
+      FROM wildlife.animal_definition d) x),N'[]');
+  DECLARE @attributes nvarchar(max)=ISNULL((SELECT N'['+STRING_AGG(CONVERT(nvarchar(max),x.j),N',') WITHIN GROUP (ORDER BY x.id)+N']' FROM (
+      SELECT a.attribute_id AS id,(SELECT a.attribute_id AS attributeId,a.revision,a.active,a.name,a.description,
+        JSON_QUERY(ISNULL((SELECT v.value_id AS valueId,v.label AS label FROM wildlife.attribute_value v WHERE v.attribute_id=a.attribute_id ORDER BY v.ordinal FOR JSON PATH),N'[]'))
+          AS selectableValues FOR JSON PATH,WITHOUT_ARRAY_WRAPPER) AS j
+      FROM wildlife.attribute a) x),N'[]');
+  DECLARE @types nvarchar(max)=ISNULL((SELECT N'['+STRING_AGG(CONVERT(nvarchar(max),N'"'+STRING_ESCAPE(t.type_name,'json')+N'"'),N',') WITHIN GROUP (ORDER BY t.ordinal)+N']' FROM wildlife.animal_type t),N'[]');
+  DECLARE @counties nvarchar(max)=ISNULL((SELECT c.county_id AS countyId,c.name FROM wildlife.county c ORDER BY c.county_id FOR JSON PATH),N'[]');
+  DECLARE @avatars nvarchar(max)=ISNULL((SELECT N'['+STRING_AGG(CONVERT(nvarchar(max),N'"'+STRING_ESCAPE(p.photo_ref,'json')+N'"'),N',') WITHIN GROUP (ORDER BY p.photo_ref)+N']'
+    FROM wildlife.photo p WHERE p.purpose=N'avatar' AND p.durable=1),N'[]');
+  SET @result=(SELECT @contract AS contractId,N'VISIBLE' AS status,JSON_QUERY(@definitions) AS definitions,JSON_QUERY(@attributes) AS attributes,
+    JSON_QUERY(@types) AS types,JSON_QUERY(@counties) AS counties,JSON_QUERY(@avatars) AS avatarPhotoRefs FOR JSON PATH,WITHOUT_ARRAY_WRAPPER);
+END;
+GO
+CREATE OR ALTER PROCEDURE wildlife.resolve_wildlife_access
+  @request nvarchar(max),@user_id nvarchar(100),@result nvarchar(max) OUTPUT
+WITH EXECUTE AS OWNER
+AS
+BEGIN
+  SET NOCOUNT ON;
+  DECLARE @contract nvarchar(100)=N'nerdery-resolve-wildlife-access-result.v1',@code nvarchar(60)=NULL;
+  DECLARE @section nvarchar(100)=JSON_VALUE(@request,N'$.section');
+  -- Section access from the user's current, externally assigned roles: the personal sections for citizens and
+  -- biologists alike, the catalog administration for biologists only. It is resolved on every request.
+  DECLARE @sections TABLE(section nvarchar(100) COLLATE Latin1_General_100_BIN2 PRIMARY KEY,biologist_only bit NOT NULL,permissions nvarchar(400) NOT NULL);
+  INSERT @sections VALUES
+    (N'collection',0,N'["browse-collection","view-animal"]'),
+    (N'collected-animals',0,N'["view-collected-animals","upload-photo","record-encounter"]'),
+    (N'team',0,N'["view-team","set-team"]'),
+    (N'home',0,N'["view-home"]'),
+    (N'animal-definitions-admin',1,N'["add-definition","update-definition","remove-definition"]'),
+    (N'animal-attributes-admin',1,N'["add-attribute","update-attribute","remove-attribute"]');
+  DECLARE @biologist_only bit=NULL,@permissions nvarchar(400)=NULL;
+  SELECT @biologist_only=s.biologist_only,@permissions=s.permissions FROM @sections s WHERE s.section=@section;
+  IF @biologist_only IS NULL SET @code=N'SECTION_UNKNOWN';
+  ELSE IF @user_id IS NULL SET @code=N'AUTHENTICATION_REQUIRED';
+  ELSE IF @biologist_only=1 AND NOT EXISTS(SELECT 1 FROM wildlife.user_role r WHERE r.user_id=@user_id AND r.role=N'biologist') SET @code=N'BIOLOGIST_ROLE_REQUIRED';
+  ELSE IF NOT EXISTS(SELECT 1 FROM wildlife.user_role r WHERE r.user_id=@user_id AND r.role IN (N'citizen',N'biologist')) SET @code=N'WILDLIFE_ROLE_REQUIRED';
+  IF @code IS NOT NULL
+  BEGIN
+    SET @result=(SELECT @contract AS contractId,N'REFUSED' AS status,JSON_QUERY((SELECT @code AS code FOR JSON PATH,WITHOUT_ARRAY_WRAPPER)) AS reason FOR JSON PATH,WITHOUT_ARRAY_WRAPPER);
+    RETURN;
+  END
+  SET @result=(SELECT @contract AS contractId,N'ALLOWED' AS status,@section AS section,JSON_QUERY(@permissions) AS permissions FOR JSON PATH,WITHOUT_ARRAY_WRAPPER);
+END;
+GO
 CREATE OR ALTER PROCEDURE wildlife.invoke_operation
   @operation nvarchar(100),@request nvarchar(max),@user_id nvarchar(100),@result nvarchar(max) OUTPUT
 WITH EXECUTE AS OWNER
@@ -459,12 +836,20 @@ BEGIN
     ELSE IF @operation=N'nerdery-record-animal-encounter' EXEC wildlife.record_animal_encounter @request=@request,@user_id=@user_id,@result=@result OUTPUT;
     ELSE IF @operation=N'nerdery-set-animal-team' EXEC wildlife.set_animal_team @request=@request,@user_id=@user_id,@result=@result OUTPUT;
     ELSE IF @operation=N'nerdery-add-animal-definition' EXEC wildlife.add_animal_definition @request=@request,@user_id=@user_id,@result=@result OUTPUT;
+    ELSE IF @operation=N'nerdery-update-animal-definition' EXEC wildlife.update_animal_definition @request=@request,@user_id=@user_id,@result=@result OUTPUT;
+    ELSE IF @operation=N'nerdery-remove-animal-definition' EXEC wildlife.remove_animal_definition @request=@request,@user_id=@user_id,@result=@result OUTPUT;
+    ELSE IF @operation=N'nerdery-add-animal-attribute' EXEC wildlife.add_animal_attribute @request=@request,@user_id=@user_id,@result=@result OUTPUT;
+    ELSE IF @operation=N'nerdery-update-animal-attribute' EXEC wildlife.update_animal_attribute @request=@request,@user_id=@user_id,@result=@result OUTPUT;
+    ELSE IF @operation=N'nerdery-remove-animal-attribute' EXEC wildlife.remove_animal_attribute @request=@request,@user_id=@user_id,@result=@result OUTPUT;
+    ELSE IF @operation=N'nerdery-view-catalog-for-maintenance' EXEC wildlife.view_catalog_for_maintenance @request=@request,@user_id=@user_id,@result=@result OUTPUT;
+    ELSE IF @operation=N'nerdery-resolve-wildlife-access' EXEC wildlife.resolve_wildlife_access @request=@request,@user_id=@user_id,@result=@result OUTPUT;
     ELSE SET @result=(SELECT N'REFUSED' AS status,JSON_QUERY(N'{"code":"OPERATION_NOT_DECLARED"}') AS reason FOR JSON PATH,WITHOUT_ARRAY_WRAPPER);
   END TRY
   BEGIN CATCH
     -- A store that cannot be read or written answers the operation's own storage refusal; nothing is kept.
     IF @@TRANCOUNT>@tc ROLLBACK TRANSACTION;
-    DECLARE @write bit=CASE WHEN @operation IN (N'nerdery-upload-encounter-photo',N'nerdery-record-animal-encounter',N'nerdery-set-animal-team',N'nerdery-add-animal-definition') THEN 1 ELSE 0 END;
+    DECLARE @write bit=CASE WHEN @operation IN (N'nerdery-upload-encounter-photo',N'nerdery-record-animal-encounter',N'nerdery-set-animal-team',N'nerdery-add-animal-definition',
+      N'nerdery-update-animal-definition',N'nerdery-remove-animal-definition',N'nerdery-add-animal-attribute',N'nerdery-update-animal-attribute',N'nerdery-remove-animal-attribute') THEN 1 ELSE 0 END;
     SET @result=(SELECT @operation+N'-result.v1' AS contractId,N'REFUSED' AS status,
       JSON_QUERY((SELECT CASE @operation
         WHEN N'nerdery-upload-encounter-photo' THEN N'PHOTO_STORAGE_UNAVAILABLE'

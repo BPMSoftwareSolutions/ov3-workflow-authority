@@ -22,12 +22,19 @@ function h(tag, attrs, ...children) {
   for (const child of children.flat(Infinity)) if (child !== null && child !== undefined && child !== false) node.append(child instanceof Node ? child : String(child));
   return node;
 }
+// The SideFX run behind each answer, for its evidence line and its circuit link.
+const runIds = new WeakMap();
 async function call(method, url, body) {
   const response = await fetch(url, { method, credentials: "same-origin", headers: body ? { "content-type": "application/json" } : {},
     body: body ? JSON.stringify(body) : undefined });
-  return response.json();
+  const answer = await response.json();
+  const runId = response.headers.get("x-sfx-run-id");
+  if (runId && answer && typeof answer === "object") runIds.set(answer, runId);
+  return answer;
 }
 const run = (capability, request = {}) => call("POST", `/api/run/${capability}`, request);
+const declared = (capability) => (session.declared || []).includes(capability);
+const CIRCUIT = "https://sidefx-web-staging.azurewebsites.net/circuit/explorer";
 // A label in the current locale, with {name} filled from vars.
 const t = (key, vars = {}) => String(labels[key] ?? key).replace(/\{(\w+)\}/g, (_, name) => (vars[name] === undefined ? "" : String(vars[name])));
 const number = (value) => Number(value).toLocaleString(locale);
@@ -41,8 +48,11 @@ function refusal(result, titleKey = "refused") {
 function evidence(capability, result) {
   const text = JSON.stringify(result, (key, value) => (key === "contentBase64" && typeof value === "string"
     ? `<${Math.floor(value.length * 3 / 4).toLocaleString()} bytes, base64>` : key === "labels" && value && typeof value === "object" ? `<${Object.keys(value).length} labels>` : value), 2);
-  const label = `${capability} · ${result?.status ?? "no answer"}${result?.reason ? ` · ${result.reason.code}` : ""}`;
-  return h("details", { class: "evidence" }, h("summary", { text: label }), h("pre", { text }));
+  const runId = result && typeof result === "object" ? runIds.get(result) : null;
+  const label = `${capability} · ${result?.status ?? "no answer"}${result?.reason ? ` · ${result.reason.code}` : ""}${runId ? ` · ${t("evidence.run")} ${runId.slice(0, 8)}` : ""}`;
+  const link = runId ? h("p", {}, h("a", { href: `${CIRCUIT}?${new URLSearchParams({ capability, namespace: "sidefx:capabilities", run: runId })}`, target: "_blank", rel: "noopener",
+    text: t("evidence.openRun") })) : null;
+  return h("details", { class: "evidence" }, h("summary", { text: label }), link, h("pre", { text }));
 }
 const countyName = (id) => reference.counties.find((c) => c.countyId === id)?.name ?? id;
 const photoUrl = (photo) => (photo?.contentBase64 ? `data:${photo.mediaType};base64,${photo.contentBase64}` : null);
@@ -68,7 +78,13 @@ const viewIndividual = (encounterId) => run("nerdery-view-collected-animal", { e
 const page = (title, lede, ...content) => h("section", {}, h("h1", { text: title }), lede ? h("p", { class: "lede", text: lede }) : null, ...content);
 
 // ---------- screens ----------
+// Every run goes out as the SideFX session the local sfx-api client holds; without one there is nothing to show.
+async function sideFxSignInView() {
+  return page(t("sign-in.sidefx.title"), t("sign-in.sidefx.lede"), h("pre", { class: "panel", text: "sfx-api login" }),
+    h("p", {}, h("button", { class: "button", text: t("sign-in.sidefx.retry"), onclick: () => render() })));
+}
 async function signInView() {
+  if (!declared("nerdery-sign-in-wildlife-user")) return sideFxSignInView();
   const identities = await call("GET", "/api/identities");
   const message = h("div");
   const cards = identities.map((i) => {
@@ -99,7 +115,7 @@ async function homeView() {
   const [home, mine] = await Promise.all([run("nerdery-view-wildlife-home"), run("nerdery-view-collected-animals")]);
   if (home.status !== "VISIBLE") return page(t("home.title"), null, refusal(home), evidence("nerdery-view-wildlife-home", home));
   const members = home.team.members;
-  return page(t("home.hello", { name: session.user.firstName }), t("home.lede"),
+  return page(session.user?.firstName ? t("home.hello", { name: session.user.firstName }) : t("home.welcome"), t("home.lede"),
     h("div", { class: "row" },
       h("div", { class: "panel" }, h("div", { class: "sub", text: t("home.collected") }), h("h1", { text: mine.total ?? 0 })),
       h("div", { class: "panel" }, h("div", { class: "sub", text: t("home.onTeam") }), h("h1", { text: `${home.team.size} / 6` })),
@@ -406,6 +422,7 @@ async function catalogView(params, title) {
   const load = async () => {
     catalog = await run("nerdery-view-catalog-for-maintenance");
     if (catalog.status !== "VISIBLE") { lists.replaceChildren(refusal(catalog), evidence("nerdery-view-catalog-for-maintenance", catalog)); return; }
+    reference = { counties: catalog.counties, types: catalog.types };
     lists.replaceChildren(
       h("div", { class: "row" }, h("h2", { text: t("catalog.animals") }), h("span", { class: "spacer" }), h("button", { class: "button small", text: t("catalog.addAnimal"), onclick: () => editAnimal(null) })),
       h("table", { class: "list" }, headings(["catalog.number", "catalog.animal", "catalog.scientific", "catalog.types", "catalog.range", "catalog.revision", null]),
@@ -452,6 +469,12 @@ function renderChrome(path) {
       onclick: () => { locale = code; try { localStorage.setItem("nrd-locale", code); } catch { /* the choice lasts this page only */ } render(); } })));
   if (!session.authenticated) { who.replaceChildren(switcher); return; }
   const user = session.user;
+  if (!user) {
+    // The SideFX session the runs go out as; signing out is sfx-api logout.
+    who.replaceChildren(switcher, h("span", { class: "chip role", text: t("chrome.sidefx") }),
+      h("span", { class: "name", title: `${session.endpoint ?? ""} · ${session.expiresAt ?? ""}`, text: `${String(session.principalId).slice(0, 8)}…` }));
+    return;
+  }
   who.replaceChildren(switcher, h("span", { class: "name", text: `${user.firstName} ${user.lastName}` }),
     ...user.roles.map((r) => h("span", { class: "chip role", text: labels[`role.${r}`] ?? r })),
     h("button", { class: "button secondary small", text: t("chrome.signOut"), onclick: async () => { await call("POST", "/api/sign-out"); location.hash = "#/sign-in"; } }));
@@ -463,27 +486,34 @@ async function render() {
   session = await call("GET", "/api/session");
   if (!session.authenticated && path !== "/sign-in") { location.hash = "#/sign-in"; return; }
   if (session.authenticated && path === "/sign-in") { location.hash = "#/"; return; }
-  if (!reference.counties.length) reference = await call("GET", "/api/reference");
   const [pattern, screen, pageKey, section] = routes.find(([re]) => re.test(path)) ?? routes[1];
-  // The page's labels and title in the chosen locale; a page the user may not see still gets the account labels.
-  let presented = await run("nerdery-present-wildlife-experience", { page: pageKey, locale });
-  if (presented.status !== "PRESENTED") presented = await run("nerdery-present-wildlife-experience", { page: "sign-in", locale });
-  if (presented.status === "PRESENTED") labels = presented.presentation.labels;
-  maintenance = session.authenticated ? await run("nerdery-resolve-wildlife-access", { section: "animal-definitions-admin" }) : null;
+  // The page's labels and title in the chosen locale: from nerdery-present-wildlife-experience once the estate
+  // declares it, until then from the interface's own labels. A page the user may not see still gets the account labels.
+  let presented = null;
+  if (declared("nerdery-present-wildlife-experience")) {
+    presented = await run("nerdery-present-wildlife-experience", { page: pageKey, locale });
+    if (presented.status !== "PRESENTED") presented = await run("nerdery-present-wildlife-experience", { page: "sign-in", locale });
+    if (presented.status === "PRESENTED") labels = presented.presentation.labels;
+  } else labels = (await call("GET", `/api/labels?locale=${locale}`)).labels;
+  // Section access from nerdery-resolve-wildlife-access once the estate declares it; each capability refuses on its own regardless.
+  const guarded = declared("nerdery-resolve-wildlife-access");
+  maintenance = guarded && session.authenticated && declared("nerdery-view-catalog-for-maintenance")
+    ? await run("nerdery-resolve-wildlife-access", { section: "animal-definitions-admin" }) : null;
   renderChrome(path);
   view.replaceChildren(h("p", { class: "lede", text: t("chrome.loading") }));
-  if (section) {
+  if (section && guarded) {
     const access = section === "animal-definitions-admin" ? maintenance : await run("nerdery-resolve-wildlife-access", { section });
-    if (access.status !== "ALLOWED") {
+    // Only a refusal closes the screen; a run SideFX did not answer leaves it to the screen's own capabilities.
+    if (access.status === "REFUSED") {
       if (mine === ticket) view.replaceChildren(page(t("access.notAvailable"), null, refusal(access, "access.noAccess"), evidence("nerdery-resolve-wildlife-access", access)));
       return;
     }
   }
-  const title = presented.presentation?.page === pageKey ? presented.presentation.title : undefined;
+  const title = presented?.presentation?.page === pageKey ? presented.presentation.title : labels[`${pageKey}.title`];
   const args = (path.match(pattern) || []).slice(1).map(decodeURIComponent);
   const content = await screen(...args, new URLSearchParams(query || ""), title);
   if (mine === ticket) {
-    view.replaceChildren(content, evidence("nerdery-present-wildlife-experience", presented));
+    view.replaceChildren(content, presented ? evidence("nerdery-present-wildlife-experience", presented) : "");
     document.title = `${title ?? t(`${pageKey}.title`)} · Wildlife Collection`;
     window.scrollTo(0, 0);
   }

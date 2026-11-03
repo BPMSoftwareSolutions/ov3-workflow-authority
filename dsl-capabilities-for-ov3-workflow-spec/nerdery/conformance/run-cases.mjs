@@ -132,11 +132,11 @@ const readBack = (omit) => `(SELECT
   (SELECT COUNT(*) FROM #w_encounter e WHERE e.owner_user_id=@subject) AS ownerEncounters,
   ${omit.includes("team") ? "NULL" : `JSON_QUERY((SELECT t.revision,JSON_QUERY(ISNULL((SELECT N'['+STRING_AGG(CONVERT(nvarchar(max),N'"'+m.encounter_id+N'"'),N',') WITHIN GROUP (ORDER BY m.ordinal)+N']' FROM #w_team_member m WHERE m.owner_user_id=@subject),N'[]')) AS encounterIds
      FROM #w_team t WHERE t.owner_user_id=@subject FOR JSON PATH,WITHOUT_ARRAY_WRAPPER))`} AS team,
-  ${omit.includes("animal_definition") ? "NULL" : `JSON_QUERY((SELECT d.definition_id AS definitionId,d.common_name AS commonName,d.scientific_name AS scientificName,d.avatar_photo_ref AS avatarPhotoRef,d.collection_number AS collectionNumber,
+  ${omit.includes("animal_definition") ? "NULL" : `JSON_QUERY((SELECT d.definition_id AS definitionId,d.revision,d.active,d.common_name AS commonName,d.scientific_name AS scientificName,d.avatar_photo_ref AS avatarPhotoRef,d.collection_number AS collectionNumber,
      JSON_QUERY(d.range_json) AS [range],JSON_QUERY(d.types_json) AS types,JSON_QUERY(d.stats_json) AS stats,JSON_QUERY(d.attributes_json) AS attributes,
      (SELECT COUNT(*) FROM #w_definition_type x WHERE x.definition_id=d.definition_id) AS typeRows,(SELECT COUNT(*) FROM #w_definition_county x WHERE x.definition_id=d.definition_id) AS countyRows,
      (SELECT COUNT(*) FROM #w_definition_attribute_value x WHERE x.definition_id=d.definition_id) AS attributeValueRows
-     FROM #w_animal_definition d WHERE d.definition_id=JSON_VALUE(@result,N'$.definitionId') FOR JSON PATH,WITHOUT_ARRAY_WRAPPER))`} AS definition
+     FROM #w_animal_definition d WHERE d.definition_id=ISNULL(JSON_VALUE(@result,N'$.definitionId'),JSON_VALUE(@result,N'$.animal.definitionId')) FOR JSON PATH,WITHOUT_ARRAY_WRAPPER))`} AS definition
   FOR JSON PATH,WITHOUT_ARRAY_WRAPPER)`;
 const statementFor = (omit, checks) => `SET NOCOUNT ON;
 ${tableDdl(omit)}
@@ -239,7 +239,13 @@ cases.forEach((c, i) => {
     if (res.encounter && !(rb.encounter && equal(rb.encounter, res.encounter))) bad.push(`read-back: stored encounter ${show(rb.encounter)} is not the returned one`);
     if (res.photo && !(rb.photo && rb.photo.storedBytesSha256 === res.photo.contentSha256 && rb.photo.ownerUserId === res.photo.ownerUserId)) bad.push(`read-back: stored photo ${show(rb.photo)}`);
     if (res.team && !(rb.team && rb.team.revision === res.team.revision && equal(rb.team.encounterIds, res.team.encounterIds))) bad.push(`read-back: stored team ${show(rb.team)}`);
-    if (res.definitionId && !(rb.definition && rb.definition.collectionNumber === res.animal.collectionNumber && equal(rb.definition.attributes, res.animal.attributes))) bad.push(`read-back: stored definition ${show(rb.definition)}`);
+    // A definition written is read back: an added or updated one with the returned number and attributes, a removed one inactive.
+    if (res.definitionId || (res.animal && res.animal.definitionId)) {
+      const d = rb.definition;
+      if (!d || (res.animal && !(d.collectionNumber === res.animal.collectionNumber && equal(d.attributes, res.animal.attributes)))
+        || (res.active === false && d.active !== false) || (res.animal && res.animal.revision !== undefined && d.revision !== res.animal.revision))
+        bad.push(`read-back: stored definition ${show(d)}`);
+    }
   } else if (res && r.stateBefore !== r.stateAfter) bad.push(`state: ${res.status} changed the stored state`);
   if (res && res.replayed === true && r.readBack && r.readBack.encounter === undefined) bad.push("read-back: replayed encounter not stored");
   failed += bad.length ? 1 : 0;

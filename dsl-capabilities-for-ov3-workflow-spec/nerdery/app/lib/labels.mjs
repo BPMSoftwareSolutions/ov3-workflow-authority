@@ -4,7 +4,12 @@
 export const LABELS = {
   en: {
     "nav.home": "Home", "nav.collection": "Collection", "nav.capture": "Capture", "nav.mine": "My animals", "nav.team": "Team", "nav.catalog": "Catalog",
-    "chrome.signOut": "Sign out", "chrome.loading": "Loading…", "chrome.language": "Language",
+    "chrome.signOut": "Sign out", "chrome.loading": "Running on SideFX…", "chrome.language": "Language", "chrome.sidefx": "SideFX session",
+    "sign-in.sidefx.title": "Sign in to SideFX",
+    "sign-in.sidefx.lede": "Every screen runs the wildlife capabilities declared in the estate, as your SideFX session. Sign in once with the SideFX API client, then try again.",
+    "sign-in.sidefx.retry": "Try again", "home.welcome": "Welcome back", "evidence.run": "run", "evidence.openRun": "Open this run on the circuit",
+    "reason.CAPABILITY_NOT_DECLARED": "This part runs on a capability the estate does not declare yet.",
+    "reason.API_RUN_FAILED": "The SideFX run did not answer. Try again.",
     "chrome.footer": "Local demo of the Nerdery wildlife challenge. Synthetic catalog and people from the challenge fixtures. Every screen runs a canonical feature's operation and shows its answer.",
     "role.citizen": "citizen", "role.biologist": "biologist",
     "sign-in.title": "Sign in with DNR",
@@ -95,7 +100,12 @@ export const LABELS = {
   },
   es: {
     "nav.home": "Inicio", "nav.collection": "Colección", "nav.capture": "Capturar", "nav.mine": "Mis animales", "nav.team": "Equipo", "nav.catalog": "Catálogo",
-    "chrome.signOut": "Cerrar sesión", "chrome.loading": "Cargando…", "chrome.language": "Idioma",
+    "chrome.signOut": "Cerrar sesión", "chrome.loading": "Ejecutando en SideFX…", "chrome.language": "Idioma", "chrome.sidefx": "Sesión de SideFX",
+    "sign-in.sidefx.title": "Inicia sesión en SideFX",
+    "sign-in.sidefx.lede": "Cada pantalla ejecuta las capacidades de vida silvestre declaradas en el estate, con tu sesión de SideFX. Inicia sesión una vez con el cliente de la API de SideFX y vuelve a intentarlo.",
+    "sign-in.sidefx.retry": "Volver a intentar", "home.welcome": "Hola de nuevo", "evidence.run": "ejecución", "evidence.openRun": "Abrir esta ejecución en el circuito",
+    "reason.CAPABILITY_NOT_DECLARED": "Esta parte usa una capacidad que el estate todavía no declara.",
+    "reason.API_RUN_FAILED": "La ejecución de SideFX no respondió. Vuelve a intentarlo.",
     "chrome.footer": "Demostración local del reto de vida silvestre de Nerdery. Catálogo y personas sintéticos de los datos de prueba del reto. Cada pantalla ejecuta la operación de una función canónica y muestra su respuesta.",
     "role.citizen": "ciudadano", "role.biologist": "biólogo",
     "sign-in.title": "Inicia sesión con el DNR",
