@@ -71,7 +71,13 @@ const REASONS = {
   ANIMAL_ATTRIBUTE_UNAVAILABLE: "That attribute was already removed.",
   ATTRIBUTE_VALUE_IN_USE: "An animal still uses a value this change drops. Change those animals first.",
   ATTRIBUTE_NAME_NOT_UNIQUE: "An active attribute already has this name.",
-  ATTRIBUTE_SELECTION_REQUIRED: "Choose an attribute first."
+  ATTRIBUTE_SELECTION_REQUIRED: "Choose an attribute first.",
+  IDENTITY_RESPONSE_REQUIRED: "Sign in through DNR first.",
+  ALREADY_REGISTERED: "This DNR account already has a wildlife profile. Sign in instead.",
+  USER_PROFILE_INCOMPLETE: "DNR's profile for this account lacks a first name, last name or email.",
+  EMAIL_NOT_UNIQUE: "Another wildlife account already uses this email.",
+  WILDLIFE_ROLE_REQUIRED: "This account has no wildlife role assigned by DNR.",
+  SECTION_UNKNOWN: "That part of the application does not exist."
 };
 function refusal(result, title = "Refused") {
   const code = result?.reason?.code ?? "NO_ANSWER";
@@ -116,10 +122,19 @@ async function signInView() {
     const label = i.name ?? (i.validation === "EXPIRED" ? "An expired sign-in" : "A sign-in DNR rejects");
     const detail = !valid ? `DNR answers ${i.validation}` : i.registered ? `DNR roles: ${i.roles.join(", ") || "none"}` : "Validated by DNR, no wildlife profile yet";
     const initials = i.name ? i.name.split(" ").map((p) => p[0]).join("") : "?";
+    // A validated DNR subject without a wildlife profile is told so by sign-in, and offered registration.
+    const register = async () => {
+      const answer = await call("POST", "/api/register", { identityResponseRef: i.identityResponseRef });
+      if (answer.signIn?.status === "SIGNED_IN") { location.hash = "#/"; return; }
+      message.replaceChildren(refusal(answer.signIn ?? answer.registration, "Not registered"), evidence("nerdery-register-wildlife-user", answer.registration),
+        answer.signIn ? evidence("nerdery-sign-in-wildlife-user", answer.signIn) : null);
+    };
     return h("button", { class: `card identity${valid && i.registered ? "" : " refusal"}`, onclick: async () => {
       const result = await call("POST", "/api/sign-in", { identityResponseRef: i.identityResponseRef });
-      if (result.status === "SIGNED_IN") location.hash = "#/";
-      else message.replaceChildren(refusal(result, "Not signed in"), evidence("nerdery-sign-in-wildlife-user", result));
+      if (result.status === "SIGNED_IN") { location.hash = "#/"; return; }
+      message.replaceChildren(refusal(result, "Not signed in"),
+        result.reason?.code === "REGISTRATION_REQUIRED" ? h("p", {}, h("button", { class: "button", text: `Register ${i.name ?? ""} with DNR`, onclick: register })) : null,
+        evidence("nerdery-sign-in-wildlife-user", result));
     } }, h("div", { class: "body row" }, h("div", { class: "avatar", text: initials }), h("div", {}, h("div", { class: "title", text: label }), h("div", { class: "sub", text: detail }))));
   });
   return page("Sign in with DNR", "This local demo stands in for the DNR identity service with the challenge's identity responses. The application keeps no passwords: it starts a session only for a response DNR validated, for a registered wildlife user.",
@@ -462,10 +477,14 @@ const routes = [
   [/^\/sign-in$/, signInView], [/^\/$/, homeView], [/^\/collection$/, collectionView], [/^\/animal\/([^/]+)$/, animalView],
   [/^\/capture$/, captureView], [/^\/mine$/, mineView], [/^\/mine\/([^/]+)$/, individualView], [/^\/team$/, teamView], [/^\/catalog$/, catalogView]
 ];
+// Each screen belongs to a section whose access nerdery-resolve-wildlife-access decides from the user's current roles.
+const SECTIONS = [[/^\/$/, "home"], [/^\/(collection|animal\/)/, "collection"], [/^\/(capture|mine)/, "collected-animals"], [/^\/team$/, "team"],
+  [/^\/catalog$/, "animal-definitions-admin"]];
+let maintenance = null;
 function renderChrome(path) {
   nav.hidden = !session.authenticated;
-  // Only biologists are offered the catalog; the operations refuse anyone else whatever the page shows.
-  document.getElementById("nav-catalog").hidden = !(session.authenticated && session.user.roles.includes("biologist"));
+  // The catalog is offered when the access operation allows it; its operations refuse anyone else whatever is shown.
+  document.getElementById("nav-catalog").hidden = maintenance?.status !== "ALLOWED";
   for (const link of nav.querySelectorAll("a")) {
     const target = link.getAttribute("href").slice(1);
     link.classList.toggle("active", target === "/" ? path === "/" : path.startsWith(target));
@@ -481,12 +500,21 @@ async function render() {
   const [path, query] = (location.hash.replace(/^#/, "") || "/").split("?");
   session = await call("GET", "/api/session");
   if (!reference.counties.length) reference = await call("GET", "/api/reference");
+  maintenance = session.authenticated ? await run("nerdery-resolve-wildlife-access", { section: "animal-definitions-admin" }) : null;
   renderChrome(path);
   if (!session.authenticated && path !== "/sign-in") { location.hash = "#/sign-in"; return; }
   if (session.authenticated && path === "/sign-in") { location.hash = "#/"; return; }
   const [pattern, screen] = routes.find(([re]) => re.test(path)) ?? routes[1];
   const args = (path.match(pattern) || []).slice(1).map(decodeURIComponent);
   view.replaceChildren(h("p", { class: "lede", text: "Loading…" }));
+  const section = SECTIONS.find(([re]) => re.test(path))?.[1];
+  if (section && session.authenticated) {
+    const access = section === "animal-definitions-admin" ? maintenance : await run("nerdery-resolve-wildlife-access", { section });
+    if (access.status !== "ALLOWED") {
+      if (mine === ticket) view.replaceChildren(page("Not available to you", null, refusal(access, "No access"), evidence("nerdery-resolve-wildlife-access", access)));
+      return;
+    }
+  }
   const content = await screen(...args, new URLSearchParams(query || ""));
   if (mine === ticket) { view.replaceChildren(content); window.scrollTo(0, 0); }
 }

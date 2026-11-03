@@ -402,6 +402,47 @@ function signInWildlifeUser(tx, request) {
     session: { established: true } };
 }
 
+// A new wildlife user from a DNR response: a validated subject not yet registered, with a complete profile and an email
+// no other user has. The roles are the ones DNR assigns.
+function registerWildlifeUser(tx, request) {
+  const op = "nerdery-register-wildlife-user";
+  const ref = scalar(request.identityResponseRef);
+  if (ref === null || ref.trim() === "") return refused(op, "IDENTITY_RESPONSE_REQUIRED", notApplied());
+  if (tx.identityService() === "UNAVAILABLE") return refused(op, "IDENTITY_SERVICE_UNAVAILABLE", notApplied());
+  const response = tx.get("identityResponses")[ref];
+  if (response && response.validation === "EXPIRED") return refused(op, "IDENTITY_RESPONSE_EXPIRED", notApplied());
+  if (!response || response.validation !== "VALID") return refused(op, "IDENTITY_NOT_VALIDATED", notApplied());
+  const users = tx.get("users");
+  if (users.some((u) => u.identitySubject === response.subject)) return refused(op, "ALREADY_REGISTERED", notApplied());
+  const firstName = scalar(response.firstName), lastName = scalar(response.lastName), email = scalar(response.email);
+  if (blank(firstName) || blank(lastName) || blank(email)) return refused(op, "USER_PROFILE_INCOMPLETE", notApplied());
+  if (users.some((u) => String(u.email).trim().toLowerCase() === email.trim().toLowerCase())) return refused(op, "EMAIL_NOT_UNIQUE", notApplied());
+  const roles = Array.isArray(response.roles) ? response.roles.filter((r) => typeof r === "string") : [];
+  const user = { userId: `user-${crypto.randomBytes(4).toString("hex")}`, identitySubject: response.subject, firstName, lastName, email, roles };
+  tx.put("users", (list) => list.push(structuredClone(user)));
+  return { contractId: contract(op), status: "REGISTERED", user: { userId: user.userId, firstName, lastName, email, roles: [...roles] }, mutation: { applied: true } };
+}
+
+// Section access from the user's current, externally assigned roles: the personal sections for citizens and
+// biologists alike, the catalog administration for biologists only. It is resolved on every request, never cached.
+const SECTIONS = {
+  collection: { roles: ["citizen", "biologist"], permissions: ["browse-collection", "view-animal"] },
+  "collected-animals": { roles: ["citizen", "biologist"], permissions: ["view-collected-animals", "upload-photo", "record-encounter"] },
+  team: { roles: ["citizen", "biologist"], permissions: ["view-team", "set-team"] },
+  home: { roles: ["citizen", "biologist"], permissions: ["view-home"] },
+  "animal-definitions-admin": { roles: ["biologist"], permissions: ["add-definition", "update-definition", "remove-definition"] },
+  "animal-attributes-admin": { roles: ["biologist"], permissions: ["add-attribute", "update-attribute", "remove-attribute"] }
+};
+function resolveWildlifeAccess(tx, request, userId) {
+  const op = "nerdery-resolve-wildlife-access";
+  const section = scalar(request.section), rule = section === null ? null : SECTIONS[section] ?? null;
+  if (rule === null) return refused(op, "SECTION_UNKNOWN");
+  if (userId === null) return refused(op, "AUTHENTICATION_REQUIRED");
+  const roles = tx.get("users").find((u) => u.userId === userId)?.roles ?? [];
+  if (!rule.roles.some((r) => roles.includes(r))) return refused(op, rule.roles.length === 1 ? "BIOLOGIST_ROLE_REQUIRED" : "WILDLIFE_ROLE_REQUIRED");
+  return { contractId: contract(op), status: "ALLOWED", section, permissions: [...rule.permissions] };
+}
+
 export const OPERATIONS = {
   "nerdery-browse-animal-collection": browseAnimalCollection,
   "nerdery-view-animal-definition": viewAnimalDefinition,
@@ -418,10 +459,12 @@ export const OPERATIONS = {
   "nerdery-update-animal-attribute": updateAnimalAttribute,
   "nerdery-remove-animal-attribute": removeAnimalAttribute,
   "nerdery-view-catalog-for-maintenance": viewCatalogForMaintenance,
+  "nerdery-resolve-wildlife-access": resolveWildlifeAccess,
+  "nerdery-register-wildlife-user": registerWildlifeUser,
   "nerdery-sign-in-wildlife-user": signInWildlifeUser
 };
 const WRITES = new Set(["nerdery-upload-encounter-photo", "nerdery-record-animal-encounter", "nerdery-set-animal-team", "nerdery-add-animal-definition",
-  "nerdery-update-animal-definition", "nerdery-remove-animal-definition", "nerdery-add-animal-attribute", "nerdery-update-animal-attribute", "nerdery-remove-animal-attribute"]);
+  "nerdery-update-animal-definition", "nerdery-remove-animal-definition", "nerdery-add-animal-attribute", "nerdery-update-animal-attribute", "nerdery-remove-animal-attribute", "nerdery-register-wildlife-user"]);
 const STORAGE_REFUSAL = {
   "nerdery-upload-encounter-photo": "PHOTO_STORAGE_UNAVAILABLE",
   "nerdery-record-animal-encounter": "COLLECTION_STORAGE_UNAVAILABLE",

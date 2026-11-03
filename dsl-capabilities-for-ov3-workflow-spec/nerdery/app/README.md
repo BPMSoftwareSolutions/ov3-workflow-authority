@@ -23,6 +23,10 @@ The app stands in for the DNR identity service with the identity responses from 
 
 The app keeps no passwords. A session starts only from a response DNR validated, for a registered wildlife user.
 
+If Drew tries to sign in, sign-in answers REGISTRATION_REQUIRED and the app offers registration. `nerdery-register-wildlife-user` creates the account with the roles DNR assigns, and the same response then signs Drew in.
+
+Before every screen, the app asks `nerdery-resolve-wildlife-access` for that screen's section, using the user's current roles. The menu offers Catalog only when access to `animal-definitions-admin` is allowed, so the page never decides from roles itself.
+
 ## Screens
 
 | Screen | Operations used |

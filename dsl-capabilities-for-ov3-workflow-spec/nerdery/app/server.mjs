@@ -4,6 +4,7 @@
 //   GET  /api/identities            the DNR identity responses the local stand-in can return
 //   GET  /api/reference             county names and animal types, for display
 //   POST /api/sign-in               nerdery-sign-in-wildlife-user; a SIGNED_IN result starts a session (cookie)
+//   POST /api/register              nerdery-register-wildlife-user, then the same response signs the new user in
 //   POST /api/sign-out              ends the session
 //   POST /api/run/<capability-id>   runs that operation for the signed-in user; the body is the feature's request
 // The user an operation runs as comes only from the session this server established, never from the request.
@@ -28,6 +29,13 @@ const TYPES = { ".html": "text/html; charset=utf-8", ".js": "text/javascript; ch
 
 const store = openDiskStore(DATA, PACKAGE, { reset: process.argv.includes("--reset") });
 const sessions = new Map();
+// Signing in and registering start sessions, so they have their own routes rather than /api/run.
+const SESSION_OPERATIONS = new Set(["nerdery-sign-in-wildlife-user", "nerdery-register-wildlife-user"]);
+const startSession = (userId) => {
+  const id = crypto.randomBytes(24).toString("hex");
+  sessions.set(id, { userId, signedInAt: new Date().toISOString() });
+  return `nrd_session=${id}; HttpOnly; SameSite=Lax; Path=/`;
+};
 
 const cookieSession = (req) => {
   const match = /(?:^|;\s*)nrd_session=([0-9a-f]{48})/.exec(req.headers.cookie || "");
@@ -66,9 +74,15 @@ const server = http.createServer(async (req, res) => {
     if (url.pathname === "/api/sign-in" && req.method === "POST") {
       const result = invoke(store, "nerdery-sign-in-wildlife-user", await readJson(req), null);
       if (result.status !== "SIGNED_IN") return send(res, 200, result);
-      const id = crypto.randomBytes(24).toString("hex");
-      sessions.set(id, { userId: result.user.userId, signedInAt: new Date().toISOString() });
-      return send(res, 200, result, { "set-cookie": `nrd_session=${id}; HttpOnly; SameSite=Lax; Path=/` });
+      return send(res, 200, result, { "set-cookie": startSession(result.user.userId) });
+    }
+    // Registration, then sign-in with the same DNR response: two operations, one session.
+    if (url.pathname === "/api/register" && req.method === "POST") {
+      const body = await readJson(req);
+      const registration = invoke(store, "nerdery-register-wildlife-user", body, null);
+      if (registration.status !== "REGISTERED") return send(res, 200, { registration });
+      const signIn = invoke(store, "nerdery-sign-in-wildlife-user", { identityResponseRef: body.identityResponseRef }, null);
+      return send(res, 200, { registration, signIn }, signIn.status === "SIGNED_IN" ? { "set-cookie": startSession(signIn.user.userId) } : {});
     }
     if (url.pathname === "/api/sign-out" && req.method === "POST") {
       const session = cookieSession(req);
@@ -78,7 +92,7 @@ const server = http.createServer(async (req, res) => {
     const run = /^\/api\/run\/([a-z0-9-]+)$/.exec(url.pathname);
     if (run && req.method === "POST") {
       const capability = run[1];
-      if (!OPERATIONS[capability] || capability === "nerdery-sign-in-wildlife-user") return send(res, 404, { status: "REFUSED", reason: { code: "OPERATION_NOT_DECLARED" } });
+      if (!OPERATIONS[capability] || SESSION_OPERATIONS.has(capability)) return send(res, 404, { status: "REFUSED", reason: { code: "OPERATION_NOT_DECLARED" } });
       const session = cookieSession(req);
       return send(res, 200, invoke(store, capability, await readJson(req), session ? session.userId : null));
     }
