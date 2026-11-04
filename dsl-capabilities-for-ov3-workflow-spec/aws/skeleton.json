@@ -1,0 +1,486 @@
+{
+  "sfx-aws-authorize-remediation": {
+    "area": "incident",
+    "tags": [
+      "@capability:sfx-aws-authorize-remediation",
+      "@root-scenario:sfx-aws-authorize-remediation",
+      "@scenario:sfx-aws-authorize-remediation",
+      "@input:sfx-aws-authorize-remediation-request",
+      "@input-contract:sfx-aws-authorize-remediation-request.v1",
+      "@event:sfx-aws-authorize-remediation-requested",
+      "@event-authority:sfx-aws-authorize-remediation.v1",
+      "@outcome:sfx-aws-authorize-remediation-outcome",
+      "@outcome-contract:sfx-aws-authorize-remediation-result.v1",
+      "@outcome-terminal"
+    ],
+    "story": [
+      "Feature: Authorize an operational recovery effect",
+      "  As a cloud operations manager",
+      "  I want a reviewable permission decision for a particular cloud change",
+      "  So that a model suggestion or operator click cannot bypass the admitted effect boundary"
+    ],
+    "rule": "Rule: The circuit yields an attributable outcome without assuming missing AWS proof",
+    "given": "Given a proposed recovery effect, target and trusted operator context",
+    "when": "When the effect-specific authority and approval requirements are evaluated",
+    "then": "Then an authorized effect or an explicit pending or refused disposition is available",
+    "operations": [
+      "sfx-aws-authorize-remediation.authorize"
+    ],
+    "variants": [
+      "AUTHORIZED",
+      "PENDING_APPROVAL",
+      "REFUSED"
+    ],
+    "priority": "P0"
+  },
+  "sfx-aws-correlate-change-evidence": {
+    "area": "incident",
+    "tags": [
+      "@capability:sfx-aws-correlate-change-evidence",
+      "@root-scenario:sfx-aws-correlate-change-evidence",
+      "@scenario:sfx-aws-correlate-change-evidence",
+      "@input:sfx-aws-correlate-change-evidence-request",
+      "@input-contract:sfx-aws-correlate-change-evidence-request.v1",
+      "@event:sfx-aws-correlate-change-evidence-requested",
+      "@event-authority:sfx-aws-correlate-change-evidence.v1",
+      "@outcome:sfx-aws-correlate-change-evidence-outcome",
+      "@outcome-contract:sfx-aws-correlate-change-evidence-result.v1",
+      "@outcome-terminal"
+    ],
+    "story": [
+      "Feature: Correlate infrastructure change evidence",
+      "  As a incident investigator",
+      "  I want historical change evidence relevant to an affected resource",
+      "  So that the team distinguishes observed change from a causal hypothesis"
+    ],
+    "rule": "Rule: The circuit yields an attributable outcome without assuming missing AWS proof",
+    "given": "Given a scoped resource and incident observation window",
+    "when": "When AWS change evidence is correlated without assuming causation",
+    "then": "Then a bounded change-evidence finding or an explicit evidence gap is available",
+    "operations": [
+      "sfx-aws-correlate-change-evidence.correlate"
+    ],
+    "variants": [
+      "CORRELATED",
+      "UNCORRELATED",
+      "NOT_OBSERVABLE",
+      "REFUSED"
+    ],
+    "priority": "P0"
+  },
+  "sfx-aws-dispatch-approved-automation": {
+    "area": "incident",
+    "tags": [
+      "@capability:sfx-aws-dispatch-approved-automation",
+      "@root-scenario:sfx-aws-dispatch-approved-automation",
+      "@scenario:sfx-aws-dispatch-approved-automation",
+      "@input:sfx-aws-dispatch-approved-automation-request",
+      "@input-contract:sfx-aws-dispatch-approved-automation-request.v1",
+      "@event:sfx-aws-dispatch-approved-automation-requested",
+      "@event-authority:sfx-aws-dispatch-approved-automation.v1",
+      "@outcome:sfx-aws-dispatch-approved-automation-outcome",
+      "@outcome-contract:sfx-aws-dispatch-approved-automation-result.v1",
+      "@outcome-terminal"
+    ],
+    "story": [
+      "Feature: Dispatch an approved AWS Automation runbook",
+      "  As a incident responder",
+      "  I want one attributable execution of an explicitly admitted runbook",
+      "  So that recovery is delegated to an AWS native operator under precise permission and idempotency"
+    ],
+    "rule": "Rule: The circuit yields an attributable outcome without assuming missing AWS proof",
+    "given": "Given one authorized recovery effect and an immutable runbook binding",
+    "when": "When the bounded AWS Automation dispatch is attempted",
+    "then": "Then the automation execution is addressable or a named non-dispatch prevents effect",
+    "operations": [
+      "sfx-aws-dispatch-approved-automation.dispatch"
+    ],
+    "variants": [
+      "DISPATCHED",
+      "NOT_DISPATCHED",
+      "REFUSED"
+    ],
+    "priority": "P0"
+  },
+  "sfx-aws-observe-operational-signal": {
+    "area": "incident",
+    "tags": [
+      "@capability:sfx-aws-observe-operational-signal",
+      "@root-scenario:sfx-aws-observe-operational-signal",
+      "@scenario:sfx-aws-observe-operational-signal",
+      "@input:sfx-aws-observe-operational-signal-request",
+      "@input-contract:sfx-aws-observe-operational-signal-request.v1",
+      "@event:sfx-aws-observe-operational-signal-requested",
+      "@event-authority:sfx-aws-observe-operational-signal.v1",
+      "@outcome:sfx-aws-observe-operational-signal-outcome",
+      "@outcome-contract:sfx-aws-observe-operational-signal-result.v1",
+      "@outcome-terminal"
+    ],
+    "story": [
+      "Feature: Observe a cloud operational signal",
+      "  As a cloud operations team",
+      "  I want one bounded operational condition from an authenticated source",
+      "  So that investigation begins with a traceable observation rather than an unverified alert"
+    ],
+    "rule": "Rule: The circuit yields an attributable outcome without assuming missing AWS proof",
+    "given": "Given an AWS operational event and its attributed delivery context",
+    "when": "When the operational event is checked and admitted",
+    "then": "Then a distinct qualified signal is observable, or the event is safely classified",
+    "operations": [
+      "sfx-aws-observe-operational-signal.observe"
+    ],
+    "variants": [
+      "OBSERVED",
+      "DUPLICATE",
+      "REFUSED",
+      "NOT_OBSERVABLE"
+    ],
+    "priority": "P0"
+  },
+  "sfx-aws-resolve-resource-context": {
+    "area": "incident",
+    "tags": [
+      "@capability:sfx-aws-resolve-resource-context",
+      "@root-scenario:sfx-aws-resolve-resource-context",
+      "@scenario:sfx-aws-resolve-resource-context",
+      "@input:sfx-aws-resolve-resource-context-request",
+      "@input-contract:sfx-aws-resolve-resource-context-request.v1",
+      "@event:sfx-aws-resolve-resource-context-requested",
+      "@event-authority:sfx-aws-resolve-resource-context.v1",
+      "@outcome:sfx-aws-resolve-resource-context-outcome",
+      "@outcome-contract:sfx-aws-resolve-resource-context-result.v1",
+      "@outcome-terminal"
+    ],
+    "story": [
+      "Feature: Resolve affected AWS resource context",
+      "  As a cloud operations engineer",
+      "  I want the ownership and current condition of a cloud resource",
+      "  So that the team can target the correct account, environment and service without guessing"
+    ],
+    "rule": "Rule: The circuit yields an attributable outcome without assuming missing AWS proof",
+    "given": "Given an admitted operational signal and an AWS resource identity",
+    "when": "When the governed resource context is resolved",
+    "then": "Then one attributable resource context or a named coverage limitation is available",
+    "operations": [
+      "sfx-aws-resolve-resource-context.resolve"
+    ],
+    "variants": [
+      "RESOLVED",
+      "PARTIAL",
+      "REFUSED"
+    ],
+    "priority": "P0"
+  },
+  "sfx-aws-resolve-service-impact": {
+    "area": "incident",
+    "tags": [
+      "@capability:sfx-aws-resolve-service-impact",
+      "@root-scenario:sfx-aws-resolve-service-impact",
+      "@scenario:sfx-aws-resolve-service-impact",
+      "@input:sfx-aws-resolve-service-impact-request",
+      "@input-contract:sfx-aws-resolve-service-impact-request.v1",
+      "@event:sfx-aws-resolve-service-impact-requested",
+      "@event-authority:sfx-aws-resolve-service-impact.v1",
+      "@outcome:sfx-aws-resolve-service-impact-outcome",
+      "@outcome-contract:sfx-aws-resolve-service-impact-result.v1",
+      "@outcome-terminal"
+    ],
+    "story": [
+      "Feature: Assess operational service impact",
+      "  As a cloud operations manager",
+      "  I want an attributable view of service degradation and its coverage",
+      "  So that incident priority reflects service effect rather than alarm count"
+    ],
+    "rule": "Rule: The circuit yields an attributable outcome without assuming missing AWS proof",
+    "given": "Given a qualified signal, service binding and reliability evidence",
+    "when": "When the service impact is assessed against its declared operating objective",
+    "then": "Then the observed service impact or its unobservability is stated",
+    "operations": [
+      "sfx-aws-resolve-service-impact.assess"
+    ],
+    "variants": [
+      "ASSESSED",
+      "NOT_OBSERVABLE",
+      "REFUSED"
+    ],
+    "priority": "P0"
+  },
+  "sfx-aws-resolve-service-incident": {
+    "area": "incident",
+    "tags": [
+      "@capability:sfx-aws-resolve-service-incident",
+      "@root-scenario:sfx-aws-resolve-service-incident",
+      "@scenario:sfx-aws-resolve-service-incident",
+      "@input:sfx-aws-resolve-service-incident-request",
+      "@input-contract:sfx-aws-resolve-service-incident-request.v1",
+      "@event:sfx-aws-resolve-service-incident-requested",
+      "@event-authority:sfx-aws-resolve-service-incident.v1",
+      "@outcome:sfx-aws-resolve-service-incident-outcome",
+      "@outcome-contract:sfx-aws-resolve-service-incident-result.v1",
+      "@outcome-terminal"
+    ],
+    "story": [
+      "Feature: Resolve a cloud service incident through governed AWS capabilities",
+      "  As a cloud operations manager",
+      "  I want a service incident either recovered with proof or safely escalated",
+      "  So that every action, constraint and unresolved condition is visible in one incident circuit"
+    ],
+    "rule": "Rule: The circuit yields an attributable outcome without assuming missing AWS proof",
+    "given": "Given one qualified cloud incident with its admitted service and effect boundary",
+    "when": "When the admitted investigation, response and recovery circuits are composed",
+    "then": "Then the service is independently restored, or the incident retains an explicit non-restored disposition",
+    "operations": [
+      "sfx-aws-resolve-service-incident.resolve"
+    ],
+    "variants": [
+      "RESTORED",
+      "ESCALATED",
+      "HELD",
+      "REFUSED"
+    ],
+    "priority": "P0"
+  },
+  "sfx-aws-select-recovery-option": {
+    "area": "incident",
+    "tags": [
+      "@capability:sfx-aws-select-recovery-option",
+      "@root-scenario:sfx-aws-select-recovery-option",
+      "@scenario:sfx-aws-select-recovery-option",
+      "@input:sfx-aws-select-recovery-option-request",
+      "@input-contract:sfx-aws-select-recovery-option-request.v1",
+      "@event:sfx-aws-select-recovery-option-requested",
+      "@event-authority:sfx-aws-select-recovery-option.v1",
+      "@outcome:sfx-aws-select-recovery-option-outcome",
+      "@outcome-contract:sfx-aws-select-recovery-option-result.v1",
+      "@outcome-terminal"
+    ],
+    "story": [
+      "Feature: Select a governed recovery option",
+      "  As a on-call cloud operator",
+      "  I want a permitted action matched to the observed cloud condition",
+      "  So that remediation options follow the resource state and approved runbook policy"
+    ],
+    "rule": "Rule: The circuit yields an attributable outcome without assuming missing AWS proof",
+    "given": "Given an incident assessment and admitted runbook catalog",
+    "when": "When one eligible bounded recovery option is selected",
+    "then": "Then an eligible action is available, or the incident is left for manual escalation",
+    "operations": [
+      "sfx-aws-select-recovery-option.select"
+    ],
+    "variants": [
+      "SELECTED",
+      "NO_ACTION",
+      "REFUSED"
+    ],
+    "priority": "P0"
+  },
+  "sfx-aws-verify-service-recovery": {
+    "area": "incident",
+    "tags": [
+      "@capability:sfx-aws-verify-service-recovery",
+      "@root-scenario:sfx-aws-verify-service-recovery",
+      "@scenario:sfx-aws-verify-service-recovery",
+      "@input:sfx-aws-verify-service-recovery-request",
+      "@input-contract:sfx-aws-verify-service-recovery-request.v1",
+      "@event:sfx-aws-verify-service-recovery-requested",
+      "@event-authority:sfx-aws-verify-service-recovery.v1",
+      "@outcome:sfx-aws-verify-service-recovery-outcome",
+      "@outcome-contract:sfx-aws-verify-service-recovery-result.v1",
+      "@outcome-terminal"
+    ],
+    "story": [
+      "Feature: Verify a cloud service recovery from independent observations",
+      "  As a cloud operations manager",
+      "  I want proof that the operational experience has recovered",
+      "  So that a successful automation invocation never substitutes for a healthy service"
+    ],
+    "rule": "Rule: The circuit yields an attributable outcome without assuming missing AWS proof",
+    "given": "Given an automation result and a declared post-action service objective",
+    "when": "When the current service state is independently checked against the objective",
+    "then": "Then recovery is confirmed, rejected, or left unobservable with evidence",
+    "operations": [
+      "sfx-aws-verify-service-recovery.verify"
+    ],
+    "variants": [
+      "RESTORED",
+      "NOT_RESTORED",
+      "NOT_OBSERVABLE",
+      "REFUSED"
+    ],
+    "priority": "P0"
+  },
+  "sfx-aws-assess-configuration-drift": {
+    "area": "assurance",
+    "tags": [
+      "@capability:sfx-aws-assess-configuration-drift",
+      "@root-scenario:sfx-aws-assess-configuration-drift",
+      "@scenario:sfx-aws-assess-configuration-drift",
+      "@input:sfx-aws-assess-configuration-drift-request",
+      "@input-contract:sfx-aws-assess-configuration-drift-request.v1",
+      "@event:sfx-aws-assess-configuration-drift-requested",
+      "@event-authority:sfx-aws-assess-configuration-drift.v1",
+      "@outcome:sfx-aws-assess-configuration-drift-outcome",
+      "@outcome-contract:sfx-aws-assess-configuration-drift-result.v1",
+      "@outcome-terminal"
+    ],
+    "story": [
+      "Feature: Assess cloud configuration against governed expectations",
+      "  As a cloud governance owner",
+      "  I want a reviewable difference between intended and observed cloud resources",
+      "  So that configuration drift is interpreted from facts rather than a stale deployment diagram"
+    ],
+    "rule": "Rule: The circuit yields an attributable outcome without assuming missing AWS proof",
+    "given": "Given a declared resource policy and AWS configuration observation",
+    "when": "When the observed configuration is evaluated against its admitted target",
+    "then": "Then a specific drift finding, no drift, or a coverage limitation is available",
+    "operations": [
+      "sfx-aws-assess-configuration-drift.assess"
+    ],
+    "variants": [
+      "DRIFT_DETECTED",
+      "NO_DRIFT",
+      "NOT_OBSERVABLE",
+      "REFUSED"
+    ],
+    "priority": "P1"
+  },
+  "sfx-aws-assess-cost-variance": {
+    "area": "assurance",
+    "tags": [
+      "@capability:sfx-aws-assess-cost-variance",
+      "@root-scenario:sfx-aws-assess-cost-variance",
+      "@scenario:sfx-aws-assess-cost-variance",
+      "@input:sfx-aws-assess-cost-variance-request",
+      "@input-contract:sfx-aws-assess-cost-variance-request.v1",
+      "@event:sfx-aws-assess-cost-variance-requested",
+      "@event-authority:sfx-aws-assess-cost-variance.v1",
+      "@outcome:sfx-aws-assess-cost-variance-outcome",
+      "@outcome-contract:sfx-aws-assess-cost-variance-result.v1",
+      "@outcome-terminal"
+    ],
+    "story": [
+      "Feature: Assess AWS spend against an admitted budget or baseline",
+      "  As a cloud financial operations owner",
+      "  I want a cost change that is measurable and attributed to a defined scope",
+      "  So that cost optimization begins from spend evidence rather than speculative savings"
+    ],
+    "rule": "Rule: The circuit yields an attributable outcome without assuming missing AWS proof",
+    "given": "Given a billing scope, comparison period and AWS cost observation",
+    "when": "When the scoped cost evidence is compared under a declared variance rule",
+    "then": "Then an attributable variance or an explicit coverage limitation is available",
+    "operations": [
+      "sfx-aws-assess-cost-variance.assess"
+    ],
+    "variants": [
+      "VARIANCE_OBSERVED",
+      "NO_VARIANCE",
+      "NOT_OBSERVABLE",
+      "REFUSED"
+    ],
+    "priority": "P1"
+  },
+  "sfx-aws-evaluate-recovery-readiness": {
+    "area": "assurance",
+    "tags": [
+      "@capability:sfx-aws-evaluate-recovery-readiness",
+      "@root-scenario:sfx-aws-evaluate-recovery-readiness",
+      "@scenario:sfx-aws-evaluate-recovery-readiness",
+      "@input:sfx-aws-evaluate-recovery-readiness-request",
+      "@input-contract:sfx-aws-evaluate-recovery-readiness-request.v1",
+      "@event:sfx-aws-evaluate-recovery-readiness-requested",
+      "@event-authority:sfx-aws-evaluate-recovery-readiness.v1",
+      "@outcome:sfx-aws-evaluate-recovery-readiness-outcome",
+      "@outcome-contract:sfx-aws-evaluate-recovery-readiness-result.v1",
+      "@outcome-terminal"
+    ],
+    "story": [
+      "Feature: Evaluate recovery readiness for a cloud workload",
+      "  As a service continuity owner",
+      "  I want an evidence-based view of recovery preparedness",
+      "  So that a backup configured does not by itself prove recoverability"
+    ],
+    "rule": "Rule: The circuit yields an attributable outcome without assuming missing AWS proof",
+    "given": "Given a recovery obligation and its actual backup or exercise evidence",
+    "when": "When the observed recovery controls are checked against the declared recovery objective",
+    "then": "Then a supported readiness disposition with exact gaps is available",
+    "operations": [
+      "sfx-aws-evaluate-recovery-readiness.evaluate"
+    ],
+    "variants": [
+      "READY",
+      "NOT_READY",
+      "NOT_OBSERVABLE",
+      "REFUSED"
+    ],
+    "priority": "P1"
+  },
+  "sfx-aws-report-operating-posture": {
+    "area": "assurance",
+    "tags": [
+      "@capability:sfx-aws-report-operating-posture",
+      "@root-scenario:sfx-aws-report-operating-posture",
+      "@scenario:sfx-aws-report-operating-posture",
+      "@input:sfx-aws-report-operating-posture-request",
+      "@input-contract:sfx-aws-report-operating-posture-request.v1",
+      "@event:sfx-aws-report-operating-posture-requested",
+      "@event-authority:sfx-aws-report-operating-posture.v1",
+      "@outcome:sfx-aws-report-operating-posture-outcome",
+      "@outcome-contract:sfx-aws-report-operating-posture-result.v1",
+      "@outcome-terminal"
+    ],
+    "story": [
+      "Feature: Report AWS cloud operations posture",
+      "  As a cloud operations manager",
+      "  I want a credible operating picture across reliability, security, cost and recovery",
+      "  So that leadership can see which obligations are met and which are not yet observable"
+    ],
+    "rule": "Rule: The circuit yields an attributable outcome without assuming missing AWS proof",
+    "given": "Given a scoped estate window with admitted operational evidence",
+    "when": "When the collected operational findings are assembled without hiding gaps",
+    "then": "Then a reviewable operating posture report or explicit incomplete disposition is available",
+    "operations": [
+      "sfx-aws-report-operating-posture.report"
+    ],
+    "variants": [
+      "REPORTED",
+      "INCOMPLETE",
+      "REFUSED"
+    ],
+    "priority": "P1"
+  },
+  "sfx-aws-triage-security-finding": {
+    "area": "assurance",
+    "tags": [
+      "@capability:sfx-aws-triage-security-finding",
+      "@root-scenario:sfx-aws-triage-security-finding",
+      "@scenario:sfx-aws-triage-security-finding",
+      "@input:sfx-aws-triage-security-finding-request",
+      "@input-contract:sfx-aws-triage-security-finding-request.v1",
+      "@event:sfx-aws-triage-security-finding-requested",
+      "@event-authority:sfx-aws-triage-security-finding.v1",
+      "@outcome:sfx-aws-triage-security-finding-outcome",
+      "@outcome-contract:sfx-aws-triage-security-finding-result.v1",
+      "@outcome-terminal"
+    ],
+    "story": [
+      "Feature: Triage an AWS security finding with attributable evidence",
+      "  As a security operations manager",
+      "  I want a prioritized cloud-security observation with safe next action",
+      "  So that findings are not mistaken for automatically authorized remediations"
+    ],
+    "rule": "Rule: The circuit yields an attributable outcome without assuming missing AWS proof",
+    "given": "Given a supported AWS Security Hub finding and authorized security scope",
+    "when": "When the finding is deduplicated and classified against approved policy",
+    "then": "Then an owned security work item is available or a named non-admission explains the absence",
+    "operations": [
+      "sfx-aws-triage-security-finding.triage"
+    ],
+    "variants": [
+      "TRIAGED",
+      "DUPLICATE",
+      "NOT_OBSERVABLE",
+      "REFUSED"
+    ],
+    "priority": "P1"
+  }
+}

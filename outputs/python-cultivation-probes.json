@@ -1,0 +1,103 @@
+{
+  "seeded": [
+    {
+      "runId": "c9fa6586-bfb1-55b8-c77a-104dbe1f6c04",
+      "capability": "analysis-draw-seeded-range",
+      "request": {
+        "seed": 42,
+        "count": 4,
+        "low": 1,
+        "high": 100
+      },
+      "result": {
+        "contractId": "analysis-draw-seeded-range-result.v1",
+        "status": "READ",
+        "capabilityId": "analysis-draw-seeded-range",
+        "rowCount": 4,
+        "rows": [
+          {
+            "ordinal": 1,
+            "value": 74,
+            "state": 1083814273
+          },
+          {
+            "ordinal": 2,
+            "value": 59,
+            "state": 379334258
+          },
+          {
+            "ordinal": 3,
+            "value": 46,
+            "state": 637876145
+          },
+          {
+            "ordinal": 4,
+            "value": 62,
+            "state": 791926961
+          }
+        ]
+      }
+    },
+    {
+      "runId": "34d56e25-6245-d5bd-b56a-24c291db9488",
+      "capability": "analysis-draw-seeded-range",
+      "request": {
+        "seed": 42,
+        "count": 4,
+        "low": 1,
+        "high": 100
+      },
+      "result": {
+        "contractId": "analysis-draw-seeded-range-result.v1",
+        "status": "READ",
+        "capabilityId": "analysis-draw-seeded-range",
+        "rowCount": 4,
+        "rows": [
+          {
+            "ordinal": 1,
+            "value": 74,
+            "state": 1083814273
+          },
+          {
+            "ordinal": 2,
+            "value": 59,
+            "state": 379334258
+          },
+          {
+            "ordinal": 3,
+            "value": 46,
+            "state": 637876145
+          },
+          {
+            "ordinal": 4,
+            "value": 62,
+            "state": 791926961
+          }
+        ]
+      }
+    }
+  ],
+  "head": {
+    "runId": "f3e7846a-7448-c62d-0f90-e678c7ae6907",
+    "capability": "http-exchange-public",
+    "request": {
+      "method": "HEAD",
+      "url": "https://docs.python.org/3/library/index.html",
+      "accept": "text/html"
+    },
+    "result": {
+      "status": "EXCHANGED",
+      "disposition": "completed",
+      "httpStatus": 200,
+      "contentType": "text/html",
+      "responseBodyText": "",
+      "responseBodyBytes": "",
+      "responseBodyHash": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "allowedResponseHeaders": {
+        "content-type": "text/html",
+        "retry-after": null,
+        "location": null
+      }
+    }
+  }
+}

@@ -1,0 +1,130 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:sidefx:capability-cultivation-state:v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "contractId",
+    "ontologyDigest",
+    "catalogDigest",
+    "decisionRule",
+    "cases",
+    "declarations"
+  ],
+  "properties": {
+    "decisionSubject": {
+      "const": "proposed_operation"
+    },
+    "contractId": {
+      "const": "capability-cultivation-state.v1"
+    },
+    "ontologyDigest": {
+      "$ref": "#/$defs/digest"
+    },
+    "catalogDigest": {
+      "$ref": "#/$defs/digest"
+    },
+    "decisionRule": {
+      "type": "string",
+      "minLength": 1
+    },
+    "cases": {
+      "type": "object",
+      "minProperties": 1,
+      "maxProperties": 20,
+      "propertyNames": {
+        "pattern": "^u[1-9][0-9]*$"
+      },
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "useCaseId",
+          "module",
+          "useCase",
+          "proposedOperation",
+          "candidates"
+        ],
+        "properties": {
+          "useCaseId": {
+            "type": "string",
+            "pattern": "^.+#(?:[1-5]|operation)$"
+          },
+          "module": {
+            "type": "string",
+            "minLength": 1
+          },
+          "useCase": {
+            "type": "string",
+            "minLength": 1
+          },
+          "proposedOperation": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 420
+          },
+          "candidates": {
+            "type": "array",
+            "maxItems": 8,
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "pattern": "^d[0-9]+$"
+            }
+          }
+        }
+      }
+    },
+    "declarations": {
+      "type": "object",
+      "propertyNames": {
+        "pattern": "^d[0-9]+$"
+      },
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "namespace",
+          "id",
+          "meaning"
+        ],
+        "properties": {
+          "namespace": {
+            "enum": [
+              "sidefx:capabilities",
+              "sidefx:platform-capabilities",
+              "sidefx:mechanics",
+              "sidefx:dependencies",
+              "sidefx:providers"
+            ]
+          },
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "meaning": {
+            "type": "string"
+          },
+          "outcome": {
+            "type": "string"
+          },
+          "input": {
+            "type": "string"
+          },
+          "output": {
+            "type": "string"
+          },
+          "availability": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "digest": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    }
+  }
+}

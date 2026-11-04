@@ -1,0 +1,51 @@
+index	id	label	evidence
+1	webbrowser#1	NEW_MECHANIC_CANDIDATE	HTTP reads and UI delivery do not launch the user's default browser and report launch success.
+2	argparse#1	NEW_MECHANIC_CANDIDATE	read-argv and the fixed capsule CLI do not construct parsers or generated command front ends from arbitrary argument specifications.
+3	xml.dom.pulldom#1	NEW_MECHANIC_CANDIDATE	A streaming XML event reader and selective subtree expansion are missing from the selected ontology.
+4	trace#1	NEW_MECHANIC_CANDIDATE	Estate execution coverage is about scenarios. Python line events and per-file hit counts require another instrument.
+5	tkinter.scrolledtext#1	NEW_MECHANIC_CANDIDATE	Existing UI projections do not expose a parent Tk container or a Tk text widget handle.
+6	enum#1	UNRESOLVED	schema-admission and unique could cover member-name validation. The required alias and flag semantics are not established by these declarations.
+7	tkinter.colorchooser#1	NEW_MECHANIC_CANDIDATE	No selected interactive provider declares a host color picker, RGB return and cancellation.
+8	socket#1	NEW_MECHANIC_CANDIDATE	http-client connects as part of an exchange. There is no declared host/service resolution returning IPv4 and IPv6 candidates alone.
+9	contextvars#1	NEW_MECHANIC_CANDIDATE	Telemetry observation supplies no enumeration of the active Python context's variables.
+10	email.mime.message#1	NEW_MECHANIC_CANDIDATE	validate-email-address concerns addresses. No selected operation constructs a message/rfc822 MIME part.
+11	getpass#2	UNRESOLVED	Current estate principal and operating-system login need not coincide. The use does not say which identity is acceptable for the headers.
+12	asyncio#2	UNRESOLVED	execute-bounded-process and scenario-orchestration are relevant. Combined timeout, parallel fanout and individual error retention for supplied tasks need contract evidence.
+13	modulefinder#2	NEW_MECHANIC_CANDIDATE	probe-runtime-modules tests a fixed import set and parse-csharp-source accepts a different language. Neither resolves dependencies of a caller's Python script.
+14	io#2	COMPOSE	array collects ordered text fragments and join returns one string with an empty separator. This meets incremental assembly before the handoff. A seekable stream is a stricter proposed operation.
+15	urllib.request#2	UNRESOLVED	http-exchange-public accepts GET and HEAD, but its declared input offers no response-byte or read bound. A hard memory ceiling on actual downloads needs additional evidence.
+16	os#2	NEW_MECHANIC_CANDIDATE	read-file-bytes takes a file, without offset-preserving reads from a shared descriptor.
+17	email.charset#2	NEW_MECHANIC_CANDIDATE	No selected mapping of email charset aliases to canonical names. General-purpose string transformations cannot supply that table.
+18	imaplib#2	NEW_MECHANIC_CANDIDATE	No declared IMAP session and UID SEARCH primitive. Persisting a high-water mark addresses only part of the use.
+19	select#2	NEW_MECHANIC_CANDIDATE	No bounded readiness poll of inherited file descriptors is declared.
+20	tkinter.colorchooser#2	NEW_MECHANIC_CANDIDATE	Storage could persist a hex value, but the missing chooser must first obtain the user's actual selection.
+21	email.encoders#3	NEW_MECHANIC_CANDIDATE	Base64 mechanics alone do not parse MIME transfer encodings or rewrite the affected message payload and headers.
+22	dbm.sqlite3#3	NEW_MECHANIC_CANDIDATE	sql-server-client cannot open a supplied SQLite-backed DBM file and prove SQLite interoperability.
+23	inspect#3	NEW_MECHANIC_CANDIDATE	JSON contract validation does not implement Python signature binding for positional, keyword and variadic parameters.
+24	xml.dom#3	NEW_MECHANIC_CANDIDATE	probe-runtime-modules does not resolve a DOM implementation or report the requested DOM features.
+25	tkinter.simpledialog#3	UNRESOLVED	Existing login and password providers are credential-scoped. Their declarations do not establish reusable masked prompt authority for this workflow.
+26	importlib.metadata#3	NEW_MECHANIC_CANDIDATE	Estate dependency identities do not enumerate installed Python distribution metadata or Requires-Dist specifiers for an arbitrary package.
+27	unicodedata#3	NEW_MECHANIC_CANDIDATE	No selected Unicode grapheme-break property tables or segmentation contract.
+28	wsgiref.validate#3	NEW_MECHANIC_CANDIDATE	An HTTP exchange cannot wrap a Python WSGI application and validate its invocation and response protocol.
+29	abc#3	NEW_MECHANIC_CANDIDATE	The selected runtime probes do not expose the Python ABC virtual-subclass cache token.
+30	contextlib#3	COMPOSE	The fixture stack can be represented as an array, then projected in reverse ordinal order with a declared ordered query. This covers predicting order, not invoking arbitrary cleanup code.
+31	multiprocessing#4	NEW_MECHANIC_CANDIDATE	None of the selected runtime probes covers the supported and default multiprocessing start methods for the host.
+32	dbm#4	NEW_MECHANIC_CANDIDATE	File observation can detect absence but does not identify DBM formats from existing bytes.
+33	xml.parsers.expat.model#4	NEW_MECHANIC_CANDIDATE	No selected XML DTD content-model decoder returns the tree consumed by the generator.
+34	multiprocessing.dummy#4	UNRESOLVED	Scenario fanout and bounded processes exist. Neither declaration proves a parameterized fixed-width worker-thread pool for external calls.
+35	readline#4	NEW_MECHANIC_CANDIDATE	Estate run history does not expose the current GNU readline session's history length or its truncation configuration.
+36	email.headerregistry#4	NEW_MECHANIC_CANDIDATE	validate-email-address cannot detect structured RFC message-header defects.
+37	sys#4	NEW_MECHANIC_CANDIDATE	No selected runtime probe returns filesystem encoding and host byte order together for data interchange.
+38	tkinter#4	NEW_MECHANIC_CANDIDATE	Static UI projection does not introspect Tk widget configuration defaults for the selected toolkit.
+39	multiprocessing.managers#4	UNRESOLVED	A written illustration could be delivered as a document. Demonstrating a functioning manager-backed proxy would require an additional runtime capability.
+40	os#4	NEW_MECHANIC_CANDIDATE	read-file-bytes is a whole-file read. The bounded pread without moving the descriptor offset is missing.
+41	wsgiref.headers#5	UNRESOLVED	join and map can render a simple CGI field, but safe header validation and handling repeated names are not established by that composition.
+42	xmlrpc.client#5	NEW_MECHANIC_CANDIDATE	HTTP transport alone does not implement XML-RPC listMethods/methodSignature decoding needed for schema generation.
+43	tempfile#5	UNRESOLVED	generate-random-identity and create-directory exist. Atomic exclusive creation, safe permissions and cleanup authority are not demonstrated.
+44	email.policy#5	NEW_MECHANIC_CANDIDATE	No selected provider reports effective Python email policy flags after cloning and applying overrides.
+45	_thread#5	NEW_MECHANIC_CANDIDATE	No selected authority exposes interpreter lock timeout limits or timed low-level lock acquisition.
+46	random#5	REUSE	analysis-draw-seeded-range takes seed, count, low and high for reproducible integer fixtures. A no-replacement sample of an arbitrary population would be a different requirement.
+47	sys.monitoring#5	NEW_MECHANIC_CANDIDATE	Estate telemetry does not enable Python interpreter exceptions on selected code objects.
+48	xml.sax.xmlreader#5	UNRESOLVED	Comparing a supplied mapping could use existing collection mechanics. The namespace bindings, trace format and replay invariants to validate are unclear.
+49	cmath#5	NEW_MECHANIC_CANDIDATE	Selected arithmetic primitives do not supply complex NaN/infinity classification or the requested complex-function behavior.
+50	tokenize#5	NEW_MECHANIC_CANDIDATE	The C# parser exposes offsets for C#. No selected Python tokenizer reports Python token kinds and coordinates.

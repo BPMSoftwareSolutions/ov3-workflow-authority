@@ -1,0 +1,26 @@
+{
+  "fixtureType": "sidefx-aws-cloud-ops-acceptance-arrangement.v2",
+  "caseId": "aws-option-unapproved",
+  "capabilityId": "sfx-aws-select-recovery-option",
+  "synthetic": true,
+  "clock": "2026-11-03T00:20:00Z",
+  "sidefx": {
+    "admittedAccounts": [
+      "111122223333"
+    ],
+    "catalog": [
+      {
+        "documentName": "local-FixEverything",
+        "documentVersion": "3",
+        "action": "fix",
+        "eligibleStates": [
+          "stopped"
+        ],
+        "requiresApproval": false,
+        "admitted": false
+      }
+    ]
+  },
+  "awsCalls": [],
+  "notes": "Synthetic arrangement. AWS requests and responses use the documented shapes (see the feature's source IDs); none was captured from an AWS account."
+}

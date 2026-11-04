@@ -1,0 +1,332 @@
+{
+  "contractId": "markdown-page-hosted-flight-evidence.v1",
+  "planRevision": 3,
+  "planDigest": "9649f815346c75916adfae7e856b16d65750538de6acb69ddff3147c717d42cf",
+  "approval": {
+    "runId": "fb9f15d9-9b98-7d53-a0da-2152a79be451",
+    "statement": "Approve revision 3 and fly it",
+    "receipt": "sha256:2d20d737a684b34cea10d2841abcb20c0d316a50a9e87a5760c90a4e0df5356d",
+    "recordedAt": "2026-11-04T12:32:51.1284380Z",
+    "clearance": "CLEARED"
+  },
+  "flight": {
+    "runId": "cbf0d0ad-3ae1-c05c-7dfd-0bb85e933b6b",
+    "recordingId": "28a61822-5a82-4d64-b06c-953c54a8949f",
+    "status": "DEVIATED",
+    "startedAt": "2026-11-04T12:33:12.7102714",
+    "endedAt": "2026-11-04T12:38:19.4703685",
+    "steps": [
+      {
+        "stepId": "guard-new-identities",
+        "status": "PASSED",
+        "completedAt": "2026-11-04T12:33:15.6720528"
+      },
+      {
+        "stepId": "guard-verifier",
+        "status": "PASSED",
+        "completedAt": "2026-11-04T12:33:16.5504467"
+      },
+      {
+        "stepId": "guard-package-and-sources",
+        "status": "PASSED",
+        "completedAt": "2026-11-04T12:33:17.8645111"
+      },
+      {
+        "stepId": "dependency",
+        "status": "PASSED",
+        "completedAt": "2026-11-04T12:33:18.8421322"
+      },
+      {
+        "stepId": "pin-dependency",
+        "status": "PASSED",
+        "completedAt": "2026-11-04T12:33:19.4116073"
+      },
+      {
+        "stepId": "mechanic",
+        "status": "PASSED",
+        "completedAt": "2026-11-04T12:33:20.7053024"
+      },
+      {
+        "stepId": "prepare-profile",
+        "status": "PASSED",
+        "completedAt": "2026-11-04T12:33:21.3396597"
+      },
+      {
+        "stepId": "provider",
+        "status": "PASSED",
+        "completedAt": "2026-11-04T12:33:22.3915451"
+      },
+      {
+        "stepId": "pin-provider",
+        "status": "PASSED",
+        "completedAt": "2026-11-04T12:33:23.0122522"
+      },
+      {
+        "stepId": "bind-python",
+        "status": "PASSED",
+        "completedAt": "2026-11-04T12:33:25.2802315"
+      },
+      {
+        "stepId": "label-provider",
+        "status": "PASSED",
+        "completedAt": "2026-11-04T12:33:26.2526143"
+      },
+      {
+        "stepId": "feature-python-markdown-page-operation",
+        "status": "PASSED",
+        "completedAt": "2026-11-04T12:33:26.7834787"
+      },
+      {
+        "stepId": "declare-python-markdown-page-operation",
+        "status": "PASSED",
+        "completedAt": "2026-11-04T12:35:04.3867678"
+      },
+      {
+        "stepId": "topology-python-markdown-page-operation",
+        "status": "PASSED",
+        "completedAt": "2026-11-04T12:35:14.7534080"
+      },
+      {
+        "stepId": "feature-render-markdown-html-page",
+        "status": "PASSED",
+        "completedAt": "2026-11-04T12:35:15.6425100"
+      },
+      {
+        "stepId": "declare-render-markdown-html-page",
+        "status": "PASSED",
+        "completedAt": "2026-11-04T12:36:46.0205027"
+      },
+      {
+        "stepId": "topology-render-markdown-html-page",
+        "status": "PASSED",
+        "completedAt": "2026-11-04T12:37:03.0662940"
+      },
+      {
+        "stepId": "verify-public-discovery",
+        "status": "PASSED",
+        "completedAt": "2026-11-04T12:37:04.2930688"
+      },
+      {
+        "stepId": "verify-python-delivery",
+        "status": "PASSED",
+        "completedAt": "2026-11-04T12:37:08.8520729"
+      },
+      {
+        "stepId": "install-publication-proof",
+        "status": "PASSED",
+        "completedAt": "2026-11-04T12:37:34.5401874"
+      },
+      {
+        "stepId": "check-verifier-conformance",
+        "status": "PASSED",
+        "completedAt": "2026-11-04T12:37:40.5277038"
+      },
+      {
+        "stepId": "fulfill-report",
+        "status": "FAILED",
+        "reasonCode": "EXPECTATION_NOT_MET",
+        "completedAt": "2026-11-04T12:38:17.6194217"
+      },
+      {
+        "stepId": "check-live-pin-report",
+        "status": "NOT_RUN",
+        "reasonCode": "EARLIER_STEP_NOT_PASSED",
+        "completedAt": "2026-11-04T12:38:18.0444132"
+      },
+      {
+        "stepId": "fulfill-reuse",
+        "status": "NOT_RUN",
+        "reasonCode": "EARLIER_STEP_NOT_PASSED",
+        "completedAt": "2026-11-04T12:38:18.4358264"
+      },
+      {
+        "stepId": "check-live-pin-reuse",
+        "status": "NOT_RUN",
+        "reasonCode": "EARLIER_STEP_NOT_PASSED",
+        "completedAt": "2026-11-04T12:38:18.9902542"
+      }
+    ]
+  },
+  "closure": {
+    "runId": "d6867c95-f703-82d9-7618-abd38eba4330",
+    "verdict": "PROMISE_NOT_CLOSED",
+    "passedSteps": 21,
+    "totalSteps": 25,
+    "closedObligations": 1,
+    "obligations": [
+      {
+        "id": "provider",
+        "status": "OPEN"
+      },
+      {
+        "id": "creation",
+        "status": "CLOSED"
+      },
+      {
+        "id": "report",
+        "status": "FAILED"
+      },
+      {
+        "id": "reuse",
+        "status": "OPEN"
+      }
+    ]
+  },
+  "declaredDelivery": {
+    "contractId": "capability-delivery-languages.v1",
+    "status": "READ",
+    "capabilityId": "python-markdown-page-operation",
+    "languages": [
+      "python"
+    ],
+    "nestedDispatch": false,
+    "dispatchPlatforms": [],
+    "providers": [
+      {
+        "providerId": "python-markdown-page-libraries-v1",
+        "languages": [
+          "python"
+        ]
+      }
+    ]
+  },
+  "discovery": {
+    "exposed": 1
+  },
+  "postFlightPort": {
+    "portDigest": "95781bdffbed98072397106756342553db6083147f5f1c99b301bb4ed54ea2ad",
+    "ruleCount": 116,
+    "rules": [
+      {
+        "mechanic": "cpython-html-bounded-v1-port.v1",
+        "provider": "cpython-html-bounded-v1",
+        "pin": "sha256:b6c126508270e7f79ef4032c73f6e38f65b8394651b1eba70965e16553569004"
+      },
+      {
+        "mechanic": "python-markdown-page-libraries-v1-port.v1",
+        "provider": "python-markdown-page-libraries-v1",
+        "pin": "sha256:ba85a9594408d41be258255228186e5bbccebae058e56457600754778cdb1547"
+      }
+    ],
+    "providers": [
+      {
+        "provider": "cpython-html-bounded-v1",
+        "language": "csharp",
+        "sourcePin": "sha256:803005c9cfc77d4aa82aa9952617e2b70a327f85574dc412ba0042d505083487"
+      },
+      {
+        "provider": "python-markdown-page-libraries-v1",
+        "language": "python",
+        "sourcePin": "sha256:954a8ea835047305f44fc1dc7a6008bf69ff5bc7f670fd13ab7778468570eb6d"
+      }
+    ]
+  },
+  "objectives": [
+    {
+      "id": "report",
+      "runId": "cbf0d0ad-3ae1-c05c-7dfd-0bb85e933b6b",
+      "scope": "flight",
+      "conversationId": "bb142e8c-8217-4444-8546-be4939d99800",
+      "objective": "Use the admitted Python Markdown page capability to publish the full retained Markdown source sha256:94a77a826d7822419a8fe8c2d00275048a541c1a1d6aff4f753835abcad0c966 as python-library-provider-report.html. Use title \"Python standard library provider proposals\", lang \"en\" and the technical-report-v1 presentation profile. Verify the standalone UTF-8 HTML and its source, sanitizer and publication receipts. Return its digest.",
+      "objectiveFulfillment": "NOT_FULFILLED",
+      "turnCount": 3,
+      "firstTurn": {
+        "slot": "objective-pursuit:bb142e8c-8217-4444-8546-be4939d99800#1",
+        "turnDigest": "sha256:5d91ec2e30dbdb798c4284d98109e06818f4c8d8dbe497074f477d003c097a09",
+        "capability": "render-markdown-html-page",
+        "disposition": "terminated",
+        "result": {
+          "code": "CELL_EXECUTION_FAILED",
+          "message": "SEMANTIC_EXECUTION_GRAPH_OVERLAY_BINDING_MISSING: 'python-markdown-page-libraries-v1-port.v1'"
+        }
+      },
+      "matchingPublishedTurn": null,
+      "matchingPublications": 0,
+      "expectedContentDigest": "sha256:7c69371cdf91e6ae2c1b302064fa99a7caf8a7b71716e339afa129ade2c36b7f"
+    },
+    {
+      "id": "reuse",
+      "runId": "c40f6b60-87dc-4cee-4b22-b602b0cb6222",
+      "scope": "separate default pursuit after the flight skipped its reuse step",
+      "conversationId": "a81ca28f-3ccd-4faf-9f0f-5a0cc57a1839",
+      "objective": "Use the admitted Python Markdown page capability to publish the full retained Markdown source sha256:899b245df8757ac94ba5baac52b18d40bd85c1c6d60d77635097cf4ef0e104e2 as harbor-log.html. Use title \"Harbor log\", lang \"en\" and the technical-report-v1 presentation profile. Verify the standalone UTF-8 HTML and its source, sanitizer and publication receipts. Return its digest.",
+      "objectiveFulfillment": "NOT_FULFILLED",
+      "turnCount": 2,
+      "firstTurn": {
+        "slot": "objective-pursuit:a81ca28f-3ccd-4faf-9f0f-5a0cc57a1839#1",
+        "turnDigest": "sha256:bf9a4a2d32fe3fe9d92b26eedb67ad47631b114a844001c5fee931ff9535476e",
+        "capability": "render-markdown-html-page",
+        "disposition": "terminated",
+        "result": {
+          "code": "CELL_EXECUTION_FAILED",
+          "message": "PROVIDER_LANGUAGE_UNAVAILABLE: 'python-markdown-page-libraries-v1' is declared for 'python', not 'csharp'."
+        }
+      },
+      "matchingPublishedTurn": null,
+      "matchingPublications": 0,
+      "expectedContentDigest": "sha256:7fb9be07820fd51d05e3700c0862c8379e9982a5f3098a05a42fc31a394a7043"
+    }
+  ],
+  "diagnostics": {
+    "nativeControl": {
+      "runId": "43bbe94d-96c5-261a-1d30-bde5a9e8b6eb",
+      "error": "PROVIDER_LANGUAGE_UNAVAILABLE",
+      "declared": "python",
+      "executing": "csharp"
+    },
+    "legacyExplicitTargetProbe": {
+      "runId": "0189f3a4-9b9c-31c0-4957-180ba8a644c8",
+      "target": "python",
+      "error": "Invalid object name 'analysis.v_capability_graph_source'."
+    },
+    "deployedWorker": {
+      "imageDigest": "sha256:6090fadbe2f15e2979e0bca527e0d8aeaefc1c3ef266a9cb640d0e5d3628dfaa",
+      "configurationDigest": "sha256:512f61740b70c6662f40572ddacdefbaec273ab22d3b637e287dabdf8253c276",
+      "kernelLanguage": "csharp",
+      "workerCount": 2,
+      "workerCommand": [
+        "./KernelEntry",
+        "--resident-envelopes",
+        "--config",
+        "kernel-host.json",
+        "--timeout",
+        "3600000"
+      ],
+      "nativeSdaRevision": "29355da9e014ce5271cae499f5fb9e1268a1e104"
+    },
+    "freshReport": {
+      "runId": "27111c2b-4c01-10da-fb1a-94d67d72b582",
+      "conversationId": "aded7fa2-b02c-4c5d-8920-d00b10de0c31",
+      "objective": "Use the admitted Python Markdown page capability to publish the full retained Markdown source sha256:94a77a826d7822419a8fe8c2d00275048a541c1a1d6aff4f753835abcad0c966 as python-library-provider-report.html. Use title \"Python standard library provider proposals\", lang \"en\" and the technical-report-v1 presentation profile. Verify the standalone UTF-8 HTML and its source, sanitizer and publication receipts. Return its digest.",
+      "objectiveFulfillment": "NOT_FULFILLED",
+      "firstCall": {
+        "turn": 1,
+        "action": "CALL",
+        "capability": "render-markdown-html-page",
+        "input": {
+          "sourceDigest": "sha256:94a77a826d7822419a8fe8c2d00275048a541c1a1d6aff4f753835abcad0c966",
+          "title": "Python standard library provider proposals",
+          "lang": "en",
+          "profile": "technical-report-v1",
+          "filename": "python-library-provider-report.html"
+        },
+        "disposition": "terminated",
+        "status": "CELL_EXECUTION_FAILED",
+        "reason": "The objective names the retained Markdown digest and asks for a standalone styled HTML page with the technical-report-v1 profile, which is exactly render-markdown-html-page's input; it also returns the source, sanitizer and publication receipts and the output digest."
+      },
+      "retainedTurn": {
+        "slot": "objective-pursuit:aded7fa2-b02c-4c5d-8920-d00b10de0c31#1",
+        "turnDigest": "sha256:4caa335523ebf65e396d6ccfa13e7c3f6b54aec94e902defc2b37565fac4aaf2",
+        "capability": "render-markdown-html-page",
+        "result": {
+          "code": "CELL_EXECUTION_FAILED",
+          "message": "PROVIDER_LANGUAGE_UNAVAILABLE: 'python-markdown-page-libraries-v1' is declared for 'python', not 'csharp'."
+        }
+      }
+    }
+  },
+  "generatedReport": {
+    "runId": "3b5fb8b2-5e85-342e-becc-6895fccc57fe",
+    "digest": "sha256:0b05b9d1a628d00d3c1e1c963fdb3479c7c9200672b38a5f7d0a7e783811d5f7"
+  }
+}

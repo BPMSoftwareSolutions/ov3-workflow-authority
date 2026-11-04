@@ -1,0 +1,25 @@
+{
+  "bundleDigest": "sha256:e8509955c60edda2c332a2330b3add907aeba1e8f27896fd29ee147fedf3e078",
+  "assetDigest": "sha256:c4158d9856a0a8a406175f374cc4edb15ee87f94cf660cdee315a6498c566c7f",
+  "profileDigest": "sha256:b78adad4d2c8a338635a89866558b574bdc39c7ef48c34f3e25dfa4f0ae1a30c",
+  "wheels": [
+    {
+      "package": "Markdown",
+      "version": "3.11.2",
+      "file": "markdown-3.11.2-py3-none-any.whl",
+      "url": "https://files.pythonhosted.org/packages/fe/66/bcab3b677b71ad286b4e607e3427499537c76e13ad2e22584ba7a7d9882c/markdown-3.11.2-py3-none-any.whl",
+      "sha256": "f80390747a2a0ff2ba54da074ce4f862f72a6685f608cd2637b646a6d83993f5",
+      "size": 114266,
+      "python": ">=3.11"
+    },
+    {
+      "package": "nh3",
+      "version": "0.3.7",
+      "file": "nh3-0.3.7-cp38-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl",
+      "url": "https://files.pythonhosted.org/packages/a6/ed/c5510c615dce55b6fcc364aa1838142f938beed64f5e4927490dfcaf4405/nh3-0.3.7-cp38-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl",
+      "sha256": "70f5ac8626e899a4bab0ef74ca2f5bd602f49c7b739e6e5026b4afc6d63dac42",
+      "size": 832161,
+      "python": ">=3.8"
+    }
+  ]
+}

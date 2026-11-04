@@ -1,0 +1,72 @@
+{
+  "fixtureType": "sidefx-aws-cloud-ops-acceptance-arrangement.v2",
+  "caseId": "aws-dr-proven",
+  "capabilityId": "sfx-aws-evaluate-recovery-readiness",
+  "synthetic": true,
+  "clock": "2026-11-03T00:20:00Z",
+  "sidefx": {
+    "maxProofAgeDays": 90
+  },
+  "awsCalls": [
+    {
+      "call": "backup:ListRecoveryPointsByResource",
+      "request": {
+        "ResourceArn": "arn:aws:ec2:us-east-2:111122223333:instance/i-0123456789abcdef0"
+      },
+      "response": {
+        "RecoveryPoints": [
+          {
+            "RecoveryPointArn": "arn:aws:ec2:us-east-2::image/ami-719e8253da22be51e",
+            "CreationDate": 1793656800,
+            "Status": "COMPLETED",
+            "BackupVaultName": "citizen-portal-vault",
+            "IsParent": false
+          },
+          {
+            "RecoveryPointArn": "arn:aws:ec2:us-east-2::image/ami-6761fba58c127f460",
+            "CreationDate": 1793660400,
+            "Status": "COMPLETED",
+            "BackupVaultName": "citizen-portal-vault",
+            "IsParent": false
+          },
+          {
+            "RecoveryPointArn": "arn:aws:ec2:us-east-2::image/ami-7ee2d7f38582433d6",
+            "CreationDate": 1793664000,
+            "Status": "COMPLETED",
+            "BackupVaultName": "citizen-portal-vault",
+            "IsParent": false
+          }
+        ]
+      }
+    },
+    {
+      "call": "backup:ListRestoreJobsByProtectedResource",
+      "request": {
+        "ResourceArn": "arn:aws:ec2:us-east-2:111122223333:instance/i-0123456789abcdef0"
+      },
+      "response": {
+        "RestoreJobs": [
+          {
+            "AccountId": "111122223333",
+            "RestoreJobId": "5cc8ee5f-dd9f-4177-bf6a-3bcae72631c9",
+            "RecoveryPointArn": "arn:aws:ec2:us-east-2::image/ami-b119811e0f9dce025",
+            "RecoveryPointCreationDate": 1793145600,
+            "SourceResourceArn": "arn:aws:ec2:us-east-2:111122223333:instance/i-0123456789abcdef0",
+            "ResourceType": "EC2",
+            "CreatedResourceArn": "arn:aws:ec2:us-east-2:111122223333:instance/i-0a1b2c3d4e5f60718",
+            "CreationDate": 1793156400,
+            "CompletionDate": 1793158920,
+            "Status": "COMPLETED",
+            "ValidationStatus": "SUCCESSFUL",
+            "DeletionStatus": "SUCCESSFUL",
+            "IamRoleArn": "arn:aws:iam::111122223333:role/service-role/AWSBackupDefaultServiceRole",
+            "CreatedBy": {
+              "RestoreTestingPlanArn": "arn:aws:backup:us-east-2:111122223333:restore-testing-plan:citizen_portal_weekly-8f3d2c1b-4a5e-4f60-9b7c-1d2e3f405162"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "notes": "Synthetic arrangement. AWS requests and responses use the documented shapes (see the feature's source IDs); none was captured from an AWS account."
+}

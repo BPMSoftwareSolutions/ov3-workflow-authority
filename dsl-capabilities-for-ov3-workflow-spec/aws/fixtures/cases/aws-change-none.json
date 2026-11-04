@@ -1,0 +1,33 @@
+{
+  "fixtureType": "sidefx-aws-cloud-ops-acceptance-arrangement.v2",
+  "caseId": "aws-change-none",
+  "capabilityId": "sfx-aws-correlate-change-evidence",
+  "synthetic": true,
+  "clock": "2026-11-03T01:05:00Z",
+  "sidefx": {
+    "admittedAccounts": [
+      "111122223333"
+    ],
+    "sourceMode": "event-history"
+  },
+  "awsCalls": [
+    {
+      "call": "cloudtrail:LookupEvents",
+      "request": {
+        "LookupAttributes": [
+          {
+            "AttributeKey": "ResourceName",
+            "AttributeValue": "i-0123456789abcdef0"
+          }
+        ],
+        "StartTime": 1793660400,
+        "EndTime": 1793667600,
+        "MaxResults": 50
+      },
+      "response": {
+        "Events": []
+      }
+    }
+  ],
+  "notes": "Synthetic arrangement. AWS requests and responses use the documented shapes (see the feature's source IDs); none was captured from an AWS account."
+}

@@ -1,0 +1,32 @@
+{
+  "python-cultivation-ontology.json": {
+    "kind": "python-cultivation-study:ontology",
+    "digest": "sha256:a98cbad964200f7728867077ea99f4e009cd3da38c8d071a0a0da1fdfecdd050",
+    "bytes": 480925,
+    "runId": "aeb6a099-6915-5353-6e81-651f7a5d2b7b"
+  },
+  "python-cultivation-decisions.jsonl": {
+    "kind": "python-cultivation-study:decisions",
+    "digest": "sha256:1beaad9f366745da7e39d130b35f5866d5c5aae67196311cd3c7990f23c46076",
+    "bytes": 1770208,
+    "runId": "4e06d923-cdd0-a42e-45a4-8fe5e6b7a8a1"
+  },
+  "python-cultivation-measurements.json": {
+    "kind": "python-cultivation-study:measurements",
+    "digest": "sha256:3d94e65e8f23be3e640783a63ea056b98e9cd5797b69879949dad2ce280a1614",
+    "bytes": 103968,
+    "runId": "b77d8830-a139-eee5-25eb-9ae13402726c"
+  },
+  "python-cultivation-report.md": {
+    "kind": "python-cultivation-study:report",
+    "digest": "sha256:640b9ac48fe36a4afab7c4f38763c97851cf86a760ade19a5b83657ef866c346",
+    "bytes": 8616,
+    "runId": "3d21dcf0-6be9-745a-2d51-8d0a755bc58d"
+  },
+  "python-cultivation-probes.json": {
+    "kind": "python-cultivation-study:probes",
+    "digest": "sha256:afc34d639598110ecc773a753e997d1f3d58070fd466ae5aafdd6ba062d3a35b",
+    "bytes": 2552,
+    "runId": "85a9cc19-0a94-f5d2-b7a1-098473ff42fa"
+  }
+}

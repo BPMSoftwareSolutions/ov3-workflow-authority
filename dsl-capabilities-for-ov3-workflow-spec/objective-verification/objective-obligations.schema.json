@@ -1,0 +1,515 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "contractId",
+    "request",
+    "obligations"
+  ],
+  "properties": {
+    "contractId": {
+      "const": "objective-obligations.v1"
+    },
+    "request": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 16000
+    },
+    "obligations": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "oneOf": [
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "id",
+              "kind",
+              "operator",
+              "quantifier",
+              "expected",
+              "observed",
+              "proof"
+            ],
+            "properties": {
+              "id": {
+                "type": "string",
+                "pattern": "^[a-z][a-z0-9_]*$"
+              },
+              "kind": {
+                "const": "fixture_digest"
+              },
+              "operator": {
+                "const": "same_digest"
+              },
+              "quantifier": {
+                "const": "objective"
+              },
+              "expected": {
+                "type": "string",
+                "pattern": "^sha256:[0-9a-f]{64}$"
+              },
+              "observed": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "pattern": "^sha256:[0-9a-f]{64}$"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "proof": {
+                "enum": [
+                  "PROVED",
+                  "UNPROVED"
+                ]
+              }
+            }
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "id",
+              "kind",
+              "operator",
+              "quantifier",
+              "expected",
+              "observed",
+              "proof"
+            ],
+            "properties": {
+              "id": {
+                "type": "string",
+                "pattern": "^[a-z][a-z0-9_]*$"
+              },
+              "kind": {
+                "const": "execution_count"
+              },
+              "operator": {
+                "const": "exactly"
+              },
+              "quantifier": {
+                "const": "objective"
+              },
+              "expected": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "observed": {
+                "anyOf": [
+                  {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "proof": {
+                "enum": [
+                  "PROVED",
+                  "UNPROVED"
+                ]
+              }
+            }
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "id",
+              "kind",
+              "operator",
+              "quantifier",
+              "expected",
+              "observed",
+              "proof"
+            ],
+            "properties": {
+              "id": {
+                "type": "string",
+                "pattern": "^[a-z][a-z0-9_]*$"
+              },
+              "kind": {
+                "const": "source_snapshot"
+              },
+              "operator": {
+                "const": "same_snapshot"
+              },
+              "quantifier": {
+                "const": "objective"
+              },
+              "expected": {
+                "type": "object",
+                "properties": {
+                  "uri": {
+                    "type": "string",
+                    "format": "uri"
+                  },
+                  "version": {
+                    "type": "string",
+                    "pattern": "^[0-9]+(?:\\.[0-9]+){1,2}$"
+                  },
+                  "digest": {
+                    "type": "string",
+                    "pattern": "^sha256:[0-9a-f]{64}$"
+                  }
+                },
+                "required": [
+                  "uri",
+                  "version",
+                  "digest"
+                ],
+                "additionalProperties": false
+              },
+              "observed": {
+                "anyOf": [
+                  {
+                    "type": "object",
+                    "properties": {
+                      "uri": {
+                        "type": "string",
+                        "format": "uri"
+                      },
+                      "version": {
+                        "type": "string",
+                        "pattern": "^[0-9]+(?:\\.[0-9]+){1,2}$"
+                      },
+                      "digest": {
+                        "type": "string",
+                        "pattern": "^sha256:[0-9a-f]{64}$"
+                      }
+                    },
+                    "required": [
+                      "uri",
+                      "version",
+                      "digest"
+                    ],
+                    "additionalProperties": false
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "proof": {
+                "enum": [
+                  "PROVED",
+                  "UNPROVED"
+                ]
+              }
+            }
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "id",
+              "kind",
+              "operator",
+              "quantifier",
+              "expected",
+              "observed",
+              "proof"
+            ],
+            "properties": {
+              "id": {
+                "type": "string",
+                "pattern": "^[a-z][a-z0-9_]*$"
+              },
+              "kind": {
+                "const": "provider_use"
+              },
+              "operator": {
+                "const": "used"
+              },
+              "quantifier": {
+                "const": "objective"
+              },
+              "expected": {
+                "type": "string",
+                "minLength": 1
+              },
+              "observed": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "proof": {
+                "enum": [
+                  "PROVED",
+                  "UNPROVED"
+                ]
+              }
+            }
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "id",
+              "kind",
+              "operator",
+              "quantifier",
+              "expected",
+              "observed",
+              "proof"
+            ],
+            "properties": {
+              "id": {
+                "type": "string",
+                "pattern": "^[a-z][a-z0-9_]*$"
+              },
+              "kind": {
+                "const": "population"
+              },
+              "operator": {
+                "const": "set_equals"
+              },
+              "quantifier": {
+                "const": "all_index_entries"
+              },
+              "expected": {
+                "type": "object",
+                "properties": {
+                  "current": {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  "removed": {
+                    "type": "integer",
+                    "minimum": 0
+                  }
+                },
+                "required": [
+                  "current",
+                  "removed"
+                ],
+                "additionalProperties": false
+              },
+              "observed": {
+                "anyOf": [
+                  {
+                    "type": "object",
+                    "properties": {
+                      "current": {
+                        "type": "integer",
+                        "minimum": 0
+                      },
+                      "removed": {
+                        "type": "integer",
+                        "minimum": 0
+                      }
+                    },
+                    "required": [
+                      "current",
+                      "removed"
+                    ],
+                    "additionalProperties": false
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "proof": {
+                "enum": [
+                  "PROVED",
+                  "UNPROVED"
+                ]
+              }
+            }
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "id",
+              "kind",
+              "operator",
+              "quantifier",
+              "expected",
+              "observed",
+              "proof"
+            ],
+            "properties": {
+              "id": {
+                "type": "string",
+                "pattern": "^[a-z][a-z0-9_]*$"
+              },
+              "kind": {
+                "const": "contract_pair"
+              },
+              "operator": {
+                "const": "has_both"
+              },
+              "quantifier": {
+                "const": "each_current_module"
+              },
+              "expected": {
+                "type": "object",
+                "properties": {
+                  "input": {
+                    "const": "json-object"
+                  },
+                  "output": {
+                    "const": "json-object"
+                  }
+                },
+                "required": [
+                  "input",
+                  "output"
+                ],
+                "additionalProperties": false
+              },
+              "observed": {
+                "anyOf": [
+                  {
+                    "type": "object",
+                    "properties": {
+                      "input": {
+                        "const": "json-object"
+                      },
+                      "output": {
+                        "const": "json-object"
+                      }
+                    },
+                    "required": [
+                      "input",
+                      "output"
+                    ],
+                    "additionalProperties": false
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "proof": {
+                "enum": [
+                  "PROVED",
+                  "UNPROVED"
+                ]
+              }
+            }
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "id",
+              "kind",
+              "operator",
+              "quantifier",
+              "expected",
+              "observed",
+              "proof"
+            ],
+            "properties": {
+              "id": {
+                "type": "string",
+                "pattern": "^[a-z][a-z0-9_]*$"
+              },
+              "kind": {
+                "const": "ranked_count"
+              },
+              "operator": {
+                "const": "exactly"
+              },
+              "quantifier": {
+                "const": "each_current_module"
+              },
+              "expected": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "observed": {
+                "anyOf": [
+                  {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "proof": {
+                "enum": [
+                  "PROVED",
+                  "UNPROVED"
+                ]
+              }
+            }
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "id",
+              "kind",
+              "operator",
+              "quantifier",
+              "expected",
+              "observed",
+              "proof"
+            ],
+            "properties": {
+              "id": {
+                "type": "string",
+                "pattern": "^[a-z][a-z0-9_]*$"
+              },
+              "kind": {
+                "const": "publication"
+              },
+              "operator": {
+                "const": "delivered"
+              },
+              "quantifier": {
+                "const": "objective"
+              },
+              "expected": {
+                "enum": [
+                  "markdown-report",
+                  "json-manifest",
+                  "standalone-html-page"
+                ]
+              },
+              "observed": {
+                "anyOf": [
+                  {
+                    "enum": [
+                      "markdown-report",
+                      "json-manifest",
+                      "standalone-html-page"
+                    ]
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "proof": {
+                "enum": [
+                  "PROVED",
+                  "UNPROVED"
+                ]
+              }
+            }
+          }
+        ]
+      }
+    }
+  }
+}

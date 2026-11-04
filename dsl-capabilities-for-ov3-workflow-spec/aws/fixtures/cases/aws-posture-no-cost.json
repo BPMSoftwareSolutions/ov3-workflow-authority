@@ -1,0 +1,21 @@
+{
+  "fixtureType": "sidefx-aws-cloud-ops-acceptance-arrangement.v2",
+  "caseId": "aws-posture-no-cost",
+  "capabilityId": "sfx-aws-report-operating-posture",
+  "synthetic": true,
+  "clock": "2026-11-03T00:20:00Z",
+  "sidefx": {
+    "admittedAccounts": [
+      "111122223333"
+    ],
+    "maxSnapshotAgeDays": 31,
+    "components": {
+      "reliability": "aws-impact-normal",
+      "security": "aws-sec-high",
+      "cost": "aws-cost-denied",
+      "recovery": "aws-dr-proven"
+    }
+  },
+  "awsCalls": [],
+  "notes": "Synthetic arrangement. AWS requests and responses use the documented shapes (see the feature's source IDs); none was captured from an AWS account."
+}

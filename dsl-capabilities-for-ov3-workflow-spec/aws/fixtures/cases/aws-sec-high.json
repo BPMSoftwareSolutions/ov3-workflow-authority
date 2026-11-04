@@ -1,0 +1,17 @@
+{
+  "fixtureType": "sidefx-aws-cloud-ops-acceptance-arrangement.v2",
+  "caseId": "aws-sec-high",
+  "capabilityId": "sfx-aws-triage-security-finding",
+  "synthetic": true,
+  "clock": "2026-11-03T00:20:00Z",
+  "sidefx": {
+    "admittedAccounts": [
+      "111122223333"
+    ],
+    "admittedDetailType": "Findings Imported V2",
+    "priorWorkItems": [],
+    "policy": "triage-only"
+  },
+  "awsCalls": [],
+  "notes": "Synthetic arrangement. AWS requests and responses use the documented shapes (see the feature's source IDs); none was captured from an AWS account."
+}

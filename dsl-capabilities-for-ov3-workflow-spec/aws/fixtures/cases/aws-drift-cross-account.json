@@ -1,0 +1,39 @@
+{
+  "fixtureType": "sidefx-aws-cloud-ops-acceptance-arrangement.v2",
+  "caseId": "aws-drift-cross-account",
+  "capabilityId": "sfx-aws-assess-configuration-drift",
+  "synthetic": true,
+  "clock": "2026-11-03T00:20:00Z",
+  "sidefx": {
+    "policies": [
+      {
+        "id": "production-required-tags.v1",
+        "admitted": true,
+        "requiredTags": [
+          "environment",
+          "owner"
+        ]
+      },
+      {
+        "id": "production-required-tags.v0",
+        "admitted": false
+      }
+    ]
+  },
+  "awsCalls": [
+    {
+      "call": "sts:AssumeRole",
+      "request": {
+        "RoleArn": "arn:aws:iam::111122223333:role/sidefx-cloudops-read",
+        "RoleSessionName": "sidefx-drift",
+        "DurationSeconds": 900
+      },
+      "error": {
+        "code": "AccessDenied",
+        "httpStatus": 403,
+        "message": "User: arn:aws:sts::111122223333:assumed-role/sidefx-cloudops-base/sidefx is not authorized to perform: sts:AssumeRole on resource: arn:aws:iam::111122223333:role/sidefx-cloudops-read"
+      }
+    }
+  ],
+  "notes": "Synthetic arrangement. AWS requests and responses use the documented shapes (see the feature's source IDs); none was captured from an AWS account."
+}

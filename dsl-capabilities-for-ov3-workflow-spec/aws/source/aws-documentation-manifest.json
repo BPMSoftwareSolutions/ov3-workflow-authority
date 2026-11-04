@@ -1,0 +1,238 @@
+{
+  "documentType": "aws-documentation-manifest.v2",
+  "verifiedDate": "2026-11-03",
+  "scope": "the AWS facts the curated SideFX AWS cloud-operations features rest on; 'search' marks facts confirmed through an AWS-docs search summary rather than a full page read",
+  "sources": [
+    {
+      "id": "AWS-CW-01",
+      "title": "CloudWatch alarm events and EventBridge",
+      "url": "https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/cloudwatch-and-eventbridge.html",
+      "facts": "Alarm State Change envelope (id, account, region, resources, detail.state/previousState); states OK, ALARM, INSUFFICIENT_DATA; delivery to EventBridge is guaranteed",
+      "verifiedBy": "page"
+    },
+    {
+      "id": "AWS-CW-02",
+      "title": "CloudWatch MetricDataResult",
+      "url": "https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_MetricDataResult.html",
+      "facts": "Timestamps and Values pair one to one; StatusCode Complete, InternalError, PartialData, Forbidden",
+      "verifiedBy": "page"
+    },
+    {
+      "id": "AWS-EVB-01",
+      "title": "EventBridge retry policy",
+      "url": "https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-rule-retry-policy.html",
+      "facts": "retries for 24 hours and up to 185 times by default; after that the event is dropped unless a dead-letter queue is set",
+      "verifiedBy": "page"
+    },
+    {
+      "id": "AWS-EVB-02",
+      "title": "EventBridge dead-letter queues",
+      "url": "https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-rule-dlq.html",
+      "facts": "undelivered events go to the target's DLQ (named AWS-SEC-01 in the candidate pack)",
+      "verifiedBy": "page"
+    },
+    {
+      "id": "AWS-EVB-03",
+      "title": "EventBridge API destinations",
+      "url": "https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-api-destinations.html",
+      "facts": "connections carry the authorization (credentials kept in Secrets Manager); 5 second timeout; 401, 407, 409, 429 and 5xx are retried",
+      "verifiedBy": "page"
+    },
+    {
+      "id": "AWS-CONFIG-01",
+      "title": "AWS Config multi-account, multi-Region aggregation",
+      "url": "https://docs.aws.amazon.com/config/latest/developerguide/aggregate-data.html",
+      "facts": "an aggregator collects configuration data from source accounts and Regions, read only",
+      "verifiedBy": "page"
+    },
+    {
+      "id": "AWS-CONFIG-02",
+      "title": "Config GetAggregateResourceConfig",
+      "url": "https://docs.aws.amazon.com/config/latest/APIReference/API_GetAggregateResourceConfig.html",
+      "facts": "one configuration item for a SourceAccountId and SourceRegion; ResourceNotDiscoveredException when unknown or not discovered; no deleted resources",
+      "verifiedBy": "page"
+    },
+    {
+      "id": "AWS-CONFIG-03",
+      "title": "Config ConfigurationItem",
+      "url": "https://docs.aws.amazon.com/config/latest/APIReference/API_ConfigurationItem.html",
+      "facts": "configurationItemStatus OK, ResourceDiscovered, ResourceNotRecorded, ResourceDeleted, ResourceDeletedNotRecorded; configuration is a JSON string; recordingFrequency DAILY when daily",
+      "verifiedBy": "page"
+    },
+    {
+      "id": "AWS-ORG-01",
+      "title": "AWS Organizations integration with AWS Config",
+      "url": "https://docs.aws.amazon.com/organizations/latest/userguide/services-that-can-integrate-config.html",
+      "facts": "organization-wide aggregation",
+      "verifiedBy": "page"
+    },
+    {
+      "id": "AWS-IAM-01",
+      "title": "Cross-account resource access in IAM",
+      "url": "https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies-cross-account-resource-access.html",
+      "facts": "cross-account roles",
+      "verifiedBy": "page"
+    },
+    {
+      "id": "AWS-IAM-02",
+      "title": "STS AssumeRole",
+      "url": "https://docs.aws.amazon.com/STS/latest/APIReference/API_AssumeRole.html",
+      "facts": "sessions of 900 to 43200 seconds (1 hour when chaining roles); the caller must be trusted by the role and allowed sts:AssumeRole",
+      "verifiedBy": "page"
+    },
+    {
+      "id": "AWS-CT-01",
+      "title": "CloudTrail event history",
+      "url": "https://docs.aws.amazon.com/awscloudtrail/latest/userguide/view-cloudtrail-events.html",
+      "facts": "90 days of management events per Region; no data, Insights or network activity events; one account, one Region, one attribute; no organization aggregation",
+      "verifiedBy": "page"
+    },
+    {
+      "id": "AWS-CT-02",
+      "title": "CloudTrail LookupEvents",
+      "url": "https://docs.aws.amazon.com/awscloudtrail/latest/APIReference/API_LookupEvents.html",
+      "facts": "2 requests per second per account per Region; at most 50 events a page; Resources named by ResourceType and ResourceName; EventTime is a timestamp",
+      "verifiedBy": "page"
+    },
+    {
+      "id": "AWS-EC2-01",
+      "title": "EC2 DescribeInstanceStatus",
+      "url": "https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeInstanceStatus.html",
+      "facts": "only running instances unless IncludeAllInstances; state names and codes (stopped 80, running 16)",
+      "verifiedBy": "page"
+    },
+    {
+      "id": "AWS-EC2-02",
+      "title": "EC2 InstanceStatusSummary",
+      "url": "https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_InstanceStatusSummary.html",
+      "facts": "status ok, impaired, insufficient-data, not-applicable, initializing",
+      "verifiedBy": "page"
+    },
+    {
+      "id": "AWS-SSM-01",
+      "title": "Systems Manager StartAutomationExecution",
+      "url": "https://docs.aws.amazon.com/systems-manager/latest/APIReference/API_StartAutomationExecution.html",
+      "facts": "ClientToken is a UUID that can't be reused; IdempotentParameterMismatch on a retry with other parameters; the answer is only AutomationExecutionId",
+      "verifiedBy": "page"
+    },
+    {
+      "id": "AWS-SSM-02",
+      "title": "Run an automation that requires approvals",
+      "url": "https://docs.aws.amazon.com/systems-manager/latest/userguide/running-automations-require-approvals.html",
+      "facts": "AWS-StartEC2InstanceWithApproval takes InstanceId, Approvers and SNSTopicArn; the approval request is valid for 7 days",
+      "verifiedBy": "page"
+    },
+    {
+      "id": "AWS-SSM-03",
+      "title": "Systems Manager AutomationExecution",
+      "url": "https://docs.aws.amazon.com/systems-manager/latest/APIReference/API_AutomationExecution.html",
+      "facts": "AutomationExecutionStatus values (Waiting, Success, Failed, TimedOut, Cancelled and the rest); there is no WaitingForApproval",
+      "verifiedBy": "page"
+    },
+    {
+      "id": "AWS-SSM-04",
+      "title": "aws:approve",
+      "url": "https://docs.aws.amazon.com/systems-manager/latest/userguide/automation-action-approve.html",
+      "facts": "the automation shows Waiting until approvers decide; ApprovalStatus Approved, Rejected, Waiting; up to 10 approvers (users or roles); 7 day default timeout",
+      "verifiedBy": "page"
+    },
+    {
+      "id": "AWS-SSM-05",
+      "title": "Systems Manager SendAutomationSignal",
+      "url": "https://docs.aws.amazon.com/systems-manager/latest/APIReference/API_SendAutomationSignal.html",
+      "facts": "SignalType Approve, Reject, StartStep, StopStep, Resume, Revoke",
+      "verifiedBy": "page"
+    },
+    {
+      "id": "AWS-SSM-06",
+      "title": "Automation runbook reference: Amazon EC2",
+      "url": "https://docs.aws.amazon.com/systems-manager-automation-runbooks/latest/userguide/automation-ref-ec2.html",
+      "facts": "AWS-StartEC2Instance, AWS-StopEC2Instance, AWS-RestartEC2Instance are listed; the WithApproval runbooks are not on this page",
+      "verifiedBy": "page"
+    },
+    {
+      "id": "AWS-SLO-01",
+      "title": "CloudWatch Application Signals SLOs",
+      "url": "https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-ServiceLevelObjectives.html",
+      "facts": "service level objectives over Application Signals (optional enrichment)",
+      "verifiedBy": "page"
+    },
+    {
+      "id": "AWS-SLO-02",
+      "title": "Application Signals ServiceLevelObjectiveBudgetReport",
+      "url": "https://docs.aws.amazon.com/applicationsignals/latest/APIReference/API_ServiceLevelObjectiveBudgetReport.html",
+      "facts": "BudgetStatus OK, WARNING, BREACHED, INSUFFICIENT_DATA",
+      "verifiedBy": "page"
+    },
+    {
+      "id": "AWS-CFN-01",
+      "title": "CloudFormation change sets",
+      "url": "https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-updating-stacks-changesets.html",
+      "facts": "a change set previews a change; nothing changes until it is executed",
+      "verifiedBy": "page"
+    },
+    {
+      "id": "AWS-CFN-02",
+      "title": "CloudFormation DescribeChangeSet",
+      "url": "https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_DescribeChangeSet.html",
+      "facts": "Status CREATE_COMPLETE and the rest; ExecutionStatus AVAILABLE means it can still be executed",
+      "verifiedBy": "page"
+    },
+    {
+      "id": "AWS-SH-01",
+      "title": "Security Hub EventBridge event types",
+      "url": "https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-v2-cwe-event-types.html",
+      "facts": "Findings Imported V2, one finding per event; Security Hub and Security Hub CSPM both use source aws.securityhub, so rules must match the Security Hub detail-type",
+      "verifiedBy": "page"
+    },
+    {
+      "id": "AWS-SH-02",
+      "title": "Security Hub EventBridge event formats",
+      "url": "https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-v2-cwe-event-formats.html",
+      "facts": "detail.findings holds the OCSF finding",
+      "verifiedBy": "search"
+    },
+    {
+      "id": "AWS-SH-03",
+      "title": "Security Hub OcsfFindingIdentifier",
+      "url": "https://docs.aws.amazon.com/securityhub/1.0/APIReference/API_OcsfFindingIdentifier.html",
+      "facts": "cloud.account.uid + finding_info.uid + metadata.product.uid identify a finding; metadata.uid is globally unique; severity_id 0-6 or 99",
+      "verifiedBy": "search"
+    },
+    {
+      "id": "AWS-CE-01",
+      "title": "Cost Explorer API",
+      "url": "https://docs.aws.amazon.com/cost-management/latest/userguide/ce-api.html",
+      "facts": "programmatic cost and usage",
+      "verifiedBy": "page"
+    },
+    {
+      "id": "AWS-CE-02",
+      "title": "Cost Explorer GetCostAndUsage",
+      "url": "https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_GetCostAndUsage.html",
+      "facts": "Start inclusive, End exclusive; Estimated marks an unfinalized period; amounts are strings with a Unit; tag groups are key$value, untagged spend key$",
+      "verifiedBy": "page"
+    },
+    {
+      "id": "AWS-BKP-01",
+      "title": "AWS Backup restore testing",
+      "url": "https://docs.aws.amazon.com/aws-backup/latest/devguide/restore-testing.html",
+      "facts": "scheduled restore jobs of type Test, their completion time and optional validation; restored resources are deleted afterwards (the candidate pack pointed this ID at the SSM runbook guide)",
+      "verifiedBy": "page"
+    },
+    {
+      "id": "AWS-BKP-02",
+      "title": "AWS Backup RestoreJobsListMember",
+      "url": "https://docs.aws.amazon.com/aws-backup/latest/devguide/API_RestoreJobsListMember.html",
+      "facts": "Status PENDING, RUNNING, COMPLETED, ABORTED, FAILED; ValidationStatus; DeletionStatus; CreationDate and CompletionDate",
+      "verifiedBy": "page"
+    },
+    {
+      "id": "AWS-BKP-03",
+      "title": "AWS Backup feature availability",
+      "url": "https://docs.aws.amazon.com/aws-backup/latest/devguide/backup-feature-availability.html",
+      "facts": "continuous backup and point-in-time restore cover Aurora, RDS, SAP HANA on EC2 and S3, not EC2 instances",
+      "verifiedBy": "search"
+    }
+  ]
+}

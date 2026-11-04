@@ -1,0 +1,102 @@
+{
+  "fixtureType": "sidefx-aws-cloud-ops-acceptance-arrangement.v2",
+  "caseId": "aws-cost-flat",
+  "capabilityId": "sfx-aws-assess-cost-variance",
+  "synthetic": true,
+  "clock": "2026-11-03T00:20:00Z",
+  "sidefx": {
+    "admittedAccounts": [
+      "111122223333"
+    ],
+    "costAllocationTag": {
+      "key": "service",
+      "activated": true
+    },
+    "varianceRule": {
+      "materialPercent": 5,
+      "currency": "USD"
+    }
+  },
+  "awsCalls": [
+    {
+      "call": "ce:GetCostAndUsage",
+      "request": {
+        "TimePeriod": {
+          "Start": "2026-09-01",
+          "End": "2026-11-01"
+        },
+        "Granularity": "MONTHLY",
+        "Metrics": [
+          "UnblendedCost"
+        ],
+        "Filter": {
+          "Dimensions": {
+            "Key": "LINKED_ACCOUNT",
+            "Values": [
+              "111122223333"
+            ]
+          }
+        },
+        "GroupBy": [
+          {
+            "Type": "TAG",
+            "Key": "service"
+          }
+        ]
+      },
+      "response": {
+        "GroupDefinitions": [
+          {
+            "Type": "TAG",
+            "Key": "service"
+          }
+        ],
+        "ResultsByTime": [
+          {
+            "TimePeriod": {
+              "Start": "2026-09-01",
+              "End": "2026-10-01"
+            },
+            "Total": {},
+            "Groups": [
+              {
+                "Keys": [
+                  "service$citizen-portal"
+                ],
+                "Metrics": {
+                  "UnblendedCost": {
+                    "Amount": "1000.00",
+                    "Unit": "USD"
+                  }
+                }
+              }
+            ],
+            "Estimated": false
+          },
+          {
+            "TimePeriod": {
+              "Start": "2026-10-01",
+              "End": "2026-11-01"
+            },
+            "Total": {},
+            "Groups": [
+              {
+                "Keys": [
+                  "service$citizen-portal"
+                ],
+                "Metrics": {
+                  "UnblendedCost": {
+                    "Amount": "1000.00",
+                    "Unit": "USD"
+                  }
+                }
+              }
+            ],
+            "Estimated": false
+          }
+        ]
+      }
+    }
+  ],
+  "notes": "Synthetic arrangement. AWS requests and responses use the documented shapes (see the feature's source IDs); none was captured from an AWS account."
+}

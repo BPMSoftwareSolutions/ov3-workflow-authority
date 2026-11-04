@@ -1,0 +1,17 @@
+{
+  "fixtureType": "sidefx-aws-cloud-ops-acceptance-arrangement.v2",
+  "caseId": "aws-incident-foreign",
+  "capabilityId": "sfx-aws-resolve-service-incident",
+  "synthetic": true,
+  "clock": "2026-11-03T00:40:00Z",
+  "sidefx": {
+    "admittedAccounts": [
+      "111122223333"
+    ],
+    "components": {
+      "signal": "aws-signal-other-account"
+    }
+  },
+  "awsCalls": [],
+  "notes": "Synthetic arrangement. AWS requests and responses use the documented shapes (see the feature's source IDs); none was captured from an AWS account."
+}
