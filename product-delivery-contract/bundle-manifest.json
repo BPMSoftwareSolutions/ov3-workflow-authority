@@ -1,0 +1,112 @@
+{
+  "contractId": "delivery-definition-bundle.v1",
+  "revision": 3,
+  "artifacts": [
+    {
+      "path": "owner-intent.md",
+      "sha256": "sha256:845260f2f9715e930c76b2a7716853919ab699fe7790a7f50fca8f8be70566ed",
+      "bytes": 2110
+    },
+    {
+      "path": "product-delivery-contract.json",
+      "sha256": "sha256:ae4050a536ef4f0d9baadf4da473567b4eb85b19572d82418c563e9d04489ab0",
+      "bytes": 151084
+    },
+    {
+      "path": "product-delivery-contract.md",
+      "sha256": "sha256:adfb3a767f7654760265966bb000c82a935ed174036939be8632d4cfbd78ab4f",
+      "bytes": 79028
+    },
+    {
+      "path": "product-delivery-contract.schema.json",
+      "sha256": "sha256:76cf8567e6a8cc7d1e30ed40681f35de23abab49c5bd5b7292c7ffe98ac7ca04",
+      "bytes": 30374
+    },
+    {
+      "path": "data-contracts.schema.json",
+      "sha256": "sha256:50bb78e44f550dd364a388ebba13cec978f6a9344580092004bf5f7523b92160",
+      "bytes": 98477
+    },
+    {
+      "path": "product-delivery-contract.feature",
+      "sha256": "sha256:09245991d225150a4e6b9e69579ab62a0d09908326744a5bd79d3f7ebc806f47",
+      "bytes": 5960
+    },
+    {
+      "path": "verification-profile.json",
+      "sha256": "sha256:22694fb838e46b2abc2cab5a85a81b6922e70bc92eedeb96b053c3567c5489d3",
+      "bytes": 3789
+    },
+    {
+      "path": "formal/delivery-model.json",
+      "sha256": "sha256:8cbf2cb23be5a240c13b1f830e82254f22ebe045270cc495145472a13fa7d36d",
+      "bytes": 3179
+    },
+    {
+      "path": "formal/check_models.py",
+      "sha256": "sha256:72a12e5fb866384ffb58100b13599e1b3c3596a9e6230fe281d4928ef4b47d92",
+      "bytes": 6078
+    },
+    {
+      "path": "tools/validate_contract.py",
+      "sha256": "sha256:9d8ff6d31527696f6f3a7ddd32a8545ac89b7bd9ef3c168c545f9e90b7d2ecce",
+      "bytes": 9978
+    },
+    {
+      "path": "tools/render_contract.py",
+      "sha256": "sha256:c0b7b8274351b2136d244d9fa7bf9cd1c2f44ef23d20365013fc8cc92fa7d7e8",
+      "bytes": 8590
+    },
+    {
+      "path": "tools/build_schemas.py",
+      "sha256": "sha256:e40fd69ea2cda8546149bdfa66edc90439110ff762f6fff4288b934fb9a1f38f",
+      "bytes": 24904
+    },
+    {
+      "path": "tools/package_definition.py",
+      "sha256": "sha256:3c7a07853eb1cd2ef5e5387e2a8e7ff7aac3678376ca0b77190b12832c756d9c",
+      "bytes": 5683
+    },
+    {
+      "path": "evidence/local-definition-checks.json",
+      "sha256": "sha256:96346e8c032192ed4b9050d640e5e498052f09544b55b75bbd3a3b9e39697d9b",
+      "bytes": 2200
+    },
+    {
+      "path": "evidence/local-formal-receipt.json",
+      "sha256": "sha256:f46148fa6f82fdd4c90a02fd7ee8bdfb76d0875a066847924dbffb137a0764ca",
+      "bytes": 10989
+    },
+    {
+      "path": "product-delivery-contract.dsl",
+      "sha256": "sha256:854659709c20ad1ee294a8877c4a7d38c7a8bc4f59c80bf4414dc3420d024f19",
+      "bytes": 6684
+    },
+    {
+      "path": "tools/derive_gate_dsl.py",
+      "sha256": "sha256:0ee2491b49edf6144aa5378edcc3ee8ea7799f27442b2e2560fe08c58aa83b5c",
+      "bytes": 3227
+    },
+    {
+      "path": "tools/check_payload_semantics.py",
+      "sha256": "sha256:e0dfd4cab3acb94def86715eaf80338d379c44a31f4dce73ea5d1e7e205d2244",
+      "bytes": 7490
+    },
+    {
+      "path": "tools/prepare_typed_review.py",
+      "sha256": "sha256:6d6481fed52d4f4e43a20933629956ce3c73d04f543fc3d453402a6373ee9b5a",
+      "bytes": 3773
+    },
+    {
+      "path": "evidence/local-payload-controls.json",
+      "sha256": "sha256:b963b8c3a350f4625af57a492ac9f0be18a14332a509e11129a9c84ab3d0d5b0",
+      "bytes": 6007
+    },
+    {
+      "path": "evidence/review-reconciliation-r3.json",
+      "sha256": "sha256:b6c300ab18799bcbd321559c44cdd876442e1cd21c3a45c56bba8c7cb3a64059",
+      "bytes": 3879
+    }
+  ],
+  "selfHashPolicy": "Manifest digest computed externally; manifest is not an entry in itself."
+}

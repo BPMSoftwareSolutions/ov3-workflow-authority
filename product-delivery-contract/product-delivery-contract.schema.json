@@ -1,0 +1,1202 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "contractId",
+    "revision",
+    "definitionStatus",
+    "title",
+    "owner",
+    "deliveryAgent",
+    "intendedOutcome",
+    "sourceAuthorityPolicy",
+    "sources",
+    "altitudes",
+    "scope",
+    "dataContracts",
+    "modelPolicy",
+    "obligations",
+    "flightPlans",
+    "formalVerification",
+    "gatePolicy",
+    "flightMaterialization",
+    "deliveryPackage",
+    "changeControl",
+    "coverageExpansion",
+    "semanticChecks"
+  ],
+  "properties": {
+    "contractId": {
+      "const": "capability-studio-product-delivery.v1"
+    },
+    "revision": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "definitionStatus": {
+      "enum": [
+        "PENDING_OV3_VALIDATION",
+        "DEFINITION_COMPLETE",
+        "DEFINITION_INCOMPLETE"
+      ]
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1
+    },
+    "owner": {
+      "type": "string",
+      "minLength": 1
+    },
+    "deliveryAgent": {
+      "type": "string",
+      "minLength": 1
+    },
+    "intendedOutcome": {
+      "type": "string",
+      "minLength": 1
+    },
+    "sourceAuthorityPolicy": {
+      "type": "string",
+      "minLength": 1
+    },
+    "sources": {
+      "type": "array",
+      "minItems": 0,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "path",
+          "kind",
+          "sha256"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "path": {
+            "type": "string",
+            "minLength": 1
+          },
+          "kind": {
+            "type": "string",
+            "minLength": 1
+          },
+          "sha256": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "altitudes": {
+      "type": "array",
+      "minItems": 0,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "name",
+          "responsibility"
+        ],
+        "properties": {
+          "id": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "name": {
+            "type": "string",
+            "minLength": 1
+          },
+          "responsibility": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "scope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "requiredEcosystems",
+        "subjectKinds",
+        "useCasesPerSelectedSubject",
+        "firstQualification",
+        "overallCompletion",
+        "qualificationMinimum",
+        "cloudBoundary",
+        "runtimeBoundary",
+        "qualityTargets"
+      ],
+      "properties": {
+        "requiredEcosystems": {
+          "type": "array",
+          "minItems": 0,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "subjectKinds": {
+          "type": "array",
+          "minItems": 0,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "useCasesPerSelectedSubject": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "firstQualification": {
+          "type": "string",
+          "minLength": 1
+        },
+        "overallCompletion": {
+          "type": "string",
+          "minLength": 1
+        },
+        "qualificationMinimum": {
+          "type": "string",
+          "minLength": 1
+        },
+        "cloudBoundary": {
+          "type": "string",
+          "minLength": 1
+        },
+        "runtimeBoundary": {
+          "type": "string",
+          "minLength": 1
+        },
+        "qualityTargets": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "viewports",
+            "keyboardJourneyRequired",
+            "maxApplicationEventToPaintMs",
+            "timingScope",
+            "performancePolicy"
+          ],
+          "properties": {
+            "viewports": {
+              "type": "array",
+              "minItems": 0,
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "keyboardJourneyRequired": {
+              "type": "boolean"
+            },
+            "maxApplicationEventToPaintMs": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "timingScope": {
+              "type": "string",
+              "minLength": 1
+            },
+            "performancePolicy": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        }
+      }
+    },
+    "dataContracts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schemaFile",
+        "schemaDialect",
+        "contractNames",
+        "policy"
+      ],
+      "properties": {
+        "schemaFile": {
+          "type": "string",
+          "minLength": 1
+        },
+        "schemaDialect": {
+          "type": "string",
+          "minLength": 1
+        },
+        "contractNames": {
+          "type": "array",
+          "minItems": 0,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "policy": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "modelPolicy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "deterministic",
+        "generalReasoning",
+        "typedSystemOne",
+        "transportRule",
+        "escalation",
+        "evidence",
+        "acceptanceAuthority"
+      ],
+      "properties": {
+        "deterministic": {
+          "type": "array",
+          "minItems": 0,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "generalReasoning": {
+          "type": "array",
+          "minItems": 0,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "typedSystemOne": {
+          "type": "array",
+          "minItems": 0,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "transportRule": {
+          "type": "string",
+          "minLength": 1
+        },
+        "escalation": {
+          "type": "string",
+          "minLength": 1
+        },
+        "evidence": {
+          "type": "array",
+          "minItems": 0,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "acceptanceAuthority": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "obligations": {
+      "type": "array",
+      "minItems": 0,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "title",
+          "requiredOutcome",
+          "userSurface",
+          "sourceRefs",
+          "slides",
+          "altitudes",
+          "owner",
+          "deliveryFlightIds",
+          "verificationFlightIds",
+          "acceptanceCriteria",
+          "requiredEvidenceKinds",
+          "status"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "title": {
+            "type": "string",
+            "minLength": 1
+          },
+          "requiredOutcome": {
+            "type": "string",
+            "minLength": 1
+          },
+          "userSurface": {
+            "type": "string",
+            "minLength": 1
+          },
+          "sourceRefs": {
+            "type": "array",
+            "minItems": 0,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "slides": {
+            "type": "array",
+            "minItems": 0,
+            "items": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 13
+            }
+          },
+          "altitudes": {
+            "type": "array",
+            "minItems": 0,
+            "items": {
+              "type": "integer",
+              "minimum": 0
+            }
+          },
+          "owner": {
+            "type": "string",
+            "minLength": 1
+          },
+          "deliveryFlightIds": {
+            "type": "array",
+            "minItems": 0,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "verificationFlightIds": {
+            "type": "array",
+            "minItems": 0,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "acceptanceCriteria": {
+            "type": "array",
+            "minItems": 0,
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "id",
+                "predicate",
+                "evidenceRequired"
+              ],
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "predicate": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "evidenceRequired": {
+                  "type": "boolean"
+                }
+              }
+            }
+          },
+          "requiredEvidenceKinds": {
+            "type": "array",
+            "minItems": 0,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "status": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "flightPlans": {
+      "type": "array",
+      "minItems": 0,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "flightId",
+          "title",
+          "phase",
+          "obligationIds",
+          "dependsOn",
+          "entryGate",
+          "steps",
+          "closure",
+          "repairFlightPolicy",
+          "rollbackPolicy",
+          "materializationState"
+        ],
+        "properties": {
+          "flightId": {
+            "type": "string",
+            "minLength": 1
+          },
+          "title": {
+            "type": "string",
+            "minLength": 1
+          },
+          "phase": {
+            "type": "string",
+            "minLength": 1
+          },
+          "obligationIds": {
+            "type": "array",
+            "minItems": 0,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "dependsOn": {
+            "type": "array",
+            "minItems": 0,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "entryGate": {
+            "type": "string",
+            "minLength": 1
+          },
+          "steps": {
+            "type": "array",
+            "minItems": 0,
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "stepId",
+                "kind",
+                "action",
+                "inputContract",
+                "outcomeContract",
+                "dependsOn",
+                "capabilityResolution",
+                "inputBindingPolicy",
+                "expectedEvidence",
+                "failurePolicy",
+                "completionPredicate"
+              ],
+              "properties": {
+                "stepId": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "kind": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "action": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "inputContract": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "outcomeContract": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "dependsOn": {
+                  "type": "array",
+                  "minItems": 0,
+                  "items": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                },
+                "capabilityResolution": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "candidateId",
+                    "state",
+                    "owner",
+                    "requiredBeforeExecution"
+                  ],
+                  "properties": {
+                    "candidateId": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "state": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "owner": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "requiredBeforeExecution": {
+                      "type": "boolean"
+                    }
+                  }
+                },
+                "inputBindingPolicy": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "expectedEvidence": {
+                  "type": "array",
+                  "minItems": 0,
+                  "items": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                },
+                "failurePolicy": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "completionPredicate": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              }
+            }
+          },
+          "closure": {
+            "type": "string",
+            "minLength": 1
+          },
+          "repairFlightPolicy": {
+            "type": "string",
+            "minLength": 1
+          },
+          "rollbackPolicy": {
+            "type": "string",
+            "minLength": 1
+          },
+          "materializationState": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "formalVerification": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "strategySourceId",
+        "properties",
+        "claimLevels",
+        "proofScopeRule",
+        "requiredRuntimeAttribution",
+        "invalidation",
+        "trustedBoundary",
+        "preparationBoundary"
+      ],
+      "properties": {
+        "strategySourceId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "properties": {
+          "type": "array",
+          "minItems": 0,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "propertyId",
+              "title",
+              "formalPredicate",
+              "ownerFlightId",
+              "proofMethods",
+              "assumptions",
+              "requiredArtifacts",
+              "currentClaim"
+            ],
+            "properties": {
+              "propertyId": {
+                "type": "string",
+                "minLength": 1
+              },
+              "title": {
+                "type": "string",
+                "minLength": 1
+              },
+              "formalPredicate": {
+                "type": "string",
+                "minLength": 1
+              },
+              "ownerFlightId": {
+                "type": "string",
+                "minLength": 1
+              },
+              "proofMethods": {
+                "type": "array",
+                "minItems": 0,
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "assumptions": {
+                "type": "array",
+                "minItems": 0,
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "requiredArtifacts": {
+                "type": "array",
+                "minItems": 0,
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "currentClaim": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          }
+        },
+        "claimLevels": {
+          "type": "array",
+          "minItems": 0,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "proofScopeRule": {
+          "type": "string",
+          "minLength": 1
+        },
+        "requiredRuntimeAttribution": {
+          "type": "array",
+          "minItems": 0,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "invalidation": {
+          "type": "string",
+          "minLength": 1
+        },
+        "trustedBoundary": {
+          "type": "array",
+          "minItems": 0,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "preparationBoundary": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "gatePolicy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "beforeDefinitionAllowed",
+        "definition",
+        "flightReadiness",
+        "obligation",
+        "noSubstitutions",
+        "preparationReadiness",
+        "deliveryClosure"
+      ],
+      "properties": {
+        "beforeDefinitionAllowed": {
+          "type": "array",
+          "minItems": 0,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "definition": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "id",
+            "requiredStatus",
+            "requestContract",
+            "receiptContract",
+            "criteria",
+            "authoritativeCapability",
+            "bindingState",
+            "currentBlocker"
+          ],
+          "properties": {
+            "id": {
+              "type": "string",
+              "minLength": 1
+            },
+            "requiredStatus": {
+              "type": "string",
+              "minLength": 1
+            },
+            "requestContract": {
+              "type": "string",
+              "minLength": 1
+            },
+            "receiptContract": {
+              "type": "string",
+              "minLength": 1
+            },
+            "criteria": {
+              "type": "array",
+              "minItems": 0,
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "authoritativeCapability": {
+              "type": "string",
+              "minLength": 1
+            },
+            "bindingState": {
+              "type": "string",
+              "minLength": 1
+            },
+            "currentBlocker": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        },
+        "flightReadiness": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "id",
+            "requirements"
+          ],
+          "properties": {
+            "id": {
+              "type": "string",
+              "minLength": 1
+            },
+            "requirements": {
+              "type": "array",
+              "minItems": 0,
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          }
+        },
+        "obligation": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "id",
+            "requiredStatus",
+            "requestContract",
+            "receiptContract",
+            "criteria",
+            "authoritativeCapability",
+            "bindingState"
+          ],
+          "properties": {
+            "id": {
+              "type": "string",
+              "minLength": 1
+            },
+            "requiredStatus": {
+              "type": "string",
+              "minLength": 1
+            },
+            "requestContract": {
+              "type": "string",
+              "minLength": 1
+            },
+            "receiptContract": {
+              "type": "string",
+              "minLength": 1
+            },
+            "criteria": {
+              "type": "array",
+              "minItems": 0,
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "authoritativeCapability": {
+              "type": "string",
+              "minLength": 1
+            },
+            "bindingState": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        },
+        "noSubstitutions": {
+          "type": "array",
+          "minItems": 0,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "preparationReadiness": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "id",
+            "scope",
+            "requirements"
+          ],
+          "properties": {
+            "id": {
+              "type": "string",
+              "minLength": 1
+            },
+            "scope": {
+              "type": "string",
+              "minLength": 1
+            },
+            "requirements": {
+              "type": "array",
+              "minItems": 0,
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          }
+        },
+        "deliveryClosure": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "preGateEvidence",
+            "postGateEvidence",
+            "objectiveFulfillment",
+            "failure"
+          ],
+          "properties": {
+            "preGateEvidence": {
+              "type": "string",
+              "minLength": 1
+            },
+            "postGateEvidence": {
+              "type": "string",
+              "minLength": 1
+            },
+            "objectiveFulfillment": {
+              "type": "string",
+              "minLength": 1
+            },
+            "failure": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        }
+      }
+    },
+    "flightMaterialization": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "targetContract",
+        "requiredBindings",
+        "algorithm",
+        "approvalRule",
+        "bootstrapBoundary",
+        "adapterRule",
+        "preparationRule",
+        "defaultInvestigationBounds"
+      ],
+      "properties": {
+        "targetContract": {
+          "type": "string",
+          "minLength": 1
+        },
+        "requiredBindings": {
+          "type": "array",
+          "minItems": 0,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "algorithm": {
+          "type": "array",
+          "minItems": 0,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "approvalRule": {
+          "type": "string",
+          "minLength": 1
+        },
+        "bootstrapBoundary": {
+          "type": "string",
+          "minLength": 1
+        },
+        "adapterRule": {
+          "type": "string",
+          "minLength": 1
+        },
+        "preparationRule": {
+          "type": "string",
+          "minLength": 1
+        },
+        "defaultInvestigationBounds": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "maxAttempts",
+            "deadlinePolicy"
+          ],
+          "properties": {
+            "maxAttempts": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "deadlinePolicy": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        }
+      }
+    },
+    "deliveryPackage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "required",
+        "reviewStateMachine",
+        "failureState",
+        "currentProductStatus"
+      ],
+      "properties": {
+        "required": {
+          "type": "array",
+          "minItems": 0,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "reviewStateMachine": {
+          "type": "array",
+          "minItems": 0,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "failureState": {
+          "type": "string",
+          "minLength": 1
+        },
+        "currentProductStatus": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "changeControl": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "identity",
+        "projection",
+        "scopeChange",
+        "legacyStatus"
+      ],
+      "properties": {
+        "identity": {
+          "type": "string",
+          "minLength": 1
+        },
+        "projection": {
+          "type": "string",
+          "minLength": 1
+        },
+        "scopeChange": {
+          "type": "string",
+          "minLength": 1
+        },
+        "legacyStatus": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "coverageExpansion": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "globalCriteria",
+        "profileCriteria",
+        "subjectUseCaseCriteria",
+        "pinning",
+        "universalityLimit",
+        "matrixExecution",
+        "pythonQualification",
+        "qualificationProfiles"
+      ],
+      "properties": {
+        "globalCriteria": {
+          "type": "string",
+          "minLength": 1
+        },
+        "profileCriteria": {
+          "type": "string",
+          "minLength": 1
+        },
+        "subjectUseCaseCriteria": {
+          "type": "string",
+          "minLength": 1
+        },
+        "pinning": {
+          "type": "string",
+          "minLength": 1
+        },
+        "universalityLimit": {
+          "type": "string",
+          "minLength": 1
+        },
+        "matrixExecution": {
+          "type": "string",
+          "minLength": 1
+        },
+        "pythonQualification": {
+          "type": "string",
+          "minLength": 1
+        },
+        "qualificationProfiles": {
+          "type": "array",
+          "minItems": 0,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "ecosystemId",
+              "instanceId",
+              "execution"
+            ],
+            "properties": {
+              "ecosystemId": {
+                "type": "string",
+                "minLength": 1
+              },
+              "instanceId": {
+                "type": "string",
+                "minLength": 1
+              },
+              "execution": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          }
+        }
+      }
+    },
+    "semanticChecks": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "rankedUses",
+        "invocation",
+        "events",
+        "replay",
+        "browserReadback",
+        "refinement",
+        "supplyBounds",
+        "topology",
+        "visualQuality",
+        "sourceAttempts",
+        "modelEvidence",
+        "generationProvenance"
+      ],
+      "properties": {
+        "rankedUses": {
+          "type": "string",
+          "minLength": 1
+        },
+        "invocation": {
+          "type": "string",
+          "minLength": 1
+        },
+        "events": {
+          "type": "string",
+          "minLength": 1
+        },
+        "replay": {
+          "type": "string",
+          "minLength": 1
+        },
+        "browserReadback": {
+          "type": "string",
+          "minLength": 1
+        },
+        "refinement": {
+          "type": "string",
+          "minLength": 1
+        },
+        "supplyBounds": {
+          "type": "string",
+          "minLength": 1
+        },
+        "topology": {
+          "type": "string",
+          "minLength": 1
+        },
+        "visualQuality": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sourceAttempts": {
+          "type": "string",
+          "minLength": 1
+        },
+        "modelEvidence": {
+          "type": "string",
+          "minLength": 1
+        },
+        "generationProvenance": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    }
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:sidefx:product-delivery:definition:v1"
+}

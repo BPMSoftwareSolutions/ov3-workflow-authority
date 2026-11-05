@@ -1,0 +1,6 @@
+# Dependency/build caches are not delivery evidence. Do not create them here.
+**/node_modules/
+**/__pycache__/
+**/bin/
+**/obj/
+*.pyc

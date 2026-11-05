@@ -1,0 +1,3425 @@
+{
+  "contractId": "capability-studio-product-delivery.v1",
+  "revision": 3,
+  "definitionStatus": "PENDING_OV3_VALIDATION",
+  "title": "Capability Studio — complete online product delivery contract",
+  "owner": "Sidney Jones",
+  "deliveryAgent": "OV3",
+  "intendedOutcome": "OV3 generates, publishes and maintains the complete online Capability Studio: authoritative ecosystem discovery, five evidence-backed uses per selected subject, real estate capability generation/admission, explicit invocation, live canonical circuit observability and results/replay through one generic typed workflow.",
+  "sourceAuthorityPolicy": "Owner intent establishes scope. JSON is the structured delivery manifest; Markdown is its generated human view. Canonical features establish behavioral obligations. Any disagreement fails definition validation. DSL and formal models derive from pinned features.",
+  "sources": [
+    {
+      "id": "owner-intent",
+      "path": "product-delivery-contract/owner-intent.md",
+      "kind": "owner-direction",
+      "sha256": "sha256:845260f2f9715e930c76b2a7716853919ab699fe7790a7f50fca8f8be70566ed"
+    },
+    {
+      "id": "deck",
+      "path": "outputs/capability-studio-deck/delivery/SideFX-Capability-Studio.pptx",
+      "kind": "product-reference",
+      "sha256": "sha256:e7490d22afe81d86c64e5f2f3159da098909c740e845b5a0fa17c13cfd9eec6c"
+    },
+    {
+      "id": "topology",
+      "path": "outputs/capability-studio-deck/assets/canonical-circuit-reference.svg",
+      "kind": "canonical-topology",
+      "sha256": "sha256:e011d5f889710e7d30181d636c57be479d7a6c8dbe5a4e6dd6cc65e2a94d5f74"
+    },
+    {
+      "id": "formal-strategy",
+      "path": "formal-verification/formal-verification-strategy.md",
+      "kind": "verification-strategy",
+      "sha256": "sha256:d5c1515b881203f786aebded63699fd08101dedea7fdb4983cc3571866cb6a20"
+    }
+  ],
+  "altitudes": [
+    {
+      "id": 1,
+      "name": "Canonical feature",
+      "responsibility": "Establish the intended outcome and governing requirements."
+    },
+    {
+      "id": 2,
+      "name": "Scenario",
+      "responsibility": "Establish the Input → Event → Outcome obligation and its admissible conditions."
+    },
+    {
+      "id": 3,
+      "name": "Capability and profile schema",
+      "responsibility": "Establish structural, semantic, dependency, provider and authority contracts."
+    },
+    {
+      "id": 4,
+      "name": "Resolution and execution",
+      "responsibility": "Verify that admitted bindings and runtime behavior conform to those declared contracts."
+    },
+    {
+      "id": 5,
+      "name": "Flight-recorded evidence",
+      "responsibility": "Compare observed behavior and effects against the declared obligations, preserving what was actually demonstrated."
+    }
+  ],
+  "scope": {
+    "requiredEcosystems": [
+      "python",
+      "node",
+      "csharp",
+      "java-spring",
+      "go",
+      "azure",
+      "aws"
+    ],
+    "subjectKinds": [
+      "module",
+      "package",
+      "framework",
+      "sdk",
+      "cloud-service"
+    ],
+    "useCasesPerSelectedSubject": 5,
+    "firstQualification": "python",
+    "overallCompletion": "Every named ecosystem requires deployed profile qualification. Python-first is sequencing, not a waiver. Scope changes require a versioned owner-authorized contract revision.",
+    "qualificationMinimum": "For every required ecosystem, pin a nonempty finite subject set before qualification. Exercise all five supported use cases per subject through generation/admission/invocation/live/results, reuse/composition assessment, full deployed browser journey and successful/failed maintenance. Preserve exact coverage; the core process remains generic for other admissible user-selected sets.",
+    "cloudBoundary": "Use authorized sandbox resources with real verifiable effects and cleanup. Simulations do not qualify Azure/AWS delivery.",
+    "runtimeBoundary": "Ecosystem differs from kernel runtime. Profiles declare actual host/interpreter/package/ABI/authority requirements; no assumed cross-language handoff or installed packages.",
+    "qualityTargets": {
+      "viewports": [
+        "1440x900",
+        "1024x768",
+        "390x844"
+      ],
+      "keyboardJourneyRequired": true,
+      "maxApplicationEventToPaintMs": 1000,
+      "timingScope": "Browser event receipt to painted state on the declared qualification target. Report network/provider latency separately; do not disguise long operations.",
+      "performancePolicy": "Record sizes, concurrency, latency and model cost/usage per profile; declare deadlines/retry bounds before execution and show incomplete/failed outcomes when exceeded."
+    }
+  },
+  "dataContracts": {
+    "schemaFile": "data-contracts.schema.json",
+    "schemaDialect": "https://json-schema.org/draft/2020-12/schema",
+    "contractNames": [
+      "AdmissionReceipt",
+      "ArtifactBundle",
+      "ArtifactReference",
+      "BindingResolution",
+      "Candidate",
+      "CandidateRequest",
+      "CandidateRevisionRequest",
+      "CriterionEvidence",
+      "DecisionProposal",
+      "DecisionRequest",
+      "DefinitionValidationRequest",
+      "DeliveryReviewSubmission",
+      "DeliveryScope",
+      "DiscoveryRequest",
+      "EcosystemProfile",
+      "EvidenceSet",
+      "FlightPlanInstance",
+      "FlightReceipt",
+      "GateReceipt",
+      "InvocationReceipt",
+      "InvocationRequest",
+      "JourneyReceipt",
+      "JourneyRequest",
+      "MaintenanceRequest",
+      "ModelReview",
+      "Obligation",
+      "ObligationValidationRequest",
+      "ProofRequest",
+      "Publication",
+      "RankedUseCases",
+      "ReplayProjection",
+      "ReplayRequest",
+      "RunEvent",
+      "SourceIdentity",
+      "SourceSnapshot",
+      "VerificationReceipt",
+      "ViewGenerationRequest",
+      "ToolchainPreparationRequest",
+      "ToolchainCandidate",
+      "ToolchainQualification",
+      "ToolchainAdmission",
+      "DeliveryClosureReceipt",
+      "InvocationRecoveryRequest",
+      "InvocationRecoveryResult",
+      "BrowserReadback",
+      "TopologyArtifact",
+      "SourceAttempt",
+      "ModelExecutionEvidence",
+      "GenerationProvenance"
+    ],
+    "policy": "Closed objects; explicit nullability and finite states; immutable identity/revision pins; dynamic subject payloads validated against their pinned declared schemas."
+  },
+  "modelPolicy": {
+    "deterministic": [
+      "schema/digest/identity",
+      "coverage/dependencies",
+      "authority/clearance",
+      "known matching rules",
+      "proof/certificate checks",
+      "gate outcomes"
+    ],
+    "generalReasoning": [
+      "novel API interpretation",
+      "candidate design/composition",
+      "feature authoring",
+      "semantic completeness review",
+      "invariant proposals"
+    ],
+    "typedSystemOne": [
+      "bounded reuse/compose/new/unresolved",
+      "criteria-based ranking",
+      "uncertainty/escalation",
+      "repeated gap triage"
+    ],
+    "transportRule": "ask-model is a transport. Jev/TypeSafe and DeepSeek/Gemini/OpenAI are model/provider choices. Typed roles require pinned input/output schemas and validation; names alone provide no type/authority guarantee.",
+    "escalation": "Unknown, conflicting, unsupported, schema-invalid or low-confidence decisions escalate. A versioned profile declares calibrated thresholds and independent evaluation evidence before automated triage.",
+    "evidence": [
+      "actual provider/model",
+      "decision-profile digest",
+      "input/output/source digests",
+      "confidence/uncertainty",
+      "escalation reason",
+      "available usage/cost/latency"
+    ],
+    "acceptanceAuthority": "Declared deterministic verification and estate authority; model judgments remain advisory."
+  },
+  "obligations": [
+    {
+      "id": "C01",
+      "title": "Catalog and top-five selection",
+      "requiredOutcome": "Searchable catalog and five evidence-backed ranked uses for every selected subject.",
+      "userSurface": "/catalog → /subjects/{id}/use-cases",
+      "sourceRefs": [
+        "owner-intent",
+        "deck"
+      ],
+      "slides": [
+        2,
+        3
+      ],
+      "altitudes": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "owner": "OV3",
+      "deliveryFlightIds": [
+        "FP02"
+      ],
+      "verificationFlightIds": [
+        "FP12"
+      ],
+      "acceptanceCriteria": [
+        {
+          "id": "C01.1",
+          "predicate": "Retain the exact selected subject set; never silently drop subjects.",
+          "evidenceRequired": true
+        },
+        {
+          "id": "C01.2",
+          "predicate": "A completed subject has five distinct supported use cases with unique ranks 1–5, rationale and source references.",
+          "evidenceRequired": true
+        },
+        {
+          "id": "C01.3",
+          "predicate": "Insufficient documented uses return INCOMPLETE with a shortfall, never fabricated filler.",
+          "evidenceRequired": true
+        },
+        {
+          "id": "C01.4",
+          "predicate": "Selection and source/version identity persist across navigation.",
+          "evidenceRequired": true
+        }
+      ],
+      "requiredEvidenceKinds": [
+        "declared-artifact",
+        "verification-receipt",
+        "flight-recording",
+        "deployed-browser-journey"
+      ],
+      "status": "UNVERIFIED"
+    },
+    {
+      "id": "C02",
+      "title": "Canonical circuit",
+      "requiredOutcome": "A selected use case becomes a reviewable candidate on the required topology.",
+      "userSurface": "/candidates/{id}/circuit",
+      "sourceRefs": [
+        "owner-intent",
+        "deck"
+      ],
+      "slides": [
+        4,
+        5
+      ],
+      "altitudes": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "owner": "OV3",
+      "deliveryFlightIds": [
+        "FP05"
+      ],
+      "verificationFlightIds": [
+        "FP12"
+      ],
+      "acceptanceCriteria": [
+        {
+          "id": "C02.1",
+          "predicate": "Input/Given left, named Event and ordered Operations middle, Outcome/Then right, providers above numbered ports, Observation/Telemetry beneath.",
+          "evidenceRequired": true
+        },
+        {
+          "id": "C02.2",
+          "predicate": "Provider bindings and execution edges are distinct; identities and geometry match the pinned reference.",
+          "evidenceRequired": true
+        },
+        {
+          "id": "C02.3",
+          "predicate": "Scene navigation, zoom, search and inspection preserve candidate/revision selection.",
+          "evidenceRequired": true
+        }
+      ],
+      "requiredEvidenceKinds": [
+        "declared-artifact",
+        "verification-receipt",
+        "flight-recording",
+        "deployed-browser-journey"
+      ],
+      "status": "UNVERIFIED"
+    },
+    {
+      "id": "C03",
+      "title": "Contract inspection",
+      "requiredOutcome": "Readable input/outcome inspection backed by the actual canonical schemas.",
+      "userSurface": "/candidates/{id}/contracts",
+      "sourceRefs": [
+        "owner-intent",
+        "deck"
+      ],
+      "slides": [
+        6
+      ],
+      "altitudes": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "owner": "OV3",
+      "deliveryFlightIds": [
+        "FP05"
+      ],
+      "verificationFlightIds": [
+        "FP12"
+      ],
+      "acceptanceCriteria": [
+        {
+          "id": "C03.1",
+          "predicate": "Show types, required fields, constraints, defaults, units and null/absent semantics plus the full schema.",
+          "evidenceRequired": true
+        },
+        {
+          "id": "C03.2",
+          "predicate": "Displayed and invoked schema digests agree; changes create a new revision and update forms.",
+          "evidenceRequired": true
+        }
+      ],
+      "requiredEvidenceKinds": [
+        "declared-artifact",
+        "verification-receipt",
+        "flight-recording",
+        "deployed-browser-journey"
+      ],
+      "status": "UNVERIFIED"
+    },
+    {
+      "id": "C04",
+      "title": "Provider inspection",
+      "requiredOutcome": "Users see actual provider identities, runtime requirements and availability evidence.",
+      "userSurface": "/candidates/{id}/providers",
+      "sourceRefs": [
+        "owner-intent",
+        "deck"
+      ],
+      "slides": [
+        7
+      ],
+      "altitudes": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "owner": "OV3",
+      "deliveryFlightIds": [
+        "FP05"
+      ],
+      "verificationFlightIds": [
+        "FP12"
+      ],
+      "acceptanceCriteria": [
+        {
+          "id": "C04.1",
+          "predicate": "Show binding, dependency closure, runtime/host requirements, compatibility and conformance/admission evidence.",
+          "evidenceRequired": true
+        },
+        {
+          "id": "C04.2",
+          "predicate": "Proposed, resolved, admitted, refused and unknown are distinct; labels, scores and caller claims cannot supply availability.",
+          "evidenceRequired": true
+        }
+      ],
+      "requiredEvidenceKinds": [
+        "declared-artifact",
+        "verification-receipt",
+        "flight-recording",
+        "deployed-browser-journey"
+      ],
+      "status": "UNVERIFIED"
+    },
+    {
+      "id": "C05",
+      "title": "Review and refinement",
+      "requiredOutcome": "Annotations and composition changes produce reviewable candidate revisions.",
+      "userSurface": "/candidates/{id}/review",
+      "sourceRefs": [
+        "owner-intent",
+        "deck"
+      ],
+      "slides": [
+        8
+      ],
+      "altitudes": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "owner": "OV3",
+      "deliveryFlightIds": [
+        "FP05"
+      ],
+      "verificationFlightIds": [
+        "FP12"
+      ],
+      "acceptanceCriteria": [
+        {
+          "id": "C05.1",
+          "predicate": "Annotations and changes bind to exact candidate revisions; history remains visible.",
+          "evidenceRequired": true
+        },
+        {
+          "id": "C05.2",
+          "predicate": "Refinement creates a new revision; an approval cannot transfer silently to changed bytes.",
+          "evidenceRequired": true
+        }
+      ],
+      "requiredEvidenceKinds": [
+        "declared-artifact",
+        "verification-receipt",
+        "flight-recording",
+        "deployed-browser-journey"
+      ],
+      "status": "UNVERIFIED"
+    },
+    {
+      "id": "C06",
+      "title": "Generate and admit",
+      "requiredOutcome": "Generate creates real estate capability artifacts and executable admitted capabilities.",
+      "userSurface": "/candidates/{id}/artifacts",
+      "sourceRefs": [
+        "owner-intent",
+        "deck"
+      ],
+      "slides": [
+        9
+      ],
+      "altitudes": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "owner": "OV3",
+      "deliveryFlightIds": [
+        "FP06"
+      ],
+      "verificationFlightIds": [
+        "FP12"
+      ],
+      "acceptanceCriteria": [
+        {
+          "id": "C06.1",
+          "predicate": "Author canonical feature before pinned DSL; expose contracts, bindings, dependencies, proofs and actual downloadable artifacts.",
+          "evidenceRequired": true
+        },
+        {
+          "id": "C06.2",
+          "predicate": "Compile, preflight, prove and admit through declared governance with exact revision identities and visible refusals.",
+          "evidenceRequired": true
+        },
+        {
+          "id": "C06.3",
+          "predicate": "No mocked generation, canned outputs or frontier implementation substitutes; only admitted resolved capabilities enable Invoke.",
+          "evidenceRequired": true
+        }
+      ],
+      "requiredEvidenceKinds": [
+        "declared-artifact",
+        "verification-receipt",
+        "flight-recording",
+        "deployed-browser-journey"
+      ],
+      "status": "UNVERIFIED"
+    },
+    {
+      "id": "C07",
+      "title": "Invoke",
+      "requiredOutcome": "Explicit host-authorized invocation of a newly generated capability returns a genuine run.",
+      "userSurface": "/capabilities/{id}/invoke",
+      "sourceRefs": [
+        "owner-intent",
+        "deck"
+      ],
+      "slides": [
+        10
+      ],
+      "altitudes": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "owner": "OV3",
+      "deliveryFlightIds": [
+        "FP07"
+      ],
+      "verificationFlightIds": [
+        "FP12"
+      ],
+      "acceptanceCriteria": [
+        {
+          "id": "C07.1",
+          "predicate": "Synchronized forms and JSON represent the same schema-validated input, defaults and optional fields.",
+          "evidenceRequired": true
+        },
+        {
+          "id": "C07.2",
+          "predicate": "An explicit authorized Invoke returns a run ID; page load, navigation, inspection and replay cannot execute.",
+          "evidenceRequired": true
+        },
+        {
+          "id": "C07.3",
+          "predicate": "Idempotency and ambiguous-response recovery prevent unintended duplicates; credentials remain in the host boundary.",
+          "evidenceRequired": true
+        }
+      ],
+      "requiredEvidenceKinds": [
+        "declared-artifact",
+        "verification-receipt",
+        "flight-recording",
+        "deployed-browser-journey"
+      ],
+      "status": "UNVERIFIED"
+    },
+    {
+      "id": "C08",
+      "title": "Live observability",
+      "requiredOutcome": "Actual execution animates live on the canonical circuit.",
+      "userSurface": "/runs/{id}/live",
+      "sourceRefs": [
+        "owner-intent",
+        "deck"
+      ],
+      "slides": [
+        11
+      ],
+      "altitudes": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "owner": "OV3",
+      "deliveryFlightIds": [
+        "FP07"
+      ],
+      "verificationFlightIds": [
+        "FP12"
+      ],
+      "acceptanceCriteria": [
+        {
+          "id": "C08.1",
+          "predicate": "Every displayed occurrence maps to the selected run/root/attempt/operation/occurrence/cursor and observed event.",
+          "evidenceRequired": true
+        },
+        {
+          "id": "C08.2",
+          "predicate": "Show actual timing, nested circuits, timeline and telemetry; no invented progress or stretched durations.",
+          "evidenceRequired": true
+        },
+        {
+          "id": "C08.3",
+          "predicate": "Expose observation gaps and never switch the selected run silently.",
+          "evidenceRequired": true
+        }
+      ],
+      "requiredEvidenceKinds": [
+        "declared-artifact",
+        "verification-receipt",
+        "flight-recording",
+        "deployed-browser-journey"
+      ],
+      "status": "UNVERIFIED"
+    },
+    {
+      "id": "C09",
+      "title": "Results and replay",
+      "requiredOutcome": "Actual output, receipts and promise-versus-execution comparison with functional replay.",
+      "userSurface": "/runs/{id}/results and /runs/{id}/replay",
+      "sourceRefs": [
+        "owner-intent",
+        "deck"
+      ],
+      "slides": [
+        12
+      ],
+      "altitudes": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "owner": "OV3",
+      "deliveryFlightIds": [
+        "FP08"
+      ],
+      "verificationFlightIds": [
+        "FP12"
+      ],
+      "acceptanceCriteria": [
+        {
+          "id": "C09.1",
+          "predicate": "Show actual results, selected outcome, retained receipts and declared-versus-observed findings.",
+          "evidenceRequired": true
+        },
+        {
+          "id": "C09.2",
+          "predicate": "Pause, step, speed, backward seek and return-to-live work.",
+          "evidenceRequired": true
+        },
+        {
+          "id": "C09.3",
+          "predicate": "At cursor k, facts first observed after k are invisible; replay has no provider effects.",
+          "evidenceRequired": true
+        }
+      ],
+      "requiredEvidenceKinds": [
+        "declared-artifact",
+        "verification-receipt",
+        "flight-recording",
+        "deployed-browser-journey"
+      ],
+      "status": "UNVERIFIED"
+    },
+    {
+      "id": "C10",
+      "title": "Failure and recovery",
+      "requiredOutcome": "Truthful execution states and recovery across failure and disconnection.",
+      "userSurface": "shared run controls",
+      "sourceRefs": [
+        "owner-intent",
+        "deck"
+      ],
+      "slides": [
+        13
+      ],
+      "altitudes": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "owner": "OV3",
+      "deliveryFlightIds": [
+        "FP08"
+      ],
+      "verificationFlightIds": [
+        "FP12"
+      ],
+      "acceptanceCriteria": [
+        {
+          "id": "C10.1",
+          "predicate": "Distinguish ready, running, completed, failed, disconnected and replay.",
+          "evidenceRequired": true
+        },
+        {
+          "id": "C10.2",
+          "predicate": "Disconnect retains last observed facts and the gap, without inferring completion, failure or cancellation.",
+          "evidenceRequired": true
+        },
+        {
+          "id": "C10.3",
+          "predicate": "Reconnect follows the same run; duplicates, reordered and missing events cannot create false success.",
+          "evidenceRequired": true
+        },
+        {
+          "id": "C10.4",
+          "predicate": "Any offered cancellation uses declared authority and confirmed results; closing a view does not cancel.",
+          "evidenceRequired": true
+        }
+      ],
+      "requiredEvidenceKinds": [
+        "declared-artifact",
+        "verification-receipt",
+        "flight-recording",
+        "deployed-browser-journey"
+      ],
+      "status": "UNVERIFIED"
+    },
+    {
+      "id": "C11",
+      "title": "Professional connected product",
+      "requiredOutcome": "The entire deck is one navigable responsive online application.",
+      "userSurface": "all routes",
+      "sourceRefs": [
+        "owner-intent",
+        "deck"
+      ],
+      "slides": [
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13
+      ],
+      "altitudes": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "owner": "OV3",
+      "deliveryFlightIds": [
+        "FP04"
+      ],
+      "verificationFlightIds": [
+        "FP12"
+      ],
+      "acceptanceCriteria": [
+        {
+          "id": "C11.1",
+          "predicate": "Preserve the navy SideFX rail, light workspace, restrained indigo actions, readable typography and canonical dark circuit.",
+          "evidenceRequired": true
+        },
+        {
+          "id": "C11.2",
+          "predicate": "Deep links, browser history, stable selection, keyboard focus and loading/empty/error states work across all screens.",
+          "evidenceRequired": true
+        },
+        {
+          "id": "C11.3",
+          "predicate": "Qualify 1440×900, 1024×768 and 390×844 layouts without obstructed required controls.",
+          "evidenceRequired": true
+        },
+        {
+          "id": "C11.4",
+          "predicate": "No disconnected screenshots, dead navigation or decorative Generate/Invoke/replay controls.",
+          "evidenceRequired": true
+        }
+      ],
+      "requiredEvidenceKinds": [
+        "declared-artifact",
+        "verification-receipt",
+        "flight-recording",
+        "deployed-browser-journey"
+      ],
+      "status": "UNVERIFIED"
+    },
+    {
+      "id": "C12",
+      "title": "OV3 agency and reasoning",
+      "requiredOutcome": "OV3 owns generation and correction, using each reasoning mode strategically.",
+      "userSurface": "objective intake/progress",
+      "sourceRefs": [
+        "owner-intent",
+        "deck"
+      ],
+      "slides": [
+        1,
+        9,
+        13
+      ],
+      "altitudes": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "owner": "OV3",
+      "deliveryFlightIds": [
+        "FP03"
+      ],
+      "verificationFlightIds": [
+        "FP12"
+      ],
+      "acceptanceCriteria": [
+        {
+          "id": "C12.1",
+          "predicate": "One objective drives discovery, planning, supply, correction, publication, readback and verification without another frontier command.",
+          "evidenceRequired": true
+        },
+        {
+          "id": "C12.2",
+          "predicate": "Deterministic checks handle known rules; general reasoning handles novel semantics/design; System One handles bounded typed classification/ranking/uncertainty.",
+          "evidenceRequired": true
+        },
+        {
+          "id": "C12.3",
+          "predicate": "Models remain advisory; record provider/model, decision profile, typed inputs/outputs, evidence, uncertainty, escalation and available cost/token/latency metrics.",
+          "evidenceRequired": true
+        }
+      ],
+      "requiredEvidenceKinds": [
+        "declared-artifact",
+        "verification-receipt",
+        "flight-recording"
+      ],
+      "status": "UNVERIFIED"
+    },
+    {
+      "id": "C13",
+      "title": "Maintenance",
+      "requiredOutcome": "OV3 delivers subsequent requirement changes through the same declared process.",
+      "userSurface": "revision history",
+      "sourceRefs": [
+        "owner-intent",
+        "deck"
+      ],
+      "slides": [
+        8,
+        9,
+        13
+      ],
+      "altitudes": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "owner": "OV3",
+      "deliveryFlightIds": [
+        "FP10"
+      ],
+      "verificationFlightIds": [
+        "FP12"
+      ],
+      "acceptanceCriteria": [
+        {
+          "id": "C13.1",
+          "predicate": "Retain the change; revise feature/scope before DSL and dependent artifacts; invalidate affected proofs.",
+          "evidenceRequired": true
+        },
+        {
+          "id": "C13.2",
+          "predicate": "Regenerate, publish and read back the changed product; verify changed and unchanged obligations.",
+          "evidenceRequired": true
+        },
+        {
+          "id": "C13.3",
+          "predicate": "Prove successful and failed maintenance without frontier implementation; failures preserve the last verified usable release; retries/resume are idempotent.",
+          "evidenceRequired": true
+        }
+      ],
+      "requiredEvidenceKinds": [
+        "declared-artifact",
+        "verification-receipt",
+        "flight-recording",
+        "deployed-browser-journey"
+      ],
+      "status": "UNVERIFIED"
+    },
+    {
+      "id": "C14",
+      "title": "Complete review delivery",
+      "requiredOutcome": "The owner receives the working product and independently verified complete review package.",
+      "userSurface": "delivery review",
+      "sourceRefs": [
+        "owner-intent",
+        "deck"
+      ],
+      "slides": [
+        12,
+        13
+      ],
+      "altitudes": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "owner": "OV3",
+      "deliveryFlightIds": [
+        "FP12",
+        "FP13"
+      ],
+      "verificationFlightIds": [
+        "FP12",
+        "FP13"
+      ],
+      "acceptanceCriteria": [
+        {
+          "id": "C14.1",
+          "predicate": "Resolve exact required obligation, criterion and ecosystem-instance sets from the retained contract, never a caller subset or count.",
+          "evidenceRequired": true
+        },
+        {
+          "id": "C14.2",
+          "predicate": "Require attributed proofs, published-byte readback, deployed user journeys, initial/maintenance agency and every required profile qualification.",
+          "evidenceRequired": true
+        },
+        {
+          "id": "C14.3",
+          "predicate": "OV3 validates obligation completeness before review submission; missing, failed or inconclusive required evidence prevents fulfillment.",
+          "evidenceRequired": true
+        },
+        {
+          "id": "C14.4",
+          "predicate": "Automatic verification, review submission and owner-reserved acceptance are distinct states.",
+          "evidenceRequired": true
+        }
+      ],
+      "requiredEvidenceKinds": [
+        "declared-artifact",
+        "verification-receipt",
+        "flight-recording"
+      ],
+      "status": "UNVERIFIED"
+    },
+    {
+      "id": "C15",
+      "title": "Online ecosystem discovery",
+      "requiredOutcome": "Authoritative online sources are discovered, enumerated and version-pinned.",
+      "userSurface": "ecosystem discovery",
+      "sourceRefs": [
+        "owner-intent",
+        "deck"
+      ],
+      "slides": [
+        2,
+        3
+      ],
+      "altitudes": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "owner": "OV3",
+      "deliveryFlightIds": [
+        "FP02"
+      ],
+      "verificationFlightIds": [
+        "FP12"
+      ],
+      "acceptanceCriteria": [
+        {
+          "id": "C15.1",
+          "predicate": "Record requested/resolved URLs, ecosystem/subject/version, retrieval time, content digests and provenance; enumerate the selected population exactly.",
+          "evidenceRequired": true
+        },
+        {
+          "id": "C15.2",
+          "predicate": "Handle pagination, rate limits, unavailable/changed sources and version conflicts visibly with bounded retries.",
+          "evidenceRequired": true
+        },
+        {
+          "id": "C15.3",
+          "predicate": "Retrieved text is evidence, never execution authority; refresh creates a new revision and invalidates dependent claims.",
+          "evidenceRequired": true
+        }
+      ],
+      "requiredEvidenceKinds": [
+        "declared-artifact",
+        "verification-receipt",
+        "flight-recording"
+      ],
+      "status": "UNVERIFIED"
+    },
+    {
+      "id": "C16",
+      "title": "Generic repeatability",
+      "requiredOutcome": "The same core and contracts work across Python, Node, C#, Java/Spring Boot, Go, Azure and AWS.",
+      "userSurface": "ecosystem selector",
+      "sourceRefs": [
+        "owner-intent"
+      ],
+      "slides": [],
+      "altitudes": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "owner": "OV3",
+      "deliveryFlightIds": [
+        "FP11"
+      ],
+      "verificationFlightIds": [
+        "FP12"
+      ],
+      "acceptanceCriteria": [
+        {
+          "id": "C16.1",
+          "predicate": "Qualify every named ecosystem through profile-bound discovery, top-five ranking, generation, admission, invocation, live/replay and maintenance.",
+          "evidenceRequired": true
+        },
+        {
+          "id": "C16.2",
+          "predicate": "Declare catalog/documentation adapters, dependencies, host/runtime/provider requirements, authority and verification bindings.",
+          "evidenceRequired": true
+        },
+        {
+          "id": "C16.3",
+          "predicate": "Ecosystem does not imply a kernel language; adding profiles must not fork the product workflow.",
+          "evidenceRequired": true
+        },
+        {
+          "id": "C16.4",
+          "predicate": "Actual selected subject sets are pinned; no omitted ecosystem or subject can be waived silently.",
+          "evidenceRequired": true
+        }
+      ],
+      "requiredEvidenceKinds": [
+        "declared-artifact",
+        "verification-receipt",
+        "flight-recording"
+      ],
+      "status": "UNVERIFIED"
+    },
+    {
+      "id": "C17",
+      "title": "Online deployment and operation",
+      "requiredOutcome": "Deliver an authenticated deployed product with recovery and observability.",
+      "userSurface": "deployment/health",
+      "sourceRefs": [
+        "owner-intent"
+      ],
+      "slides": [],
+      "altitudes": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "owner": "OV3",
+      "deliveryFlightIds": [
+        "FP09"
+      ],
+      "verificationFlightIds": [
+        "FP12"
+      ],
+      "acceptanceCriteria": [
+        {
+          "id": "C17.1",
+          "predicate": "Supply the actual authorized product URL, release/environment/profile identity and authenticated browser readback.",
+          "evidenceRequired": true
+        },
+        {
+          "id": "C17.2",
+          "predicate": "Prove session expiry/recovery, owner isolation and authorized invocation on the deployed target.",
+          "evidenceRequired": true
+        },
+        {
+          "id": "C17.3",
+          "predicate": "Health, diagnostics, release history, rollback and last-verified release recovery are usable.",
+          "evidenceRequired": true
+        },
+        {
+          "id": "C17.4",
+          "predicate": "A redirect, local preview, merged PR or isolated renderer is insufficient product acceptance.",
+          "evidenceRequired": true
+        }
+      ],
+      "requiredEvidenceKinds": [
+        "declared-artifact",
+        "verification-receipt",
+        "flight-recording",
+        "deployed-browser-journey"
+      ],
+      "status": "UNVERIFIED"
+    },
+    {
+      "id": "C18",
+      "title": "Definition-complete delivery contract",
+      "requiredOutcome": "OV3 validates a durable complete contract before implementation.",
+      "userSurface": "contract review",
+      "sourceRefs": [
+        "owner-intent"
+      ],
+      "slides": [],
+      "altitudes": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "owner": "OV3",
+      "deliveryFlightIds": [
+        "FP00"
+      ],
+      "verificationFlightIds": [
+        "FP12"
+      ],
+      "acceptanceCriteria": [
+        {
+          "id": "C18.1",
+          "predicate": "Pin Markdown/JSON, owner/deck/topology/strategy sources, obligations, flights, payloads, gates and formal properties.",
+          "evidenceRequired": true
+        },
+        {
+          "id": "C18.2",
+          "predicate": "Check completeness, consistency, coverage and bounded feasible supply/repair paths; reconcile independent semantic review.",
+          "evidenceRequired": true
+        },
+        {
+          "id": "C18.3",
+          "predicate": "Only an authoritative OV3 definition receipt for exact bytes enables product flights; local/advisory checks cannot open the gate.",
+          "evidenceRequired": true
+        }
+      ],
+      "requiredEvidenceKinds": [
+        "declared-artifact",
+        "verification-receipt",
+        "flight-recording"
+      ],
+      "status": "UNVERIFIED"
+    },
+    {
+      "id": "C19",
+      "title": "Flight-planned delivery",
+      "requiredOutcome": "Every obligation has a declared delivery, verification and repair path.",
+      "userSurface": "flight progress",
+      "sourceRefs": [
+        "owner-intent"
+      ],
+      "slides": [],
+      "altitudes": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "owner": "OV3",
+      "deliveryFlightIds": [
+        "FP03"
+      ],
+      "verificationFlightIds": [
+        "FP12"
+      ],
+      "acceptanceCriteria": [
+        {
+          "id": "C19.1",
+          "predicate": "Plans define prerequisites, typed steps, capability bindings, expected evidence, failures and compensation.",
+          "evidenceRequired": true
+        },
+        {
+          "id": "C19.2",
+          "predicate": "Materialize concrete estate flight revisions, inputs and mappings; resolve dependencies and satisfy current exact-digest clearance before executing.",
+          "evidenceRequired": true
+        },
+        {
+          "id": "C19.3",
+          "predicate": "Preserve deviations and failed attempts; repairs are new reviewed revisions and do not inherit incompatible approvals.",
+          "evidenceRequired": true
+        }
+      ],
+      "requiredEvidenceKinds": [
+        "declared-artifact",
+        "verification-receipt",
+        "flight-recording"
+      ],
+      "status": "UNVERIFIED"
+    },
+    {
+      "id": "C20",
+      "title": "Formal verification",
+      "requiredOutcome": "Canonical propositions, refinement and invocation evidence are connected across all five altitudes.",
+      "userSurface": "proof inspection",
+      "sourceRefs": [
+        "owner-intent"
+      ],
+      "slides": [],
+      "altitudes": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "owner": "OV3",
+      "deliveryFlightIds": [
+        "FP01"
+      ],
+      "verificationFlightIds": [
+        "FP12"
+      ],
+      "acceptanceCriteria": [
+        {
+          "id": "C20.1",
+          "predicate": "Specify preconditions, transition relations, postconditions, effects, refusals and progress assumptions.",
+          "evidenceRequired": true
+        },
+        {
+          "id": "C20.2",
+          "predicate": "Prove scoped acceptance soundness/non-vacuity, refinement, guarded data flow, routing/bounds and evidence attribution.",
+          "evidenceRequired": true
+        },
+        {
+          "id": "C20.3",
+          "predicate": "Pin checker/model/property/dependency identities, assumptions, bounds and certificates/counterexamples.",
+          "evidenceRequired": true
+        },
+        {
+          "id": "C20.4",
+          "predicate": "A bounded abstraction or example test is not an unbounded theorem or proof of a deployed implementation.",
+          "evidenceRequired": true
+        }
+      ],
+      "requiredEvidenceKinds": [
+        "declared-artifact",
+        "verification-receipt",
+        "flight-recording"
+      ],
+      "status": "UNVERIFIED"
+    },
+    {
+      "id": "C21",
+      "title": "Typed workflow contracts",
+      "requiredOutcome": "Every workflow edge and inference boundary has a versioned closed data contract.",
+      "userSurface": "contract surface",
+      "sourceRefs": [
+        "owner-intent"
+      ],
+      "slides": [],
+      "altitudes": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "owner": "OV3",
+      "deliveryFlightIds": [
+        "FP01"
+      ],
+      "verificationFlightIds": [
+        "FP12"
+      ],
+      "acceptanceCriteria": [
+        {
+          "id": "C21.1",
+          "predicate": "Define scope, profile, source, ranking, decisions, candidates, artifacts, invocation/events/replay, publication, flight, proof and gate payloads.",
+          "evidenceRequired": true
+        },
+        {
+          "id": "C21.2",
+          "predicate": "Preserve identities, enum/range/cardinality, nullable/absent distinctions, ordering and immutable source/artifact pins.",
+          "evidenceRequired": true
+        },
+        {
+          "id": "C21.3",
+          "predicate": "Prove guarded mappings satisfy downstream preconditions; reject unknown fields, incompatible revisions and malformed responses.",
+          "evidenceRequired": true
+        }
+      ],
+      "requiredEvidenceKinds": [
+        "declared-artifact",
+        "verification-receipt",
+        "flight-recording"
+      ],
+      "status": "UNVERIFIED"
+    },
+    {
+      "id": "C22",
+      "title": "Reusable capability supply",
+      "requiredOutcome": "OV3 cultivates missing mechanics as durable reusable estate supply.",
+      "userSurface": "supply/dependencies",
+      "sourceRefs": [
+        "owner-intent"
+      ],
+      "slides": [],
+      "altitudes": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "owner": "OV3",
+      "deliveryFlightIds": [
+        "FP03"
+      ],
+      "verificationFlightIds": [
+        "FP12"
+      ],
+      "acceptanceCriteria": [
+        {
+          "id": "C22.1",
+          "predicate": "Discover actual admitted contracts before selecting reuse, composition or a new mechanic.",
+          "evidenceRequired": true
+        },
+        {
+          "id": "C22.2",
+          "predicate": "New supply follows feature → scenario → schema/profile → declared implementation → proof/admission → fresh recorded invocation.",
+          "evidenceRequired": true
+        },
+        {
+          "id": "C22.3",
+          "predicate": "Use isolated rehearsals and declared rollback/compensation; every unresolved responsibility has an owner, bounded investigation and supply/repair path.",
+          "evidenceRequired": true
+        }
+      ],
+      "requiredEvidenceKinds": [
+        "declared-artifact",
+        "verification-receipt",
+        "flight-recording"
+      ],
+      "status": "UNVERIFIED"
+    }
+  ],
+  "flightPlans": [
+    {
+      "flightId": "FP00",
+      "title": "Definition validation and verifier preparation",
+      "phase": "DEFINITION",
+      "obligationIds": [
+        "C18"
+      ],
+      "dependsOn": [],
+      "entryGate": "PREPARATION_SCOPE_AND_CURRENT_ESTATE_CLEARANCE",
+      "steps": [
+        {
+          "stepId": "FP00.S01",
+          "kind": "READ",
+          "action": "Pin and independently read exact owner/deck/topology/strategy, contract and schemas; inventory current admission and verifier dependencies.",
+          "inputContract": "DefinitionValidationRequest",
+          "outcomeContract": "ToolchainPreparationRequest",
+          "dependsOn": [],
+          "capabilityResolution": {
+            "candidateId": "read-retained-artifact",
+            "state": "CANDIDATE_REUSE",
+            "owner": "OV3",
+            "requiredBeforeExecution": true
+          },
+          "inputBindingPolicy": "Bind exact retained request plus explicitly selected prior receipts; prove source-to-destination schema and semantic mapping. The predecessor is an ordering dependency, not an implicit payload identity.",
+          "expectedEvidence": [
+            "input/output digests",
+            "resolved capability/profile",
+            "attributed step receipt"
+          ],
+          "failurePolicy": "Stop dependent steps; retain failed attempt; use declared compensation only; review/clear any repair revision.",
+          "completionPredicate": "Validate declared outcome and canonical postconditions; model claims and process exit alone are insufficient."
+        },
+        {
+          "stepId": "FP00.S02",
+          "kind": "AUTHOR",
+          "action": "Author both verifier capabilities from canonical feature through DSL, schemas, proof profiles and explicit provider closure; resolve declared primitives and typed adapters.",
+          "inputContract": "ToolchainPreparationRequest",
+          "outcomeContract": "ToolchainCandidate",
+          "dependsOn": [
+            "FP00.S01"
+          ],
+          "capabilityResolution": {
+            "candidateId": "author-delivery-verifier-toolchain",
+            "state": "PROPOSED",
+            "owner": "OV3",
+            "requiredBeforeExecution": true
+          },
+          "inputBindingPolicy": "Bind exact retained request plus explicitly selected prior receipts; prove source-to-destination schema and semantic mapping. The predecessor is an ordering dependency, not an implicit payload identity.",
+          "expectedEvidence": [
+            "input/output digests",
+            "resolved capability/profile",
+            "attributed step receipt"
+          ],
+          "failurePolicy": "Stop dependent steps; retain failed attempt; use declared compensation only; review/clear any repair revision.",
+          "completionPredicate": "Validate declared outcome and canonical postconditions; model claims and process exit alone are insufficient."
+        },
+        {
+          "stepId": "FP00.S03",
+          "kind": "VERIFY",
+          "action": "Prove positive acceptance and adversarial controls including wrong origin, stale pins, omitted obligations, gate bypass and unsupported claims; independently qualify the checker and rehearse rollback.",
+          "inputContract": "ToolchainCandidate",
+          "outcomeContract": "ToolchainQualification",
+          "dependsOn": [
+            "FP00.S02"
+          ],
+          "capabilityResolution": {
+            "candidateId": "qualify-delivery-verifier-toolchain",
+            "state": "PROPOSED",
+            "owner": "OV3",
+            "requiredBeforeExecution": true
+          },
+          "inputBindingPolicy": "Bind exact retained request plus explicitly selected prior receipts; prove source-to-destination schema and semantic mapping. The predecessor is an ordering dependency, not an implicit payload identity.",
+          "expectedEvidence": [
+            "input/output digests",
+            "resolved capability/profile",
+            "attributed step receipt"
+          ],
+          "failurePolicy": "Stop dependent steps; retain failed attempt; use declared compensation only; review/clear any repair revision.",
+          "completionPredicate": "Validate declared outcome and canonical postconditions; model claims and process exit alone are insufficient."
+        },
+        {
+          "stepId": "FP00.S04",
+          "kind": "ADMIT",
+          "action": "Materialize, review and clear the preparation subflight under existing admission authority; admit both verifiers, read back exact declarations, and execute fresh hosted positive/negative fixtures.",
+          "inputContract": "ToolchainQualification",
+          "outcomeContract": "ToolchainAdmission",
+          "dependsOn": [
+            "FP00.S03"
+          ],
+          "capabilityResolution": {
+            "candidateId": "admit-delivery-verifier-toolchain",
+            "state": "PROPOSED",
+            "owner": "OV3",
+            "requiredBeforeExecution": true
+          },
+          "inputBindingPolicy": "Bind exact retained request plus explicitly selected prior receipts; prove source-to-destination schema and semantic mapping. The predecessor is an ordering dependency, not an implicit payload identity.",
+          "expectedEvidence": [
+            "input/output digests",
+            "resolved capability/profile",
+            "attributed step receipt"
+          ],
+          "failurePolicy": "Stop dependent steps; retain failed attempt; use declared compensation only; review/clear any repair revision.",
+          "completionPredicate": "Validate declared outcome and canonical postconditions; model claims and process exit alone are insufficient."
+        },
+        {
+          "stepId": "FP00.S05",
+          "kind": "REVIEW",
+          "action": "Independently review definition semantics and perform typed System One gap triage; reconcile findings against retained owner intent.",
+          "inputContract": "DefinitionValidationRequest",
+          "outcomeContract": "ModelReview",
+          "dependsOn": [
+            "FP00.S04"
+          ],
+          "capabilityResolution": {
+            "candidateId": "ask-model",
+            "state": "CANDIDATE_REUSE",
+            "owner": "OV3",
+            "requiredBeforeExecution": true
+          },
+          "inputBindingPolicy": "Bind exact retained request plus explicitly selected prior receipts; prove source-to-destination schema and semantic mapping. The predecessor is an ordering dependency, not an implicit payload identity.",
+          "expectedEvidence": [
+            "input/output digests",
+            "resolved capability/profile",
+            "attributed step receipt"
+          ],
+          "failurePolicy": "Stop dependent steps; retain failed attempt; use declared compensation only; review/clear any repair revision.",
+          "completionPredicate": "Validate declared outcome and canonical postconditions; model claims and process exit alone are insufficient."
+        },
+        {
+          "stepId": "FP00.S06",
+          "kind": "VERIFY",
+          "action": "Invoke the admitted definition verifier with independent retained readback and resolved semantic findings; return authoritative complete, incomplete or inconclusive receipt.",
+          "inputContract": "DefinitionValidationRequest",
+          "outcomeContract": "GateReceipt",
+          "dependsOn": [
+            "FP00.S05"
+          ],
+          "capabilityResolution": {
+            "candidateId": "validate-product-delivery-definition",
+            "state": "PROPOSED",
+            "owner": "OV3",
+            "requiredBeforeExecution": true
+          },
+          "inputBindingPolicy": "Bind exact retained request plus explicitly selected prior receipts; prove source-to-destination schema and semantic mapping. The predecessor is an ordering dependency, not an implicit payload identity.",
+          "expectedEvidence": [
+            "input/output digests",
+            "resolved capability/profile",
+            "attributed step receipt"
+          ],
+          "failurePolicy": "Stop dependent steps; retain failed attempt; use declared compensation only; review/clear any repair revision.",
+          "completionPredicate": "Validate declared outcome and canonical postconditions; model claims and process exit alone are insufficient."
+        }
+      ],
+      "closure": "All step postconditions and covered obligation criteria verified; flight closure never implies whole-product fulfillment.",
+      "repairFlightPolicy": "New revision of affected flight; supply gaps route to FP03, definition toolchain gaps to FP00; retain prior evidence and new authority checks.",
+      "rollbackPolicy": "Before effects declare compensation, last-verified artifact and restoration check; irreversible actions need existing explicit authority.",
+      "materializationState": "SPECIFIED_NOT_MATERIALIZED"
+    },
+    {
+      "flightId": "FP01",
+      "title": "Typed contracts and formal semantics",
+      "phase": "PRODUCT",
+      "obligationIds": [
+        "C20",
+        "C21"
+      ],
+      "dependsOn": [
+        "FP00"
+      ],
+      "entryGate": "DEFINITION_COMPLETE_AND_FLIGHT_READY",
+      "steps": [
+        {
+          "stepId": "FP01.S01",
+          "kind": "AUTHOR",
+          "action": "Reconcile contract into canonical features and P/E/Q scenario semantics with source pins.",
+          "inputContract": "DeliveryScope",
+          "outcomeContract": "ArtifactBundle",
+          "dependsOn": [],
+          "capabilityResolution": {
+            "candidateId": "design-feature-gherkin",
+            "state": "CANDIDATE_REUSE",
+            "owner": "OV3",
+            "requiredBeforeExecution": true
+          },
+          "inputBindingPolicy": "Materialize immutable artifact/prior-result JSON-pointer bindings; prove each mapping satisfies its destination schema before clearance.",
+          "expectedEvidence": [
+            "input/output digests",
+            "resolved capability/profile",
+            "attributed step receipt"
+          ],
+          "failurePolicy": "Stop dependent steps; retain failed attempt; use declared compensation only; review/clear any repair revision.",
+          "completionPredicate": "Validate declared outcome and canonical postconditions; model claims and process exit alone are insufficient."
+        },
+        {
+          "stepId": "FP01.S02",
+          "kind": "AUTHOR",
+          "action": "Derive strict profiles, schemas, guarded mappings and feature-pinned DSL.",
+          "inputContract": "ArtifactBundle",
+          "outcomeContract": "ArtifactBundle",
+          "dependsOn": [
+            "FP01.S01"
+          ],
+          "capabilityResolution": {
+            "candidateId": "derive-feature-bound-contracts",
+            "state": "PROPOSED",
+            "owner": "OV3",
+            "requiredBeforeExecution": true
+          },
+          "inputBindingPolicy": "Materialize immutable artifact/prior-result JSON-pointer bindings; prove each mapping satisfies its destination schema before clearance.",
+          "expectedEvidence": [
+            "input/output digests",
+            "resolved capability/profile",
+            "attributed step receipt"
+          ],
+          "failurePolicy": "Stop dependent steps; retain failed attempt; use declared compensation only; review/clear any repair revision.",
+          "completionPredicate": "Validate declared outcome and canonical postconditions; model claims and process exit alone are insufficient."
+        },
+        {
+          "stepId": "FP01.S03",
+          "kind": "VERIFY",
+          "action": "Check refinement, edge preconditions, routing, effects and progress; retain certificates or counterexamples.",
+          "inputContract": "ProofRequest",
+          "outcomeContract": "VerificationReceipt",
+          "dependsOn": [
+            "FP01.S02"
+          ],
+          "capabilityResolution": {
+            "candidateId": "verify-delivery-refinement",
+            "state": "PROPOSED",
+            "owner": "OV3",
+            "requiredBeforeExecution": true
+          },
+          "inputBindingPolicy": "Materialize immutable artifact/prior-result JSON-pointer bindings; prove each mapping satisfies its destination schema before clearance.",
+          "expectedEvidence": [
+            "input/output digests",
+            "resolved capability/profile",
+            "attributed step receipt"
+          ],
+          "failurePolicy": "Stop dependent steps; retain failed attempt; use declared compensation only; review/clear any repair revision.",
+          "completionPredicate": "Validate declared outcome and canonical postconditions; model claims and process exit alone are insufficient."
+        },
+        {
+          "stepId": "FP01.S04",
+          "kind": "ADMIT",
+          "action": "Admit checked contract/verifier supply under current estate authority; prove selected readback.",
+          "inputContract": "ArtifactBundle",
+          "outcomeContract": "AdmissionReceipt",
+          "dependsOn": [
+            "FP01.S03"
+          ],
+          "capabilityResolution": {
+            "candidateId": "apply-declared-change",
+            "state": "CANDIDATE_REUSE",
+            "owner": "OV3",
+            "requiredBeforeExecution": true
+          },
+          "inputBindingPolicy": "Materialize immutable artifact/prior-result JSON-pointer bindings; prove each mapping satisfies its destination schema before clearance.",
+          "expectedEvidence": [
+            "input/output digests",
+            "resolved capability/profile",
+            "attributed step receipt"
+          ],
+          "failurePolicy": "Stop dependent steps; retain failed attempt; use declared compensation only; review/clear any repair revision.",
+          "completionPredicate": "Validate declared outcome and canonical postconditions; model claims and process exit alone are insufficient."
+        }
+      ],
+      "closure": "All step postconditions and covered obligation criteria verified; flight closure never implies whole-product fulfillment.",
+      "repairFlightPolicy": "New revision of affected flight; supply gaps route to FP03, definition toolchain gaps to FP00; retain prior evidence and new authority checks.",
+      "rollbackPolicy": "Before effects declare compensation, last-verified artifact and restoration check; irreversible actions need existing explicit authority.",
+      "materializationState": "SPECIFIED_NOT_MATERIALIZED"
+    },
+    {
+      "flightId": "FP02",
+      "title": "Discovery, population and top-five ranking",
+      "phase": "PRODUCT",
+      "obligationIds": [
+        "C01",
+        "C15"
+      ],
+      "dependsOn": [
+        "FP01",
+        "FP03"
+      ],
+      "entryGate": "DEFINITION_COMPLETE_AND_FLIGHT_READY",
+      "steps": [
+        {
+          "stepId": "FP02.S01",
+          "kind": "RESOLVE",
+          "action": "Resolve profile catalog/documentation adapters and selected subject population.",
+          "inputContract": "DeliveryScope",
+          "outcomeContract": "EcosystemProfile",
+          "dependsOn": [],
+          "capabilityResolution": {
+            "candidateId": "resolve-ecosystem-profile",
+            "state": "PROPOSED",
+            "owner": "OV3",
+            "requiredBeforeExecution": true
+          },
+          "inputBindingPolicy": "Materialize immutable artifact/prior-result JSON-pointer bindings; prove each mapping satisfies its destination schema before clearance.",
+          "expectedEvidence": [
+            "input/output digests",
+            "resolved capability/profile",
+            "attributed step receipt"
+          ],
+          "failurePolicy": "Stop dependent steps; retain failed attempt; use declared compensation only; review/clear any repair revision.",
+          "completionPredicate": "Validate declared outcome and canonical postconditions; model claims and process exit alone are insufficient."
+        },
+        {
+          "stepId": "FP02.S02",
+          "kind": "EXECUTE",
+          "action": "Fetch and retain versioned sources, URL chains, digests and explicit retrieval failures.",
+          "inputContract": "DiscoveryRequest",
+          "outcomeContract": "SourceSnapshot",
+          "dependsOn": [
+            "FP02.S01"
+          ],
+          "capabilityResolution": {
+            "candidateId": "discover-ecosystem-sources",
+            "state": "PROPOSED",
+            "owner": "OV3",
+            "requiredBeforeExecution": true
+          },
+          "inputBindingPolicy": "Materialize immutable artifact/prior-result JSON-pointer bindings; prove each mapping satisfies its destination schema before clearance.",
+          "expectedEvidence": [
+            "input/output digests",
+            "resolved capability/profile",
+            "attributed step receipt"
+          ],
+          "failurePolicy": "Stop dependent steps; retain failed attempt; use declared compensation only; review/clear any repair revision.",
+          "completionPredicate": "Validate declared outcome and canonical postconditions; model claims and process exit alone are insufficient."
+        },
+        {
+          "stepId": "FP02.S03",
+          "kind": "INFER",
+          "action": "Propose documented distinct uses, rank typed candidates and escalate ambiguity.",
+          "inputContract": "SourceSnapshot",
+          "outcomeContract": "RankedUseCases",
+          "dependsOn": [
+            "FP02.S02"
+          ],
+          "capabilityResolution": {
+            "candidateId": "rank-ecosystem-use-cases",
+            "state": "PROPOSED",
+            "owner": "OV3",
+            "requiredBeforeExecution": true
+          },
+          "inputBindingPolicy": "Materialize immutable artifact/prior-result JSON-pointer bindings; prove each mapping satisfies its destination schema before clearance.",
+          "expectedEvidence": [
+            "input/output digests",
+            "resolved capability/profile",
+            "attributed step receipt"
+          ],
+          "failurePolicy": "Stop dependent steps; retain failed attempt; use declared compensation only; review/clear any repair revision.",
+          "completionPredicate": "Validate declared outcome and canonical postconditions; model claims and process exit alone are insufficient."
+        },
+        {
+          "stepId": "FP02.S04",
+          "kind": "VERIFY",
+          "action": "Check five supported unique ranks for every selected subject, or visible exact shortfall.",
+          "inputContract": "RankedUseCases",
+          "outcomeContract": "VerificationReceipt",
+          "dependsOn": [
+            "FP02.S03"
+          ],
+          "capabilityResolution": {
+            "candidateId": "verify-use-case-coverage",
+            "state": "PROPOSED",
+            "owner": "OV3",
+            "requiredBeforeExecution": true
+          },
+          "inputBindingPolicy": "Materialize immutable artifact/prior-result JSON-pointer bindings; prove each mapping satisfies its destination schema before clearance.",
+          "expectedEvidence": [
+            "input/output digests",
+            "resolved capability/profile",
+            "attributed step receipt"
+          ],
+          "failurePolicy": "Stop dependent steps; retain failed attempt; use declared compensation only; review/clear any repair revision.",
+          "completionPredicate": "Validate declared outcome and canonical postconditions; model claims and process exit alone are insufficient."
+        }
+      ],
+      "closure": "All step postconditions and covered obligation criteria verified; flight closure never implies whole-product fulfillment.",
+      "repairFlightPolicy": "New revision of affected flight; supply gaps route to FP03, definition toolchain gaps to FP00; retain prior evidence and new authority checks.",
+      "rollbackPolicy": "Before effects declare compensation, last-verified artifact and restoration check; irreversible actions need existing explicit authority.",
+      "materializationState": "SPECIFIED_NOT_MATERIALIZED"
+    },
+    {
+      "flightId": "FP03",
+      "title": "OV3 orchestration and capability supply",
+      "phase": "PRODUCT",
+      "obligationIds": [
+        "C12",
+        "C19",
+        "C22"
+      ],
+      "dependsOn": [
+        "FP01"
+      ],
+      "entryGate": "DEFINITION_COMPLETE_AND_FLIGHT_READY",
+      "steps": [
+        {
+          "stepId": "FP03.S01",
+          "kind": "RESOLVE",
+          "action": "Read actual estate contracts and evidence for every required responsibility.",
+          "inputContract": "DeliveryScope",
+          "outcomeContract": "BindingResolution",
+          "dependsOn": [],
+          "capabilityResolution": {
+            "candidateId": "read-declared-capability-document",
+            "state": "CANDIDATE_REUSE",
+            "owner": "OV3",
+            "requiredBeforeExecution": true
+          },
+          "inputBindingPolicy": "Materialize immutable artifact/prior-result JSON-pointer bindings; prove each mapping satisfies its destination schema before clearance.",
+          "expectedEvidence": [
+            "input/output digests",
+            "resolved capability/profile",
+            "attributed step receipt"
+          ],
+          "failurePolicy": "Stop dependent steps; retain failed attempt; use declared compensation only; review/clear any repair revision.",
+          "completionPredicate": "Validate declared outcome and canonical postconditions; model claims and process exit alone are insufficient."
+        },
+        {
+          "stepId": "FP03.S02",
+          "kind": "INFER",
+          "action": "Classify typed obligations/candidates as reuse, compose, new-mechanic candidate or unresolved.",
+          "inputContract": "DecisionRequest",
+          "outcomeContract": "DecisionProposal",
+          "dependsOn": [
+            "FP03.S01"
+          ],
+          "capabilityResolution": {
+            "candidateId": "ask-system-one",
+            "state": "CANDIDATE_REUSE",
+            "owner": "OV3",
+            "requiredBeforeExecution": true
+          },
+          "inputBindingPolicy": "Materialize immutable artifact/prior-result JSON-pointer bindings; prove each mapping satisfies its destination schema before clearance.",
+          "expectedEvidence": [
+            "input/output digests",
+            "resolved capability/profile",
+            "attributed step receipt"
+          ],
+          "failurePolicy": "Stop dependent steps; retain failed attempt; use declared compensation only; review/clear any repair revision.",
+          "completionPredicate": "Validate declared outcome and canonical postconditions; model claims and process exit alone are insufficient."
+        },
+        {
+          "stepId": "FP03.S03",
+          "kind": "AUTHOR",
+          "action": "For gaps, author/compose canonical features, contracts, profiles, DSL, providers and proofs through OV3.",
+          "inputContract": "DecisionProposal",
+          "outcomeContract": "ArtifactBundle",
+          "dependsOn": [
+            "FP03.S02"
+          ],
+          "capabilityResolution": {
+            "candidateId": "cultivate-required-capability",
+            "state": "PROPOSED",
+            "owner": "OV3",
+            "requiredBeforeExecution": true
+          },
+          "inputBindingPolicy": "Materialize immutable artifact/prior-result JSON-pointer bindings; prove each mapping satisfies its destination schema before clearance.",
+          "expectedEvidence": [
+            "input/output digests",
+            "resolved capability/profile",
+            "attributed step receipt"
+          ],
+          "failurePolicy": "Stop dependent steps; retain failed attempt; use declared compensation only; review/clear any repair revision.",
+          "completionPredicate": "Validate declared outcome and canonical postconditions; model claims and process exit alone are insufficient."
+        },
+        {
+          "stepId": "FP03.S04",
+          "kind": "VERIFY",
+          "action": "Rehearse conformance, effects, authority and rollback in isolation.",
+          "inputContract": "ArtifactBundle",
+          "outcomeContract": "VerificationReceipt",
+          "dependsOn": [
+            "FP03.S03"
+          ],
+          "capabilityResolution": {
+            "candidateId": "verify-capability-supply",
+            "state": "PROPOSED",
+            "owner": "OV3",
+            "requiredBeforeExecution": true
+          },
+          "inputBindingPolicy": "Materialize immutable artifact/prior-result JSON-pointer bindings; prove each mapping satisfies its destination schema before clearance.",
+          "expectedEvidence": [
+            "input/output digests",
+            "resolved capability/profile",
+            "attributed step receipt"
+          ],
+          "failurePolicy": "Stop dependent steps; retain failed attempt; use declared compensation only; review/clear any repair revision.",
+          "completionPredicate": "Validate declared outcome and canonical postconditions; model claims and process exit alone are insufficient."
+        },
+        {
+          "stepId": "FP03.S05",
+          "kind": "ADMIT",
+          "action": "Materialize/review/clear/fly supply revisions, then read back and invoke the public capabilities freshly.",
+          "inputContract": "FlightPlanInstance",
+          "outcomeContract": "FlightReceipt",
+          "dependsOn": [
+            "FP03.S04"
+          ],
+          "capabilityResolution": {
+            "candidateId": "fly-flight-plan",
+            "state": "CANDIDATE_REUSE",
+            "owner": "OV3",
+            "requiredBeforeExecution": true
+          },
+          "inputBindingPolicy": "Materialize immutable artifact/prior-result JSON-pointer bindings; prove each mapping satisfies its destination schema before clearance.",
+          "expectedEvidence": [
+            "input/output digests",
+            "resolved capability/profile",
+            "attributed step receipt"
+          ],
+          "failurePolicy": "Stop dependent steps; retain failed attempt; use declared compensation only; review/clear any repair revision.",
+          "completionPredicate": "Validate declared outcome and canonical postconditions; model claims and process exit alone are insufficient."
+        },
+        {
+          "stepId": "FP03.S06",
+          "kind": "EXECUTE",
+          "action": "Run the generic objective lifecycle with bounded correction, idempotency, resume and full lineage.",
+          "inputContract": "DeliveryScope",
+          "outcomeContract": "FlightReceipt",
+          "dependsOn": [
+            "FP03.S05"
+          ],
+          "capabilityResolution": {
+            "candidateId": "request-capability-from-objective-v3",
+            "state": "CANDIDATE_REUSE",
+            "owner": "OV3",
+            "requiredBeforeExecution": true
+          },
+          "inputBindingPolicy": "Materialize immutable artifact/prior-result JSON-pointer bindings; prove each mapping satisfies its destination schema before clearance.",
+          "expectedEvidence": [
+            "input/output digests",
+            "resolved capability/profile",
+            "attributed step receipt"
+          ],
+          "failurePolicy": "Stop dependent steps; retain failed attempt; use declared compensation only; review/clear any repair revision.",
+          "completionPredicate": "Validate declared outcome and canonical postconditions; model claims and process exit alone are insufficient."
+        }
+      ],
+      "closure": "All step postconditions and covered obligation criteria verified; flight closure never implies whole-product fulfillment.",
+      "repairFlightPolicy": "New revision of affected flight; supply gaps route to FP03, definition toolchain gaps to FP00; retain prior evidence and new authority checks.",
+      "rollbackPolicy": "Before effects declare compensation, last-verified artifact and restoration check; irreversible actions need existing explicit authority.",
+      "materializationState": "SPECIFIED_NOT_MATERIALIZED"
+    },
+    {
+      "flightId": "FP04",
+      "title": "Generated application shell and navigation",
+      "phase": "PRODUCT",
+      "obligationIds": [
+        "C11"
+      ],
+      "dependsOn": [
+        "FP02",
+        "FP03"
+      ],
+      "entryGate": "DEFINITION_COMPLETE_AND_FLIGHT_READY",
+      "steps": [
+        {
+          "stepId": "FP04.S01",
+          "kind": "AUTHOR",
+          "action": "Generate complete shell/routes from the deck, product manifest and typed view contracts.",
+          "inputContract": "ViewGenerationRequest",
+          "outcomeContract": "ArtifactBundle",
+          "dependsOn": [],
+          "capabilityResolution": {
+            "candidateId": "generate-capability-studio-pages",
+            "state": "PROPOSED",
+            "owner": "OV3",
+            "requiredBeforeExecution": true
+          },
+          "inputBindingPolicy": "Materialize immutable artifact/prior-result JSON-pointer bindings; prove each mapping satisfies its destination schema before clearance.",
+          "expectedEvidence": [
+            "input/output digests",
+            "resolved capability/profile",
+            "attributed step receipt"
+          ],
+          "failurePolicy": "Stop dependent steps; retain failed attempt; use declared compensation only; review/clear any repair revision.",
+          "completionPredicate": "Validate declared outcome and canonical postconditions; model claims and process exit alone are insufficient."
+        },
+        {
+          "stepId": "FP04.S02",
+          "kind": "EXECUTE",
+          "action": "Bind catalog/use-case pages and preserve source/candidate/revision/run state across deep links and navigation.",
+          "inputContract": "ViewGenerationRequest",
+          "outcomeContract": "Publication",
+          "dependsOn": [
+            "FP04.S01"
+          ],
+          "capabilityResolution": {
+            "candidateId": "compose-capability-studio-navigation",
+            "state": "PROPOSED",
+            "owner": "OV3",
+            "requiredBeforeExecution": true
+          },
+          "inputBindingPolicy": "Materialize immutable artifact/prior-result JSON-pointer bindings; prove each mapping satisfies its destination schema before clearance.",
+          "expectedEvidence": [
+            "input/output digests",
+            "resolved capability/profile",
+            "attributed step receipt"
+          ],
+          "failurePolicy": "Stop dependent steps; retain failed attempt; use declared compensation only; review/clear any repair revision.",
+          "completionPredicate": "Validate declared outcome and canonical postconditions; model claims and process exit alone are insufficient."
+        },
+        {
+          "stepId": "FP04.S03",
+          "kind": "VERIFY",
+          "action": "Exercise keyboard, responsive, loading/empty/error and navigation behavior at all required viewports.",
+          "inputContract": "Publication",
+          "outcomeContract": "VerificationReceipt",
+          "dependsOn": [
+            "FP04.S02"
+          ],
+          "capabilityResolution": {
+            "candidateId": "verify-generated-product-browser",
+            "state": "PROPOSED",
+            "owner": "OV3",
+            "requiredBeforeExecution": true
+          },
+          "inputBindingPolicy": "Materialize immutable artifact/prior-result JSON-pointer bindings; prove each mapping satisfies its destination schema before clearance.",
+          "expectedEvidence": [
+            "input/output digests",
+            "resolved capability/profile",
+            "attributed step receipt"
+          ],
+          "failurePolicy": "Stop dependent steps; retain failed attempt; use declared compensation only; review/clear any repair revision.",
+          "completionPredicate": "Validate declared outcome and canonical postconditions; model claims and process exit alone are insufficient."
+        }
+      ],
+      "closure": "All step postconditions and covered obligation criteria verified; flight closure never implies whole-product fulfillment.",
+      "repairFlightPolicy": "New revision of affected flight; supply gaps route to FP03, definition toolchain gaps to FP00; retain prior evidence and new authority checks.",
+      "rollbackPolicy": "Before effects declare compensation, last-verified artifact and restoration check; irreversible actions need existing explicit authority.",
+      "materializationState": "SPECIFIED_NOT_MATERIALIZED"
+    },
+    {
+      "flightId": "FP05",
+      "title": "Candidate topology, inspection and review",
+      "phase": "PRODUCT",
+      "obligationIds": [
+        "C02",
+        "C03",
+        "C04",
+        "C05"
+      ],
+      "dependsOn": [
+        "FP03",
+        "FP04"
+      ],
+      "entryGate": "DEFINITION_COMPLETE_AND_FLIGHT_READY",
+      "steps": [
+        {
+          "stepId": "FP05.S01",
+          "kind": "AUTHOR",
+          "action": "Project use case to canonical geometry with exact scenario/operation/provider identities.",
+          "inputContract": "CandidateRequest",
+          "outcomeContract": "Candidate",
+          "dependsOn": [],
+          "capabilityResolution": {
+            "candidateId": "project-canonical-circuit-blueprint",
+            "state": "CANDIDATE_REUSE",
+            "owner": "OV3",
+            "requiredBeforeExecution": true
+          },
+          "inputBindingPolicy": "Materialize immutable artifact/prior-result JSON-pointer bindings; prove each mapping satisfies its destination schema before clearance.",
+          "expectedEvidence": [
+            "input/output digests",
+            "resolved capability/profile",
+            "attributed step receipt"
+          ],
+          "failurePolicy": "Stop dependent steps; retain failed attempt; use declared compensation only; review/clear any repair revision.",
+          "completionPredicate": "Validate declared outcome and canonical postconditions; model claims and process exit alone are insufficient."
+        },
+        {
+          "stepId": "FP05.S02",
+          "kind": "AUTHOR",
+          "action": "Generate contracts/providers inspection and revision-bound review/annotation/composition pages.",
+          "inputContract": "Candidate",
+          "outcomeContract": "ArtifactBundle",
+          "dependsOn": [
+            "FP05.S01"
+          ],
+          "capabilityResolution": {
+            "candidateId": "generate-candidate-workbench",
+            "state": "PROPOSED",
+            "owner": "OV3",
+            "requiredBeforeExecution": true
+          },
+          "inputBindingPolicy": "Materialize immutable artifact/prior-result JSON-pointer bindings; prove each mapping satisfies its destination schema before clearance.",
+          "expectedEvidence": [
+            "input/output digests",
+            "resolved capability/profile",
+            "attributed step receipt"
+          ],
+          "failurePolicy": "Stop dependent steps; retain failed attempt; use declared compensation only; review/clear any repair revision.",
+          "completionPredicate": "Validate declared outcome and canonical postconditions; model claims and process exit alone are insufficient."
+        },
+        {
+          "stepId": "FP05.S03",
+          "kind": "EXECUTE",
+          "action": "Refine into a new revision, invalidate stale approval and preserve history.",
+          "inputContract": "CandidateRevisionRequest",
+          "outcomeContract": "Candidate",
+          "dependsOn": [
+            "FP05.S02"
+          ],
+          "capabilityResolution": {
+            "candidateId": "revise-capability-candidate",
+            "state": "PROPOSED",
+            "owner": "OV3",
+            "requiredBeforeExecution": true
+          },
+          "inputBindingPolicy": "Materialize immutable artifact/prior-result JSON-pointer bindings; prove each mapping satisfies its destination schema before clearance.",
+          "expectedEvidence": [
+            "input/output digests",
+            "resolved capability/profile",
+            "attributed step receipt"
+          ],
+          "failurePolicy": "Stop dependent steps; retain failed attempt; use declared compensation only; review/clear any repair revision.",
+          "completionPredicate": "Validate declared outcome and canonical postconditions; model claims and process exit alone are insufficient."
+        },
+        {
+          "stepId": "FP05.S04",
+          "kind": "VERIFY",
+          "action": "Compare topology, inspection and review interactions against pinned references and declarations.",
+          "inputContract": "Publication",
+          "outcomeContract": "VerificationReceipt",
+          "dependsOn": [
+            "FP05.S03"
+          ],
+          "capabilityResolution": {
+            "candidateId": "verify-generated-product-browser",
+            "state": "PROPOSED",
+            "owner": "OV3",
+            "requiredBeforeExecution": true
+          },
+          "inputBindingPolicy": "Materialize immutable artifact/prior-result JSON-pointer bindings; prove each mapping satisfies its destination schema before clearance.",
+          "expectedEvidence": [
+            "input/output digests",
+            "resolved capability/profile",
+            "attributed step receipt"
+          ],
+          "failurePolicy": "Stop dependent steps; retain failed attempt; use declared compensation only; review/clear any repair revision.",
+          "completionPredicate": "Validate declared outcome and canonical postconditions; model claims and process exit alone are insufficient."
+        }
+      ],
+      "closure": "All step postconditions and covered obligation criteria verified; flight closure never implies whole-product fulfillment.",
+      "repairFlightPolicy": "New revision of affected flight; supply gaps route to FP03, definition toolchain gaps to FP00; retain prior evidence and new authority checks.",
+      "rollbackPolicy": "Before effects declare compensation, last-verified artifact and restoration check; irreversible actions need existing explicit authority.",
+      "materializationState": "SPECIFIED_NOT_MATERIALIZED"
+    },
+    {
+      "flightId": "FP06",
+      "title": "Generate to admitted capability",
+      "phase": "PRODUCT",
+      "obligationIds": [
+        "C06"
+      ],
+      "dependsOn": [
+        "FP01",
+        "FP03",
+        "FP05"
+      ],
+      "entryGate": "DEFINITION_COMPLETE_AND_FLIGHT_READY",
+      "steps": [
+        {
+          "stepId": "FP06.S01",
+          "kind": "AUTHOR",
+          "action": "Generate actual feature before DSL, typed contracts, binding closure and obligations from exact reviewed candidate.",
+          "inputContract": "Candidate",
+          "outcomeContract": "ArtifactBundle",
+          "dependsOn": [],
+          "capabilityResolution": {
+            "candidateId": "generate-reviewed-capability",
+            "state": "PROPOSED",
+            "owner": "OV3",
+            "requiredBeforeExecution": true
+          },
+          "inputBindingPolicy": "Materialize immutable artifact/prior-result JSON-pointer bindings; prove each mapping satisfies its destination schema before clearance.",
+          "expectedEvidence": [
+            "input/output digests",
+            "resolved capability/profile",
+            "attributed step receipt"
+          ],
+          "failurePolicy": "Stop dependent steps; retain failed attempt; use declared compensation only; review/clear any repair revision.",
+          "completionPredicate": "Validate declared outcome and canonical postconditions; model claims and process exit alone are insufficient."
+        },
+        {
+          "stepId": "FP06.S02",
+          "kind": "COMPILE",
+          "action": "Compile/check the exact feature pin with complete current grammar; refuse drift.",
+          "inputContract": "ArtifactBundle",
+          "outcomeContract": "VerificationReceipt",
+          "dependsOn": [
+            "FP06.S01"
+          ],
+          "capabilityResolution": {
+            "candidateId": "compile-capability-dsl",
+            "state": "CANDIDATE_REUSE",
+            "owner": "OV3",
+            "requiredBeforeExecution": true
+          },
+          "inputBindingPolicy": "Materialize immutable artifact/prior-result JSON-pointer bindings; prove each mapping satisfies its destination schema before clearance.",
+          "expectedEvidence": [
+            "input/output digests",
+            "resolved capability/profile",
+            "attributed step receipt"
+          ],
+          "failurePolicy": "Stop dependent steps; retain failed attempt; use declared compensation only; review/clear any repair revision.",
+          "completionPredicate": "Validate declared outcome and canonical postconditions; model claims and process exit alone are insufficient."
+        },
+        {
+          "stepId": "FP06.S03",
+          "kind": "VERIFY",
+          "action": "Prove isolated conformance/rollback and runtime/provider/authority compatibility.",
+          "inputContract": "ArtifactBundle",
+          "outcomeContract": "VerificationReceipt",
+          "dependsOn": [
+            "FP06.S02"
+          ],
+          "capabilityResolution": {
+            "candidateId": "verify-capability-supply",
+            "state": "PROPOSED",
+            "owner": "OV3",
+            "requiredBeforeExecution": true
+          },
+          "inputBindingPolicy": "Materialize immutable artifact/prior-result JSON-pointer bindings; prove each mapping satisfies its destination schema before clearance.",
+          "expectedEvidence": [
+            "input/output digests",
+            "resolved capability/profile",
+            "attributed step receipt"
+          ],
+          "failurePolicy": "Stop dependent steps; retain failed attempt; use declared compensation only; review/clear any repair revision.",
+          "completionPredicate": "Validate declared outcome and canonical postconditions; model claims and process exit alone are insufficient."
+        },
+        {
+          "stepId": "FP06.S04",
+          "kind": "ADMIT",
+          "action": "Fly cleared exact-digest admission and read back declared capability, artifact downloads and receipts.",
+          "inputContract": "FlightPlanInstance",
+          "outcomeContract": "AdmissionReceipt",
+          "dependsOn": [
+            "FP06.S03"
+          ],
+          "capabilityResolution": {
+            "candidateId": "fly-flight-plan",
+            "state": "CANDIDATE_REUSE",
+            "owner": "OV3",
+            "requiredBeforeExecution": true
+          },
+          "inputBindingPolicy": "Materialize immutable artifact/prior-result JSON-pointer bindings; prove each mapping satisfies its destination schema before clearance.",
+          "expectedEvidence": [
+            "input/output digests",
+            "resolved capability/profile",
+            "attributed step receipt"
+          ],
+          "failurePolicy": "Stop dependent steps; retain failed attempt; use declared compensation only; review/clear any repair revision.",
+          "completionPredicate": "Validate declared outcome and canonical postconditions; model claims and process exit alone are insufficient."
+        }
+      ],
+      "closure": "All step postconditions and covered obligation criteria verified; flight closure never implies whole-product fulfillment.",
+      "repairFlightPolicy": "New revision of affected flight; supply gaps route to FP03, definition toolchain gaps to FP00; retain prior evidence and new authority checks.",
+      "rollbackPolicy": "Before effects declare compensation, last-verified artifact and restoration check; irreversible actions need existing explicit authority.",
+      "materializationState": "SPECIFIED_NOT_MATERIALIZED"
+    },
+    {
+      "flightId": "FP07",
+      "title": "Invocation and live circuit",
+      "phase": "PRODUCT",
+      "obligationIds": [
+        "C07",
+        "C08"
+      ],
+      "dependsOn": [
+        "FP06"
+      ],
+      "entryGate": "DEFINITION_COMPLETE_AND_FLIGHT_READY",
+      "steps": [
+        {
+          "stepId": "FP07.S01",
+          "kind": "AUTHOR",
+          "action": "Generate synchronized schema forms/JSON and bind authorized invocation bridge.",
+          "inputContract": "AdmissionReceipt",
+          "outcomeContract": "Publication",
+          "dependsOn": [],
+          "capabilityResolution": {
+            "candidateId": "generate-invocable-capability-view",
+            "state": "PROPOSED",
+            "owner": "OV3",
+            "requiredBeforeExecution": true
+          },
+          "inputBindingPolicy": "Materialize immutable artifact/prior-result JSON-pointer bindings; prove each mapping satisfies its destination schema before clearance.",
+          "expectedEvidence": [
+            "input/output digests",
+            "resolved capability/profile",
+            "attributed step receipt"
+          ],
+          "failurePolicy": "Stop dependent steps; retain failed attempt; use declared compensation only; review/clear any repair revision.",
+          "completionPredicate": "Validate declared outcome and canonical postconditions; model claims and process exit alone are insufficient."
+        },
+        {
+          "stepId": "FP07.S02",
+          "kind": "EXECUTE",
+          "action": "Invoke newly generated admitted capability with idempotency key; retain its genuine run.",
+          "inputContract": "InvocationRequest",
+          "outcomeContract": "InvocationReceipt",
+          "dependsOn": [
+            "FP07.S01"
+          ],
+          "capabilityResolution": {
+            "candidateId": "invoke-generated-capability",
+            "state": "PROPOSED",
+            "owner": "OV3",
+            "requiredBeforeExecution": true
+          },
+          "inputBindingPolicy": "Materialize immutable artifact/prior-result JSON-pointer bindings; prove each mapping satisfies its destination schema before clearance.",
+          "expectedEvidence": [
+            "input/output digests",
+            "resolved capability/profile",
+            "attributed step receipt"
+          ],
+          "failurePolicy": "Stop dependent steps; retain failed attempt; use declared compensation only; review/clear any repair revision.",
+          "completionPredicate": "Validate declared outcome and canonical postconditions; model claims and process exit alone are insufficient."
+        },
+        {
+          "stepId": "FP07.S03",
+          "kind": "EXECUTE",
+          "action": "Observe that run and animate attributed occurrences, nesting, timing and gaps.",
+          "inputContract": "InvocationReceipt",
+          "outcomeContract": "RunEvent",
+          "dependsOn": [
+            "FP07.S02"
+          ],
+          "capabilityResolution": {
+            "candidateId": "observe-live-capability-circuit",
+            "state": "PROPOSED",
+            "owner": "OV3",
+            "requiredBeforeExecution": true
+          },
+          "inputBindingPolicy": "Materialize immutable artifact/prior-result JSON-pointer bindings; prove each mapping satisfies its destination schema before clearance.",
+          "expectedEvidence": [
+            "input/output digests",
+            "resolved capability/profile",
+            "attributed step receipt"
+          ],
+          "failurePolicy": "Stop dependent steps; retain failed attempt; use declared compensation only; review/clear any repair revision.",
+          "completionPredicate": "Validate declared outcome and canonical postconditions; model claims and process exit alone are insufficient."
+        },
+        {
+          "stepId": "FP07.S04",
+          "kind": "VERIFY",
+          "action": "Check inputs, authority, actual graph/event identity and no load/replay side effects.",
+          "inputContract": "ProofRequest",
+          "outcomeContract": "VerificationReceipt",
+          "dependsOn": [
+            "FP07.S03"
+          ],
+          "capabilityResolution": {
+            "candidateId": "verify-invocation-observability",
+            "state": "PROPOSED",
+            "owner": "OV3",
+            "requiredBeforeExecution": true
+          },
+          "inputBindingPolicy": "Materialize immutable artifact/prior-result JSON-pointer bindings; prove each mapping satisfies its destination schema before clearance.",
+          "expectedEvidence": [
+            "input/output digests",
+            "resolved capability/profile",
+            "attributed step receipt"
+          ],
+          "failurePolicy": "Stop dependent steps; retain failed attempt; use declared compensation only; review/clear any repair revision.",
+          "completionPredicate": "Validate declared outcome and canonical postconditions; model claims and process exit alone are insufficient."
+        }
+      ],
+      "closure": "All step postconditions and covered obligation criteria verified; flight closure never implies whole-product fulfillment.",
+      "repairFlightPolicy": "New revision of affected flight; supply gaps route to FP03, definition toolchain gaps to FP00; retain prior evidence and new authority checks.",
+      "rollbackPolicy": "Before effects declare compensation, last-verified artifact and restoration check; irreversible actions need existing explicit authority.",
+      "materializationState": "SPECIFIED_NOT_MATERIALIZED"
+    },
+    {
+      "flightId": "FP08",
+      "title": "Results, replay and adverse states",
+      "phase": "PRODUCT",
+      "obligationIds": [
+        "C09",
+        "C10"
+      ],
+      "dependsOn": [
+        "FP07"
+      ],
+      "entryGate": "DEFINITION_COMPLETE_AND_FLIGHT_READY",
+      "steps": [
+        {
+          "stepId": "FP08.S01",
+          "kind": "AUTHOR",
+          "action": "Generate actual results/receipts/comparison views and cursor-bound replay controls.",
+          "inputContract": "InvocationReceipt",
+          "outcomeContract": "Publication",
+          "dependsOn": [],
+          "capabilityResolution": {
+            "candidateId": "generate-run-evidence-view",
+            "state": "PROPOSED",
+            "owner": "OV3",
+            "requiredBeforeExecution": true
+          },
+          "inputBindingPolicy": "Materialize immutable artifact/prior-result JSON-pointer bindings; prove each mapping satisfies its destination schema before clearance.",
+          "expectedEvidence": [
+            "input/output digests",
+            "resolved capability/profile",
+            "attributed step receipt"
+          ],
+          "failurePolicy": "Stop dependent steps; retain failed attempt; use declared compensation only; review/clear any repair revision.",
+          "completionPredicate": "Validate declared outcome and canonical postconditions; model claims and process exit alone are insufficient."
+        },
+        {
+          "stepId": "FP08.S02",
+          "kind": "EXECUTE",
+          "action": "Exercise replay controls, failure, disconnect, duplicate/reordered/missing events and reconnect.",
+          "inputContract": "ReplayRequest",
+          "outcomeContract": "ReplayProjection",
+          "dependsOn": [
+            "FP08.S01"
+          ],
+          "capabilityResolution": {
+            "candidateId": "replay-capability-run",
+            "state": "PROPOSED",
+            "owner": "OV3",
+            "requiredBeforeExecution": true
+          },
+          "inputBindingPolicy": "Materialize immutable artifact/prior-result JSON-pointer bindings; prove each mapping satisfies its destination schema before clearance.",
+          "expectedEvidence": [
+            "input/output digests",
+            "resolved capability/profile",
+            "attributed step receipt"
+          ],
+          "failurePolicy": "Stop dependent steps; retain failed attempt; use declared compensation only; review/clear any repair revision.",
+          "completionPredicate": "Validate declared outcome and canonical postconditions; model claims and process exit alone are insufficient."
+        },
+        {
+          "stepId": "FP08.S03",
+          "kind": "VERIFY",
+          "action": "Prove no future facts, no replay effects, false terminal claim, repeated invocation or changed run.",
+          "inputContract": "ProofRequest",
+          "outcomeContract": "VerificationReceipt",
+          "dependsOn": [
+            "FP08.S02"
+          ],
+          "capabilityResolution": {
+            "candidateId": "verify-run-state-and-replay",
+            "state": "PROPOSED",
+            "owner": "OV3",
+            "requiredBeforeExecution": true
+          },
+          "inputBindingPolicy": "Materialize immutable artifact/prior-result JSON-pointer bindings; prove each mapping satisfies its destination schema before clearance.",
+          "expectedEvidence": [
+            "input/output digests",
+            "resolved capability/profile",
+            "attributed step receipt"
+          ],
+          "failurePolicy": "Stop dependent steps; retain failed attempt; use declared compensation only; review/clear any repair revision.",
+          "completionPredicate": "Validate declared outcome and canonical postconditions; model claims and process exit alone are insufficient."
+        }
+      ],
+      "closure": "All step postconditions and covered obligation criteria verified; flight closure never implies whole-product fulfillment.",
+      "repairFlightPolicy": "New revision of affected flight; supply gaps route to FP03, definition toolchain gaps to FP00; retain prior evidence and new authority checks.",
+      "rollbackPolicy": "Before effects declare compensation, last-verified artifact and restoration check; irreversible actions need existing explicit authority.",
+      "materializationState": "SPECIFIED_NOT_MATERIALIZED"
+    },
+    {
+      "flightId": "FP09",
+      "title": "Online publication and operational acceptance",
+      "phase": "PRODUCT",
+      "obligationIds": [
+        "C17"
+      ],
+      "dependsOn": [
+        "FP04",
+        "FP05",
+        "FP06",
+        "FP07",
+        "FP08"
+      ],
+      "entryGate": "DEFINITION_COMPLETE_AND_FLIGHT_READY",
+      "steps": [
+        {
+          "stepId": "FP09.S01",
+          "kind": "PUBLISH",
+          "action": "Publish the complete generated app through declared host capability with release/profile pins.",
+          "inputContract": "ArtifactBundle",
+          "outcomeContract": "Publication",
+          "dependsOn": [],
+          "capabilityResolution": {
+            "candidateId": "publish-capability-studio",
+            "state": "PROPOSED",
+            "owner": "OV3",
+            "requiredBeforeExecution": true
+          },
+          "inputBindingPolicy": "Materialize immutable artifact/prior-result JSON-pointer bindings; prove each mapping satisfies its destination schema before clearance.",
+          "expectedEvidence": [
+            "input/output digests",
+            "resolved capability/profile",
+            "attributed step receipt"
+          ],
+          "failurePolicy": "Stop dependent steps; retain failed attempt; use declared compensation only; review/clear any repair revision.",
+          "completionPredicate": "Validate declared outcome and canonical postconditions; model claims and process exit alone are insufficient."
+        },
+        {
+          "stepId": "FP09.S02",
+          "kind": "VERIFY",
+          "action": "Read deployed bytes and authenticated routes; verify release/session/owner boundaries.",
+          "inputContract": "Publication",
+          "outcomeContract": "VerificationReceipt",
+          "dependsOn": [
+            "FP09.S01"
+          ],
+          "capabilityResolution": {
+            "candidateId": "verify-deployed-capability-studio",
+            "state": "PROPOSED",
+            "owner": "OV3",
+            "requiredBeforeExecution": true
+          },
+          "inputBindingPolicy": "Materialize immutable artifact/prior-result JSON-pointer bindings; prove each mapping satisfies its destination schema before clearance.",
+          "expectedEvidence": [
+            "input/output digests",
+            "resolved capability/profile",
+            "attributed step receipt"
+          ],
+          "failurePolicy": "Stop dependent steps; retain failed attempt; use declared compensation only; review/clear any repair revision.",
+          "completionPredicate": "Validate declared outcome and canonical postconditions; model claims and process exit alone are insufficient."
+        },
+        {
+          "stepId": "FP09.S03",
+          "kind": "EXECUTE",
+          "action": "Run discovery → top-five → review → generate/admit → invoke/live → results/replay on the deployed target.",
+          "inputContract": "JourneyRequest",
+          "outcomeContract": "JourneyReceipt",
+          "dependsOn": [
+            "FP09.S02"
+          ],
+          "capabilityResolution": {
+            "candidateId": "verify-deployed-capability-studio",
+            "state": "PROPOSED",
+            "owner": "OV3",
+            "requiredBeforeExecution": true
+          },
+          "inputBindingPolicy": "Materialize immutable artifact/prior-result JSON-pointer bindings; prove each mapping satisfies its destination schema before clearance.",
+          "expectedEvidence": [
+            "input/output digests",
+            "resolved capability/profile",
+            "attributed step receipt"
+          ],
+          "failurePolicy": "Stop dependent steps; retain failed attempt; use declared compensation only; review/clear any repair revision.",
+          "completionPredicate": "Validate declared outcome and canonical postconditions; model claims and process exit alone are insufficient."
+        },
+        {
+          "stepId": "FP09.S04",
+          "kind": "VERIFY",
+          "action": "Demonstrate health, diagnostics, rollback and last-verified-release recovery.",
+          "inputContract": "Publication",
+          "outcomeContract": "VerificationReceipt",
+          "dependsOn": [
+            "FP09.S03"
+          ],
+          "capabilityResolution": {
+            "candidateId": "verify-product-operability",
+            "state": "PROPOSED",
+            "owner": "OV3",
+            "requiredBeforeExecution": true
+          },
+          "inputBindingPolicy": "Materialize immutable artifact/prior-result JSON-pointer bindings; prove each mapping satisfies its destination schema before clearance.",
+          "expectedEvidence": [
+            "input/output digests",
+            "resolved capability/profile",
+            "attributed step receipt"
+          ],
+          "failurePolicy": "Stop dependent steps; retain failed attempt; use declared compensation only; review/clear any repair revision.",
+          "completionPredicate": "Validate declared outcome and canonical postconditions; model claims and process exit alone are insufficient."
+        }
+      ],
+      "closure": "All step postconditions and covered obligation criteria verified; flight closure never implies whole-product fulfillment.",
+      "repairFlightPolicy": "New revision of affected flight; supply gaps route to FP03, definition toolchain gaps to FP00; retain prior evidence and new authority checks.",
+      "rollbackPolicy": "Before effects declare compensation, last-verified artifact and restoration check; irreversible actions need existing explicit authority.",
+      "materializationState": "SPECIFIED_NOT_MATERIALIZED"
+    },
+    {
+      "flightId": "FP10",
+      "title": "Autonomous maintenance",
+      "phase": "PRODUCT",
+      "obligationIds": [
+        "C13"
+      ],
+      "dependsOn": [
+        "FP09"
+      ],
+      "entryGate": "DEFINITION_COMPLETE_AND_FLIGHT_READY",
+      "steps": [
+        {
+          "stepId": "FP10.S01",
+          "kind": "AUTHOR",
+          "action": "One retained change request triggers dependency discovery and feature/scope revision before DSL.",
+          "inputContract": "MaintenanceRequest",
+          "outcomeContract": "ArtifactBundle",
+          "dependsOn": [],
+          "capabilityResolution": {
+            "candidateId": "request-capability-from-objective-v3",
+            "state": "CANDIDATE_REUSE",
+            "owner": "OV3",
+            "requiredBeforeExecution": true
+          },
+          "inputBindingPolicy": "Materialize immutable artifact/prior-result JSON-pointer bindings; prove each mapping satisfies its destination schema before clearance.",
+          "expectedEvidence": [
+            "input/output digests",
+            "resolved capability/profile",
+            "attributed step receipt"
+          ],
+          "failurePolicy": "Stop dependent steps; retain failed attempt; use declared compensation only; review/clear any repair revision.",
+          "completionPredicate": "Validate declared outcome and canonical postconditions; model claims and process exit alone are insufficient."
+        },
+        {
+          "stepId": "FP10.S02",
+          "kind": "EXECUTE",
+          "action": "Regenerate/publish with the same core, checking unchanged obligations and compatibility.",
+          "inputContract": "ArtifactBundle",
+          "outcomeContract": "Publication",
+          "dependsOn": [
+            "FP10.S01"
+          ],
+          "capabilityResolution": {
+            "candidateId": "maintain-capability-studio",
+            "state": "PROPOSED",
+            "owner": "OV3",
+            "requiredBeforeExecution": true
+          },
+          "inputBindingPolicy": "Materialize immutable artifact/prior-result JSON-pointer bindings; prove each mapping satisfies its destination schema before clearance.",
+          "expectedEvidence": [
+            "input/output digests",
+            "resolved capability/profile",
+            "attributed step receipt"
+          ],
+          "failurePolicy": "Stop dependent steps; retain failed attempt; use declared compensation only; review/clear any repair revision.",
+          "completionPredicate": "Validate declared outcome and canonical postconditions; model claims and process exit alone are insufficient."
+        },
+        {
+          "stepId": "FP10.S03",
+          "kind": "VERIFY",
+          "action": "Verify readback and changed journey without another frontier implementation or supplied tool list.",
+          "inputContract": "Publication",
+          "outcomeContract": "VerificationReceipt",
+          "dependsOn": [
+            "FP10.S02"
+          ],
+          "capabilityResolution": {
+            "candidateId": "verify-deployed-capability-studio",
+            "state": "PROPOSED",
+            "owner": "OV3",
+            "requiredBeforeExecution": true
+          },
+          "inputBindingPolicy": "Materialize immutable artifact/prior-result JSON-pointer bindings; prove each mapping satisfies its destination schema before clearance.",
+          "expectedEvidence": [
+            "input/output digests",
+            "resolved capability/profile",
+            "attributed step receipt"
+          ],
+          "failurePolicy": "Stop dependent steps; retain failed attempt; use declared compensation only; review/clear any repair revision.",
+          "completionPredicate": "Validate declared outcome and canonical postconditions; model claims and process exit alone are insufficient."
+        },
+        {
+          "stepId": "FP10.S04",
+          "kind": "EXECUTE",
+          "action": "Prove failed revision and duplicate/resumed request preserve previous verified usable release.",
+          "inputContract": "MaintenanceRequest",
+          "outcomeContract": "VerificationReceipt",
+          "dependsOn": [
+            "FP10.S03"
+          ],
+          "capabilityResolution": {
+            "candidateId": "maintain-capability-studio",
+            "state": "PROPOSED",
+            "owner": "OV3",
+            "requiredBeforeExecution": true
+          },
+          "inputBindingPolicy": "Materialize immutable artifact/prior-result JSON-pointer bindings; prove each mapping satisfies its destination schema before clearance.",
+          "expectedEvidence": [
+            "input/output digests",
+            "resolved capability/profile",
+            "attributed step receipt"
+          ],
+          "failurePolicy": "Stop dependent steps; retain failed attempt; use declared compensation only; review/clear any repair revision.",
+          "completionPredicate": "Validate declared outcome and canonical postconditions; model claims and process exit alone are insufficient."
+        }
+      ],
+      "closure": "All step postconditions and covered obligation criteria verified; flight closure never implies whole-product fulfillment.",
+      "repairFlightPolicy": "New revision of affected flight; supply gaps route to FP03, definition toolchain gaps to FP00; retain prior evidence and new authority checks.",
+      "rollbackPolicy": "Before effects declare compensation, last-verified artifact and restoration check; irreversible actions need existing explicit authority.",
+      "materializationState": "SPECIFIED_NOT_MATERIALIZED"
+    },
+    {
+      "flightId": "FP11",
+      "title": "Cross-ecosystem repeatability",
+      "phase": "PRODUCT",
+      "obligationIds": [
+        "C16"
+      ],
+      "dependsOn": [
+        "FP09",
+        "FP10"
+      ],
+      "entryGate": "DEFINITION_COMPLETE_AND_FLIGHT_READY",
+      "steps": [
+        {
+          "stepId": "FP11.S01",
+          "kind": "RESOLVE",
+          "action": "Create profile-bound qualification instance and pinned nonempty subject set for every named ecosystem.",
+          "inputContract": "DeliveryScope",
+          "outcomeContract": "EcosystemProfile",
+          "dependsOn": [],
+          "capabilityResolution": {
+            "candidateId": "resolve-ecosystem-profile",
+            "state": "PROPOSED",
+            "owner": "OV3",
+            "requiredBeforeExecution": true
+          },
+          "inputBindingPolicy": "Materialize immutable artifact/prior-result JSON-pointer bindings; prove each mapping satisfies its destination schema before clearance.",
+          "expectedEvidence": [
+            "input/output digests",
+            "resolved capability/profile",
+            "attributed step receipt"
+          ],
+          "failurePolicy": "Stop dependent steps; retain failed attempt; use declared compensation only; review/clear any repair revision.",
+          "completionPredicate": "Validate declared outcome and canonical postconditions; model claims and process exit alone are insufficient."
+        },
+        {
+          "stepId": "FP11.S02",
+          "kind": "EXECUTE",
+          "action": "Repeat FP02–FP10 for each profile using identical core/schema family, including maintenance.",
+          "inputContract": "JourneyRequest",
+          "outcomeContract": "JourneyReceipt",
+          "dependsOn": [
+            "FP11.S01"
+          ],
+          "capabilityResolution": {
+            "candidateId": "qualify-ecosystem-profile",
+            "state": "PROPOSED",
+            "owner": "OV3",
+            "requiredBeforeExecution": true
+          },
+          "inputBindingPolicy": "Materialize immutable artifact/prior-result JSON-pointer bindings; prove each mapping satisfies its destination schema before clearance.",
+          "expectedEvidence": [
+            "input/output digests",
+            "resolved capability/profile",
+            "attributed step receipt"
+          ],
+          "failurePolicy": "Stop dependent steps; retain failed attempt; use declared compensation only; review/clear any repair revision.",
+          "completionPredicate": "Validate declared outcome and canonical postconditions; model claims and process exit alone are insufficient."
+        },
+        {
+          "stepId": "FP11.S03",
+          "kind": "VERIFY",
+          "action": "Compare shared semantics with explicit provider/environment assumptions and controlled nondeterminism.",
+          "inputContract": "ProofRequest",
+          "outcomeContract": "VerificationReceipt",
+          "dependsOn": [
+            "FP11.S02"
+          ],
+          "capabilityResolution": {
+            "candidateId": "verify-ecosystem-refinement",
+            "state": "PROPOSED",
+            "owner": "OV3",
+            "requiredBeforeExecution": true
+          },
+          "inputBindingPolicy": "Materialize immutable artifact/prior-result JSON-pointer bindings; prove each mapping satisfies its destination schema before clearance.",
+          "expectedEvidence": [
+            "input/output digests",
+            "resolved capability/profile",
+            "attributed step receipt"
+          ],
+          "failurePolicy": "Stop dependent steps; retain failed attempt; use declared compensation only; review/clear any repair revision.",
+          "completionPredicate": "Validate declared outcome and canonical postconditions; model claims and process exit alone are insufficient."
+        },
+        {
+          "stepId": "FP11.S04",
+          "kind": "VERIFY",
+          "action": "Reject omitted profiles, fixture-only cloud outcomes or product workflow forks as generic qualification.",
+          "inputContract": "DeliveryScope",
+          "outcomeContract": "VerificationReceipt",
+          "dependsOn": [
+            "FP11.S03"
+          ],
+          "capabilityResolution": {
+            "candidateId": "qualify-ecosystem-profile",
+            "state": "PROPOSED",
+            "owner": "OV3",
+            "requiredBeforeExecution": true
+          },
+          "inputBindingPolicy": "Materialize immutable artifact/prior-result JSON-pointer bindings; prove each mapping satisfies its destination schema before clearance.",
+          "expectedEvidence": [
+            "input/output digests",
+            "resolved capability/profile",
+            "attributed step receipt"
+          ],
+          "failurePolicy": "Stop dependent steps; retain failed attempt; use declared compensation only; review/clear any repair revision.",
+          "completionPredicate": "Validate declared outcome and canonical postconditions; model claims and process exit alone are insufficient."
+        }
+      ],
+      "closure": "All step postconditions and covered obligation criteria verified; flight closure never implies whole-product fulfillment.",
+      "repairFlightPolicy": "New revision of affected flight; supply gaps route to FP03, definition toolchain gaps to FP00; retain prior evidence and new authority checks.",
+      "rollbackPolicy": "Before effects declare compensation, last-verified artifact and restoration check; irreversible actions need existing explicit authority.",
+      "materializationState": "SPECIFIED_NOT_MATERIALIZED"
+    },
+    {
+      "flightId": "FP12",
+      "title": "Independent final obligation verification",
+      "phase": "PRODUCT",
+      "obligationIds": [
+        "C14"
+      ],
+      "dependsOn": [
+        "FP00",
+        "FP01",
+        "FP02",
+        "FP03",
+        "FP04",
+        "FP05",
+        "FP06",
+        "FP07",
+        "FP08",
+        "FP09",
+        "FP10",
+        "FP11"
+      ],
+      "entryGate": "DEFINITION_COMPLETE_AND_FLIGHT_READY",
+      "steps": [
+        {
+          "stepId": "FP12.S01",
+          "kind": "READ",
+          "action": "Resolve original contract, exact criteria/profile-instance sets, published artifacts and all flight receipts.",
+          "inputContract": "ObligationValidationRequest",
+          "outcomeContract": "EvidenceSet",
+          "dependsOn": [],
+          "capabilityResolution": {
+            "candidateId": "read-retained-artifact",
+            "state": "CANDIDATE_REUSE",
+            "owner": "OV3",
+            "requiredBeforeExecution": true
+          },
+          "inputBindingPolicy": "Materialize immutable artifact/prior-result JSON-pointer bindings; prove each mapping satisfies its destination schema before clearance.",
+          "expectedEvidence": [
+            "input/output digests",
+            "resolved capability/profile",
+            "attributed step receipt"
+          ],
+          "failurePolicy": "Stop dependent steps; retain failed attempt; use declared compensation only; review/clear any repair revision.",
+          "completionPredicate": "Validate declared outcome and canonical postconditions; model claims and process exit alone are insufficient."
+        },
+        {
+          "stepId": "FP12.S02",
+          "kind": "REVIEW",
+          "action": "Independently review intent, judgments, proof assumptions and limitations; reconcile blocking findings.",
+          "inputContract": "ObligationValidationRequest",
+          "outcomeContract": "ModelReview",
+          "dependsOn": [
+            "FP12.S01"
+          ],
+          "capabilityResolution": {
+            "candidateId": "ask-model",
+            "state": "CANDIDATE_REUSE",
+            "owner": "OV3",
+            "requiredBeforeExecution": true
+          },
+          "inputBindingPolicy": "Materialize immutable artifact/prior-result JSON-pointer bindings; prove each mapping satisfies its destination schema before clearance.",
+          "expectedEvidence": [
+            "input/output digests",
+            "resolved capability/profile",
+            "attributed step receipt"
+          ],
+          "failurePolicy": "Stop dependent steps; retain failed attempt; use declared compensation only; review/clear any repair revision.",
+          "completionPredicate": "Validate declared outcome and canonical postconditions; model claims and process exit alone are insufficient."
+        },
+        {
+          "stepId": "FP12.S03",
+          "kind": "VERIFY",
+          "action": "After independent semantic review and resolution, evaluate the exact required set against retained pre-gate evidence. Issue the obligation receipt; do not require this same occurrence or its future submission as input evidence.",
+          "inputContract": "ObligationValidationRequest",
+          "outcomeContract": "GateReceipt",
+          "dependsOn": [
+            "FP12.S02"
+          ],
+          "capabilityResolution": {
+            "candidateId": "validate-product-delivery-obligations",
+            "state": "PROPOSED",
+            "owner": "OV3",
+            "requiredBeforeExecution": true
+          },
+          "inputBindingPolicy": "Materialize immutable artifact/prior-result JSON-pointer bindings; prove each mapping satisfies its destination schema before clearance.",
+          "expectedEvidence": [
+            "input/output digests",
+            "resolved capability/profile",
+            "attributed step receipt"
+          ],
+          "failurePolicy": "Stop dependent steps; retain failed attempt; use declared compensation only; review/clear any repair revision.",
+          "completionPredicate": "Validate declared outcome and canonical postconditions; model claims and process exit alone are insufficient."
+        }
+      ],
+      "closure": "All step postconditions and covered obligation criteria verified; flight closure never implies whole-product fulfillment.",
+      "repairFlightPolicy": "New revision of affected flight; supply gaps route to FP03, definition toolchain gaps to FP00; retain prior evidence and new authority checks.",
+      "rollbackPolicy": "Before effects declare compensation, last-verified artifact and restoration check; irreversible actions need existing explicit authority.",
+      "materializationState": "SPECIFIED_NOT_MATERIALIZED"
+    },
+    {
+      "flightId": "FP13",
+      "title": "Review submission and delivery closure",
+      "phase": "PRODUCT",
+      "obligationIds": [
+        "C14"
+      ],
+      "dependsOn": [
+        "FP12"
+      ],
+      "entryGate": "OBLIGATIONS_COMPLETE_AND_FLIGHT_READY",
+      "steps": [
+        {
+          "stepId": "FP13.S01",
+          "kind": "PUBLISH",
+          "action": "Submit product URL and complete review bundle only after final gate; retain owner-reserved acceptance separately.",
+          "inputContract": "GateReceipt",
+          "outcomeContract": "DeliveryReviewSubmission",
+          "dependsOn": [],
+          "capabilityResolution": {
+            "candidateId": "submit-product-delivery-review",
+            "state": "PROPOSED",
+            "owner": "OV3",
+            "requiredBeforeExecution": true
+          },
+          "inputBindingPolicy": "Materialize immutable artifact/prior-result JSON-pointer bindings; prove each mapping satisfies its destination schema before clearance.",
+          "expectedEvidence": [
+            "input/output digests",
+            "resolved capability/profile",
+            "attributed step receipt"
+          ],
+          "failurePolicy": "Stop dependent steps; retain failed attempt; use declared compensation only; review/clear any repair revision.",
+          "completionPredicate": "Validate declared outcome and canonical postconditions; model claims and process exit alone are insufficient."
+        },
+        {
+          "stepId": "FP13.S02",
+          "kind": "VERIFY",
+          "action": "Independently read back the submitted review package, verify that its pinned obligation gate preceded submission, and close the objective only when both receipts and complete published artifacts agree.",
+          "inputContract": "DeliveryReviewSubmission",
+          "outcomeContract": "DeliveryClosureReceipt",
+          "dependsOn": [
+            "FP13.S01"
+          ],
+          "capabilityResolution": {
+            "candidateId": "verify-product-delivery-closure",
+            "state": "PROPOSED",
+            "owner": "OV3",
+            "requiredBeforeExecution": true
+          },
+          "inputBindingPolicy": "Materialize immutable artifact/prior-result JSON-pointer bindings; prove each mapping satisfies its destination schema before clearance.",
+          "expectedEvidence": [
+            "input/output digests",
+            "resolved capability/profile",
+            "attributed step receipt"
+          ],
+          "failurePolicy": "Stop dependent steps; retain failed attempt; use declared compensation only; review/clear any repair revision.",
+          "completionPredicate": "Validate declared outcome and canonical postconditions; model claims and process exit alone are insufficient."
+        }
+      ],
+      "closure": "All step postconditions and covered obligation criteria verified; flight closure never implies whole-product fulfillment.",
+      "repairFlightPolicy": "New revision of affected flight; supply gaps route to FP03, definition toolchain gaps to FP00; retain prior evidence and new authority checks.",
+      "rollbackPolicy": "Before effects declare compensation, last-verified artifact and restoration check; irreversible actions need existing explicit authority.",
+      "materializationState": "SPECIFIED_NOT_MATERIALIZED"
+    }
+  ],
+  "formalVerification": {
+    "strategySourceId": "formal-strategy",
+    "properties": [
+      {
+        "propertyId": "P01",
+        "title": "Definition-gated work",
+        "formalPredicate": "G(productStep -> currentDefinitionComplete && sameContract && flightReady)",
+        "ownerFlightId": "FP00",
+        "proofMethods": [
+          "bounded-exhaustive-model-check",
+          "translation-validation",
+          "runtime-evidence-check"
+        ],
+        "assumptions": [
+          "Formal interpretation faithfully captures canonical meaning.",
+          "Pinned checker, provider and observation dependencies operate as declared."
+        ],
+        "requiredArtifacts": [
+          "subject/model/property/checker pins",
+          "assumptions and bounds",
+          "certificate or counterexample",
+          "refinement/runtime receipts"
+        ],
+        "currentClaim": "UNPROVED"
+      },
+      {
+        "propertyId": "P02",
+        "title": "Acceptance attribution",
+        "formalPredicate": "Accepted(c,e) => CorrectFeature && CorrectRequest && CorrectInvocation && CorrectProvider && CorrectGraph && Integrity && CompleteEvidence && Assertions",
+        "ownerFlightId": "FP01",
+        "proofMethods": [
+          "bounded-exhaustive-model-check",
+          "translation-validation",
+          "runtime-evidence-check"
+        ],
+        "assumptions": [
+          "Formal interpretation faithfully captures canonical meaning.",
+          "Pinned checker, provider and observation dependencies operate as declared."
+        ],
+        "requiredArtifacts": [
+          "subject/model/property/checker pins",
+          "assumptions and bounds",
+          "certificate or counterexample",
+          "refinement/runtime receipts"
+        ],
+        "currentClaim": "UNPROVED"
+      },
+      {
+        "propertyId": "P03",
+        "title": "Non-vacuity",
+        "formalPredicate": "AllRequiredConditions => Accepted; exists reachable successful delivery trace",
+        "ownerFlightId": "FP01",
+        "proofMethods": [
+          "bounded-exhaustive-model-check",
+          "translation-validation",
+          "runtime-evidence-check"
+        ],
+        "assumptions": [
+          "Formal interpretation faithfully captures canonical meaning.",
+          "Pinned checker, provider and observation dependencies operate as declared."
+        ],
+        "requiredArtifacts": [
+          "subject/model/property/checker pins",
+          "assumptions and bounds",
+          "certificate or counterexample",
+          "refinement/runtime receipts"
+        ],
+        "currentClaim": "UNPROVED"
+      },
+      {
+        "propertyId": "P04",
+        "title": "Complete retained scope",
+        "formalPredicate": "Fulfilled => evaluatedIds = requiredIds && every required criterion/profile instance is VERIFIED",
+        "ownerFlightId": "FP12",
+        "proofMethods": [
+          "bounded-exhaustive-model-check",
+          "translation-validation",
+          "runtime-evidence-check"
+        ],
+        "assumptions": [
+          "Formal interpretation faithfully captures canonical meaning.",
+          "Pinned checker, provider and observation dependencies operate as declared."
+        ],
+        "requiredArtifacts": [
+          "subject/model/property/checker pins",
+          "assumptions and bounds",
+          "certificate or counterexample",
+          "refinement/runtime receipts"
+        ],
+        "currentClaim": "UNPROVED"
+      },
+      {
+        "propertyId": "P05",
+        "title": "Refinement",
+        "formalPredicate": "alpha_i(Beh(M_i+1)) subseteq Beh(M_i)",
+        "ownerFlightId": "FP01",
+        "proofMethods": [
+          "independently-checked-refinement-certificate-or-translation-validation",
+          "runtime-evidence-check"
+        ],
+        "assumptions": [
+          "Formal interpretation faithfully captures canonical meaning.",
+          "Pinned checker, provider and observation dependencies operate as declared.",
+          "All admitted concrete input domains have a checked mapping to the specified semantics; unsupported domains cannot receive a universal claim."
+        ],
+        "requiredArtifacts": [
+          "subject/model/property/checker pins",
+          "assumptions and bounds",
+          "certificate or counterexample",
+          "refinement/runtime receipts"
+        ],
+        "currentClaim": "UNPROVED"
+      },
+      {
+        "propertyId": "P06",
+        "title": "Guarded data-flow",
+        "formalPredicate": "Q_A(z) && guard_AB(z) => P_B(map_AB(z))",
+        "ownerFlightId": "FP01",
+        "proofMethods": [
+          "independently-checked-refinement-certificate-or-translation-validation",
+          "runtime-evidence-check"
+        ],
+        "assumptions": [
+          "Formal interpretation faithfully captures canonical meaning.",
+          "Pinned checker, provider and observation dependencies operate as declared.",
+          "All admitted concrete input domains have a checked mapping to the specified semantics; unsupported domains cannot receive a universal claim."
+        ],
+        "requiredArtifacts": [
+          "subject/model/property/checker pins",
+          "assumptions and bounds",
+          "certificate or counterexample",
+          "refinement/runtime receipts"
+        ],
+        "currentClaim": "UNPROVED"
+      },
+      {
+        "propertyId": "P07",
+        "title": "Routing and bounded progress",
+        "formalPredicate": "rank(next)<rank(current) on retry; retry<=bound; termination under stated provider/scheduler assumptions",
+        "ownerFlightId": "FP03",
+        "proofMethods": [
+          "bounded-exhaustive-model-check",
+          "translation-validation",
+          "runtime-evidence-check"
+        ],
+        "assumptions": [
+          "Formal interpretation faithfully captures canonical meaning.",
+          "Pinned checker, provider and observation dependencies operate as declared."
+        ],
+        "requiredArtifacts": [
+          "subject/model/property/checker pins",
+          "assumptions and bounds",
+          "certificate or counterexample",
+          "refinement/runtime receipts"
+        ],
+        "currentClaim": "UNPROVED"
+      },
+      {
+        "propertyId": "P08",
+        "title": "No inference authority",
+        "formalPredicate": "same deterministic facts && changed model decision => same authority decision",
+        "ownerFlightId": "FP03",
+        "proofMethods": [
+          "bounded-exhaustive-model-check",
+          "translation-validation",
+          "runtime-evidence-check"
+        ],
+        "assumptions": [
+          "Formal interpretation faithfully captures canonical meaning.",
+          "Pinned checker, provider and observation dependencies operate as declared."
+        ],
+        "requiredArtifacts": [
+          "subject/model/property/checker pins",
+          "assumptions and bounds",
+          "certificate or counterexample",
+          "refinement/runtime receipts"
+        ],
+        "currentClaim": "UNPROVED"
+      },
+      {
+        "propertyId": "P09",
+        "title": "Explicit idempotent invocation",
+        "formalPredicate": "startRun => explicitInvoke && authorized && admitted; same key/request => same run",
+        "ownerFlightId": "FP07",
+        "proofMethods": [
+          "bounded-exhaustive-model-check",
+          "translation-validation",
+          "runtime-evidence-check"
+        ],
+        "assumptions": [
+          "Formal interpretation faithfully captures canonical meaning.",
+          "Pinned checker, provider and observation dependencies operate as declared."
+        ],
+        "requiredArtifacts": [
+          "subject/model/property/checker pins",
+          "assumptions and bounds",
+          "certificate or counterexample",
+          "refinement/runtime receipts"
+        ],
+        "currentClaim": "UNPROVED"
+      },
+      {
+        "propertyId": "P10",
+        "title": "Live fidelity",
+        "formalPredicate": "display(f) => attributed(f,run) && observed(f); gap && no terminal evidence => no completed claim",
+        "ownerFlightId": "FP07",
+        "proofMethods": [
+          "bounded-exhaustive-model-check",
+          "translation-validation",
+          "runtime-evidence-check"
+        ],
+        "assumptions": [
+          "Formal interpretation faithfully captures canonical meaning.",
+          "Pinned checker, provider and observation dependencies operate as declared."
+        ],
+        "requiredArtifacts": [
+          "subject/model/property/checker pins",
+          "assumptions and bounds",
+          "certificate or counterexample",
+          "refinement/runtime receipts"
+        ],
+        "currentClaim": "UNPROVED"
+      },
+      {
+        "propertyId": "P11",
+        "title": "Replay noninterference",
+        "formalPredicate": "visible(k) subseteq observed(<=k); replay => delta(providerCalls)=0",
+        "ownerFlightId": "FP08",
+        "proofMethods": [
+          "bounded-exhaustive-model-check",
+          "translation-validation",
+          "runtime-evidence-check"
+        ],
+        "assumptions": [
+          "Formal interpretation faithfully captures canonical meaning.",
+          "Pinned checker, provider and observation dependencies operate as declared."
+        ],
+        "requiredArtifacts": [
+          "subject/model/property/checker pins",
+          "assumptions and bounds",
+          "certificate or counterexample",
+          "refinement/runtime receipts"
+        ],
+        "currentClaim": "UNPROVED"
+      },
+      {
+        "propertyId": "P12",
+        "title": "Publication and maintenance",
+        "formalPredicate": "published => digest(readback)=pin; failed revision => active=last verified",
+        "ownerFlightId": "FP10",
+        "proofMethods": [
+          "bounded-exhaustive-model-check",
+          "translation-validation",
+          "runtime-evidence-check"
+        ],
+        "assumptions": [
+          "Formal interpretation faithfully captures canonical meaning.",
+          "Pinned checker, provider and observation dependencies operate as declared."
+        ],
+        "requiredArtifacts": [
+          "subject/model/property/checker pins",
+          "assumptions and bounds",
+          "certificate or counterexample",
+          "refinement/runtime receipts"
+        ],
+        "currentClaim": "UNPROVED"
+      },
+      {
+        "propertyId": "P13",
+        "title": "Cross-ecosystem semantics",
+        "formalPredicate": "alpha_profile(Beh(runtime_profile)) subseteq Beh(core), under declared assumptions",
+        "ownerFlightId": "FP11",
+        "proofMethods": [
+          "independently-checked-refinement-certificate-or-translation-validation",
+          "runtime-evidence-check"
+        ],
+        "assumptions": [
+          "Formal interpretation faithfully captures canonical meaning.",
+          "Pinned checker, provider and observation dependencies operate as declared.",
+          "All admitted concrete input domains have a checked mapping to the specified semantics; unsupported domains cannot receive a universal claim."
+        ],
+        "requiredArtifacts": [
+          "subject/model/property/checker pins",
+          "assumptions and bounds",
+          "certificate or counterexample",
+          "refinement/runtime receipts"
+        ],
+        "currentClaim": "UNPROVED"
+      }
+    ],
+    "claimLevels": [
+      "UNPROVED",
+      "STRUCTURALLY_CHECKED",
+      "BOUNDED_MODEL_CHECKED",
+      "REFINEMENT_CHECKED",
+      "RUNTIME_CONFORMANT"
+    ],
+    "proofScopeRule": "Finite abstraction results stay scoped to that abstraction. Universal implementation theorems require independently checked proofs. Every certificate pins subject, checker, assumptions, bounds and dependencies.",
+    "requiredRuntimeAttribution": [
+      "contractDigest",
+      "featureDigest",
+      "dslDigest",
+      "declarationDigest",
+      "graphDigest",
+      "requestDigest",
+      "providerBindingDigest",
+      "runId",
+      "stepId",
+      "attemptId",
+      "occurrenceId",
+      "logicalOrder",
+      "inputDigest",
+      "outputDigest",
+      "sourceSnapshotDigests",
+      "publicationDigest"
+    ],
+    "invalidation": "Changes to scope/features/contracts/graphs/providers/resolvers/host profiles/sources invalidate affected proofs; only unchanged dependency closures may reuse scoped results.",
+    "trustedBoundary": [
+      "hash/schema libraries",
+      "pinned formal interpreter/checker",
+      "faithful formalization",
+      "authenticated estate/storage",
+      "observation completeness",
+      "declared provider/host assumptions"
+    ],
+    "preparationBoundary": "P01 applies to PRODUCT steps. Verifier preparation is separately constrained by G-PREPARATION and existing admission authority; no bootstrap step can claim product fulfillment or self-authorize."
+  },
+  "gatePolicy": {
+    "beforeDefinitionAllowed": [
+      "contract authoring",
+      "read-only discovery",
+      "verification-toolchain preparation",
+      "definition validation"
+    ],
+    "definition": {
+      "id": "G-DEFINITION",
+      "requiredStatus": "DEFINITION_COMPLETE",
+      "requestContract": "DefinitionValidationRequest",
+      "receiptContract": "GateReceipt",
+      "criteria": [
+        "Read and verify exact owner/deck/topology/strategy and contract/schema pins",
+        "Every obligation has objective criteria, typed payloads, evidence and achieving/verifying flights",
+        "Plan/step DAGs and references valid; gaps have bounded owned supply/repair paths",
+        "Authority, refusals, progress and formal methods/assumptions/bounds defined",
+        "Non-vacuous accepting path and independent semantic review; blocking findings reconciled",
+        "Authoritative OV3 verifier reads retained artifacts itself; no caller self-attestation"
+      ],
+      "authoritativeCapability": "validate-product-delivery-definition",
+      "bindingState": "REQUIRED_NOT_YET_VERIFIED",
+      "currentBlocker": "DEFINITION_PENDING_VERIFIER: FP00 owns authoring, qualification, existing-authority admission and hosted verification; G-DEFINITION remains closed until FP00.S06 returns independently verified authoritative evidence."
+    },
+    "flightReadiness": {
+      "id": "G-FLIGHT",
+      "requirements": [
+        "Current authoritative G-DEFINITION for exact contract/schema/profile bundle",
+        "Materialized plan revision with concrete typed inputs/mappings",
+        "Resolved admitted dependencies/host closure or explicitly authorized supply subflight",
+        "Rehearsal/rollback and exact-digest clearance under live policy",
+        "No unresolved precondition of executing step"
+      ]
+    },
+    "obligation": {
+      "id": "G-OBLIGATION",
+      "requiredStatus": "OBLIGATIONS_COMPLETE",
+      "requestContract": "ObligationValidationRequest",
+      "receiptContract": "GateReceipt",
+      "criteria": [
+        "Exact retained obligation/criterion/ecosystem-instance sets without omissions/duplicates/substitutions",
+        "Every criterion has sufficient attributed source/artifact/effect/refinement evidence",
+        "Published readback and authenticated complete deployed journeys",
+        "Initial and maintenance agency without frontier implementation",
+        "Every named ecosystem qualified",
+        "No blocking finding, failed obligation or inconclusive required proof",
+        "Authoritative OV3 validation before review submission"
+      ],
+      "authoritativeCapability": "validate-product-delivery-obligations",
+      "bindingState": "REQUIRED_NOT_YET_VERIFIED"
+    },
+    "noSubstitutions": [
+      "schema validity != semantic proof",
+      "model review != gate receipt",
+      "caller VERIFIED != independently read proof",
+      "renderer flight != product",
+      "local preview/merge != deployed acceptance",
+      "bounded abstraction != unbounded implementation theorem"
+    ],
+    "preparationReadiness": {
+      "id": "G-PREPARATION",
+      "scope": "FP00 verifier toolchain only; no product implementation, deployment or business-capability execution.",
+      "requirements": [
+        "Exact retained preparation scope, authored feature/DSL/schema/provider closure and typed input mappings.",
+        "Existing owner authorization and concrete materialized reviewed plan, with applicable clearance under current estate policy.",
+        "Only existing admission authority admits verifier supply; the candidate verifier cannot authorize its own installation.",
+        "Positive accepting fixtures and adversarial negative controls, independent checker review or checked certificate, rollback and hosted readback.",
+        "This gate has no dependency on G-DEFINITION; it permits verifier preparation only. Product flights still require G-DEFINITION and G-FLIGHT.",
+        "Preparation plan uses existing estate review/clearance capabilities. G-PREPARATION names a policy predicate, not an assumed installed capability. Materialize the actual admission bindings before execution."
+      ]
+    },
+    "deliveryClosure": {
+      "preGateEvidence": "G-OBLIGATION checks all 70 criterion predicates using pre-gate product/proof evidence. C14.3/C14.4 are verified as implemented ordering/state invariants with attributed controls, not by requiring the gate to cite its own future receipt.",
+      "postGateEvidence": "FP13 consumes the immutable G-OBLIGATION receipt, submits the review, and independently verifies the actual submission occurrence and ordering. It never feeds back as a prerequisite of FP12.",
+      "objectiveFulfillment": "Requires authoritative OBLIGATIONS_COMPLETE plus verified DeliveryClosureReceipt and matching publication/review digests; gate passage alone is not owner delivery.",
+      "failure": "Submission or closure failure leaves objective UNFULFILLED; repair FP13 without duplicating external delivery and reuse only unchanged valid gate dependencies."
+    }
+  },
+  "flightMaterialization": {
+    "targetContract": "estate-flight-plan.v1",
+    "requiredBindings": [
+      "contract revision/digest",
+      "promise and obligation/criterion IDs",
+      "profile/subject qualification instances",
+      "feature/DSL/declaration/graph/provider pins",
+      "capabilityId per step",
+      "concrete input or typed prior-result mapping",
+      "expected predicates",
+      "failure/compensation/resume",
+      "verification/proof refs",
+      "recorded review and applicable exact-digest clearance"
+    ],
+    "algorithm": [
+      "Resolve reuse/composition before new supply",
+      "Expand profile instances without core forks",
+      "Bind steps to declared capabilities and retained typed inputs",
+      "Verify preconditions, mappings, closure and effect authority",
+      "Record/review/clear immutable plan revision",
+      "Fly through OV3 and verify each observed effect against its obligation",
+      "Retain deviations; close only covered instances"
+    ],
+    "approvalRule": "Existing authorization persists. Ask only where current live policy reserves a new exact-digest decision. Never forge, weaken or reclassify authority.",
+    "bootstrapBoundary": "Contract authoring, local proofs and assisted OV3 reviews are explicit bootstrap work, not evidence of autonomous product operation.",
+    "adapterRule": "Candidate primitives are composition ingredients, not promises of matching request schemas. Resolve the actual declared schema; materialize a compatible declared adapter/composition and prove all JSON-pointer mappings. Never send an abstract step payload directly to an incompatible primitive. Refuse unresolved bindings.",
+    "preparationRule": "FP00 uses G-PREPARATION. Only PRODUCT flights use G-FLIGHT. No candidate evaluator self-admission or retrospective gate approval.",
+    "defaultInvestigationBounds": {
+      "maxAttempts": 3,
+      "deadlinePolicy": "Materialization pins a concrete UTC deadline within 8 hours of the first attempt; applicable shorter host/provider limits also apply. Bound exhaustion is visible and does not authorize retries."
+    }
+  },
+  "deliveryPackage": {
+    "required": [
+      "Working authorized online URL and release identity",
+      "Entire navigable generated app",
+      "All profiles and qualification reports",
+      "Canonical features, DSL, schemas, bindings and source snapshots",
+      "Materialized plans/clearances/flight and repair lineage",
+      "Formal properties/models/certificates/counterexamples/assumptions",
+      "Initial and maintenance agency evidence",
+      "Authoritative definition and obligation gate receipts",
+      "Obligation-by-obligation review report and limitations"
+    ],
+    "reviewStateMachine": [
+      "DRAFT",
+      "DEFINITION_PENDING",
+      "DEFINITION_COMPLETE",
+      "DELIVERING",
+      "SUBMITTED_FOR_OBLIGATION_VALIDATION",
+      "OBLIGATIONS_COMPLETE",
+      "REVIEW_SUBMITTED",
+      "OWNER_ACCEPTED_WHEN_REQUIRED"
+    ],
+    "failureState": "BLOCKED_OR_UNFULFILLED_WITH_FINDINGS",
+    "currentProductStatus": "NOT_DELIVERED"
+  },
+  "changeControl": {
+    "identity": "Stable contractId, monotonic revision; hash exact UTF-8 bytes externally, no self-hash.",
+    "projection": "Markdown is generated from JSON; separate bundle manifest pins JSON/Markdown/schemas/features/formal artifacts without self-reference.",
+    "scopeChange": "Retain original/revised scope and authority; rerun definition gate, affected proofs and flight clearance. Never silently alter an active objective.",
+    "legacyStatus": "Earlier C01-C14 feature/DSL and renderer flights are reusable partial artifacts, not this generic product delivery authority; FP01 reconciles their mappings."
+  },
+  "coverageExpansion": {
+    "globalCriteria": "All criteria of C18-C22 plus core architecture/agency criteria of C12.",
+    "profileCriteria": "All criteria C01-C17 instantiated for every required ecosystem qualification profile.",
+    "subjectUseCaseCriteria": "C01 requires five uses per selected subject; C06-C09 require each selected use case to generate/admit/invoke/observe. Qualification exercises all five uses for each subject in its pinned finite qualification set.",
+    "pinning": "Before a qualification flight starts, retain its subject/use-case/criterion-instance manifest and digest. The final verifier independently expands and compares exact sets; callers cannot shrink them.",
+    "universalityLimit": "Finite qualification demonstrates those instances. Generic architecture/refinement establishes the parameterized process under declared source/provider constraints; it is not a claim that every possible external API or library has been tested.",
+    "matrixExecution": "Python is the initial FP02-FP10 instance. FP11 materializes additional profile-scoped instances of FP02/FP04-FP10 using pinned shared FP00/FP01/FP03 supply. Child dependencies refer to the same profile instance, not back to FP11; this is finite expansion, not recursive flight execution.",
+    "pythonQualification": "The initial Python FP02/FP04-FP10 instance is the Python qualification. FP11 reads its exact pinned receipt and qualifies the other six ecosystems. Exactly one selected qualification instance per ecosystem counts; repair attempts retain lineage and never count as extra ecosystems.",
+    "qualificationProfiles": [
+      {
+        "ecosystemId": "python",
+        "instanceId": "qualification-python",
+        "execution": "INITIAL_FP02_FP10"
+      },
+      {
+        "ecosystemId": "node",
+        "instanceId": "qualification-node",
+        "execution": "FP11_PROFILE_CHILDREN"
+      },
+      {
+        "ecosystemId": "csharp",
+        "instanceId": "qualification-csharp",
+        "execution": "FP11_PROFILE_CHILDREN"
+      },
+      {
+        "ecosystemId": "java-spring",
+        "instanceId": "qualification-java-spring",
+        "execution": "FP11_PROFILE_CHILDREN"
+      },
+      {
+        "ecosystemId": "go",
+        "instanceId": "qualification-go",
+        "execution": "FP11_PROFILE_CHILDREN"
+      },
+      {
+        "ecosystemId": "azure",
+        "instanceId": "qualification-azure",
+        "execution": "FP11_PROFILE_CHILDREN"
+      },
+      {
+        "ecosystemId": "aws",
+        "instanceId": "qualification-aws",
+        "execution": "FP11_PROFILE_CHILDREN"
+      }
+    ]
+  },
+  "semanticChecks": {
+    "rankedUses": "Per selected subject, require five unique useCaseId values and unique normalized titles for COMPLETE, exact ranks 1..5, supported source evidence and independent semantic distinctness review. Duplicate IDs/titles are rejected deterministically; different wording alone does not prove distinct meaning.",
+    "invocation": "Atomically scope idempotencyKey to caller authority, capability revision and requestDigest. Same key/same request resolves to the same run; different request returns IDEMPOTENCY_CONFLICT with no new run. After ambiguous delivery, read the admission ledger by key before retry; retry only with the original key and identical digest. Unknown admission stays INCONCLUSIVE.",
+    "events": "operationId is canonical graph operation identity; stepId is flight step. The retained observation ledger assigns unique increasing cursor per run; retransmission must have identical event digest and is deduplicated. logicalOrder is the declared causal/topological projection order, never wall-clock authority. Replay filtering uses first-observed cursor. GAP declares missing range (or unknown end), reason and affected run; no synthesized completion. Displayed occurrences must join retained run/root/step/operation/attempt/occurrence and graph/provider pins.",
+    "replay": "Resolve recordingRef independently for the exact run. visibleEventRefs equals the ordered retained observations with first-observed cursor <= selected cursor, including gap markers. Projection is a pure function of pinned recording/cursor/profile and cannot invoke providers. Verify effect absence at mediation boundary and runtime prefix evidence; finite model results alone do not prove live replay.",
+    "browserReadback": "BrowserReadback must identify DEPLOYED_TARGET, authenticated authorized principal reference, requested/final URL and origin matching the retained publication, release digest and actual bytes. A preview, proxy substitution, screenshot alone or merged source cannot pass. JourneyReceipt must reference that matching readback and independently observed runtime evidence. No credentials in evidence.",
+    "refinement": "P05/P06/P13 require independently checked refinement certificates or translation validation against pinned executable semantics and explicit abstraction/guard/mapping, plus matching runtime attribution. Bounded models alone and runtime-only observations cannot satisfy refinement. State all finite domains and assumptions; outside supported domains refuse or remain INCONCLUSIVE. C20.2 cannot pass with an UNPROVED/BOUNDED_MODEL_CHECKED-only required refinement.",
+    "supplyBounds": "Every unresolved responsibility declares reachable supplyFlightId, repairFlightId, maxAttempts and deadlineAt. At the first exhausted bound, stop dependent work, retain Finding and mark BLOCKED_OR_UNFULFILLED_WITH_FINDINGS. No silent extension; any new bounds require a new reviewed plan revision.",
+    "topology": "TopologyArtifact names canonical input/event/operations/outcome/observation nodes and providers, numbered port bindings, distinct execution/binding/observation edges, and layout profile. Validate identities/joins, input left of event/operations left of outcome, providers above and observation below. Affine zoom/pan and responsive viewport transformations preserve topology; compare normalized coordinates against the pinned geometry profile tolerance and browser screenshot/DOM evidence. Use a scroll/zoom viewport on narrow screens; do not rearrange the canonical circuit into cards.",
+    "visualQuality": "At each required viewport every required control is reachable by documented scroll/navigation, has nonzero rendered bounds, is not clipped/occluded when brought into view, passes pointer hit-test, and has visible keyboard focus. Record browser event receipt using performance.now and first compositor-presented frame containing the corresponding state using browser tracing; report event-to-paint <=1000 ms under the pinned workload/environment. If no presentation timestamp is observable, evidence is INCONCLUSIVE rather than substituting DOM update time.",
+    "sourceAttempts": "Retain SourceAttempt records with page cursor, attempt/time, response status, rate-limit retry bound and resolved version/digest. Conflicting versions produce an OPEN finding and prevent COMPLETE ranking until an explicit new source revision or pinned resolution is verified. Prove attempts and elapsed deadlines from attributed receipts.",
+    "modelEvidence": "DecisionProposal references ModelExecutionEvidence carrying exact input and response artifact digests, declared provider/model/profile, uncertainty/escalation and available metrics. Unavailable metrics are null with a reason. The output digest hashes a separate raw response artifact, not the containing receipt.",
+    "generationProvenance": "ArtifactBundle references GenerationProvenance with actual generator capability/declaration, run/step/attempt, input digests and artifact output digests. Independently join the invocation recording and stored bytes. A generationMethod label cannot prove agency; initial and maintenance journeys must demonstrate admitted OV3 generation with no frontier implementation substitution."
+  }
+}

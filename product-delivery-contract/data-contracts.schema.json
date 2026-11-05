@@ -1,0 +1,3846 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:sidefx:product-delivery:data-contracts:v1",
+  "$defs": {
+    "ArtifactReference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "artifactId",
+        "digest",
+        "mediaType",
+        "version"
+      ],
+      "properties": {
+        "artifactId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "digest": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        "mediaType": {
+          "type": "string",
+          "minLength": 1
+        },
+        "version": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "SourceIdentity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "ecosystemId",
+        "subjectId",
+        "version",
+        "requestedUrl",
+        "resolvedUrl",
+        "retrievedAt",
+        "contentDigest"
+      ],
+      "properties": {
+        "ecosystemId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "subjectId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "requestedUrl": {
+          "type": "string",
+          "format": "uri"
+        },
+        "resolvedUrl": {
+          "type": "string",
+          "format": "uri"
+        },
+        "retrievedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "contentDigest": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        }
+      }
+    },
+    "Finding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "findingId",
+        "code",
+        "severity",
+        "subjectId",
+        "detail",
+        "evidenceRefs",
+        "owner",
+        "resolutionFlightId",
+        "state"
+      ],
+      "properties": {
+        "findingId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "code": {
+          "type": "string",
+          "minLength": 1
+        },
+        "severity": {
+          "enum": [
+            "BLOCKER",
+            "MAJOR",
+            "MINOR"
+          ]
+        },
+        "subjectId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "detail": {
+          "type": "string",
+          "minLength": 1
+        },
+        "evidenceRefs": {
+          "type": "array",
+          "minItems": 0,
+          "items": {
+            "$ref": "#/$defs/ArtifactReference"
+          }
+        },
+        "owner": {
+          "type": "string",
+          "minLength": 1
+        },
+        "resolutionFlightId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "state": {
+          "enum": [
+            "OPEN",
+            "RESOLVED"
+          ]
+        }
+      }
+    },
+    "SubjectSelection": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "ecosystemId",
+        "subjectId",
+        "subjectKind",
+        "versionConstraint"
+      ],
+      "properties": {
+        "ecosystemId": {
+          "enum": [
+            "python",
+            "node",
+            "csharp",
+            "java-spring",
+            "go",
+            "azure",
+            "aws"
+          ]
+        },
+        "subjectId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "subjectKind": {
+          "enum": [
+            "module",
+            "package",
+            "framework",
+            "sdk",
+            "cloud-service"
+          ]
+        },
+        "versionConstraint": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "DeliveryScope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "contractId",
+        "objectiveId",
+        "contractRef",
+        "selectedSubjects",
+        "selectionDigest",
+        "profileRefs",
+        "idempotencyKey"
+      ],
+      "properties": {
+        "contractId": {
+          "const": "DeliveryScope.v1"
+        },
+        "objectiveId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "contractRef": {
+          "$ref": "#/$defs/ArtifactReference"
+        },
+        "selectedSubjects": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/SubjectSelection"
+          }
+        },
+        "selectionDigest": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        "profileRefs": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/ArtifactReference"
+          }
+        },
+        "idempotencyKey": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "Obligation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "obligationId",
+        "criterionIds",
+        "requiredOutcome",
+        "sourceRefs",
+        "performerCandidates",
+        "deliveryFlightIds",
+        "verificationFlightIds",
+        "status"
+      ],
+      "properties": {
+        "obligationId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "criterionIds": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "requiredOutcome": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sourceRefs": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/ArtifactReference"
+          }
+        },
+        "performerCandidates": {
+          "type": "array",
+          "minItems": 0,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "deliveryFlightIds": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "verificationFlightIds": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "status": {
+          "enum": [
+            "OPEN",
+            "UNRESOLVED",
+            "VERIFIED",
+            "FAILED",
+            "INCONCLUSIVE"
+          ]
+        }
+      }
+    },
+    "EcosystemProfile": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "contractId",
+        "profileId",
+        "profileVersion",
+        "ecosystemId",
+        "subjectKinds",
+        "documentationAdapter",
+        "catalogAdapter",
+        "dependencyPolicyRef",
+        "runtimeProfileRefs",
+        "providerBindings",
+        "authorityPolicyRef",
+        "verificationProfileRef"
+      ],
+      "properties": {
+        "contractId": {
+          "const": "EcosystemProfile.v1"
+        },
+        "profileId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "profileVersion": {
+          "type": "string",
+          "minLength": 1
+        },
+        "ecosystemId": {
+          "enum": [
+            "python",
+            "node",
+            "csharp",
+            "java-spring",
+            "go",
+            "azure",
+            "aws"
+          ]
+        },
+        "subjectKinds": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "enum": [
+              "module",
+              "package",
+              "framework",
+              "sdk",
+              "cloud-service"
+            ]
+          }
+        },
+        "documentationAdapter": {
+          "type": "string",
+          "minLength": 1
+        },
+        "catalogAdapter": {
+          "type": "string",
+          "minLength": 1
+        },
+        "dependencyPolicyRef": {
+          "$ref": "#/$defs/ArtifactReference"
+        },
+        "runtimeProfileRefs": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/ArtifactReference"
+          }
+        },
+        "providerBindings": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/ArtifactReference"
+          }
+        },
+        "authorityPolicyRef": {
+          "$ref": "#/$defs/ArtifactReference"
+        },
+        "verificationProfileRef": {
+          "$ref": "#/$defs/ArtifactReference"
+        }
+      }
+    },
+    "DiscoveryRequest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "contractId",
+        "scope",
+        "profileRef",
+        "refreshPolicy",
+        "maxAttempts",
+        "deadlineAt"
+      ],
+      "properties": {
+        "contractId": {
+          "const": "DiscoveryRequest.v1"
+        },
+        "scope": {
+          "$ref": "#/$defs/DeliveryScope"
+        },
+        "profileRef": {
+          "$ref": "#/$defs/ArtifactReference"
+        },
+        "refreshPolicy": {
+          "enum": [
+            "PIN_EXISTING",
+            "NEW_REVISION"
+          ]
+        },
+        "maxAttempts": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 10
+        },
+        "deadlineAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "SourceSnapshot": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "contractId",
+        "objectiveId",
+        "selectionDigest",
+        "sources",
+        "populationRef",
+        "status",
+        "findings",
+        "attemptRefs"
+      ],
+      "properties": {
+        "contractId": {
+          "const": "SourceSnapshot.v1"
+        },
+        "objectiveId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "selectionDigest": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        "sources": {
+          "type": "array",
+          "minItems": 0,
+          "items": {
+            "$ref": "#/$defs/SourceIdentity"
+          }
+        },
+        "populationRef": {
+          "$ref": "#/$defs/ArtifactReference"
+        },
+        "status": {
+          "enum": [
+            "COMPLETE",
+            "INCOMPLETE",
+            "FAILED"
+          ]
+        },
+        "findings": {
+          "type": "array",
+          "minItems": 0,
+          "items": {
+            "$ref": "#/$defs/Finding"
+          }
+        },
+        "attemptRefs": {
+          "type": "array",
+          "minItems": 0,
+          "items": {
+            "$ref": "#/$defs/ArtifactReference"
+          }
+        }
+      }
+    },
+    "RankedUseCases": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "contractId",
+        "selectionDigest",
+        "sourceSnapshotRef",
+        "rankingProfileRef",
+        "subjects",
+        "findings"
+      ],
+      "properties": {
+        "contractId": {
+          "const": "RankedUseCases.v1"
+        },
+        "selectionDigest": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        "sourceSnapshotRef": {
+          "$ref": "#/$defs/ArtifactReference"
+        },
+        "rankingProfileRef": {
+          "$ref": "#/$defs/ArtifactReference"
+        },
+        "subjects": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "subject",
+              "status",
+              "useCases",
+              "shortfall"
+            ],
+            "properties": {
+              "subject": {
+                "$ref": "#/$defs/SubjectSelection"
+              },
+              "status": {
+                "enum": [
+                  "COMPLETE",
+                  "INCOMPLETE"
+                ]
+              },
+              "useCases": {
+                "type": "array",
+                "minItems": 0,
+                "items": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "useCaseId",
+                    "rank",
+                    "title",
+                    "requiredOutcome",
+                    "sourceRefs",
+                    "rationale",
+                    "score"
+                  ],
+                  "properties": {
+                    "useCaseId": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "rank": {
+                      "type": "integer",
+                      "minimum": 1,
+                      "maximum": 5
+                    },
+                    "title": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "requiredOutcome": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "sourceRefs": {
+                      "type": "array",
+                      "minItems": 1,
+                      "items": {
+                        "$ref": "#/$defs/ArtifactReference"
+                      }
+                    },
+                    "rationale": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "score": {
+                      "type": "number",
+                      "minimum": 0,
+                      "maximum": 1
+                    }
+                  }
+                }
+              },
+              "shortfall": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 5
+              }
+            },
+            "allOf": [
+              {
+                "if": {
+                  "properties": {
+                    "status": {
+                      "const": "COMPLETE"
+                    }
+                  }
+                },
+                "then": {
+                  "properties": {
+                    "shortfall": {
+                      "const": 0
+                    },
+                    "useCases": {
+                      "minItems": 5,
+                      "maxItems": 5,
+                      "allOf": [
+                        {
+                          "contains": {
+                            "required": [
+                              "rank"
+                            ],
+                            "properties": {
+                              "rank": {
+                                "const": 1
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "contains": {
+                            "required": [
+                              "rank"
+                            ],
+                            "properties": {
+                              "rank": {
+                                "const": 2
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "contains": {
+                            "required": [
+                              "rank"
+                            ],
+                            "properties": {
+                              "rank": {
+                                "const": 3
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "contains": {
+                            "required": [
+                              "rank"
+                            ],
+                            "properties": {
+                              "rank": {
+                                "const": 4
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "contains": {
+                            "required": [
+                              "rank"
+                            ],
+                            "properties": {
+                              "rank": {
+                                "const": 5
+                              }
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "findings": {
+          "type": "array",
+          "minItems": 0,
+          "items": {
+            "$ref": "#/$defs/Finding"
+          }
+        }
+      }
+    },
+    "DecisionRequest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "contractId",
+        "objectiveId",
+        "decisionProfileRef",
+        "obligations",
+        "candidates",
+        "sourceRefs"
+      ],
+      "properties": {
+        "contractId": {
+          "const": "DecisionRequest.v1"
+        },
+        "objectiveId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "decisionProfileRef": {
+          "$ref": "#/$defs/ArtifactReference"
+        },
+        "obligations": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/Obligation"
+          }
+        },
+        "candidates": {
+          "type": "array",
+          "minItems": 0,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "capabilityId",
+              "declarationRef",
+              "inputSchemaRef",
+              "outcomeSchemaRef",
+              "admissionEvidenceRefs"
+            ],
+            "properties": {
+              "capabilityId": {
+                "type": "string",
+                "minLength": 1
+              },
+              "declarationRef": {
+                "$ref": "#/$defs/ArtifactReference"
+              },
+              "inputSchemaRef": {
+                "$ref": "#/$defs/ArtifactReference"
+              },
+              "outcomeSchemaRef": {
+                "$ref": "#/$defs/ArtifactReference"
+              },
+              "admissionEvidenceRefs": {
+                "type": "array",
+                "minItems": 0,
+                "items": {
+                  "$ref": "#/$defs/ArtifactReference"
+                }
+              }
+            }
+          }
+        },
+        "sourceRefs": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/ArtifactReference"
+          }
+        }
+      }
+    },
+    "DecisionProposal": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "contractId",
+        "requestDigest",
+        "decisionProfileDigest",
+        "decision",
+        "selectedCapabilityIds",
+        "confidence",
+        "uncertainty",
+        "escalate",
+        "evidenceRefs",
+        "status",
+        "modelProvider",
+        "modelVersion",
+        "modelExecutionEvidenceRef"
+      ],
+      "properties": {
+        "contractId": {
+          "const": "DecisionProposal.v1"
+        },
+        "requestDigest": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        "decisionProfileDigest": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        "decision": {
+          "enum": [
+            "REUSE",
+            "COMPOSE",
+            "NEW_MECHANIC_CANDIDATE",
+            "UNRESOLVED"
+          ]
+        },
+        "selectedCapabilityIds": {
+          "type": "array",
+          "minItems": 0,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "confidence": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "uncertainty": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "escalate": {
+          "type": "boolean"
+        },
+        "evidenceRefs": {
+          "type": "array",
+          "minItems": 0,
+          "items": {
+            "$ref": "#/$defs/ArtifactReference"
+          }
+        },
+        "status": {
+          "const": "ADVISORY"
+        },
+        "modelProvider": {
+          "type": "string",
+          "minLength": 1
+        },
+        "modelVersion": {
+          "type": "string",
+          "minLength": 1
+        },
+        "modelExecutionEvidenceRef": {
+          "$ref": "#/$defs/ArtifactReference"
+        }
+      }
+    },
+    "CandidateRequest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "contractId",
+        "scopeRef",
+        "useCaseId",
+        "rankedUsesRef",
+        "decisionRef"
+      ],
+      "properties": {
+        "contractId": {
+          "const": "CandidateRequest.v1"
+        },
+        "scopeRef": {
+          "$ref": "#/$defs/ArtifactReference"
+        },
+        "useCaseId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "rankedUsesRef": {
+          "$ref": "#/$defs/ArtifactReference"
+        },
+        "decisionRef": {
+          "$ref": "#/$defs/ArtifactReference"
+        }
+      }
+    },
+    "Candidate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "contractId",
+        "candidateId",
+        "revision",
+        "sourceRefs",
+        "scopeRef",
+        "topologyRef",
+        "inputSchemaRef",
+        "outcomeSchemaRef",
+        "providerRefs",
+        "state",
+        "reviewRef"
+      ],
+      "properties": {
+        "contractId": {
+          "const": "Candidate.v1"
+        },
+        "candidateId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "revision": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "sourceRefs": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/ArtifactReference"
+          }
+        },
+        "scopeRef": {
+          "$ref": "#/$defs/ArtifactReference"
+        },
+        "topologyRef": {
+          "$ref": "#/$defs/ArtifactReference"
+        },
+        "inputSchemaRef": {
+          "$ref": "#/$defs/ArtifactReference"
+        },
+        "outcomeSchemaRef": {
+          "$ref": "#/$defs/ArtifactReference"
+        },
+        "providerRefs": {
+          "type": "array",
+          "minItems": 0,
+          "items": {
+            "$ref": "#/$defs/ArtifactReference"
+          }
+        },
+        "state": {
+          "enum": [
+            "PROPOSED",
+            "REVIEWED",
+            "REFUSED"
+          ]
+        },
+        "reviewRef": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ArtifactReference"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      }
+    },
+    "CandidateRevisionRequest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "contractId",
+        "candidateRef",
+        "annotationsRef",
+        "requestedChangesRef",
+        "idempotencyKey"
+      ],
+      "properties": {
+        "contractId": {
+          "const": "CandidateRevisionRequest.v1"
+        },
+        "candidateRef": {
+          "$ref": "#/$defs/ArtifactReference"
+        },
+        "annotationsRef": {
+          "$ref": "#/$defs/ArtifactReference"
+        },
+        "requestedChangesRef": {
+          "$ref": "#/$defs/ArtifactReference"
+        },
+        "idempotencyKey": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "BindingResolution": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "contractId",
+        "scopeRef",
+        "resolved",
+        "unresolvedResponsibilities",
+        "status"
+      ],
+      "properties": {
+        "contractId": {
+          "const": "BindingResolution.v1"
+        },
+        "scopeRef": {
+          "$ref": "#/$defs/ArtifactReference"
+        },
+        "resolved": {
+          "type": "array",
+          "minItems": 0,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "capabilityId",
+              "declarationRef",
+              "inputSchemaRef",
+              "outcomeSchemaRef",
+              "admissionEvidenceRefs"
+            ],
+            "properties": {
+              "capabilityId": {
+                "type": "string",
+                "minLength": 1
+              },
+              "declarationRef": {
+                "$ref": "#/$defs/ArtifactReference"
+              },
+              "inputSchemaRef": {
+                "$ref": "#/$defs/ArtifactReference"
+              },
+              "outcomeSchemaRef": {
+                "$ref": "#/$defs/ArtifactReference"
+              },
+              "admissionEvidenceRefs": {
+                "type": "array",
+                "minItems": 0,
+                "items": {
+                  "$ref": "#/$defs/ArtifactReference"
+                }
+              }
+            }
+          }
+        },
+        "unresolvedResponsibilities": {
+          "type": "array",
+          "minItems": 0,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "responsibilityId",
+              "owner",
+              "supplyFlightId",
+              "reason",
+              "repairFlightId",
+              "maxAttempts",
+              "deadlineAt"
+            ],
+            "properties": {
+              "responsibilityId": {
+                "type": "string",
+                "minLength": 1
+              },
+              "owner": {
+                "type": "string",
+                "minLength": 1
+              },
+              "supplyFlightId": {
+                "type": "string",
+                "minLength": 1
+              },
+              "reason": {
+                "type": "string",
+                "minLength": 1
+              },
+              "repairFlightId": {
+                "type": "string",
+                "minLength": 1
+              },
+              "maxAttempts": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 10
+              },
+              "deadlineAt": {
+                "type": "string",
+                "format": "date-time"
+              }
+            }
+          }
+        },
+        "status": {
+          "enum": [
+            "RESOLVED",
+            "UNRESOLVED",
+            "REFUSED"
+          ]
+        }
+      }
+    },
+    "ArtifactBundle": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "contractId",
+        "candidateRef",
+        "featureRef",
+        "dslRef",
+        "schemaRefs",
+        "providerClosureRef",
+        "proofRefs",
+        "status",
+        "generationProvenanceRef"
+      ],
+      "properties": {
+        "contractId": {
+          "const": "ArtifactBundle.v1"
+        },
+        "candidateRef": {
+          "$ref": "#/$defs/ArtifactReference"
+        },
+        "featureRef": {
+          "$ref": "#/$defs/ArtifactReference"
+        },
+        "dslRef": {
+          "$ref": "#/$defs/ArtifactReference"
+        },
+        "schemaRefs": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/ArtifactReference"
+          }
+        },
+        "providerClosureRef": {
+          "$ref": "#/$defs/ArtifactReference"
+        },
+        "proofRefs": {
+          "type": "array",
+          "minItems": 0,
+          "items": {
+            "$ref": "#/$defs/ArtifactReference"
+          }
+        },
+        "status": {
+          "enum": [
+            "DRAFT",
+            "PROVED",
+            "REFUSED"
+          ]
+        },
+        "generationProvenanceRef": {
+          "$ref": "#/$defs/ArtifactReference"
+        }
+      }
+    },
+    "AdmissionReceipt": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "contractId",
+        "capabilityId",
+        "artifactBundleRef",
+        "selectedDeclarationRef",
+        "graphRef",
+        "flightReceiptRef",
+        "clearanceRef",
+        "status"
+      ],
+      "properties": {
+        "contractId": {
+          "const": "AdmissionReceipt.v1"
+        },
+        "capabilityId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "artifactBundleRef": {
+          "$ref": "#/$defs/ArtifactReference"
+        },
+        "selectedDeclarationRef": {
+          "$ref": "#/$defs/ArtifactReference"
+        },
+        "graphRef": {
+          "$ref": "#/$defs/ArtifactReference"
+        },
+        "flightReceiptRef": {
+          "$ref": "#/$defs/ArtifactReference"
+        },
+        "clearanceRef": {
+          "$ref": "#/$defs/ArtifactReference"
+        },
+        "status": {
+          "enum": [
+            "ADMITTED",
+            "REFUSED"
+          ]
+        }
+      }
+    },
+    "InvocationRequest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "contractId",
+        "capabilityId",
+        "admissionRef",
+        "inputSchemaRef",
+        "inputArtifactRef",
+        "idempotencyKey",
+        "explicitUserIntent",
+        "authorityContextRef"
+      ],
+      "properties": {
+        "contractId": {
+          "const": "InvocationRequest.v1"
+        },
+        "capabilityId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "admissionRef": {
+          "$ref": "#/$defs/ArtifactReference"
+        },
+        "inputSchemaRef": {
+          "$ref": "#/$defs/ArtifactReference"
+        },
+        "inputArtifactRef": {
+          "$ref": "#/$defs/ArtifactReference"
+        },
+        "idempotencyKey": {
+          "type": "string",
+          "minLength": 1
+        },
+        "explicitUserIntent": {
+          "const": "INVOKE"
+        },
+        "authorityContextRef": {
+          "$ref": "#/$defs/ArtifactReference"
+        }
+      }
+    },
+    "InvocationReceipt": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "contractId",
+        "requestDigest",
+        "runId",
+        "rootExecutionId",
+        "graphDigest",
+        "providerClosureDigest",
+        "status",
+        "observationRef",
+        "refusalCode"
+      ],
+      "properties": {
+        "contractId": {
+          "const": "InvocationReceipt.v1"
+        },
+        "requestDigest": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        "runId": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "rootExecutionId": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "graphDigest": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        "providerClosureDigest": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        "status": {
+          "enum": [
+            "ADMITTED",
+            "RUNNING",
+            "REFUSED"
+          ]
+        },
+        "observationRef": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ArtifactReference"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "refusalCode": {
+          "anyOf": [
+            {
+              "enum": [
+                "IDEMPOTENCY_CONFLICT",
+                "UNAUTHORIZED",
+                "NOT_ADMITTED",
+                "INVALID_INPUT"
+              ]
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "REFUSED"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "runId": {
+                "type": "null"
+              },
+              "rootExecutionId": {
+                "type": "null"
+              },
+              "refusalCode": {
+                "type": "string"
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "runId": {
+                "type": "string",
+                "minLength": 1
+              },
+              "rootExecutionId": {
+                "type": "string",
+                "minLength": 1
+              },
+              "observationRef": {
+                "$ref": "#/$defs/ArtifactReference"
+              },
+              "refusalCode": {
+                "type": "null"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "RunEvent": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "contractId",
+        "runId",
+        "rootExecutionId",
+        "stepId",
+        "attemptId",
+        "occurrenceId",
+        "parentOccurrenceId",
+        "cursor",
+        "logicalOrder",
+        "observedAt",
+        "eventKind",
+        "graphDigest",
+        "authorityDigest",
+        "inputDigest",
+        "outputDigest",
+        "payloadRef",
+        "operationId",
+        "gap"
+      ],
+      "properties": {
+        "contractId": {
+          "const": "RunEvent.v1"
+        },
+        "runId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "rootExecutionId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "stepId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "attemptId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "occurrenceId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "parentOccurrenceId": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "cursor": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "logicalOrder": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "observedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "eventKind": {
+          "enum": [
+            "STARTED",
+            "CELL",
+            "EDGE",
+            "OUTCOME",
+            "FAILED",
+            "GAP",
+            "TERMINAL"
+          ]
+        },
+        "graphDigest": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        "authorityDigest": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        "inputDigest": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^sha256:[0-9a-f]{64}$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "outputDigest": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^sha256:[0-9a-f]{64}$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "payloadRef": {
+          "$ref": "#/$defs/ArtifactReference"
+        },
+        "operationId": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "gap": {
+          "anyOf": [
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "fromCursor",
+                "toCursor",
+                "reason"
+              ],
+              "properties": {
+                "fromCursor": {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "toCursor": {
+                  "type": [
+                    "integer",
+                    "null"
+                  ],
+                  "minimum": 0
+                },
+                "reason": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              }
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "eventKind": {
+                "const": "GAP"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "gap": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "eventKind": {
+                "enum": [
+                  "CELL",
+                  "EDGE",
+                  "OUTCOME"
+                ]
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "operationId": {
+                "type": "string",
+                "minLength": 1
+              },
+              "gap": {
+                "type": "null"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "ReplayRequest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "contractId",
+        "runId",
+        "recordingRef",
+        "cursor",
+        "action",
+        "speed"
+      ],
+      "properties": {
+        "contractId": {
+          "const": "ReplayRequest.v1"
+        },
+        "runId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "recordingRef": {
+          "$ref": "#/$defs/ArtifactReference"
+        },
+        "cursor": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "action": {
+          "enum": [
+            "PAUSE",
+            "STEP",
+            "SEEK",
+            "PLAY",
+            "RETURN_LIVE"
+          ]
+        },
+        "speed": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 16
+        }
+      }
+    },
+    "ReplayProjection": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "contractId",
+        "runId",
+        "cursor",
+        "visibleEventRefs",
+        "providerCallsStarted",
+        "mode",
+        "gaps",
+        "recordingRef"
+      ],
+      "properties": {
+        "contractId": {
+          "const": "ReplayProjection.v1"
+        },
+        "runId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "cursor": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "visibleEventRefs": {
+          "type": "array",
+          "minItems": 0,
+          "items": {
+            "$ref": "#/$defs/ArtifactReference"
+          }
+        },
+        "providerCallsStarted": {
+          "const": 0
+        },
+        "mode": {
+          "enum": [
+            "REPLAY",
+            "LIVE"
+          ]
+        },
+        "gaps": {
+          "type": "array",
+          "minItems": 0,
+          "items": {
+            "$ref": "#/$defs/Finding"
+          }
+        },
+        "recordingRef": {
+          "$ref": "#/$defs/ArtifactReference"
+        }
+      }
+    },
+    "Publication": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "contractId",
+        "publicationId",
+        "releaseRef",
+        "url",
+        "environmentRef",
+        "hostProfileRef",
+        "readbackRef",
+        "status",
+        "priorVerifiedReleaseRef"
+      ],
+      "properties": {
+        "contractId": {
+          "const": "Publication.v1"
+        },
+        "publicationId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "releaseRef": {
+          "$ref": "#/$defs/ArtifactReference"
+        },
+        "url": {
+          "type": "string",
+          "format": "uri",
+          "pattern": "^https://"
+        },
+        "environmentRef": {
+          "$ref": "#/$defs/ArtifactReference"
+        },
+        "hostProfileRef": {
+          "$ref": "#/$defs/ArtifactReference"
+        },
+        "readbackRef": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ArtifactReference"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "status": {
+          "enum": [
+            "CANDIDATE",
+            "PUBLISHED",
+            "VERIFIED",
+            "FAILED"
+          ]
+        },
+        "priorVerifiedReleaseRef": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ArtifactReference"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      }
+    },
+    "ViewGenerationRequest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "contractId",
+        "scopeRef",
+        "viewManifestRef",
+        "sourceSnapshotRefs",
+        "candidateRefs",
+        "designReferenceRef"
+      ],
+      "properties": {
+        "contractId": {
+          "const": "ViewGenerationRequest.v1"
+        },
+        "scopeRef": {
+          "$ref": "#/$defs/ArtifactReference"
+        },
+        "viewManifestRef": {
+          "$ref": "#/$defs/ArtifactReference"
+        },
+        "sourceSnapshotRefs": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/ArtifactReference"
+          }
+        },
+        "candidateRefs": {
+          "type": "array",
+          "minItems": 0,
+          "items": {
+            "$ref": "#/$defs/ArtifactReference"
+          }
+        },
+        "designReferenceRef": {
+          "$ref": "#/$defs/ArtifactReference"
+        }
+      }
+    },
+    "MaintenanceRequest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "contractId",
+        "objectiveId",
+        "originalContractRef",
+        "currentReleaseRef",
+        "requestedChangeRef",
+        "idempotencyKey",
+        "authorityContextRef"
+      ],
+      "properties": {
+        "contractId": {
+          "const": "MaintenanceRequest.v1"
+        },
+        "objectiveId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "originalContractRef": {
+          "$ref": "#/$defs/ArtifactReference"
+        },
+        "currentReleaseRef": {
+          "$ref": "#/$defs/ArtifactReference"
+        },
+        "requestedChangeRef": {
+          "$ref": "#/$defs/ArtifactReference"
+        },
+        "idempotencyKey": {
+          "type": "string",
+          "minLength": 1
+        },
+        "authorityContextRef": {
+          "$ref": "#/$defs/ArtifactReference"
+        }
+      }
+    },
+    "FlightPlanInstance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "contractId",
+        "flightId",
+        "revision",
+        "contractRef",
+        "profileInstanceId",
+        "planArtifactRef",
+        "obligationIds",
+        "criterionIds",
+        "resolvedBindingRefs",
+        "inputMappingRefs",
+        "clearanceRef",
+        "compensationRef",
+        "status"
+      ],
+      "properties": {
+        "contractId": {
+          "const": "FlightPlanInstance.v1"
+        },
+        "flightId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "revision": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "contractRef": {
+          "$ref": "#/$defs/ArtifactReference"
+        },
+        "profileInstanceId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "planArtifactRef": {
+          "$ref": "#/$defs/ArtifactReference"
+        },
+        "obligationIds": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "criterionIds": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "resolvedBindingRefs": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/ArtifactReference"
+          }
+        },
+        "inputMappingRefs": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/ArtifactReference"
+          }
+        },
+        "clearanceRef": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ArtifactReference"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "compensationRef": {
+          "$ref": "#/$defs/ArtifactReference"
+        },
+        "status": {
+          "enum": [
+            "MATERIALIZED",
+            "REVIEWED",
+            "CLEARED",
+            "BLOCKED"
+          ]
+        }
+      }
+    },
+    "FlightReceipt": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "contractId",
+        "flightPlanRef",
+        "runId",
+        "recordingRef",
+        "stepReceiptRefs",
+        "coveredCriterionIds",
+        "status",
+        "findings"
+      ],
+      "properties": {
+        "contractId": {
+          "const": "FlightReceipt.v1"
+        },
+        "flightPlanRef": {
+          "$ref": "#/$defs/ArtifactReference"
+        },
+        "runId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "recordingRef": {
+          "$ref": "#/$defs/ArtifactReference"
+        },
+        "stepReceiptRefs": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/ArtifactReference"
+          }
+        },
+        "coveredCriterionIds": {
+          "type": "array",
+          "minItems": 0,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "status": {
+          "enum": [
+            "COMPLETE",
+            "DEVIATED",
+            "FAILED",
+            "INCONCLUSIVE"
+          ]
+        },
+        "findings": {
+          "type": "array",
+          "minItems": 0,
+          "items": {
+            "$ref": "#/$defs/Finding"
+          }
+        }
+      }
+    },
+    "ProofRequest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "contractId",
+        "subjectRefs",
+        "propertyIds",
+        "formalModelRef",
+        "assumptionsRef",
+        "boundsRef",
+        "checkerProfileRef"
+      ],
+      "properties": {
+        "contractId": {
+          "const": "ProofRequest.v1"
+        },
+        "subjectRefs": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/ArtifactReference"
+          }
+        },
+        "propertyIds": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "formalModelRef": {
+          "$ref": "#/$defs/ArtifactReference"
+        },
+        "assumptionsRef": {
+          "$ref": "#/$defs/ArtifactReference"
+        },
+        "boundsRef": {
+          "$ref": "#/$defs/ArtifactReference"
+        },
+        "checkerProfileRef": {
+          "$ref": "#/$defs/ArtifactReference"
+        }
+      }
+    },
+    "VerificationReceipt": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "contractId",
+        "requestDigest",
+        "subjectRefs",
+        "propertyIds",
+        "checkerId",
+        "checkerVersion",
+        "checkerDigest",
+        "method",
+        "assumptionsRef",
+        "boundsRef",
+        "resultArtifactRef",
+        "status",
+        "invocationRef",
+        "dependencyRefs"
+      ],
+      "properties": {
+        "contractId": {
+          "const": "VerificationReceipt.v1"
+        },
+        "requestDigest": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        "subjectRefs": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/ArtifactReference"
+          }
+        },
+        "propertyIds": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "checkerId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "checkerVersion": {
+          "type": "string",
+          "minLength": 1
+        },
+        "checkerDigest": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        "method": {
+          "enum": [
+            "STRUCTURAL",
+            "BOUNDED_MODEL",
+            "TRANSLATION_VALIDATION",
+            "RUNTIME"
+          ]
+        },
+        "assumptionsRef": {
+          "$ref": "#/$defs/ArtifactReference"
+        },
+        "boundsRef": {
+          "$ref": "#/$defs/ArtifactReference"
+        },
+        "resultArtifactRef": {
+          "$ref": "#/$defs/ArtifactReference"
+        },
+        "status": {
+          "enum": [
+            "VERIFIED",
+            "VIOLATED",
+            "INCONCLUSIVE"
+          ]
+        },
+        "invocationRef": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ArtifactReference"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "dependencyRefs": {
+          "type": "array",
+          "minItems": 0,
+          "items": {
+            "$ref": "#/$defs/ArtifactReference"
+          }
+        }
+      }
+    },
+    "CriterionEvidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "criterionId",
+        "qualificationInstanceId",
+        "status",
+        "proofRefs",
+        "flightReceiptRefs",
+        "findings"
+      ],
+      "properties": {
+        "criterionId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "qualificationInstanceId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "status": {
+          "enum": [
+            "VERIFIED",
+            "FAILED",
+            "INCONCLUSIVE",
+            "MISSING"
+          ]
+        },
+        "proofRefs": {
+          "type": "array",
+          "minItems": 0,
+          "items": {
+            "$ref": "#/$defs/ArtifactReference"
+          }
+        },
+        "flightReceiptRefs": {
+          "type": "array",
+          "minItems": 0,
+          "items": {
+            "$ref": "#/$defs/ArtifactReference"
+          }
+        },
+        "findings": {
+          "type": "array",
+          "minItems": 0,
+          "items": {
+            "$ref": "#/$defs/Finding"
+          }
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "VERIFIED"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "proofRefs": {
+                "minItems": 1
+              },
+              "flightReceiptRefs": {
+                "minItems": 1
+              }
+            }
+          }
+        }
+      ]
+    },
+    "EvidenceSet": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "contractId",
+        "contractRef",
+        "requiredSetDigest",
+        "qualificationInstanceIds",
+        "evaluations",
+        "publicationRefs"
+      ],
+      "properties": {
+        "contractId": {
+          "const": "EvidenceSet.v1"
+        },
+        "contractRef": {
+          "$ref": "#/$defs/ArtifactReference"
+        },
+        "requiredSetDigest": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        "qualificationInstanceIds": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "evaluations": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/CriterionEvidence"
+          }
+        },
+        "publicationRefs": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/ArtifactReference"
+          }
+        }
+      }
+    },
+    "DefinitionValidationRequest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "contractId",
+        "contractRef",
+        "bundleManifestRef",
+        "ownerIntentRef",
+        "verificationProfileRef"
+      ],
+      "properties": {
+        "contractId": {
+          "const": "DefinitionValidationRequest.v1"
+        },
+        "contractRef": {
+          "$ref": "#/$defs/ArtifactReference"
+        },
+        "bundleManifestRef": {
+          "$ref": "#/$defs/ArtifactReference"
+        },
+        "ownerIntentRef": {
+          "$ref": "#/$defs/ArtifactReference"
+        },
+        "verificationProfileRef": {
+          "$ref": "#/$defs/ArtifactReference"
+        }
+      }
+    },
+    "ToolchainPreparationRequest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "contractId",
+        "definitionRequest",
+        "preparationPlanRef",
+        "existingAdmissionPolicyRef",
+        "verifierCapabilityIds",
+        "scope"
+      ],
+      "properties": {
+        "contractId": {
+          "const": "ToolchainPreparationRequest.v1"
+        },
+        "definitionRequest": {
+          "$ref": "#/$defs/DefinitionValidationRequest"
+        },
+        "preparationPlanRef": {
+          "$ref": "#/$defs/ArtifactReference"
+        },
+        "existingAdmissionPolicyRef": {
+          "$ref": "#/$defs/ArtifactReference"
+        },
+        "verifierCapabilityIds": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 2,
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "validate-product-delivery-definition",
+              "validate-product-delivery-obligations"
+            ]
+          }
+        },
+        "scope": {
+          "const": "VERIFICATION_TOOLCHAIN_ONLY"
+        }
+      }
+    },
+    "ToolchainCandidate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "contractId",
+        "requestRef",
+        "featureRefs",
+        "dslRefs",
+        "schemaRefs",
+        "providerClosureRef",
+        "checkerProfileRef",
+        "controlFixtureRefs",
+        "status"
+      ],
+      "properties": {
+        "contractId": {
+          "const": "ToolchainCandidate.v1"
+        },
+        "requestRef": {
+          "$ref": "#/$defs/ArtifactReference"
+        },
+        "featureRefs": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/ArtifactReference"
+          }
+        },
+        "dslRefs": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/ArtifactReference"
+          }
+        },
+        "schemaRefs": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/ArtifactReference"
+          }
+        },
+        "providerClosureRef": {
+          "$ref": "#/$defs/ArtifactReference"
+        },
+        "checkerProfileRef": {
+          "$ref": "#/$defs/ArtifactReference"
+        },
+        "controlFixtureRefs": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/ArtifactReference"
+          }
+        },
+        "status": {
+          "enum": [
+            "DRAFT",
+            "REFUSED"
+          ]
+        }
+      }
+    },
+    "ToolchainQualification": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "contractId",
+        "candidateRef",
+        "positiveControlRefs",
+        "negativeControlRefs",
+        "independentCheckerReviewRef",
+        "rollbackProofRef",
+        "status"
+      ],
+      "properties": {
+        "contractId": {
+          "const": "ToolchainQualification.v1"
+        },
+        "candidateRef": {
+          "$ref": "#/$defs/ArtifactReference"
+        },
+        "positiveControlRefs": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/ArtifactReference"
+          }
+        },
+        "negativeControlRefs": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/ArtifactReference"
+          }
+        },
+        "independentCheckerReviewRef": {
+          "$ref": "#/$defs/ArtifactReference"
+        },
+        "rollbackProofRef": {
+          "$ref": "#/$defs/ArtifactReference"
+        },
+        "status": {
+          "enum": [
+            "QUALIFIED",
+            "FAILED",
+            "INCONCLUSIVE"
+          ]
+        }
+      }
+    },
+    "ToolchainAdmission": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "contractId",
+        "qualificationRef",
+        "preparationFlightReceiptRef",
+        "existingAuthorityClearanceRef",
+        "definitionVerifierDeclarationRef",
+        "obligationVerifierDeclarationRef",
+        "hostedControlRefs",
+        "readbackRefs",
+        "status"
+      ],
+      "properties": {
+        "contractId": {
+          "const": "ToolchainAdmission.v1"
+        },
+        "qualificationRef": {
+          "$ref": "#/$defs/ArtifactReference"
+        },
+        "preparationFlightReceiptRef": {
+          "$ref": "#/$defs/ArtifactReference"
+        },
+        "existingAuthorityClearanceRef": {
+          "$ref": "#/$defs/ArtifactReference"
+        },
+        "definitionVerifierDeclarationRef": {
+          "$ref": "#/$defs/ArtifactReference"
+        },
+        "obligationVerifierDeclarationRef": {
+          "$ref": "#/$defs/ArtifactReference"
+        },
+        "hostedControlRefs": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/ArtifactReference"
+          }
+        },
+        "readbackRefs": {
+          "type": "array",
+          "minItems": 2,
+          "items": {
+            "$ref": "#/$defs/ArtifactReference"
+          }
+        },
+        "status": {
+          "enum": [
+            "ADMITTED_AND_CHECKED",
+            "FAILED",
+            "INCONCLUSIVE"
+          ]
+        }
+      }
+    },
+    "ObligationValidationRequest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "contractId",
+        "objectiveId",
+        "contractRef",
+        "definitionReceiptRef",
+        "evidenceSetRef",
+        "publicationRefs",
+        "verificationProfileRef"
+      ],
+      "properties": {
+        "contractId": {
+          "const": "ObligationValidationRequest.v1"
+        },
+        "objectiveId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "contractRef": {
+          "$ref": "#/$defs/ArtifactReference"
+        },
+        "definitionReceiptRef": {
+          "$ref": "#/$defs/ArtifactReference"
+        },
+        "evidenceSetRef": {
+          "$ref": "#/$defs/ArtifactReference"
+        },
+        "publicationRefs": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/ArtifactReference"
+          }
+        },
+        "verificationProfileRef": {
+          "$ref": "#/$defs/ArtifactReference"
+        }
+      }
+    },
+    "GateReceipt": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "contractId",
+        "phase",
+        "contractRef",
+        "bundleManifestRef",
+        "requiredSetDigest",
+        "evaluatedSetDigest",
+        "verifierCapabilityId",
+        "verifierDeclarationDigest",
+        "verifierRunId",
+        "verificationProfileRef",
+        "evidenceOrigin",
+        "status",
+        "checks",
+        "criterionEvaluations",
+        "findings",
+        "receiptEvidenceRef"
+      ],
+      "properties": {
+        "contractId": {
+          "const": "GateReceipt.v1"
+        },
+        "phase": {
+          "enum": [
+            "DEFINITION",
+            "OBLIGATION"
+          ]
+        },
+        "contractRef": {
+          "$ref": "#/$defs/ArtifactReference"
+        },
+        "bundleManifestRef": {
+          "$ref": "#/$defs/ArtifactReference"
+        },
+        "requiredSetDigest": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        "evaluatedSetDigest": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        "verifierCapabilityId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "verifierDeclarationDigest": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        "verifierRunId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "verificationProfileRef": {
+          "$ref": "#/$defs/ArtifactReference"
+        },
+        "evidenceOrigin": {
+          "enum": [
+            "OV3_RETAINED_READBACK",
+            "CALLER_SUPPLIED",
+            "LOCAL_DIAGNOSTIC"
+          ]
+        },
+        "status": {
+          "enum": [
+            "DEFINITION_COMPLETE",
+            "OBLIGATIONS_COMPLETE",
+            "INCOMPLETE",
+            "INCONCLUSIVE"
+          ]
+        },
+        "checks": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "sourceIdentity",
+            "definitionCoverage",
+            "flightCoverage",
+            "payloadContracts",
+            "formalProperties",
+            "semanticReview",
+            "authority",
+            "evidenceAttribution"
+          ],
+          "properties": {
+            "sourceIdentity": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "status",
+                "evidenceRefs"
+              ],
+              "properties": {
+                "status": {
+                  "enum": [
+                    "PASS",
+                    "FAIL",
+                    "INCONCLUSIVE"
+                  ]
+                },
+                "evidenceRefs": {
+                  "type": "array",
+                  "minItems": 0,
+                  "items": {
+                    "$ref": "#/$defs/ArtifactReference"
+                  }
+                }
+              }
+            },
+            "definitionCoverage": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "status",
+                "evidenceRefs"
+              ],
+              "properties": {
+                "status": {
+                  "enum": [
+                    "PASS",
+                    "FAIL",
+                    "INCONCLUSIVE"
+                  ]
+                },
+                "evidenceRefs": {
+                  "type": "array",
+                  "minItems": 0,
+                  "items": {
+                    "$ref": "#/$defs/ArtifactReference"
+                  }
+                }
+              }
+            },
+            "flightCoverage": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "status",
+                "evidenceRefs"
+              ],
+              "properties": {
+                "status": {
+                  "enum": [
+                    "PASS",
+                    "FAIL",
+                    "INCONCLUSIVE"
+                  ]
+                },
+                "evidenceRefs": {
+                  "type": "array",
+                  "minItems": 0,
+                  "items": {
+                    "$ref": "#/$defs/ArtifactReference"
+                  }
+                }
+              }
+            },
+            "payloadContracts": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "status",
+                "evidenceRefs"
+              ],
+              "properties": {
+                "status": {
+                  "enum": [
+                    "PASS",
+                    "FAIL",
+                    "INCONCLUSIVE"
+                  ]
+                },
+                "evidenceRefs": {
+                  "type": "array",
+                  "minItems": 0,
+                  "items": {
+                    "$ref": "#/$defs/ArtifactReference"
+                  }
+                }
+              }
+            },
+            "formalProperties": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "status",
+                "evidenceRefs"
+              ],
+              "properties": {
+                "status": {
+                  "enum": [
+                    "PASS",
+                    "FAIL",
+                    "INCONCLUSIVE"
+                  ]
+                },
+                "evidenceRefs": {
+                  "type": "array",
+                  "minItems": 0,
+                  "items": {
+                    "$ref": "#/$defs/ArtifactReference"
+                  }
+                }
+              }
+            },
+            "semanticReview": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "status",
+                "evidenceRefs"
+              ],
+              "properties": {
+                "status": {
+                  "enum": [
+                    "PASS",
+                    "FAIL",
+                    "INCONCLUSIVE"
+                  ]
+                },
+                "evidenceRefs": {
+                  "type": "array",
+                  "minItems": 0,
+                  "items": {
+                    "$ref": "#/$defs/ArtifactReference"
+                  }
+                }
+              }
+            },
+            "authority": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "status",
+                "evidenceRefs"
+              ],
+              "properties": {
+                "status": {
+                  "enum": [
+                    "PASS",
+                    "FAIL",
+                    "INCONCLUSIVE"
+                  ]
+                },
+                "evidenceRefs": {
+                  "type": "array",
+                  "minItems": 0,
+                  "items": {
+                    "$ref": "#/$defs/ArtifactReference"
+                  }
+                }
+              }
+            },
+            "evidenceAttribution": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "status",
+                "evidenceRefs"
+              ],
+              "properties": {
+                "status": {
+                  "enum": [
+                    "PASS",
+                    "FAIL",
+                    "INCONCLUSIVE"
+                  ]
+                },
+                "evidenceRefs": {
+                  "type": "array",
+                  "minItems": 0,
+                  "items": {
+                    "$ref": "#/$defs/ArtifactReference"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "criterionEvaluations": {
+          "type": "array",
+          "minItems": 0,
+          "items": {
+            "$ref": "#/$defs/CriterionEvidence"
+          }
+        },
+        "findings": {
+          "type": "array",
+          "minItems": 0,
+          "items": {
+            "$ref": "#/$defs/Finding"
+          }
+        },
+        "receiptEvidenceRef": {
+          "$ref": "#/$defs/ArtifactReference"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "enum": [
+                  "DEFINITION_COMPLETE",
+                  "OBLIGATIONS_COMPLETE"
+                ]
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "evidenceOrigin": {
+                "const": "OV3_RETAINED_READBACK"
+              },
+              "checks": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "sourceIdentity",
+                  "definitionCoverage",
+                  "flightCoverage",
+                  "payloadContracts",
+                  "formalProperties",
+                  "semanticReview",
+                  "authority",
+                  "evidenceAttribution"
+                ],
+                "properties": {
+                  "sourceIdentity": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "status",
+                      "evidenceRefs"
+                    ],
+                    "properties": {
+                      "status": {
+                        "const": "PASS"
+                      },
+                      "evidenceRefs": {
+                        "type": "array",
+                        "minItems": 1,
+                        "items": {
+                          "$ref": "#/$defs/ArtifactReference"
+                        }
+                      }
+                    }
+                  },
+                  "definitionCoverage": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "status",
+                      "evidenceRefs"
+                    ],
+                    "properties": {
+                      "status": {
+                        "const": "PASS"
+                      },
+                      "evidenceRefs": {
+                        "type": "array",
+                        "minItems": 1,
+                        "items": {
+                          "$ref": "#/$defs/ArtifactReference"
+                        }
+                      }
+                    }
+                  },
+                  "flightCoverage": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "status",
+                      "evidenceRefs"
+                    ],
+                    "properties": {
+                      "status": {
+                        "const": "PASS"
+                      },
+                      "evidenceRefs": {
+                        "type": "array",
+                        "minItems": 1,
+                        "items": {
+                          "$ref": "#/$defs/ArtifactReference"
+                        }
+                      }
+                    }
+                  },
+                  "payloadContracts": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "status",
+                      "evidenceRefs"
+                    ],
+                    "properties": {
+                      "status": {
+                        "const": "PASS"
+                      },
+                      "evidenceRefs": {
+                        "type": "array",
+                        "minItems": 1,
+                        "items": {
+                          "$ref": "#/$defs/ArtifactReference"
+                        }
+                      }
+                    }
+                  },
+                  "formalProperties": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "status",
+                      "evidenceRefs"
+                    ],
+                    "properties": {
+                      "status": {
+                        "const": "PASS"
+                      },
+                      "evidenceRefs": {
+                        "type": "array",
+                        "minItems": 1,
+                        "items": {
+                          "$ref": "#/$defs/ArtifactReference"
+                        }
+                      }
+                    }
+                  },
+                  "semanticReview": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "status",
+                      "evidenceRefs"
+                    ],
+                    "properties": {
+                      "status": {
+                        "const": "PASS"
+                      },
+                      "evidenceRefs": {
+                        "type": "array",
+                        "minItems": 1,
+                        "items": {
+                          "$ref": "#/$defs/ArtifactReference"
+                        }
+                      }
+                    }
+                  },
+                  "authority": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "status",
+                      "evidenceRefs"
+                    ],
+                    "properties": {
+                      "status": {
+                        "const": "PASS"
+                      },
+                      "evidenceRefs": {
+                        "type": "array",
+                        "minItems": 1,
+                        "items": {
+                          "$ref": "#/$defs/ArtifactReference"
+                        }
+                      }
+                    }
+                  },
+                  "evidenceAttribution": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "status",
+                      "evidenceRefs"
+                    ],
+                    "properties": {
+                      "status": {
+                        "const": "PASS"
+                      },
+                      "evidenceRefs": {
+                        "type": "array",
+                        "minItems": 1,
+                        "items": {
+                          "$ref": "#/$defs/ArtifactReference"
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "findings": {
+                "maxItems": 0
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "DEFINITION_COMPLETE"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "phase": {
+                "const": "DEFINITION"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "OBLIGATIONS_COMPLETE"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "phase": {
+                "const": "OBLIGATION"
+              },
+              "criterionEvaluations": {
+                "minItems": 1,
+                "items": {
+                  "properties": {
+                    "status": {
+                      "const": "VERIFIED"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "ModelReview": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "contractId",
+        "contractDigest",
+        "bundleDigest",
+        "provider",
+        "model",
+        "role",
+        "status",
+        "coverage",
+        "findings",
+        "responseEvidenceRef"
+      ],
+      "properties": {
+        "contractId": {
+          "const": "ModelReview.v1"
+        },
+        "contractDigest": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        "bundleDigest": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        "provider": {
+          "type": "string",
+          "minLength": 1
+        },
+        "model": {
+          "type": "string",
+          "minLength": 1
+        },
+        "role": {
+          "enum": [
+            "GENERAL_REASONING",
+            "TYPED_SYSTEM_ONE"
+          ]
+        },
+        "status": {
+          "const": "ADVISORY"
+        },
+        "coverage": {
+          "enum": [
+            "COMPLETE",
+            "INCOMPLETE",
+            "UNCERTAIN"
+          ]
+        },
+        "findings": {
+          "type": "array",
+          "minItems": 0,
+          "items": {
+            "$ref": "#/$defs/Finding"
+          }
+        },
+        "responseEvidenceRef": {
+          "$ref": "#/$defs/ArtifactReference"
+        }
+      }
+    },
+    "JourneyRequest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "contractId",
+        "scopeRef",
+        "profileRef",
+        "publicationRef",
+        "journeySpecRef",
+        "authorityContextRef"
+      ],
+      "properties": {
+        "contractId": {
+          "const": "JourneyRequest.v1"
+        },
+        "scopeRef": {
+          "$ref": "#/$defs/ArtifactReference"
+        },
+        "profileRef": {
+          "$ref": "#/$defs/ArtifactReference"
+        },
+        "publicationRef": {
+          "$ref": "#/$defs/ArtifactReference"
+        },
+        "journeySpecRef": {
+          "$ref": "#/$defs/ArtifactReference"
+        },
+        "authorityContextRef": {
+          "$ref": "#/$defs/ArtifactReference"
+        }
+      }
+    },
+    "JourneyReceipt": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "contractId",
+        "requestDigest",
+        "profileInstanceId",
+        "publicationRef",
+        "criterionEvidence",
+        "browserEvidenceRefs",
+        "status",
+        "deployedBrowserReadbackRefs"
+      ],
+      "properties": {
+        "contractId": {
+          "const": "JourneyReceipt.v1"
+        },
+        "requestDigest": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        "profileInstanceId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "publicationRef": {
+          "$ref": "#/$defs/ArtifactReference"
+        },
+        "criterionEvidence": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/CriterionEvidence"
+          }
+        },
+        "browserEvidenceRefs": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/ArtifactReference"
+          }
+        },
+        "status": {
+          "enum": [
+            "VERIFIED",
+            "FAILED",
+            "INCONCLUSIVE"
+          ]
+        },
+        "deployedBrowserReadbackRefs": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/ArtifactReference"
+          }
+        }
+      }
+    },
+    "DeliveryReviewSubmission": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "contractId",
+        "contractRef",
+        "obligationGateReceiptRef",
+        "productPublicationRefs",
+        "reviewBundleRef",
+        "status",
+        "ownerAcceptance"
+      ],
+      "properties": {
+        "contractId": {
+          "const": "DeliveryReviewSubmission.v1"
+        },
+        "contractRef": {
+          "$ref": "#/$defs/ArtifactReference"
+        },
+        "obligationGateReceiptRef": {
+          "$ref": "#/$defs/ArtifactReference"
+        },
+        "productPublicationRefs": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/ArtifactReference"
+          }
+        },
+        "reviewBundleRef": {
+          "$ref": "#/$defs/ArtifactReference"
+        },
+        "status": {
+          "const": "REVIEW_SUBMITTED"
+        },
+        "ownerAcceptance": {
+          "enum": [
+            "NOT_REQUIRED_BY_POLICY",
+            "PENDING_OWNER_DECISION",
+            "ACCEPTED",
+            "REJECTED"
+          ]
+        }
+      }
+    },
+    "DeliveryClosureReceipt": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "contractId",
+        "contractRef",
+        "obligationGateReceiptRef",
+        "submissionRef",
+        "submissionReadbackRef",
+        "verifierInvocationRef",
+        "orderingEvidenceRef",
+        "publicationRefs",
+        "status"
+      ],
+      "properties": {
+        "contractId": {
+          "const": "DeliveryClosureReceipt.v1"
+        },
+        "contractRef": {
+          "$ref": "#/$defs/ArtifactReference"
+        },
+        "obligationGateReceiptRef": {
+          "$ref": "#/$defs/ArtifactReference"
+        },
+        "submissionRef": {
+          "$ref": "#/$defs/ArtifactReference"
+        },
+        "submissionReadbackRef": {
+          "$ref": "#/$defs/ArtifactReference"
+        },
+        "verifierInvocationRef": {
+          "$ref": "#/$defs/ArtifactReference"
+        },
+        "orderingEvidenceRef": {
+          "$ref": "#/$defs/ArtifactReference"
+        },
+        "publicationRefs": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/ArtifactReference"
+          }
+        },
+        "status": {
+          "enum": [
+            "DELIVERED",
+            "FAILED",
+            "INCONCLUSIVE"
+          ]
+        }
+      }
+    },
+    "InvocationRecoveryRequest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "contractId",
+        "idempotencyKey",
+        "requestDigest",
+        "capabilityRevisionRef",
+        "authorityContextRef"
+      ],
+      "properties": {
+        "contractId": {
+          "const": "InvocationRecoveryRequest.v1"
+        },
+        "idempotencyKey": {
+          "type": "string",
+          "minLength": 1
+        },
+        "requestDigest": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        "capabilityRevisionRef": {
+          "$ref": "#/$defs/ArtifactReference"
+        },
+        "authorityContextRef": {
+          "$ref": "#/$defs/ArtifactReference"
+        }
+      }
+    },
+    "InvocationRecoveryResult": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "contractId",
+        "requestDigest",
+        "idempotencyKey",
+        "runId",
+        "status",
+        "ledgerEvidenceRef"
+      ],
+      "properties": {
+        "contractId": {
+          "const": "InvocationRecoveryResult.v1"
+        },
+        "requestDigest": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        "idempotencyKey": {
+          "type": "string",
+          "minLength": 1
+        },
+        "runId": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "status": {
+          "enum": [
+            "SAME_RUN",
+            "NOT_ADMITTED",
+            "IDEMPOTENCY_CONFLICT",
+            "INCONCLUSIVE"
+          ]
+        },
+        "ledgerEvidenceRef": {
+          "$ref": "#/$defs/ArtifactReference"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "SAME_RUN"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "runId": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "enum": [
+                  "NOT_ADMITTED",
+                  "IDEMPOTENCY_CONFLICT",
+                  "INCONCLUSIVE"
+                ]
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "runId": {
+                "type": "null"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "BrowserReadback": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "contractId",
+        "publicationRef",
+        "target",
+        "requestedUrl",
+        "finalUrl",
+        "origin",
+        "releaseDigest",
+        "responseBytesRef",
+        "authorizedPrincipalRef",
+        "browserRunRef",
+        "observedAt",
+        "viewport",
+        "controlEvidenceRef",
+        "paintEvidenceRef"
+      ],
+      "properties": {
+        "contractId": {
+          "const": "BrowserReadback.v1"
+        },
+        "publicationRef": {
+          "$ref": "#/$defs/ArtifactReference"
+        },
+        "target": {
+          "enum": [
+            "DEPLOYED_TARGET",
+            "CANDIDATE_PREVIEW"
+          ]
+        },
+        "requestedUrl": {
+          "type": "string",
+          "format": "uri"
+        },
+        "finalUrl": {
+          "type": "string",
+          "format": "uri"
+        },
+        "origin": {
+          "type": "string",
+          "format": "uri"
+        },
+        "releaseDigest": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        "responseBytesRef": {
+          "$ref": "#/$defs/ArtifactReference"
+        },
+        "authorizedPrincipalRef": {
+          "$ref": "#/$defs/ArtifactReference"
+        },
+        "browserRunRef": {
+          "$ref": "#/$defs/ArtifactReference"
+        },
+        "observedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "viewport": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "width",
+            "height"
+          ],
+          "properties": {
+            "width": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "height": {
+              "type": "integer",
+              "minimum": 1
+            }
+          }
+        },
+        "controlEvidenceRef": {
+          "$ref": "#/$defs/ArtifactReference"
+        },
+        "paintEvidenceRef": {
+          "$ref": "#/$defs/ArtifactReference"
+        }
+      }
+    },
+    "TopologyArtifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "contractId",
+        "canonicalReferenceRef",
+        "graphRef",
+        "layoutProfileRef",
+        "nodes",
+        "edges",
+        "normalizedTolerance"
+      ],
+      "properties": {
+        "contractId": {
+          "const": "TopologyArtifact.v1"
+        },
+        "canonicalReferenceRef": {
+          "$ref": "#/$defs/ArtifactReference"
+        },
+        "graphRef": {
+          "$ref": "#/$defs/ArtifactReference"
+        },
+        "layoutProfileRef": {
+          "$ref": "#/$defs/ArtifactReference"
+        },
+        "nodes": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "nodeId",
+              "role",
+              "canonicalIdentity",
+              "x",
+              "y",
+              "width",
+              "height"
+            ],
+            "properties": {
+              "nodeId": {
+                "type": "string",
+                "minLength": 1
+              },
+              "role": {
+                "enum": [
+                  "INPUT",
+                  "EVENT",
+                  "OPERATION",
+                  "OUTCOME",
+                  "PROVIDER",
+                  "OBSERVATION"
+                ]
+              },
+              "canonicalIdentity": {
+                "type": "string",
+                "minLength": 1
+              },
+              "x": {
+                "type": "number"
+              },
+              "y": {
+                "type": "number"
+              },
+              "width": {
+                "type": "number",
+                "exclusiveMinimum": 0
+              },
+              "height": {
+                "type": "number",
+                "exclusiveMinimum": 0
+              }
+            }
+          }
+        },
+        "edges": {
+          "type": "array",
+          "minItems": 0,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "edgeId",
+              "fromNodeId",
+              "toNodeId",
+              "kind",
+              "portNumber",
+              "route"
+            ],
+            "properties": {
+              "edgeId": {
+                "type": "string",
+                "minLength": 1
+              },
+              "fromNodeId": {
+                "type": "string",
+                "minLength": 1
+              },
+              "toNodeId": {
+                "type": "string",
+                "minLength": 1
+              },
+              "kind": {
+                "enum": [
+                  "EXECUTION",
+                  "PROVIDER_BINDING",
+                  "OBSERVATION"
+                ]
+              },
+              "portNumber": {
+                "type": [
+                  "integer",
+                  "null"
+                ],
+                "minimum": 1
+              },
+              "route": {
+                "type": "array",
+                "minItems": 2,
+                "items": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "x",
+                    "y"
+                  ],
+                  "properties": {
+                    "x": {
+                      "type": "number"
+                    },
+                    "y": {
+                      "type": "number"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "normalizedTolerance": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 0.02
+        }
+      }
+    },
+    "SourceAttempt": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "contractId",
+        "sourceId",
+        "requestRef",
+        "attempt",
+        "pageCursor",
+        "startedAt",
+        "completedAt",
+        "httpStatus",
+        "retryAfterMs",
+        "resolvedVersion",
+        "responseRef",
+        "outcome",
+        "invocationRef"
+      ],
+      "properties": {
+        "contractId": {
+          "const": "SourceAttempt.v1"
+        },
+        "sourceId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "requestRef": {
+          "$ref": "#/$defs/ArtifactReference"
+        },
+        "attempt": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 10
+        },
+        "pageCursor": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "startedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "completedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "httpStatus": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 100,
+          "maximum": 599
+        },
+        "retryAfterMs": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "resolvedVersion": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "responseRef": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ArtifactReference"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "outcome": {
+          "enum": [
+            "READ",
+            "RATE_LIMITED",
+            "UNAVAILABLE",
+            "VERSION_CONFLICT",
+            "DEADLINE_EXHAUSTED"
+          ]
+        },
+        "invocationRef": {
+          "$ref": "#/$defs/ArtifactReference"
+        }
+      }
+    },
+    "ModelExecutionEvidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "contractId",
+        "requestArtifactRef",
+        "responseArtifactRef",
+        "decisionProfileRef",
+        "modelProvider",
+        "modelVersion",
+        "invocationRef",
+        "inputTokens",
+        "outputTokens",
+        "latencyMs",
+        "costAmount",
+        "costCurrency",
+        "unavailableMetricsReason",
+        "escalationReason"
+      ],
+      "properties": {
+        "contractId": {
+          "const": "ModelExecutionEvidence.v1"
+        },
+        "requestArtifactRef": {
+          "$ref": "#/$defs/ArtifactReference"
+        },
+        "responseArtifactRef": {
+          "$ref": "#/$defs/ArtifactReference"
+        },
+        "decisionProfileRef": {
+          "$ref": "#/$defs/ArtifactReference"
+        },
+        "modelProvider": {
+          "type": "string",
+          "minLength": 1
+        },
+        "modelVersion": {
+          "type": "string",
+          "minLength": 1
+        },
+        "invocationRef": {
+          "$ref": "#/$defs/ArtifactReference"
+        },
+        "inputTokens": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "outputTokens": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "latencyMs": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "costAmount": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "costCurrency": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "unavailableMetricsReason": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "escalationReason": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "GenerationProvenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "contractId",
+        "generatorCapabilityId",
+        "generatorDeclarationRef",
+        "runId",
+        "stepId",
+        "attemptId",
+        "inputRefs",
+        "outputRefs",
+        "recordingRef",
+        "method"
+      ],
+      "properties": {
+        "contractId": {
+          "const": "GenerationProvenance.v1"
+        },
+        "generatorCapabilityId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "generatorDeclarationRef": {
+          "$ref": "#/$defs/ArtifactReference"
+        },
+        "runId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "stepId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "attemptId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "inputRefs": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/ArtifactReference"
+          }
+        },
+        "outputRefs": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/ArtifactReference"
+          }
+        },
+        "recordingRef": {
+          "$ref": "#/$defs/ArtifactReference"
+        },
+        "method": {
+          "enum": [
+            "OV3_DECLARED_GENERATION",
+            "BOOTSTRAP_ASSISTED"
+          ]
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,53 @@
+{
+  "modelId": "product-delivery-finite-abstraction.v1",
+  "interpretation": "Finite Boolean and bounded ordinal interpretation of product-delivery-contract.feature. It specifies desired guards, not deployed implementation behavior.",
+  "featureFile": "product-delivery-contract.feature",
+  "assumptions": [
+    "Each abstract evidence predicate means an independently checked concrete fact; this model does not compute authenticity or source identity.",
+    "Refinement must prove the real verifier computes these predicates correctly and uses these guards.",
+    "Observation completeness and provider effects are guaranteed only at the declared mediation boundary.",
+    "Progress assumes fair scheduling and provider return or deadline; retries terminate with a visible outcome at their bound."
+  ],
+  "acceptance": {
+    "propertyIds": ["P02", "P03", "P04"],
+    "caseIds": ["wrong-invocation-cannot-pass", "non-vacuous-complete-acceptance"],
+    "domain": "Every Boolean valuation of the named predicates",
+    "predicateNames": ["featureIdentity", "requestIdentity", "invocationIdentity", "providerIdentity", "graphIdentity", "evidenceIntegrity", "traceComplete", "canonicalAssertions", "exactScopeCoverage", "publicationReadback", "refinementValid", "currentRevision", "authorityValid"],
+    "decision": {"all": ["featureIdentity", "requestIdentity", "invocationIdentity", "providerIdentity", "graphIdentity", "evidenceIntegrity", "traceComplete", "canonicalAssertions", "exactScopeCoverage", "publicationReadback", "refinementValid", "currentRevision", "authorityValid"]}
+  },
+  "productEntry": {
+    "propertyIds": ["P01", "P08"],
+    "caseIds": ["definition-required-before-product-work"],
+    "predicateNames": ["definitionComplete", "sameContract", "flightReady", "modelSaysProceed"],
+    "decision": {"all": ["definitionComplete", "sameContract", "flightReady"]}
+  },
+  "invocation": {
+    "propertyIds": ["P09"],
+    "predicateNames": ["explicitInvoke", "authorized", "admitted", "sameKey", "sameRequest"],
+    "startGuard": {"all": ["explicitInvoke", "authorized", "admitted"]},
+    "sameKeyRule": "SAME_REQUEST_REUSE_RUN_ELSE_REFUSE"
+  },
+  "replay": {
+    "propertyIds": ["P10", "P11"],
+    "caseIds": ["replay-cannot-reveal-future-or-invoke"],
+    "maximumCursor": 4,
+    "eventsPerTrace": 5,
+    "projection": "OBSERVED_PREFIX",
+    "providerEffects": "NONE"
+  },
+  "maintenance": {
+    "propertyIds": ["P12"],
+    "caseIds": ["failed-revision-preserves-verified-release"],
+    "releaseDomain": [0, 1],
+    "promotionGuard": {"all": ["checksPassed", "readbackMatches"]},
+    "failureAction": "KEEP_PRIOR"
+  },
+  "progress": {
+    "propertyIds": ["P07"],
+    "maximumRetries": 2,
+    "rank": "maximumRetries - retriesUsed",
+    "terminalAtBound": "VISIBLE_INCOMPLETE",
+    "claim": "Only bounded retry termination; no general service liveness theorem."
+  },
+  "notProvedHere": ["P05 feature-to-runtime semantic refinement", "P06 arbitrary JSON mapping implication", "P13 cross-runtime semantic refinement", "Real observation completeness", "Source authenticity", "Host or provider implementation correctness", "Visual quality and complete product delivery"]
+}
