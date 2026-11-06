@@ -1,43 +1,19 @@
-# Capability Studio delivery specification
+# OV3 Workflow Authority / Faithful Reveal — Specification Pack
 
-**OV3 is responsible for end-to-end delivery.** This repository holds the pinned specification,
-source references and a compact handoff. It is not a local implementation or
-control plane for the delivery process.
+This is a proposed, implementation-ready assignment for OV3 to build **estate-rooted workflow discovery and faithful workflow visualization** within SideFX. It is not a claim that SideFX/OV3 has run or admitted anything in this package.
 
-The owner's 2026-11-05 correction retired the frontier-driven workflow and its
-local approval, flight-building and repair tools. Those files and historical
-mission packs are outside the workspace. Read [AGENTS.md](AGENTS.md) before work.
+## Open first
 
-## Start here
+1. `OV3-START-HERE.md` — ready-to-paste mission handoff for the OV3 network.
+2. `OV3-WORKFLOW-AUTHORITY-SPECIFICATION.md` — scope, typed graph laws, algorithm, staged mission, admission gates, required receipts.
+3. `WILDLIFE-ESTATE-BUILD-PROFILE.md` — separately gated Phase B consumer estate build.
+4. `OV3-FLIGHT-PLAN-CANDIDATE.json` — an illustrative machine-readable mission envelope; **not** verified against OV3's actual schema.
+5. `acceptance/workflow-topology-fidelity.feature` — 20 Gherkin acceptance examples, all expectations, not execution evidence.
+6. `fixtures/wildlife-diagram-original.negative.json` — the original four-visual-root diagram preserved as an explicitly invalid executable-workflow fixture.
+7. `fixtures/entry-and-relations.candidate.json` — small conceptual positive/negative classification specimen. Relations marked `PRODUCES`, `PRODUCT_DEPENDENCY`, `PROVIDER_BINDING`, `UI_NAVIGATION_ONLY` describe overlay classifications, **not** new canonical ADR-001 topology values.
 
-1. [OV3 continuation](OV3-START-HERE.md): native ownership, reuse discovery and
-   TypeSafe/System One roles.
-2. [Delivery contract](product-delivery-contract/README.md): the unchanged
-   revision-3 obligations and gates.
-3. [Observed state](product-delivery-contract/verification-status.md): what the
-   retained native runs establish, including the partial failed admission.
-4. [Cleanup record](WORKSPACE-CLEANUP.md): preservation, exclusions and the external
-   recovery location. It is an audit index, not an execution guide.
+## Authority warning
 
-## Active contents
+No provider roots, workflow count, runtime conformance, or receipt is validated by the speculative wildlife fixture. Start with W0 live estate discovery and source-grounded scope before any implementation. Do not create a new orchestration engine, schema family, or entry registry if equivalent admitted SDA objects already express the need.
 
-| Location | Purpose |
-|---|---|
-| `product-delivery-contract/` | Pinned contract, schemas, feature/DSL, profile, finite model, owner authorization and current state |
-| `formal-verification/` | The owner's pinned formal verification strategy |
-| `outputs/capability-studio-deck/` | Only the pinned reference PowerPoint and canonical topology SVG; paths preserved for contract identity |
-
-C12.1 requires one objective to drive discovery, planning, supply, correction,
-publication, readback and verification without another frontier command. FP03
-assigns orchestration and capability supply to OV3; C13 requires maintenance
-without frontier implementation. These obligations already exist and remain
-unverified for this product.
-
-First discover and reuse the current OV3 objective and decision capabilities.
-Do not assume a new orchestrator is needed because the previous chat acted as one.
-Use TypeSafe/System One through declared typed roles for bounded triage, ranking,
-routing and uncertainty. Models advise; native deterministic checks and estate
-clearance own acceptance.
-
-Neither authoritative delivery gate has passed. The presence of this specification,
-a native helper or a successful flight does not establish autonomous product delivery.
+The initial delivery target is one verified read-only workflow route projected across existing inspection surfaces (Phase A). Full wildlife app creation is the separately gated Phase B of this combined OV3 assignment.

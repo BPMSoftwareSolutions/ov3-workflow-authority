@@ -1,0 +1,22 @@
+{
+  "fixtureType": "sidefx-aws-cloud-ops-acceptance-arrangement.v2",
+  "caseId": "aws-cost-cross-account",
+  "capabilityId": "sfx-aws-assess-cost-variance",
+  "synthetic": true,
+  "clock": "2026-11-03T00:20:00Z",
+  "sidefx": {
+    "admittedAccounts": [
+      "111122223333"
+    ],
+    "costAllocationTag": {
+      "key": "service",
+      "activated": true
+    },
+    "varianceRule": {
+      "materialPercent": 5,
+      "currency": "USD"
+    }
+  },
+  "awsCalls": [],
+  "notes": "Synthetic arrangement. AWS requests and responses use the documented shapes (see the feature's source IDs); none was captured from an AWS account."
+}

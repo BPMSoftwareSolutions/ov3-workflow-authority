@@ -1,0 +1,12 @@
+{
+ "kind": "call",
+ "caseId": "reveal-stale-pin",
+ "runId": "f6b88ab2-2071-a30f-15f7-94f4f73d5c51",
+ "evidenceDigest": "sha256:4742ef5ce75c3f9fb67b64d1d0217ac6f7ecd2b82906533576fd0cb83017c75d",
+ "operation": "reveal-estate-workflows.reveal",
+ "providerTag": "@provider:sql-database-reader",
+ "acceptedGraphDigest": "sha256:dbb29dc8172312c3546bb706e32b30c32b59cb1ecad3b4dfff7e35826f6f0596",
+ "returnedOutcome": "READ",
+ "requestPath": "$.input",
+ "valuePath": "$.value"
+}

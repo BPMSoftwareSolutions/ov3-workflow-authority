@@ -1,0 +1,175 @@
+--- analysis.compile_capability_dsl.base.sql
++++ analysis.compile_capability_dsl.new.sql
+@@ -44,6 +44,7 @@
+   DECLARE @cli_input_type nvarchar(10)=N'json',@cli_input_path nvarchar(400)=NULL,@last_operation int=NULL,@items nvarchar(max);
+   DECLARE @bindings TABLE(ordinal int IDENTITY PRIMARY KEY,scenario_ordinal int,port_id nvarchar(200) COLLATE Latin1_General_100_BIN2,form nvarchar(20),platform_id nvarchar(200),provider_id nvarchar(200),statement nvarchar(max),result_column nvarchar(200),config_json nvarchar(max),platform_line int,provider_line int,statement_line int,result_line int,config_line int,bind_line int);
+   DECLARE @topology TABLE(ordinal int IDENTITY PRIMARY KEY,form nvarchar(20) COLLATE Latin1_General_100_BIN2,root_id nvarchar(200),join_id nvarchar(200),legs nvarchar(max),line_no int);
++  DECLARE @provider_bindings TABLE(ordinal int IDENTITY PRIMARY KEY,id nvarchar(200) COLLATE Latin1_General_100_BIN2,content nvarchar(max),digest varchar(71),line_no int);
+   DECLARE @cur_scenario int=NULL,@cur_binding int=NULL;
+   DECLARE @i int=0,@n int=(SELECT MAX(line_no) FROM @lines),@sp int,@tok nvarchar(200),@tail nvarchar(max);
+   WHILE @i<@n
+@@ -406,6 +407,46 @@
+         ELSE INSERT @extra_contracts(contract_id,schema_json,line_no) VALUES(@tok,@rest,@i);
+       END
+     END
++    ELSE IF LEFT(@line,17)=N'provider binding '
++    BEGIN
++      -- provider binding <id> <inline-json>: a document-level provider-input-binding artifact. Its content is the JSON
++      -- without the whitespace outside strings, addressed by sha256 over its UTF-8 bytes. A configuration names it as
++      -- "@provider-binding:<id>" and receives the digest; the author path mints the content.
++      SET @tail=LTRIM(SUBSTRING(@line,18,LEN(@line)));
++      SET @sp=CHARINDEX(N' ',@tail);
++      IF @sp=0
++        INSERT @errors(line_no,code,message) VALUES(@i,N'DSL_SYNTAX',N'provider binding: expected "provider binding <id> <inline-json>"');
++      ELSE
++      BEGIN
++        SET @tok=LEFT(@tail,@sp-1);
++        SET @rest=LTRIM(SUBSTRING(@tail,@sp+1,LEN(@tail)));
++        IF @tok NOT LIKE N'[a-z0-9]%' OR @tok LIKE N'%[^a-z0-9.-]%'
++          INSERT @errors(line_no,code,message) VALUES(@i,N'DSL_VALUE_INVALID',N'provider binding: id violates the id rule');
++        ELSE IF EXISTS(SELECT 1 FROM @provider_bindings pb WHERE pb.id=@tok COLLATE Latin1_General_100_BIN2)
++          INSERT @errors(line_no,code,message) VALUES(@i,N'DSL_DUPLICATE_ID',N'provider binding: repeated id');
++        ELSE IF ISJSON(@rest)<>1 OR LEFT(@rest,1)<>N'{'
++          INSERT @errors(line_no,code,message) VALUES(@i,N'DSL_CONTRACT_INVALID',N'provider binding: inline-json is not a JSON object');
++        ELSE
++        BEGIN
++          DECLARE @pbc nvarchar(max)=N'',@pbpos int=1,@pbin bit=0,@pbch nchar(1);
++          WHILE @pbpos<=LEN(@rest)
++          BEGIN
++            SET @pbch=SUBSTRING(@rest,@pbpos,1);
++            IF @pbin=1
++            BEGIN
++              SET @pbc+=@pbch;
++              IF @pbch=N'\' BEGIN SET @pbpos+=1; SET @pbc+=SUBSTRING(@rest,@pbpos,1); END
++              ELSE IF @pbch=N'"' SET @pbin=0;
++            END
++            ELSE IF @pbch=N'"' BEGIN SET @pbin=1; SET @pbc+=@pbch; END
++            ELSE IF @pbch NOT IN (N' ',CHAR(9),CHAR(10),CHAR(13)) SET @pbc+=@pbch;
++            SET @pbpos+=1;
++          END
++          INSERT @provider_bindings(id,content,digest,line_no) VALUES(@tok,@pbc,
++            N'sha256:'+LOWER(CONVERT(varchar(64),HASHBYTES('SHA2_256',CONVERT(varbinary(max),CONVERT(varchar(max),@pbc COLLATE Latin1_General_100_BIN2_UTF8))),2)),@i);
++        END
++      END
++    END
+     ELSE IF LEFT(@line,9)=N'variants:' OR LEFT(@line,17)=N'outcome-variants:'
+     BEGIN
+       DECLARE @is_op_var bit=CASE WHEN LEFT(@line,17)=N'outcome-variants:' THEN 1 ELSE 0 END;
+@@ -422,6 +463,8 @@
+           AND v.value NOT LIKE N'[A-Za-z0-9]%:success:terminal' AND v.value NOT LIKE N'[A-Za-z0-9]%:failure:terminal'
+           OR CASE WHEN CHARINDEX(N':',v.value)>1 THEN LEFT(v.value,CHARINDEX(N':',v.value)-1) ELSE N'#' END LIKE N'%[^A-Za-z0-9_-]%')
+         INSERT @errors(line_no,code,message) VALUES(@i,N'DSL_VALUE_INVALID',N'variants: expected <variant>:success|failure[:terminal], comma separated');
++      ELSE IF @is_op_var=0 AND EXISTS(SELECT 1 FROM OPENJSON(@items) v WHERE v.value LIKE N'%:terminal')
++        INSERT @errors(line_no,code,message) VALUES(@i,N'DSL_VALUE_INVALID',N'variants: a scenario variant takes no :terminal; it belongs on outcome-variants, and a scenario that ends the capability takes the terminal flag');
+       ELSE IF @is_op_var=0
+         INSERT @scenario_variants(scenario_ordinal,variant_id,classification,line_no)
+         SELECT @cur_scenario,LEFT(v.value,CHARINDEX(N':',v.value)-1),
+@@ -499,12 +542,27 @@
+       AND (b.platform_id IS NULL OR (b.provider_id IS NULL AND b.config_json IS NULL)))
+       INSERT @errors(line_no,code,message) VALUES((SELECT b.bind_line FROM @bindings b WHERE b.ordinal=@cur_binding),N'DSL_REQUIRED_MISSING',N'platform bind: missing platform, config or provider');
+   END
++  -- A configuration names a provider binding as "@provider-binding:<id>" and receives its digest. A name that no provider
++  -- binding line declares refuses.
++  DECLARE @pbi int=(SELECT MIN(ordinal) FROM @provider_bindings);
++  WHILE @pbi IS NOT NULL
++  BEGIN
++    UPDATE b SET config_json=REPLACE(b.config_json,N'"@provider-binding:'+pb.id COLLATE DATABASE_DEFAULT+N'"',N'"'+pb.digest COLLATE DATABASE_DEFAULT+N'"')
++    FROM @bindings b CROSS JOIN @provider_bindings pb WHERE pb.ordinal=@pbi AND b.config_json IS NOT NULL;
++    SET @pbi=(SELECT MIN(ordinal) FROM @provider_bindings WHERE ordinal>@pbi);
++  END
++  INSERT @errors(line_no,code,message)
++  SELECT b.config_line,N'DSL_VALUE_INVALID',N'config: names a provider binding that no provider binding line declares'
++  FROM @bindings b WHERE b.config_json LIKE N'%"@provider-binding:%';
+   IF @capability_id IS NULL
+     INSERT @errors(line_no,code,message) VALUES(0,N'DSL_REQUIRED_MISSING',N'no capability line');
+   IF NOT EXISTS(SELECT 1 FROM @scenarios)
+     INSERT @errors(line_no,code,message) VALUES(0,N'DSL_REQUIRED_MISSING',N'no scenario declared');
+   IF EXISTS(SELECT 1 FROM @topology WHERE form=N'broadcast') AND NOT EXISTS(SELECT 1 FROM @topology WHERE form=N'join')
+     INSERT @errors(line_no,code,message) VALUES((SELECT MIN(line_no) FROM @topology WHERE form=N'broadcast'),N'DSL_REQUIRED_MISSING',N'broadcast without join: the fan-out has no convergence scenario');
++  -- A join converges the legs of the capability's broadcast; with no broadcast it would declare nothing, so it refuses.
++  IF EXISTS(SELECT 1 FROM @topology WHERE form=N'join') AND NOT EXISTS(SELECT 1 FROM @topology WHERE form=N'broadcast')
++    INSERT @errors(line_no,code,message) VALUES((SELECT MIN(line_no) FROM @topology WHERE form=N'join'),N'DSL_REQUIRED_MISSING',N'join without broadcast: a join converges the legs of a broadcast, and none is declared');
+   IF EXISTS(SELECT 1 FROM @topology WHERE form=N'broadcast')
+   BEGIN
+     INSERT @errors(line_no,code,message)
+@@ -581,6 +639,36 @@
+   FROM @routes r JOIN @scenarios f ON f.scenario_id=r.from_scenario JOIN @scenarios t ON t.scenario_id=r.to_scenario
+   CROSS APPLY (SELECT COALESCE(f.output_contract,@output_id) fo,COALESCE(t.input_contract,@input_id) ti) c
+   WHERE c.fo<>c.ti COLLATE Latin1_General_100_BIN2;
++  -- One capability is one entry: its CLI interface addresses its one root scenario, so a second root refuses.
++  INSERT @errors(line_no,code,message)
++  SELECT s.line_no,N'DSL_DUPLICATE_ID',N'scenario: a second root scenario; each independently invocable entry is its own capability'
++  FROM @scenarios s WHERE s.root=1 AND s.ordinal>(SELECT MIN(x.ordinal) FROM @scenarios x WHERE x.root=1);
++  -- An invoke-scenario operation names a scenario of this document.
++  INSERT @errors(line_no,code,message)
++  SELECT o.line_no,N'DSL_VALUE_INVALID',N'operation: scenario is not declared: '+o.target_scenario
++  FROM @operations o WHERE o.kind=N'invoke-scenario'
++    AND NOT EXISTS(SELECT 1 FROM @scenarios s WHERE s.scenario_id=o.target_scenario COLLATE Latin1_General_100_BIN2);
++  -- Routes and invoke-scenario operations may not form a cycle, a route back to its own scenario included: the declared
++  -- loop is a recur line, which carries its bound.
++  DECLARE @edges TABLE(from_s nvarchar(200) COLLATE Latin1_General_100_BIN2,to_s nvarchar(200) COLLATE Latin1_General_100_BIN2,line_no int);
++  INSERT @edges(from_s,to_s,line_no) SELECT r.from_scenario,r.to_scenario,r.line_no FROM @routes r;
++  INSERT @edges(from_s,to_s,line_no) SELECT s.scenario_id,o.target_scenario,o.line_no
++  FROM @operations o JOIN @scenarios s ON s.ordinal=o.scenario_ordinal WHERE o.kind=N'invoke-scenario';
++  DECLARE @reach TABLE(origin nvarchar(200) COLLATE Latin1_General_100_BIN2,node nvarchar(200) COLLATE Latin1_General_100_BIN2,PRIMARY KEY(origin,node));
++  DECLARE @reach_added int;
++  INSERT @reach(origin,node) SELECT DISTINCT from_s,to_s FROM @edges;
++  SET @reach_added=@@ROWCOUNT;
++  WHILE @reach_added>0
++  BEGIN
++    INSERT @reach(origin,node) SELECT DISTINCT x.origin,e.to_s FROM @reach x JOIN @edges e ON e.from_s=x.node
++    WHERE NOT EXISTS(SELECT 1 FROM @reach y WHERE y.origin=x.origin AND y.node=e.to_s);
++    SET @reach_added=@@ROWCOUNT;
++  END
++  INSERT @errors(line_no,code,message)
++  SELECT MIN(e.line_no),N'DSL_VALUE_INVALID',N'routes or invoke-scenario operations form a cycle through '+e.from_s+N': a loop is declared with recur, which carries its bound'
++  FROM @edges e
++  WHERE e.to_s=e.from_s OR EXISTS(SELECT 1 FROM @reach x WHERE x.origin=e.to_s AND x.node=e.from_s)
++  GROUP BY e.from_s;
+   -- A recurrence loops a declared scenario on itself: both variants are declared on it, and its outcome
+   -- contract equals its input contract, because the recurrence edge joins the two.
+   INSERT @errors(line_no,code,message)
+@@ -741,10 +829,14 @@
+     SET @document+=N']';
+     -- Routing: the broadcast/join fan-out, selection routes and declared recurrences, in that order; the
+     -- executionGraph when the capability declares a fan-out or a recurrence.
++    -- Every transition carries its semanticProgress, by the law the estate's declared routes follow: a selection that ends
++    -- at a terminal scenario is terminating and any other selection narrowing; broadcast expanding; join converging; a
++    -- failure collected at its join slot converging; recurrence recurring.
+     DECLARE @sel_items nvarchar(max)=(SELECT STRING_AGG(CONVERT(nvarchar(max),
+         N'{"transitionId":"route-'+r.from_scenario COLLATE DATABASE_DEFAULT+N'-'+r.variant COLLATE DATABASE_DEFAULT+N'","fromScenario":"'+r.from_scenario COLLATE DATABASE_DEFAULT
+-        +N'","variant":"'+r.variant COLLATE DATABASE_DEFAULT+N'","toScenario":"'+r.to_scenario COLLATE DATABASE_DEFAULT+N'","topologyKind":"selection"}'),N',') WITHIN GROUP (ORDER BY r.ordinal)
+-      FROM @routes r);
++        +N'","variant":"'+r.variant COLLATE DATABASE_DEFAULT+N'","toScenario":"'+r.to_scenario COLLATE DATABASE_DEFAULT+N'","topologyKind":"selection","semanticProgress":"'
++        +CASE WHEN t.terminal=1 THEN N'terminating' ELSE N'narrowing' END+N'"}'),N',') WITHIN GROUP (ORDER BY r.ordinal)
++      FROM @routes r LEFT JOIN @scenarios t ON t.scenario_id=r.to_scenario);
+     DECLARE @bc_items nvarchar(max)=NULL,@exec nvarchar(max)=NULL;
+     IF EXISTS(SELECT 1 FROM @topology WHERE form=N'broadcast')
+     BEGIN
+@@ -760,9 +852,9 @@
+       FROM STRING_SPLIT(@tlegs,N',') l ORDER BY (SELECT NULL);
+       SET @bc_items=(SELECT STRING_AGG(CONVERT(nvarchar(max),seg.seg),N',') WITHIN GROUP (ORDER BY seg.ord) FROM (
+           SELECT c.ord,
+-            N'{"transitionId":"enter-'+c.name+N'","fromScenario":"'+@troot+N'","variant":"SUCCESS","toScenario":"'+c.leg+N'","topologyKind":"broadcast","groupId":"'+@fan+N'"},'
+-           +N'{"transitionId":"settle-'+c.name+N'","fromScenario":"'+c.leg+N'","variant":"SUCCESS","toScenario":"'+@tjoin+N'","topologyKind":"join","groupId":"'+@conv+N'","joinSlotId":"'+c.name+N'"},'
+-           +N'{"transitionId":"fail-'+c.name+N'","fromScenario":"'+c.leg+N'","variant":"SUCCESS","toScenario":"'+@tjoin+N'","topologyKind":"failure","groupId":"'+@conv+N'","joinSlotId":"'+c.name+N'"}'
++            N'{"transitionId":"enter-'+c.name+N'","fromScenario":"'+@troot+N'","variant":"SUCCESS","toScenario":"'+c.leg+N'","topologyKind":"broadcast","groupId":"'+@fan+N'","semanticProgress":"expanding"},'
++           +N'{"transitionId":"settle-'+c.name+N'","fromScenario":"'+c.leg+N'","variant":"SUCCESS","toScenario":"'+@tjoin+N'","topologyKind":"join","groupId":"'+@conv+N'","joinSlotId":"'+c.name+N'","semanticProgress":"converging"},'
++           +N'{"transitionId":"fail-'+c.name+N'","fromScenario":"'+c.leg+N'","variant":"SUCCESS","toScenario":"'+@tjoin+N'","topologyKind":"failure","groupId":"'+@conv+N'","joinSlotId":"'+c.name+N'","semanticProgress":"converging"}'
+            AS seg
+           FROM @legnames c) seg);
+       SET @exec=N'{"graphType":"sda-semantic-execution-graph.v2","requiredExecutionFeatures":["declared-concurrent-dispatch.v1"],"readyArbitration":"causal-activation-order.v1","executionBudget":{"maximumInFlightEffects":'+CONVERT(nvarchar(10),@legcnt)+N',"deadlineMs":60000},"dispatchAuthorities":[{"dispatchAuthorityId":"'+@auth+N'","mode":"concurrent","legCount":'+CONVERT(nvarchar(10),@legcnt)+N',"maximumActiveBranches":'+CONVERT(nvarchar(10),@legcnt)+N',"maximumInFlightEffects":'+CONVERT(nvarchar(10),@legcnt)+N',"readyOrder":"declared-edge-order","branchFailure":"collect","ownership":"join-before-return"}],"edgeGroups":['
+@@ -809,8 +901,12 @@
+     SET @document+=N'}';
+     SET @document_digest=N'sha256:'+LOWER(CONVERT(varchar(64),HASHBYTES('SHA2_256',CONVERT(varbinary(max),CONVERT(varchar(max),@document COLLATE Latin1_General_100_BIN2_UTF8))),2));
+   END
++  -- The result carries the provider binding artifacts the author path mints, as compile-capability-dsl-result.v1 requires.
++  DECLARE @pb_json nvarchar(max)=COALESCE((SELECT pb.id AS providerBindingId,pb.digest AS digest,JSON_QUERY(pb.content) AS content
++    FROM @provider_bindings pb ORDER BY pb.ordinal FOR JSON PATH),N'[]');
+   SELECT (SELECT N'compile-capability-dsl-result.v1' AS contractId,@status AS status,@source_digest AS sourceDigest,
+     JSON_QUERY(@document) AS [document],@document_digest AS documentDigest,
++    JSON_QUERY(@pb_json) AS providerBindings,
+     JSON_QUERY(COALESCE(@diagnostics,N'[]')) AS diagnostics
+     FOR JSON PATH,WITHOUT_ARRAY_WRAPPER) value;
+ END;
+\ No newline at end of file

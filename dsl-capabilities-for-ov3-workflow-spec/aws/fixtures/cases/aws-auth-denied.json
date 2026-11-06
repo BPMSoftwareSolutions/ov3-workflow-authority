@@ -1,0 +1,31 @@
+{
+  "fixtureType": "sidefx-aws-cloud-ops-acceptance-arrangement.v2",
+  "caseId": "aws-auth-denied",
+  "capabilityId": "sfx-aws-authorize-remediation",
+  "synthetic": true,
+  "clock": "2026-11-03T00:20:00Z",
+  "sidefx": {
+    "operator": {
+      "subject": "ops-lead",
+      "grants": [
+        "remediate:start-ec2"
+      ]
+    },
+    "policy": "allows-start-after-independent-approval",
+    "approvals": [
+      {
+        "id": "apr-002",
+        "action": "start-ec2",
+        "scope": "arn:aws:ec2:us-east-2:111122223333:instance/i-0123456789abcdef0",
+        "documentName": "AWS-StartEC2InstanceWithApproval",
+        "documentVersion": "1",
+        "by": "ops-manager",
+        "requestedBy": "ops-lead",
+        "state": "denied",
+        "expiresAt": "2026-11-03T04:00:00Z"
+      }
+    ]
+  },
+  "awsCalls": [],
+  "notes": "Synthetic arrangement. AWS requests and responses use the documented shapes (see the feature's source IDs); none was captured from an AWS account."
+}

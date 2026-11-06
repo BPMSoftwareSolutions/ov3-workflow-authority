@@ -1,0 +1,37 @@
+{
+  "catalogDigest": "sha256:94a77a826d7822419a8fe8c2d00275048a541c1a1d6aff4f753835abcad0c966",
+  "moduleIndexDigest": "sha256:87c31423f0ffe824d2dd2dd8369ad352413e61e77f4dd30cd6867c5e1d85044f",
+  "documentationVersion": "3.15.2",
+  "objectives": [
+    {
+      "id": "notice",
+      "request": "Wrap the notice at 16 characters, join lines with LF, escape HTML including both quotes, and publish the resulting text with its UTF-8 byte count, padded Base64, CRC-32 and SHA-256.",
+      "text": "Release <A&B> to \"East\" café",
+      "width": 16,
+      "expectedLines": [
+        "Release <A&B> to",
+        "\"East\" café"
+      ],
+      "expectedText": "Release &lt;A&amp;B&gt; to\n&quot;East&quot; café",
+      "operations": [
+        "textwrap",
+        "html",
+        "base64",
+        "binascii",
+        "hashlib"
+      ]
+    },
+    {
+      "id": "ledger",
+      "request": "Publish an integrity manifest for the exact UTF-8 ledger, preserving CRLF. Include its byte count, padded Base64, CRC-32 and SHA-256, and determine whether its supplied SHA-256 matches.",
+      "text": "id,Δ\r\n7,42\r\n",
+      "claimedSha256": "0000000000000000000000000000000000000000000000000000000000000000",
+      "expectedMatch": false,
+      "operations": [
+        "base64",
+        "binascii",
+        "hashlib"
+      ]
+    }
+  ]
+}

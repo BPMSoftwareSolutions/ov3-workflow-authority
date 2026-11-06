@@ -1,0 +1,126 @@
+{
+  "fixtureKind": "NERDERY_CASE_ARRANGEMENT",
+  "caseId": "nrd-encounter-id-conflict",
+  "baseState": {
+    "path": "../base-state.json",
+    "sha256": "sha256:bca83056ae5b1c47e2b1858208ec0f169137d6970a5561eda434da82877977d0"
+  },
+  "authenticatedSubject": "user-a",
+  "replaceTopLevel": {
+    "encounters": [
+      {
+        "encounterId": "enc-001",
+        "ownerUserId": "user-a",
+        "definitionId": "animal-001",
+        "location": {
+          "source": "manual",
+          "description": "Synthetic park, north path"
+        },
+        "photoRef": "photo-a",
+        "nickname": "Reed"
+      },
+      {
+        "encounterId": "enc-002",
+        "ownerUserId": "user-a",
+        "definitionId": "animal-001",
+        "location": {
+          "source": "manual",
+          "description": "Synthetic park, north path"
+        },
+        "photoRef": "photo-b",
+        "nickname": "Sky"
+      },
+      {
+        "encounterId": "enc-003",
+        "ownerUserId": "user-a",
+        "definitionId": "animal-002",
+        "location": {
+          "source": "manual",
+          "description": "Synthetic park, north path"
+        },
+        "photoRef": "photo-a",
+        "nickname": null
+      },
+      {
+        "encounterId": "enc-004",
+        "ownerUserId": "user-a",
+        "definitionId": "animal-003",
+        "location": {
+          "source": "manual",
+          "description": "Synthetic park, north path"
+        },
+        "photoRef": "photo-a",
+        "nickname": null
+      },
+      {
+        "encounterId": "enc-005",
+        "ownerUserId": "user-a",
+        "definitionId": "animal-002",
+        "location": {
+          "source": "manual",
+          "description": "Synthetic park, north path"
+        },
+        "photoRef": "photo-a",
+        "nickname": null
+      },
+      {
+        "encounterId": "enc-006",
+        "ownerUserId": "user-a",
+        "definitionId": "animal-003",
+        "location": {
+          "source": "manual",
+          "description": "Synthetic park, north path"
+        },
+        "photoRef": "photo-a",
+        "nickname": null
+      },
+      {
+        "encounterId": "enc-007",
+        "ownerUserId": "user-a",
+        "definitionId": "animal-002",
+        "location": {
+          "source": "manual",
+          "description": "Synthetic park, north path"
+        },
+        "photoRef": "photo-a",
+        "nickname": null
+      },
+      {
+        "encounterId": "enc-008",
+        "ownerUserId": "user-b",
+        "definitionId": "animal-001",
+        "location": {
+          "source": "manual",
+          "description": "Synthetic park, north path"
+        },
+        "photoRef": "photo-other",
+        "nickname": null
+      },
+      {
+        "encounterId": "enc-009",
+        "ownerUserId": "user-bio",
+        "definitionId": "animal-001",
+        "location": {
+          "source": "manual",
+          "description": "Synthetic park, north path"
+        },
+        "photoRef": "photo-bio",
+        "nickname": null
+      },
+      {
+        "encounterId": "enc-new",
+        "ownerUserId": "user-a",
+        "definitionId": "animal-001",
+        "location": {
+          "source": "manual",
+          "description": "Synthetic park, north path"
+        },
+        "photoRef": "photo-a",
+        "nickname": "Reed"
+      }
+    ]
+  },
+  "providerBehavior": {},
+  "arrangement": {},
+  "isolation": "Reset to the pinned base and replace the named top-level values before this case; no case depends on a previous case."
+}

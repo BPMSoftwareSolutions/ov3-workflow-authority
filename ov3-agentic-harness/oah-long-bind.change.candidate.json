@@ -1,0 +1,32 @@
+{
+  "contractId": "declared-change.v1",
+  "changeKind": "project-tracking",
+  "payload": {
+    "contractId": "project-tracking-change.v1",
+    "project": {
+      "projectId": "ov3-complete-agentic-harness"
+    },
+    "tasks": [
+      {
+        "projectTaskId": "oah-long-bind",
+        "status": "DONE",
+        "completionDisposition": "SATISFIED",
+        "executionEvidenceRef": "{\"contractId\":\"task-execution-evidence.v1\",\"capabilityId\":\"read-flight-closure\",\"objective\":\"A flight step binds a string longer than 4,000 characters from an earlier step's retained result, and a short bind resolves as before.\",\"runRef\":\"f8f5e598-3a55-daa1-94ea-55115cfe0684\",\"disposition\":\"PROMISE_CLOSED\",\"resultState\":\"ov3-harness-long-bind closed 2/2 obligations and passed 3/3 steps. bind-long returned 6000 and bind-short returned short. The scope flight then bound the generated scope into both retention and delivery. The retained and local file digests match.\",\"executedBy\":\"OV3 Network\",\"recordedAt\":\"2026-11-02T17:03:26.780334Z\",\"trackerWriteReceipt\":{\"authorityDigest\":\"sha256:721bd89b7e131994839b36a884d82053e4c0049f4ec5e96c1a8aaa7783d99e04\",\"parametersDigest\":\"recomputable: digest of this evidence content\"},\"executionDigest\":\"sha256:a9409b5d18eb083487139d25066416073544e67239642d1e0c7bf76db16e733a\",\"corroboration\":{\"runRef\":\"d737aec2-c878-da13-62f1-01d7e6405555\",\"flightRecordingId\":\"b1b16e76-a576-4556-896f-2ea2756bc464\",\"stepIds\":[\"write-scope\",\"retain-scope\",\"deliver-scope\"],\"byteLength\":8304,\"contentDigest\":\"sha256:39ea1983a7f7cb0b5028d4b1bc0833e16c1401f2020bae997f3b45e9a1faae9e\"}}"
+      }
+    ],
+    "verificationCapabilityId": "read-project-tracker",
+    "preflight": {
+      "expected": {
+        "disposition": "terminated"
+      },
+      "input": {
+        "payload": {
+          "projectId": "ov3-complete-agentic-harness"
+        }
+      }
+    },
+    "route": {
+      "resolvedDisposition": "terminated"
+    }
+  }
+}

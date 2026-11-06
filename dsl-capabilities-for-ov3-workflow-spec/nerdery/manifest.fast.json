@@ -1,0 +1,68 @@
+{
+ "generated": "2026-11-02",
+ "plannerAgentId": "claude-code-opus-5-5-nerdery-slice",
+ "promiseId": "nerdery-citizen-slice-build",
+ "promiseDigest": "sha256:dc3f8da7fabfb29a7d04a05e4805c6232f32c921529ba8a331d33c0ed1ef6693",
+ "planDigest": "sha256:8ffc4ac2cab7fec7524ebd222f6696070f94d6c6f11e6668715c24e1489bcd1f",
+ "steps": 20,
+ "stepsJsonCharacters": 31240,
+ "replaces": [
+  "sql/dsl-07",
+  "sql/dsl-09",
+  "sql/dsl-10",
+  "nerdery/sql/nrd-01",
+  "nerdery/sql/nrd-02",
+  "nerdery/sql/nrd-03"
+ ],
+ "twinParity": [
+  {
+   "name": "fast-1-estate",
+   "differingLines": [
+    1,
+    3,
+    4,
+    5,
+    6,
+    1450
+   ]
+  },
+  {
+   "name": "fast-2-identity",
+   "differingLines": [
+    1,
+    3,
+    4,
+    5,
+    6,
+    733
+   ]
+  }
+ ],
+ "files": [
+  {
+   "file": "nerdery/sql/fast-1-estate.sql",
+   "bytes": 391511,
+   "sha256": "sha256:35b51f317506e971757832d2ae371ff7debb3d25f4f763434cc796d6fa064548"
+  },
+  {
+   "file": "nerdery/sql/fast-1-estate.commit.sql",
+   "bytes": 391613,
+   "sha256": "sha256:81c4320d26da11734e993cab8653ce423a1baac7c22511b50962d140c483f02f"
+  },
+  {
+   "file": "nerdery/sql/fast-2-identity.sql",
+   "bytes": 93576,
+   "sha256": "sha256:7bfc6dd9898220c30b2a9773363bf7c46b708e440efe9a15d59ce83fd75fbc66"
+  },
+  {
+   "file": "nerdery/sql/fast-2-identity.commit.sql",
+   "bytes": 93678,
+   "sha256": "sha256:e5ac79f1bfefeffb6b53b176bc85cffb5700c98c4a1bc06ef26aec7937acc029"
+  },
+  {
+   "file": "nerdery/flights/fast-path.steps.json",
+   "bytes": 42282,
+   "sha256": "sha256:dfc951400c9233c2001829d637b56c90f9e35799475c0420e2c249c5ec73b818"
+  }
+ ]
+}

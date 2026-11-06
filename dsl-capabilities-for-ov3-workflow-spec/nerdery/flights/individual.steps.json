@@ -1,0 +1,77 @@
+{
+  "agentId": "claude-code-opus-5-5-nerdery-slice",
+  "promise": {
+    "contractId": "flight-promise.v1",
+    "promiseId": "nerdery-collected-animal-photo-view",
+    "workClass": "owner-objective",
+    "statement": "OV3 declares nerdery-view-collected-animal, the view of one collected individual with the photo its owner uploaded, feature first: the declaration binds the retained bytes of its canonical feature and commits only when the check finds the binding CONFORMANT, and the stored document is exactly the reviewed one.",
+    "obligations": [
+      {
+        "obligationId": "O1",
+        "statement": "nerdery-view-collected-animal is declared from nerdery/dsl/nerdery-view-collected-animal.dsl, pinned to its canonical feature sha256:d01b38d276d161ba76402d4f3fbd10cd88a98f4c40c9f07e00f7f068b5874e45, and its stored document is sha256:e6f62d7eb71418ca3a2cd7d5963af711b78feb2a7b529aee316e33844b68e796.",
+        "evidence": "apply-declared-change COMMITTED; read-declared-capability-document $.documentDigest sha256:e6f62d7eb71418ca3a2cd7d5963af711b78feb2a7b529aee316e33844b68e796"
+      }
+    ]
+  },
+  "objective": "Declare nerdery-view-collected-animal, the view of one collected individual with the photo its owner uploaded, feature first through OV3's own change: capability-from-dsl binds the retained bytes of its canonical feature and commits only when the check finds the binding CONFORMANT; prove the stored document is exactly the reviewed one by its digest.",
+  "planDigest": "sha256:aa443b90cf0930cc05349f65195280f42b8ef644dbe910fdc286896e57f96b70",
+  "steps": [
+    {
+      "stepId": "plan-header",
+      "contractId": "estate-flight-plan.v1",
+      "promiseId": "nerdery-collected-animal-photo-view",
+      "flightType": "execution",
+      "workClass": "owner-objective",
+      "unknowns": []
+    },
+    {
+      "stepId": "declare-view-collected-animal",
+      "capabilityId": "apply-declared-change",
+      "historicalBasis": "the eight slice capabilities were declared this way by capability-from-dsl (flight 9810b9af, scaffold CREATE) and re-declared by the two runtime repair flights; this DSL compiles COMPILED to sha256:e6f62d7eb71418ca3a2cd7d5963af711b78feb2a7b529aee316e33844b68e796 against the retained bytes of its feature with the installed compiler (read-only run 2e4b4b4c, and again inside nerdery/sql/photo-1-estate), and its operation's mechanics met every case of that feature read-only (run ef3510aa)",
+      "input": {
+        "contractId": "declared-change.v1",
+        "changeKind": "capability-from-dsl",
+        "payload": {
+          "contractId": "capability-from-dsl-change.v1",
+          "source": "capability nerdery-view-collected-animal\nfeature nerdery-view-collected-animal sha256:d01b38d276d161ba76402d4f3fbd10cd88a98f4c40c9f07e00f7f068b5874e45\nintent: View one collected individual with its photo, for the caller whose session the declared API operation verified (Nerdery wildlife application, citizen slice)\noutcome: nerdery-view-collected-animal-result.v1 VISIBLE or REFUSED, each refusal named by its reason code, so that I see my own photo of the animal together with what I recorded about it\ninput contract nerdery-view-collected-animal-request.v1 {\"type\":\"object\",\"additionalProperties\":false,\"required\":[\"request\"],\"properties\":{\"caller\":{\"type\":\"object\",\"additionalProperties\":false,\"properties\":{\"principalId\":{\"type\":\"string\"},\"sessionId\":{\"type\":\"string\"}}},\"request\":{\"type\":\"object\"}}}\noutput contract nerdery-view-collected-animal-result.v1 {\"type\":\"object\",\"additionalProperties\":true,\"required\":[\"contractId\",\"status\"],\"properties\":{\"contractId\":{\"const\":\"nerdery-view-collected-animal-result.v1\"},\"status\":{\"enum\":[\"VISIBLE\",\"REFUSED\"]}}}\ncli display outcome as json\nscenario nerdery-view-collected-animal root terminal\ngiven: a request to view one collected individual\nwhen: the individual and its stored photo are read for the authenticated user\nthen: the user can view the individual with its photo or a named refusal\noperation nerdery-view-collected-animal.view uses provider sql-database-reader\nconfig: {\"dataSource\":\"sfx-identity-database\",\"statement\":\"EXEC wildlife.serve @operation=N'nerdery-view-collected-animal',@input=@input;\",\"resultColumn\":\"value\"}\ninput input from nerdery-view-collected-animal $\noutcome from nerdery-view-collected-animal.view $.value\n",
+          "isMcpTooling": false,
+          "verificationCapabilityId": "read-harness-authoring-state",
+          "preflight": {
+            "input": {
+              "changeKind": "capability-from-dsl",
+              "includeDefinitions": true
+            },
+            "expected": {
+              "disposition": "terminated"
+            }
+          },
+          "route": {
+            "resolvedDisposition": "terminated"
+          }
+        }
+      },
+      "obligationIds": [
+        "O1"
+      ],
+      "expect": {
+        "path": "$.disposition",
+        "equals": "COMMITTED"
+      }
+    },
+    {
+      "stepId": "prove-view-collected-animal",
+      "capabilityId": "read-declared-capability-document",
+      "historicalBasis": "read-declared-capability-document returns documentDigest, the digest of the stored document, which equals the compiler's documentDigest for the same source (the repair flights proved all eight slice capabilities this way)",
+      "input": {
+        "capabilityId": "nerdery-view-collected-animal"
+      },
+      "obligationIds": [
+        "O1"
+      ],
+      "expect": {
+        "path": "$.documentDigest",
+        "equals": "sha256:e6f62d7eb71418ca3a2cd7d5963af711b78feb2a7b529aee316e33844b68e796"
+      }
+    }
+  ]
+}

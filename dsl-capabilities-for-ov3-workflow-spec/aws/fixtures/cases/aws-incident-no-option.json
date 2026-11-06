@@ -1,0 +1,24 @@
+{
+  "fixtureType": "sidefx-aws-cloud-ops-acceptance-arrangement.v2",
+  "caseId": "aws-incident-no-option",
+  "capabilityId": "sfx-aws-resolve-service-incident",
+  "synthetic": true,
+  "clock": "2026-11-03T00:40:00Z",
+  "sidefx": {
+    "admittedAccounts": [
+      "111122223333"
+    ],
+    "components": {
+      "signal": "aws-signal-alarm",
+      "context": "aws-context-ec2",
+      "change": "aws-change-stop",
+      "impact": "aws-impact-degraded",
+      "option": "aws-option-no-runbook",
+      "authorization": null,
+      "dispatch": null,
+      "verify": null
+    }
+  },
+  "awsCalls": [],
+  "notes": "Synthetic arrangement. AWS requests and responses use the documented shapes (see the feature's source IDs); none was captured from an AWS account."
+}

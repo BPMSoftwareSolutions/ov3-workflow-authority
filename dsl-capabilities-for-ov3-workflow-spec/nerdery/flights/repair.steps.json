@@ -1,0 +1,455 @@
+{
+  "agentId": "claude-code-opus-5-5-nerdery-slice",
+  "promise": {
+    "contractId": "flight-promise.v1",
+    "promiseId": "nerdery-citizen-slice-runtime-repair",
+    "workClass": "owner-objective",
+    "statement": "OV3 re-declares the eight capabilities of the Nerdery citizen slice from their unchanged sources with the repaired compiler, which gives each provider operation's composing and outcome statements the command timeout the run-statement port requires. Each stored document is exactly the reviewed one: the declared document plus that timeout, feature pin kept, found CONFORMANT in the same change.",
+    "obligations": [
+      {
+        "obligationId": "O1",
+        "statement": "nerdery-browse-animal-collection is re-declared from nerdery/dsl/nerdery-browse-animal-collection.dsl, unchanged and pinned to its canonical feature sha256:dc19f2defcd1b0dcc5beead0fe42a0976336238216422d87397ccbcfcb7588c5, and its stored document is sha256:15585def540151adc1c10eca07ade3d3f4836bbf7c18578fde5a2bde4ea526ef: the document declared before (sha256:9e75d43fb1677d8be2ba1ee7b7496ef1d46b0266848542583c35c20d03f77aea) with commandTimeout 30 on its composing and outcome statements and no other difference.",
+        "evidence": "apply-declared-change COMMITTED; read-declared-capability-document $.documentDigest sha256:15585def540151adc1c10eca07ade3d3f4836bbf7c18578fde5a2bde4ea526ef"
+      },
+      {
+        "obligationId": "O2",
+        "statement": "nerdery-view-animal-definition is re-declared from nerdery/dsl/nerdery-view-animal-definition.dsl, unchanged and pinned to its canonical feature sha256:2b4c55fd4f28e46b17394b620ba9b9d78f854557b4c85a909989023a036472c5, and its stored document is sha256:b77c7293642c1482c6a65e1e109189d7d23c113c0a95c50c24ee3f1ff367e85b: the document declared before (sha256:82247dea4f373aa002a0467c1a9851a34fac98e26ae0103f5d52e4335be8b06d) with commandTimeout 30 on its composing and outcome statements and no other difference.",
+        "evidence": "apply-declared-change COMMITTED; read-declared-capability-document $.documentDigest sha256:b77c7293642c1482c6a65e1e109189d7d23c113c0a95c50c24ee3f1ff367e85b"
+      },
+      {
+        "obligationId": "O3",
+        "statement": "nerdery-upload-encounter-photo is re-declared from nerdery/dsl/nerdery-upload-encounter-photo.dsl, unchanged and pinned to its canonical feature sha256:38e58430acc3a39e88078f4a71000dacb3d585124a7a0cef2f906bcb35716de5, and its stored document is sha256:406a7eed9edead17f4739ec55d348eef88193a32b1d9f2e3e0214132782ef267: the document declared before (sha256:9ada077b47703f1fcc018960fb642df54b5f6c25c1c5364c46fe031b53ea6f75) with commandTimeout 30 on its composing and outcome statements and no other difference.",
+        "evidence": "apply-declared-change COMMITTED; read-declared-capability-document $.documentDigest sha256:406a7eed9edead17f4739ec55d348eef88193a32b1d9f2e3e0214132782ef267"
+      },
+      {
+        "obligationId": "O4",
+        "statement": "nerdery-record-animal-encounter is re-declared from nerdery/dsl/nerdery-record-animal-encounter.dsl, unchanged and pinned to its canonical feature sha256:df6cea9ceb5ce4d6a63755f8c42e80bc285191fecc18598e695ab6bd73e03a23, and its stored document is sha256:0cd6d46e2ac04e13bd9e8174b0d949b2a23692ad1ecb471c6dd1338b41237e23: the document declared before (sha256:f573243de9858b983225f43be402c897a603af6d275b95650ff6fccf9bcc2158) with commandTimeout 30 on its composing and outcome statements and no other difference.",
+        "evidence": "apply-declared-change COMMITTED; read-declared-capability-document $.documentDigest sha256:0cd6d46e2ac04e13bd9e8174b0d949b2a23692ad1ecb471c6dd1338b41237e23"
+      },
+      {
+        "obligationId": "O5",
+        "statement": "nerdery-view-collected-animals is re-declared from nerdery/dsl/nerdery-view-collected-animals.dsl, unchanged and pinned to its canonical feature sha256:a8f1920e6569b46ab5924fe841bebd5cc63a0993accb26f5a2e78cd20bcd835c, and its stored document is sha256:c408418707ec644ac93e52ac649b1a057db8c6b3a479a730fd992f10ce47b60a: the document declared before (sha256:8b3e21317eb7595f5600015804dcbec2e10d0ef4ae2e770552187c92264ab039) with commandTimeout 30 on its composing and outcome statements and no other difference.",
+        "evidence": "apply-declared-change COMMITTED; read-declared-capability-document $.documentDigest sha256:c408418707ec644ac93e52ac649b1a057db8c6b3a479a730fd992f10ce47b60a"
+      },
+      {
+        "obligationId": "O6",
+        "statement": "nerdery-set-animal-team is re-declared from nerdery/dsl/nerdery-set-animal-team.dsl, unchanged and pinned to its canonical feature sha256:6dd6c439568c45a7b63b8ad2745ac200f73c3d6d45e043d06b858cf0926048d2, and its stored document is sha256:e2e19f12aefb4ba796c96d3499ae1dd6bde539dc9210669c9686e21758e6b2eb: the document declared before (sha256:39f49bf066dae2b7076cf6ced2bc1f127ea448b530a6bf6d73d8a003945f0a50) with commandTimeout 30 on its composing and outcome statements and no other difference.",
+        "evidence": "apply-declared-change COMMITTED; read-declared-capability-document $.documentDigest sha256:e2e19f12aefb4ba796c96d3499ae1dd6bde539dc9210669c9686e21758e6b2eb"
+      },
+      {
+        "obligationId": "O7",
+        "statement": "nerdery-view-wildlife-home is re-declared from nerdery/dsl/nerdery-view-wildlife-home.dsl, unchanged and pinned to its canonical feature sha256:d91ded8a312cb3eca7c69a6004026db720227bfb8582623674705d6dfe7e4bc4, and its stored document is sha256:19c2755268fd1c3f664f304e907a0859c7484e4a03cc78b043ded5e22cb288eb: the document declared before (sha256:b4251058bdb9df40d1aab11615e70fafe24a798256d88adc537e7ac512bddfd1) with commandTimeout 30 on its composing and outcome statements and no other difference.",
+        "evidence": "apply-declared-change COMMITTED; read-declared-capability-document $.documentDigest sha256:19c2755268fd1c3f664f304e907a0859c7484e4a03cc78b043ded5e22cb288eb"
+      },
+      {
+        "obligationId": "O8",
+        "statement": "nerdery-add-animal-definition is re-declared from nerdery/dsl/nerdery-add-animal-definition.dsl, unchanged and pinned to its canonical feature sha256:cecfea79150494650b84f119ec59e26c742c7bc3822601f831aaf17ee1b2c4f2, and its stored document is sha256:eb55fd8339c6aca19606bc2953c03340d4a734c203b968db6837388bfd151ac7: the document declared before (sha256:6eca3d7aaeef7e50525518d42c5ae32dc3b6d866881929c133bf1af8d0e39189) with commandTimeout 30 on its composing and outcome statements and no other difference.",
+        "evidence": "apply-declared-change COMMITTED; read-declared-capability-document $.documentDigest sha256:eb55fd8339c6aca19606bc2953c03340d4a734c203b968db6837388bfd151ac7"
+      }
+    ]
+  },
+  "objective": "Repair the runtime of the Nerdery citizen slice through OV3's own changes: re-declare its eight capabilities from their unchanged sources with capability-from-dsl, now that the repaired compiler gives each provider operation's composing and outcome statements the command timeout the run-statement port requires; each declaration binds the retained bytes of its canonical feature and commits only when the check finds the binding CONFORMANT; prove each stored document is exactly the reviewed one by its digest.",
+  "planDigest": "sha256:31a627482aa3cc6d285c485b6d22707f18283e69b10b0654454bc8750cbdecc4",
+  "steps": [
+    {
+      "stepId": "plan-header",
+      "contractId": "estate-flight-plan.v1",
+      "promiseId": "nerdery-citizen-slice-runtime-repair",
+      "flightType": "execution",
+      "workClass": "owner-objective",
+      "unknowns": []
+    },
+    {
+      "stepId": "redeclare-browse-animal-collection",
+      "capabilityId": "apply-declared-change",
+      "historicalBasis": "flight 9810b9af (run 4c5b1567, 2026-11-03T03:15Z) declared this source COMMITTED, and the first live call of the slice (run 53ad6ca6) failed at its composing statement with DECLARED_PROVIDER_CONFIGURATION_VALUE_MISSING:commandTimeout; the repaired compiler compiles this source COMPILED to sha256:15585def540151adc1c10eca07ade3d3f4836bbf7c18578fde5a2bde4ea526ef (read-only run a170c9ba), the declared document plus commandTimeout 30 on both statements, and a declaration of an existing capability is recorded as scaffold EXISTING",
+      "input": {
+        "contractId": "declared-change.v1",
+        "changeKind": "capability-from-dsl",
+        "payload": {
+          "contractId": "capability-from-dsl-change.v1",
+          "source": "capability nerdery-browse-animal-collection\nfeature nerdery-browse-animal-collection sha256:dc19f2defcd1b0dcc5beead0fe42a0976336238216422d87397ccbcfcb7588c5\nintent: Browse and search the animal-definition collection, for the caller whose session the declared API operation verified (Nerdery wildlife application, citizen slice)\noutcome: nerdery-browse-animal-collection-result.v1 LISTED or REFUSED, each refusal named by its reason code, so that I can see what I have collected and discover what remains\ninput contract nerdery-browse-animal-collection-request.v1 {\"type\":\"object\",\"additionalProperties\":false,\"required\":[\"request\"],\"properties\":{\"caller\":{\"type\":\"object\",\"additionalProperties\":false,\"properties\":{\"principalId\":{\"type\":\"string\"},\"sessionId\":{\"type\":\"string\"}}},\"request\":{\"type\":\"object\"}}}\noutput contract nerdery-browse-animal-collection-result.v1 {\"type\":\"object\",\"additionalProperties\":true,\"required\":[\"contractId\",\"status\"],\"properties\":{\"contractId\":{\"const\":\"nerdery-browse-animal-collection-result.v1\"},\"status\":{\"enum\":[\"LISTED\",\"REFUSED\"]}}}\ncli display outcome as json\nscenario nerdery-browse-animal-collection root terminal\ngiven: a collection browse request\nwhen: the animal-definition collection is read for the authenticated user\nthen: the ordered matching collection is visible with only the information unlocked for that user or a named refusal\noperation nerdery-browse-animal-collection.browse uses provider sql-database-reader\nconfig: {\"dataSource\":\"sfx-identity-database\",\"statement\":\"EXEC wildlife.serve @operation=N'nerdery-browse-animal-collection',@input=@input;\",\"resultColumn\":\"value\"}\ninput input from nerdery-browse-animal-collection $\noutcome from nerdery-browse-animal-collection.browse $.value\n",
+          "isMcpTooling": false,
+          "verificationCapabilityId": "read-harness-authoring-state",
+          "preflight": {
+            "input": {
+              "changeKind": "capability-from-dsl",
+              "includeDefinitions": true
+            },
+            "expected": {
+              "disposition": "terminated"
+            }
+          },
+          "route": {
+            "resolvedDisposition": "terminated"
+          }
+        }
+      },
+      "obligationIds": [
+        "O1"
+      ],
+      "expect": {
+        "path": "$.disposition",
+        "equals": "COMMITTED"
+      }
+    },
+    {
+      "stepId": "prove-browse-animal-collection",
+      "capabilityId": "read-declared-capability-document",
+      "historicalBasis": "read-declared-capability-document returns documentDigest, the digest of the stored document, which equals the compiler's documentDigest for the same source (sha256:9e75d43f... for nerdery-browse-animal-collection in run ab6ba554 and in its read-only compile)",
+      "input": {
+        "capabilityId": "nerdery-browse-animal-collection"
+      },
+      "obligationIds": [
+        "O1"
+      ],
+      "expect": {
+        "path": "$.documentDigest",
+        "equals": "sha256:15585def540151adc1c10eca07ade3d3f4836bbf7c18578fde5a2bde4ea526ef"
+      }
+    },
+    {
+      "stepId": "redeclare-view-animal-definition",
+      "capabilityId": "apply-declared-change",
+      "historicalBasis": "flight 9810b9af (run 4c5b1567, 2026-11-03T03:15Z) declared this source COMMITTED, and the first live call of the slice (run 53ad6ca6) failed at its composing statement with DECLARED_PROVIDER_CONFIGURATION_VALUE_MISSING:commandTimeout; the repaired compiler compiles this source COMPILED to sha256:b77c7293642c1482c6a65e1e109189d7d23c113c0a95c50c24ee3f1ff367e85b (read-only run 5a4126dd), the declared document plus commandTimeout 30 on both statements, and a declaration of an existing capability is recorded as scaffold EXISTING",
+      "input": {
+        "contractId": "declared-change.v1",
+        "changeKind": "capability-from-dsl",
+        "payload": {
+          "contractId": "capability-from-dsl-change.v1",
+          "source": "capability nerdery-view-animal-definition\nfeature nerdery-view-animal-definition sha256:2b4c55fd4f28e46b17394b620ba9b9d78f854557b4c85a909989023a036472c5\nintent: View the information unlocked for an animal definition, for the caller whose session the declared API operation verified (Nerdery wildlife application, citizen slice)\noutcome: nerdery-view-animal-definition-result.v1 VISIBLE or REFUSED, each refusal named by its reason code, so that I can learn from the animal information that my collection has unlocked\ninput contract nerdery-view-animal-definition-request.v1 {\"type\":\"object\",\"additionalProperties\":false,\"required\":[\"request\"],\"properties\":{\"caller\":{\"type\":\"object\",\"additionalProperties\":false,\"properties\":{\"principalId\":{\"type\":\"string\"},\"sessionId\":{\"type\":\"string\"}}},\"request\":{\"type\":\"object\"}}}\noutput contract nerdery-view-animal-definition-result.v1 {\"type\":\"object\",\"additionalProperties\":true,\"required\":[\"contractId\",\"status\"],\"properties\":{\"contractId\":{\"const\":\"nerdery-view-animal-definition-result.v1\"},\"status\":{\"enum\":[\"VISIBLE\",\"REFUSED\"]}}}\ncli display outcome as json\nscenario nerdery-view-animal-definition root terminal\ngiven: an animal definition identity\nwhen: the animal definition is read for the authenticated user\nthen: the permitted animal information is available or a named refusal explains why it cannot be viewed\noperation nerdery-view-animal-definition.view uses provider sql-database-reader\nconfig: {\"dataSource\":\"sfx-identity-database\",\"statement\":\"EXEC wildlife.serve @operation=N'nerdery-view-animal-definition',@input=@input;\",\"resultColumn\":\"value\"}\ninput input from nerdery-view-animal-definition $\noutcome from nerdery-view-animal-definition.view $.value\n",
+          "isMcpTooling": false,
+          "verificationCapabilityId": "read-harness-authoring-state",
+          "preflight": {
+            "input": {
+              "changeKind": "capability-from-dsl",
+              "includeDefinitions": true
+            },
+            "expected": {
+              "disposition": "terminated"
+            }
+          },
+          "route": {
+            "resolvedDisposition": "terminated"
+          }
+        }
+      },
+      "obligationIds": [
+        "O2"
+      ],
+      "expect": {
+        "path": "$.disposition",
+        "equals": "COMMITTED"
+      }
+    },
+    {
+      "stepId": "prove-view-animal-definition",
+      "capabilityId": "read-declared-capability-document",
+      "historicalBasis": "read-declared-capability-document returns documentDigest, the digest of the stored document, which equals the compiler's documentDigest for the same source (sha256:9e75d43f... for nerdery-browse-animal-collection in run ab6ba554 and in its read-only compile)",
+      "input": {
+        "capabilityId": "nerdery-view-animal-definition"
+      },
+      "obligationIds": [
+        "O2"
+      ],
+      "expect": {
+        "path": "$.documentDigest",
+        "equals": "sha256:b77c7293642c1482c6a65e1e109189d7d23c113c0a95c50c24ee3f1ff367e85b"
+      }
+    },
+    {
+      "stepId": "redeclare-upload-encounter-photo",
+      "capabilityId": "apply-declared-change",
+      "historicalBasis": "flight 9810b9af (run 4c5b1567, 2026-11-03T03:15Z) declared this source COMMITTED, and the first live call of the slice (run 53ad6ca6) failed at its composing statement with DECLARED_PROVIDER_CONFIGURATION_VALUE_MISSING:commandTimeout; the repaired compiler compiles this source COMPILED to sha256:406a7eed9edead17f4739ec55d348eef88193a32b1d9f2e3e0214132782ef267 (read-only run e9610d68), the declared document plus commandTimeout 30 on both statements, and a declaration of an existing capability is recorded as scaffold EXISTING",
+      "input": {
+        "contractId": "declared-change.v1",
+        "changeKind": "capability-from-dsl",
+        "payload": {
+          "contractId": "capability-from-dsl-change.v1",
+          "source": "capability nerdery-upload-encounter-photo\nfeature nerdery-upload-encounter-photo sha256:38e58430acc3a39e88078f4a71000dacb3d585124a7a0cef2f906bcb35716de5\nintent: Retain a photo for an animal encounter, for the caller whose session the declared API operation verified (Nerdery wildlife application, citizen slice)\noutcome: nerdery-upload-encounter-photo-result.v1 UPLOADED or REFUSED, each refusal named by its reason code, so that the photo can be attached to my recorded animal\ninput contract nerdery-upload-encounter-photo-request.v1 {\"type\":\"object\",\"additionalProperties\":false,\"required\":[\"request\"],\"properties\":{\"caller\":{\"type\":\"object\",\"additionalProperties\":false,\"properties\":{\"principalId\":{\"type\":\"string\"},\"sessionId\":{\"type\":\"string\"}}},\"request\":{\"type\":\"object\"}}}\noutput contract nerdery-upload-encounter-photo-result.v1 {\"type\":\"object\",\"additionalProperties\":true,\"required\":[\"contractId\",\"status\"],\"properties\":{\"contractId\":{\"const\":\"nerdery-upload-encounter-photo-result.v1\"},\"status\":{\"enum\":[\"UPLOADED\",\"REFUSED\"]}}}\ncli display outcome as json\nscenario nerdery-upload-encounter-photo root terminal\ngiven: selected encounter photo bytes\nwhen: the encounter photo is uploaded for the authenticated user\nthen: an owned retained photo reference is available or a named refusal explains why it is not available\noperation nerdery-upload-encounter-photo.upload uses provider sql-database-reader\nconfig: {\"dataSource\":\"sfx-identity-database\",\"statement\":\"EXEC wildlife.serve @operation=N'nerdery-upload-encounter-photo',@input=@input;\",\"resultColumn\":\"value\"}\ninput input from nerdery-upload-encounter-photo $\noutcome from nerdery-upload-encounter-photo.upload $.value\n",
+          "isMcpTooling": false,
+          "verificationCapabilityId": "read-harness-authoring-state",
+          "preflight": {
+            "input": {
+              "changeKind": "capability-from-dsl",
+              "includeDefinitions": true
+            },
+            "expected": {
+              "disposition": "terminated"
+            }
+          },
+          "route": {
+            "resolvedDisposition": "terminated"
+          }
+        }
+      },
+      "obligationIds": [
+        "O3"
+      ],
+      "expect": {
+        "path": "$.disposition",
+        "equals": "COMMITTED"
+      }
+    },
+    {
+      "stepId": "prove-upload-encounter-photo",
+      "capabilityId": "read-declared-capability-document",
+      "historicalBasis": "read-declared-capability-document returns documentDigest, the digest of the stored document, which equals the compiler's documentDigest for the same source (sha256:9e75d43f... for nerdery-browse-animal-collection in run ab6ba554 and in its read-only compile)",
+      "input": {
+        "capabilityId": "nerdery-upload-encounter-photo"
+      },
+      "obligationIds": [
+        "O3"
+      ],
+      "expect": {
+        "path": "$.documentDigest",
+        "equals": "sha256:406a7eed9edead17f4739ec55d348eef88193a32b1d9f2e3e0214132782ef267"
+      }
+    },
+    {
+      "stepId": "redeclare-record-animal-encounter",
+      "capabilityId": "apply-declared-change",
+      "historicalBasis": "flight 9810b9af (run 4c5b1567, 2026-11-03T03:15Z) declared this source COMMITTED, and the first live call of the slice (run 53ad6ca6) failed at its composing statement with DECLARED_PROVIDER_CONFIGURATION_VALUE_MISSING:commandTimeout; the repaired compiler compiles this source COMPILED to sha256:0cd6d46e2ac04e13bd9e8174b0d949b2a23692ad1ecb471c6dd1338b41237e23 (read-only run 8dc9fddc), the declared document plus commandTimeout 30 on both statements, and a declaration of an existing capability is recorded as scaffold EXISTING",
+      "input": {
+        "contractId": "declared-change.v1",
+        "changeKind": "capability-from-dsl",
+        "payload": {
+          "contractId": "capability-from-dsl-change.v1",
+          "source": "capability nerdery-record-animal-encounter\nfeature nerdery-record-animal-encounter sha256:df6cea9ceb5ce4d6a63755f8c42e80bc285191fecc18598e695ab6bd73e03a23\nintent: Record an animal encounter, for the caller whose session the declared API operation verified (Nerdery wildlife application, citizen slice)\noutcome: nerdery-record-animal-encounter-result.v1 RECORDED or REFUSED, each refusal named by its reason code, so that the individual animal is in my collection\ninput contract nerdery-record-animal-encounter-request.v1 {\"type\":\"object\",\"additionalProperties\":false,\"required\":[\"request\"],\"properties\":{\"caller\":{\"type\":\"object\",\"additionalProperties\":false,\"properties\":{\"principalId\":{\"type\":\"string\"},\"sessionId\":{\"type\":\"string\"}}},\"request\":{\"type\":\"object\"}}}\noutput contract nerdery-record-animal-encounter-result.v1 {\"type\":\"object\",\"additionalProperties\":true,\"required\":[\"contractId\",\"status\"],\"properties\":{\"contractId\":{\"const\":\"nerdery-record-animal-encounter-result.v1\"},\"status\":{\"enum\":[\"RECORDED\",\"REFUSED\"]}}}\ncli display outcome as json\nscenario nerdery-record-animal-encounter root terminal\ngiven: an encounter request with an animal selection, location, photo reference and optional nickname\nwhen: the animal encounter is recorded for the authenticated user\nthen: the individual animal is recorded once for this request or a named refusal leaves the collection unchanged\noperation nerdery-record-animal-encounter.record uses provider sql-database-reader\nconfig: {\"dataSource\":\"sfx-identity-database\",\"statement\":\"EXEC wildlife.serve @operation=N'nerdery-record-animal-encounter',@input=@input;\",\"resultColumn\":\"value\"}\ninput input from nerdery-record-animal-encounter $\noutcome from nerdery-record-animal-encounter.record $.value\n",
+          "isMcpTooling": false,
+          "verificationCapabilityId": "read-harness-authoring-state",
+          "preflight": {
+            "input": {
+              "changeKind": "capability-from-dsl",
+              "includeDefinitions": true
+            },
+            "expected": {
+              "disposition": "terminated"
+            }
+          },
+          "route": {
+            "resolvedDisposition": "terminated"
+          }
+        }
+      },
+      "obligationIds": [
+        "O4"
+      ],
+      "expect": {
+        "path": "$.disposition",
+        "equals": "COMMITTED"
+      }
+    },
+    {
+      "stepId": "prove-record-animal-encounter",
+      "capabilityId": "read-declared-capability-document",
+      "historicalBasis": "read-declared-capability-document returns documentDigest, the digest of the stored document, which equals the compiler's documentDigest for the same source (sha256:9e75d43f... for nerdery-browse-animal-collection in run ab6ba554 and in its read-only compile)",
+      "input": {
+        "capabilityId": "nerdery-record-animal-encounter"
+      },
+      "obligationIds": [
+        "O4"
+      ],
+      "expect": {
+        "path": "$.documentDigest",
+        "equals": "sha256:0cd6d46e2ac04e13bd9e8174b0d949b2a23692ad1ecb471c6dd1338b41237e23"
+      }
+    },
+    {
+      "stepId": "redeclare-view-collected-animals",
+      "capabilityId": "apply-declared-change",
+      "historicalBasis": "flight 9810b9af (run 4c5b1567, 2026-11-03T03:15Z) declared this source COMMITTED, and the first live call of the slice (run 53ad6ca6) failed at its composing statement with DECLARED_PROVIDER_CONFIGURATION_VALUE_MISSING:commandTimeout; the repaired compiler compiles this source COMPILED to sha256:c408418707ec644ac93e52ac649b1a057db8c6b3a479a730fd992f10ce47b60a (read-only run db3ee8d9), the declared document plus commandTimeout 30 on both statements, and a declaration of an existing capability is recorded as scaffold EXISTING",
+      "input": {
+        "contractId": "declared-change.v1",
+        "changeKind": "capability-from-dsl",
+        "payload": {
+          "contractId": "capability-from-dsl-change.v1",
+          "source": "capability nerdery-view-collected-animals\nfeature nerdery-view-collected-animals sha256:a8f1920e6569b46ab5924fe841bebd5cc63a0993accb26f5a2e78cd20bcd835c\nintent: View the individual animals in a personal collection, for the caller whose session the declared API operation verified (Nerdery wildlife application, citizen slice)\noutcome: nerdery-view-collected-animals-result.v1 LISTED or REFUSED, each refusal named by its reason code, so that I recognize my animals by my photos and optional nicknames\ninput contract nerdery-view-collected-animals-request.v1 {\"type\":\"object\",\"additionalProperties\":false,\"required\":[\"request\"],\"properties\":{\"caller\":{\"type\":\"object\",\"additionalProperties\":false,\"properties\":{\"principalId\":{\"type\":\"string\"},\"sessionId\":{\"type\":\"string\"}}},\"request\":{\"type\":\"object\"}}}\noutput contract nerdery-view-collected-animals-result.v1 {\"type\":\"object\",\"additionalProperties\":true,\"required\":[\"contractId\",\"status\"],\"properties\":{\"contractId\":{\"const\":\"nerdery-view-collected-animals-result.v1\"},\"status\":{\"enum\":[\"LISTED\",\"REFUSED\"]}}}\ncli display outcome as json\nscenario nerdery-view-collected-animals root terminal\ngiven: a personal collected-animals request\nwhen: the recorded individuals are read for the authenticated user\nthen: the user can view their individual collected animals or a named refusal\noperation nerdery-view-collected-animals.view uses provider sql-database-reader\nconfig: {\"dataSource\":\"sfx-identity-database\",\"statement\":\"EXEC wildlife.serve @operation=N'nerdery-view-collected-animals',@input=@input;\",\"resultColumn\":\"value\"}\ninput input from nerdery-view-collected-animals $\noutcome from nerdery-view-collected-animals.view $.value\n",
+          "isMcpTooling": false,
+          "verificationCapabilityId": "read-harness-authoring-state",
+          "preflight": {
+            "input": {
+              "changeKind": "capability-from-dsl",
+              "includeDefinitions": true
+            },
+            "expected": {
+              "disposition": "terminated"
+            }
+          },
+          "route": {
+            "resolvedDisposition": "terminated"
+          }
+        }
+      },
+      "obligationIds": [
+        "O5"
+      ],
+      "expect": {
+        "path": "$.disposition",
+        "equals": "COMMITTED"
+      }
+    },
+    {
+      "stepId": "prove-view-collected-animals",
+      "capabilityId": "read-declared-capability-document",
+      "historicalBasis": "read-declared-capability-document returns documentDigest, the digest of the stored document, which equals the compiler's documentDigest for the same source (sha256:9e75d43f... for nerdery-browse-animal-collection in run ab6ba554 and in its read-only compile)",
+      "input": {
+        "capabilityId": "nerdery-view-collected-animals"
+      },
+      "obligationIds": [
+        "O5"
+      ],
+      "expect": {
+        "path": "$.documentDigest",
+        "equals": "sha256:c408418707ec644ac93e52ac649b1a057db8c6b3a479a730fd992f10ce47b60a"
+      }
+    },
+    {
+      "stepId": "redeclare-set-animal-team",
+      "capabilityId": "apply-declared-change",
+      "historicalBasis": "flight 9810b9af (run 4c5b1567, 2026-11-03T03:15Z) declared this source COMMITTED, and the first live call of the slice (run 53ad6ca6) failed at its composing statement with DECLARED_PROVIDER_CONFIGURATION_VALUE_MISSING:commandTimeout; the repaired compiler compiles this source COMPILED to sha256:e2e19f12aefb4ba796c96d3499ae1dd6bde539dc9210669c9686e21758e6b2eb (read-only run 862af3e0), the declared document plus commandTimeout 30 on both statements, and a declaration of an existing capability is recorded as scaffold EXISTING",
+      "input": {
+        "contractId": "declared-change.v1",
+        "changeKind": "capability-from-dsl",
+        "payload": {
+          "contractId": "capability-from-dsl-change.v1",
+          "source": "capability nerdery-set-animal-team\nfeature nerdery-set-animal-team sha256:6dd6c439568c45a7b63b8ad2745ac200f73c3d6d45e043d06b858cf0926048d2\nintent: Select a personal team of up to six collected animals, for the caller whose session the declared API operation verified (Nerdery wildlife application, citizen slice)\noutcome: nerdery-set-animal-team-result.v1 SAVED or REFUSED, each refusal named by its reason code, so that my chosen animals can appear together on my home page\ninput contract nerdery-set-animal-team-request.v1 {\"type\":\"object\",\"additionalProperties\":false,\"required\":[\"request\"],\"properties\":{\"caller\":{\"type\":\"object\",\"additionalProperties\":false,\"properties\":{\"principalId\":{\"type\":\"string\"},\"sessionId\":{\"type\":\"string\"}}},\"request\":{\"type\":\"object\"}}}\noutput contract nerdery-set-animal-team-result.v1 {\"type\":\"object\",\"additionalProperties\":true,\"required\":[\"contractId\",\"status\"],\"properties\":{\"contractId\":{\"const\":\"nerdery-set-animal-team-result.v1\"},\"status\":{\"enum\":[\"SAVED\",\"REFUSED\"]}}}\ncli display outcome as json\nscenario nerdery-set-animal-team root terminal\ngiven: a proposed team of collected encounter identities\nwhen: the team selection is saved for the authenticated user\nthen: the selected team of at most six animals is saved or a named refusal preserves the previous team\noperation nerdery-set-animal-team.set uses provider sql-database-reader\nconfig: {\"dataSource\":\"sfx-identity-database\",\"statement\":\"EXEC wildlife.serve @operation=N'nerdery-set-animal-team',@input=@input;\",\"resultColumn\":\"value\"}\ninput input from nerdery-set-animal-team $\noutcome from nerdery-set-animal-team.set $.value\n",
+          "isMcpTooling": false,
+          "verificationCapabilityId": "read-harness-authoring-state",
+          "preflight": {
+            "input": {
+              "changeKind": "capability-from-dsl",
+              "includeDefinitions": true
+            },
+            "expected": {
+              "disposition": "terminated"
+            }
+          },
+          "route": {
+            "resolvedDisposition": "terminated"
+          }
+        }
+      },
+      "obligationIds": [
+        "O6"
+      ],
+      "expect": {
+        "path": "$.disposition",
+        "equals": "COMMITTED"
+      }
+    },
+    {
+      "stepId": "prove-set-animal-team",
+      "capabilityId": "read-declared-capability-document",
+      "historicalBasis": "read-declared-capability-document returns documentDigest, the digest of the stored document, which equals the compiler's documentDigest for the same source (sha256:9e75d43f... for nerdery-browse-animal-collection in run ab6ba554 and in its read-only compile)",
+      "input": {
+        "capabilityId": "nerdery-set-animal-team"
+      },
+      "obligationIds": [
+        "O6"
+      ],
+      "expect": {
+        "path": "$.documentDigest",
+        "equals": "sha256:e2e19f12aefb4ba796c96d3499ae1dd6bde539dc9210669c9686e21758e6b2eb"
+      }
+    },
+    {
+      "stepId": "redeclare-view-wildlife-home",
+      "capabilityId": "apply-declared-change",
+      "historicalBasis": "flight 9810b9af (run 4c5b1567, 2026-11-03T03:15Z) declared this source COMMITTED, and the first live call of the slice (run 53ad6ca6) failed at its composing statement with DECLARED_PROVIDER_CONFIGURATION_VALUE_MISSING:commandTimeout; the repaired compiler compiles this source COMPILED to sha256:19c2755268fd1c3f664f304e907a0859c7484e4a03cc78b043ded5e22cb288eb (read-only run fa52a79b), the declared document plus commandTimeout 30 on both statements, and a declaration of an existing capability is recorded as scaffold EXISTING",
+      "input": {
+        "contractId": "declared-change.v1",
+        "changeKind": "capability-from-dsl",
+        "payload": {
+          "contractId": "capability-from-dsl-change.v1",
+          "source": "capability nerdery-view-wildlife-home\nfeature nerdery-view-wildlife-home sha256:d91ded8a312cb3eca7c69a6004026db720227bfb8582623674705d6dfe7e4bc4\nintent: View the selected team on the wildlife home page, for the caller whose session the declared API operation verified (Nerdery wildlife application, citizen slice)\noutcome: nerdery-view-wildlife-home-result.v1 VISIBLE or REFUSED, each refusal named by its reason code, so that my personal wildlife team is immediately recognizable\ninput contract nerdery-view-wildlife-home-request.v1 {\"type\":\"object\",\"additionalProperties\":false,\"required\":[\"request\"],\"properties\":{\"caller\":{\"type\":\"object\",\"additionalProperties\":false,\"properties\":{\"principalId\":{\"type\":\"string\"},\"sessionId\":{\"type\":\"string\"}}},\"request\":{\"type\":\"object\"}}}\noutput contract nerdery-view-wildlife-home-result.v1 {\"type\":\"object\",\"additionalProperties\":true,\"required\":[\"contractId\",\"status\"],\"properties\":{\"contractId\":{\"const\":\"nerdery-view-wildlife-home-result.v1\"},\"status\":{\"enum\":[\"VISIBLE\",\"REFUSED\"]}}}\ncli display outcome as json\nscenario nerdery-view-wildlife-home root terminal\ngiven: a wildlife home-page request\nwhen: the home-page experience is read for the authenticated user\nthen: the user sees their saved team or a named refusal\noperation nerdery-view-wildlife-home.view uses provider sql-database-reader\nconfig: {\"dataSource\":\"sfx-identity-database\",\"statement\":\"EXEC wildlife.serve @operation=N'nerdery-view-wildlife-home',@input=@input;\",\"resultColumn\":\"value\"}\ninput input from nerdery-view-wildlife-home $\noutcome from nerdery-view-wildlife-home.view $.value\n",
+          "isMcpTooling": false,
+          "verificationCapabilityId": "read-harness-authoring-state",
+          "preflight": {
+            "input": {
+              "changeKind": "capability-from-dsl",
+              "includeDefinitions": true
+            },
+            "expected": {
+              "disposition": "terminated"
+            }
+          },
+          "route": {
+            "resolvedDisposition": "terminated"
+          }
+        }
+      },
+      "obligationIds": [
+        "O7"
+      ],
+      "expect": {
+        "path": "$.disposition",
+        "equals": "COMMITTED"
+      }
+    },
+    {
+      "stepId": "prove-view-wildlife-home",
+      "capabilityId": "read-declared-capability-document",
+      "historicalBasis": "read-declared-capability-document returns documentDigest, the digest of the stored document, which equals the compiler's documentDigest for the same source (sha256:9e75d43f... for nerdery-browse-animal-collection in run ab6ba554 and in its read-only compile)",
+      "input": {
+        "capabilityId": "nerdery-view-wildlife-home"
+      },
+      "obligationIds": [
+        "O7"
+      ],
+      "expect": {
+        "path": "$.documentDigest",
+        "equals": "sha256:19c2755268fd1c3f664f304e907a0859c7484e4a03cc78b043ded5e22cb288eb"
+      }
+    },
+    {
+      "stepId": "redeclare-add-animal-definition",
+      "capabilityId": "apply-declared-change",
+      "historicalBasis": "flight 9810b9af (run 4c5b1567, 2026-11-03T03:15Z) declared this source COMMITTED, and the first live call of the slice (run 53ad6ca6) failed at its composing statement with DECLARED_PROVIDER_CONFIGURATION_VALUE_MISSING:commandTimeout; the repaired compiler compiles this source COMPILED to sha256:eb55fd8339c6aca19606bc2953c03340d4a734c203b968db6837388bfd151ac7 (read-only run 9e276d31), the declared document plus commandTimeout 30 on both statements, and a declaration of an existing capability is recorded as scaffold EXISTING",
+      "input": {
+        "contractId": "declared-change.v1",
+        "changeKind": "capability-from-dsl",
+        "payload": {
+          "contractId": "capability-from-dsl-change.v1",
+          "source": "capability nerdery-add-animal-definition\nfeature nerdery-add-animal-definition sha256:cecfea79150494650b84f119ec59e26c742c7bc3822601f831aaf17ee1b2c4f2\nintent: Add an animal definition, for the caller whose session the declared API operation verified (Nerdery wildlife application, citizen slice)\noutcome: nerdery-add-animal-definition-result.v1 ADDED or REFUSED, each refusal named by its reason code, so that users can discover and collect that animal\ninput contract nerdery-add-animal-definition-request.v1 {\"type\":\"object\",\"additionalProperties\":false,\"required\":[\"request\"],\"properties\":{\"caller\":{\"type\":\"object\",\"additionalProperties\":false,\"properties\":{\"principalId\":{\"type\":\"string\"},\"sessionId\":{\"type\":\"string\"}}},\"request\":{\"type\":\"object\"}}}\noutput contract nerdery-add-animal-definition-result.v1 {\"type\":\"object\",\"additionalProperties\":true,\"required\":[\"contractId\",\"status\"],\"properties\":{\"contractId\":{\"const\":\"nerdery-add-animal-definition-result.v1\"},\"status\":{\"enum\":[\"ADDED\",\"REFUSED\"]}}}\ncli display outcome as json\nscenario nerdery-add-animal-definition root terminal\ngiven: a proposed animal definition\nwhen: the animal definition is added by the authenticated user\nthen: the new animal definition is available or a named refusal explains why it was not added\noperation nerdery-add-animal-definition.add uses provider sql-database-reader\nconfig: {\"dataSource\":\"sfx-identity-database\",\"statement\":\"EXEC wildlife.serve @operation=N'nerdery-add-animal-definition',@input=@input;\",\"resultColumn\":\"value\"}\ninput input from nerdery-add-animal-definition $\noutcome from nerdery-add-animal-definition.add $.value\n",
+          "isMcpTooling": false,
+          "verificationCapabilityId": "read-harness-authoring-state",
+          "preflight": {
+            "input": {
+              "changeKind": "capability-from-dsl",
+              "includeDefinitions": true
+            },
+            "expected": {
+              "disposition": "terminated"
+            }
+          },
+          "route": {
+            "resolvedDisposition": "terminated"
+          }
+        }
+      },
+      "obligationIds": [
+        "O8"
+      ],
+      "expect": {
+        "path": "$.disposition",
+        "equals": "COMMITTED"
+      }
+    },
+    {
+      "stepId": "prove-add-animal-definition",
+      "capabilityId": "read-declared-capability-document",
+      "historicalBasis": "read-declared-capability-document returns documentDigest, the digest of the stored document, which equals the compiler's documentDigest for the same source (sha256:9e75d43f... for nerdery-browse-animal-collection in run ab6ba554 and in its read-only compile)",
+      "input": {
+        "capabilityId": "nerdery-add-animal-definition"
+      },
+      "obligationIds": [
+        "O8"
+      ],
+      "expect": {
+        "path": "$.documentDigest",
+        "equals": "sha256:eb55fd8339c6aca19606bc2953c03340d4a734c203b968db6837388bfd151ac7"
+      }
+    }
+  ]
+}

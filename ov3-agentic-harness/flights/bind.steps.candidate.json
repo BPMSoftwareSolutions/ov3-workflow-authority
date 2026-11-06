@@ -1,0 +1,105 @@
+{
+  "agentId": "claude-code-opus-5-5-ov3-harness-bind",
+  "promise": {
+    "contractId": "flight-promise.v1",
+    "promiseId": "ov3-harness-long-bind",
+    "workClass": "capability-build",
+    "statement": "A flight step binds a string longer than 4,000 characters from an earlier step's retained result, and a short bind resolves as before.",
+    "obligations": [
+      {
+        "obligationId": "O1",
+        "statement": "A 6,000-character string is bound into a later step whole.",
+        "evidence": "sql-database-reader returns textLength 6000 for the bound member"
+      },
+      {
+        "obligationId": "O2",
+        "statement": "A short bind resolves as before.",
+        "evidence": "sql-database-reader returns tag short for the bound member"
+      }
+    ]
+  },
+  "objective": "Prove that flight steps bind long and short values from an earlier step after the analysis.fly_flight_step_cell repair.",
+  "steps": [
+    {
+      "stepId": "plan-header",
+      "contractId": "estate-flight-plan.v1",
+      "promiseId": "ov3-harness-long-bind",
+      "flightType": "execution",
+      "workClass": "capability-build",
+      "unknowns": []
+    },
+    {
+      "stepId": "long-value",
+      "capabilityId": "sql-database-reader",
+      "historicalBasis": "sql-database-reader inline statements on sfx-estate-database PASSED in plans 419 and 440 (purity steps)",
+      "input": {
+        "dataSource": "sfx-estate-database",
+        "statement": "SELECT (SELECT REPLICATE(CONVERT(nvarchar(max),N'x'),6000) AS text,N'short' AS tag FOR JSON PATH,WITHOUT_ARRAY_WRAPPER) AS value;",
+        "resultColumn": "value",
+        "input": {}
+      },
+      "obligationIds": [
+        "O1",
+        "O2"
+      ],
+      "expect": {
+        "path": "$.value.tag",
+        "equals": "short"
+      }
+    },
+    {
+      "stepId": "bind-long",
+      "capabilityId": "sql-database-reader",
+      "historicalBasis": "prove-decision-point stage act-on-decision bound an input member from an earlier step and read it back through sql-database-reader (recording 9ae2b3c1, COMPLETE); sql-database-reader inline statements on sfx-estate-database PASSED in plans 419 and 440",
+      "input": {
+        "dataSource": "sfx-estate-database",
+        "statement": "SELECT (SELECT CONVERT(int,LEN(t.[value])) AS textLength FROM OPENJSON(@input) t WHERE t.[key]=N'text' FOR JSON PATH,WITHOUT_ARRAY_WRAPPER) AS value;",
+        "resultColumn": "value",
+        "input": {
+          "text": "(bound from long-value)"
+        }
+      },
+      "bind": [
+        {
+          "target": "input.text",
+          "fromStep": "long-value",
+          "path": "$.value.text"
+        }
+      ],
+      "obligationIds": [
+        "O1"
+      ],
+      "expect": {
+        "path": "$.value.textLength",
+        "equals": 6000
+      }
+    },
+    {
+      "stepId": "bind-short",
+      "capabilityId": "sql-database-reader",
+      "historicalBasis": "prove-decision-point stage act-on-decision bound an input member from an earlier step and read it back through sql-database-reader (recording 9ae2b3c1, COMPLETE); sql-database-reader inline statements on sfx-estate-database PASSED in plans 419 and 440",
+      "input": {
+        "dataSource": "sfx-estate-database",
+        "statement": "SELECT JSON_QUERY(@input) AS value;",
+        "resultColumn": "value",
+        "input": {
+          "tag": "(bound from long-value)"
+        }
+      },
+      "bind": [
+        {
+          "target": "input.tag",
+          "fromStep": "long-value",
+          "path": "$.value.tag"
+        }
+      ],
+      "obligationIds": [
+        "O2"
+      ],
+      "expect": {
+        "path": "$.value.tag",
+        "equals": "short"
+      }
+    }
+  ]
+}

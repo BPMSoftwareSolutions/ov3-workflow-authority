@@ -1,0 +1,76 @@
+{
+  "fixtureType": "sidefx-aws-cloud-ops-acceptance-arrangement.v2",
+  "caseId": "aws-drift-conforms",
+  "capabilityId": "sfx-aws-assess-configuration-drift",
+  "synthetic": true,
+  "clock": "2026-11-03T00:20:00Z",
+  "sidefx": {
+    "policies": [
+      {
+        "id": "production-required-tags.v1",
+        "admitted": true,
+        "requiredTags": [
+          "environment",
+          "owner"
+        ]
+      },
+      {
+        "id": "production-required-tags.v0",
+        "admitted": false
+      }
+    ]
+  },
+  "awsCalls": [
+    {
+      "call": "sts:AssumeRole",
+      "request": {
+        "RoleArn": "arn:aws:iam::111122223333:role/sidefx-cloudops-read",
+        "RoleSessionName": "sidefx-drift",
+        "DurationSeconds": 900
+      },
+      "response": {
+        "AssumedRoleUser": {
+          "Arn": "arn:aws:sts::111122223333:assumed-role/sidefx-cloudops-read/sidefx-drift",
+          "AssumedRoleId": "AROAEXAMPLEID3333:sidefx-drift"
+        },
+        "Credentials": "(withheld: never recorded)"
+      }
+    },
+    {
+      "call": "config:GetAggregateResourceConfig",
+      "request": {
+        "ConfigurationAggregatorName": "sidefx-cloudops-aggregator",
+        "ResourceIdentifier": {
+          "SourceAccountId": "111122223333",
+          "SourceRegion": "us-east-2",
+          "ResourceId": "i-0123456789abcdef0",
+          "ResourceType": "AWS::EC2::Instance"
+        }
+      },
+      "response": {
+        "ConfigurationItem": {
+          "version": "1.3",
+          "accountId": "111122223333",
+          "configurationItemCaptureTime": 1793663550,
+          "configurationItemStatus": "OK",
+          "configurationStateId": "1793663550000",
+          "arn": "arn:aws:ec2:us-east-2:111122223333:instance/i-0123456789abcdef0",
+          "resourceType": "AWS::EC2::Instance",
+          "resourceId": "i-0123456789abcdef0",
+          "awsRegion": "us-east-2",
+          "availabilityZone": "us-east-2a",
+          "tags": {
+            "environment": "production",
+            "owner": "operations",
+            "service": "citizen-portal"
+          },
+          "relatedEvents": [],
+          "relationships": [],
+          "configuration": "{\"instanceId\":\"i-0123456789abcdef0\",\"instanceType\":\"t3.micro\",\"state\":{\"code\":80,\"name\":\"stopped\"}}",
+          "supplementaryConfiguration": {}
+        }
+      }
+    }
+  ],
+  "notes": "Synthetic arrangement. AWS requests and responses use the documented shapes (see the feature's source IDs); none was captured from an AWS account."
+}

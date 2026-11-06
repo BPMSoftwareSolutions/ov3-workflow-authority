@@ -1,0 +1,274 @@
+{
+ "document": "ui-page-definition.v1",
+ "pageId": "ui-page-wildlife-individual",
+ "namespaceId": "sidefx:ui",
+ "path": "/circuit/wildlife-individual",
+ "revision": 1,
+ "title": "My animal",
+ "layoutRef": {
+  "layoutId": "ui-layout-marketing.v1",
+  "digest": "e2591ca34ce894541132dccaca54fa77d8e98b84e7f8c8c8c93ff320fe9db58c"
+ },
+ "navigation": {
+  "items": [
+   {
+    "label": "Overview",
+    "href": "/circuit/wildlife"
+   },
+   {
+    "label": "Collection",
+    "href": "/circuit/wildlife-collection"
+   },
+   {
+    "label": "Animal",
+    "href": "/circuit/wildlife-animal"
+   },
+   {
+    "label": "Capture",
+    "href": "/circuit/wildlife-capture"
+   },
+   {
+    "label": "My animals",
+    "href": "/circuit/wildlife-mine"
+   },
+   {
+    "label": "Team",
+    "href": "/circuit/wildlife-team"
+   },
+   {
+    "label": "Home",
+    "href": "/circuit/wildlife-home"
+   },
+   {
+    "label": "Refusals",
+    "href": "/circuit/wildlife-refusals"
+   }
+  ]
+ },
+ "sources": [
+  {
+   "sourceId": "session",
+   "reader": "session"
+  }
+ ],
+ "sections": [
+  {
+   "sectionId": "hero",
+   "regionId": "main",
+   "order": 1,
+   "component": {
+    "kind": "hero",
+    "version": 1
+   },
+   "props": {
+    "eyebrow": "One of your animals",
+    "headline": "Your animal, with your photo",
+    "lede": "The photo you uploaded, read back from the store for you alone, with what you recorded about it. Anyone else asking for this animal is told it does not exist.",
+    "primaryActionId": "open-circuit"
+   },
+   "bindings": {
+    "figure": {
+     "kind": "read",
+     "reader": "scenario",
+     "input": {
+      "capabilityId": "nerdery-view-collected-animal",
+      "namespaceId": "sidefx:capabilities",
+      "page": "scenario-1"
+     },
+     "pointer": "/slides/0"
+    }
+   },
+   "actions": [
+    {
+     "actionId": "open-circuit",
+     "kind": "navigate",
+     "to": "/circuit/explorer?capability=nerdery-view-collected-animal&namespace=sidefx%3Acapabilities"
+    }
+   ]
+  },
+  {
+   "sectionId": "show",
+   "regionId": "main",
+   "order": 2,
+   "component": {
+    "kind": "section",
+    "version": 1
+   },
+   "props": {
+    "actions": [
+     {
+      "actionId": "view",
+      "label": "Show the photo"
+     }
+    ]
+   },
+   "actions": [
+    {
+     "actionId": "view",
+     "kind": "observe",
+     "subject": "nerdery-view-collected-animal",
+     "namespace": "sidefx:capabilities",
+     "result": "animal",
+     "input": {
+      "input": {
+       "caller": {
+        "principalId": {
+         "source": "session",
+         "pointer": "/principalId"
+        },
+        "sessionId": {
+         "source": "session",
+         "pointer": "/sessionId"
+        }
+       },
+       "request": {
+        "encounterId": {
+         "kind": "route",
+         "name": "encounter"
+        }
+       }
+      }
+     }
+    }
+   ]
+  },
+  {
+   "sectionId": "photo",
+   "regionId": "main",
+   "order": 3,
+   "component": {
+    "kind": "media.figure",
+    "version": 1
+   },
+   "when": {
+    "result": "animal",
+    "pointer": "/status",
+    "equals": "VISIBLE"
+   },
+   "bindings": {
+    "src": {
+     "kind": "read",
+     "reader": "run",
+     "result": "animal",
+     "pointer": "",
+     "map": {
+      "concat": [
+       "data:",
+       "/animal/photo/mediaType",
+       ";base64,",
+       "/animal/photo/contentBase64"
+      ]
+     }
+    },
+    "digest": {
+     "kind": "read",
+     "reader": "run",
+     "result": "animal",
+     "pointer": "/animal/photo/contentSha256"
+    },
+    "alt": {
+     "kind": "read",
+     "reader": "run",
+     "result": "animal",
+     "pointer": "/animal/displayName"
+    },
+    "caption": {
+     "kind": "read",
+     "reader": "run",
+     "result": "animal",
+     "pointer": "/animal/commonName"
+    }
+   }
+  },
+  {
+   "sectionId": "facts",
+   "regionId": "main",
+   "order": 4,
+   "component": {
+    "kind": "field-list",
+    "version": 1
+   },
+   "props": {
+    "label": "What you recorded"
+   },
+   "when": {
+    "result": "animal",
+    "pointer": "/status",
+    "equals": "VISIBLE"
+   },
+   "bindings": {
+    "fields": {
+     "kind": "read",
+     "reader": "run",
+     "result": "animal",
+     "pointer": "/animal",
+     "map": {
+      "Name": "/displayName",
+      "Animal": "/commonName",
+      "Nickname": {
+       "pointer": "/nickname",
+       "default": "None"
+      },
+      "Where": {
+       "pointer": "/location/description",
+       "default": "Recorded from the device position"
+      },
+      "Encounter": "/encounterId",
+      "Photo": "/photo/photoRef",
+      "Media type": "/photo/mediaType",
+      "Bytes": "/photo/byteLength",
+      "Photo digest": "/photo/contentSha256"
+     }
+    }
+   }
+  },
+  {
+   "sectionId": "animal-refused",
+   "regionId": "main",
+   "order": 5,
+   "component": {
+    "kind": "notice",
+    "version": 1
+   },
+   "props": {
+    "tone": "error",
+    "title": "Refused by the capability"
+   },
+   "bindings": {
+    "body": {
+     "kind": "read",
+     "reader": "run",
+     "result": "animal",
+     "pointer": "/reason/code"
+    }
+   },
+   "when": {
+    "result": "animal",
+    "pointer": "/status",
+    "equals": "REFUSED"
+   }
+  },
+  {
+   "sectionId": "back",
+   "regionId": "main",
+   "order": 6,
+   "component": {
+    "kind": "notice",
+    "version": 1
+   },
+   "props": {
+    "tone": "info",
+    "title": "Your other animals",
+    "body": "Every individual you recorded is on My animals. Open any of them here.",
+    "actionId": "go-mine"
+   },
+   "actions": [
+    {
+     "actionId": "go-mine",
+     "kind": "navigate",
+     "to": "/circuit/wildlife-mine"
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,104 @@
+{
+  "pack": "ov3-agentic-harness",
+  "status": "NOT_RUN",
+  "project": "ov3-complete-agentic-harness",
+  "files": [
+    {
+      "file": "specification.md",
+      "characters": 61272,
+      "sha256": "a344104861ea0cb7e9557cc9b359a9e9567f7f3e921477d0cd596de0a6413c09",
+      "artifactKind": "specification:ov3-complete-agentic-harness",
+      "specDigest": "sha256:a344104861ea0cb7e9557cc9b359a9e9567f7f3e921477d0cd596de0a6413c09"
+    },
+    {
+      "file": "owner-direction.md",
+      "characters": 1719,
+      "sha256": "7de1feafbcd4ceeb3d4d47b4f59176f371448abec9d32dae82a10ab0759211cf",
+      "artifactKind": "owner-direction:ov3-complete-agentic-harness"
+    }
+  ],
+  "flights": [
+    {
+      "file": "flights/bind.steps.candidate.json",
+      "characters": 3681,
+      "sha256": "ae19f0e459c9f92f052d027419f346467982468ca8ea74677e0c64a4f3981008",
+      "agentId": "claude-code-opus-5-5-ov3-harness-bind",
+      "promiseId": "ov3-harness-long-bind",
+      "stepsJsonCharacters": 2058
+    },
+    {
+      "file": "flights/scope.steps.candidate.json",
+      "characters": 18388,
+      "sha256": "96aaf67b36d2b209afad781c9dc8c57a96520ef17f4d9092d2d86c0eb448e7b1",
+      "agentId": "claude-code-opus-5-5-ov3-harness-scope",
+      "promiseId": "ov3-harness-scope",
+      "stepsJsonCharacters": 13445
+    }
+  ],
+  "sql": [
+    {
+      "file": "sql/ov3-harness-01-bind-long-values.sql",
+      "characters": 19814,
+      "sha256": "8881c102e891c2f4b8f66f50f24aa0c7efdbf0f503e5a7081a8eaac16ed20ac2",
+      "database": "estate (sfx-estate-database)",
+      "mode": "preflight"
+    },
+    {
+      "file": "sql/ov3-harness-01-bind-long-values.commit.sql",
+      "characters": 19822,
+      "sha256": "74514fa7dab30384c15e8153d0c2b2c2acbe4e71884a5612362795a0af93587b",
+      "database": "estate (sfx-estate-database)",
+      "mode": "commit"
+    },
+    {
+      "file": "sql/ov3-harness-02-sources-and-promises.sql",
+      "characters": 69163,
+      "sha256": "51f33c61054e63ed0dfcf4d0dfd5094372d026963a6b9ee6497047d25e84e3e8",
+      "database": "estate (sfx-estate-database)",
+      "mode": "preflight"
+    },
+    {
+      "file": "sql/ov3-harness-02-sources-and-promises.commit.sql",
+      "characters": 69171,
+      "sha256": "5c3f5954edcdac886169914f0bdede8a5945e4bdcc296d2f43c2faf80acf3c9a",
+      "database": "estate (sfx-estate-database)",
+      "mode": "commit"
+    },
+    {
+      "file": "sql/ov3-harness-03-flight-plans.sql",
+      "characters": 18780,
+      "sha256": "a7605501498115012f138291127fae0084161260d64aa82eeabcf40f883b07fa",
+      "database": "sfx-identity",
+      "mode": "preflight"
+    },
+    {
+      "file": "sql/ov3-harness-03-flight-plans.commit.sql",
+      "characters": 18788,
+      "sha256": "c537e38fca4c0956aa239200a7fe09c3313d74de28eca0d8493c5c64f32a007c",
+      "database": "sfx-identity",
+      "mode": "commit"
+    }
+  ],
+  "bindRepair": {
+    "object": "analysis.fly_flight_step_cell",
+    "base": "sha256:29ff4f83ef0dac68068714201748b38b934b6d8793ca00c5bd7ce9098814b10b",
+    "insertedAfterLine": 62,
+    "blockCharacters": 1064,
+    "afterDigestIfLF": "sha256:e3795a5e02205a84c260182f6b9e469fec5569372f3578ac62025ec64287afbb"
+  },
+  "flightPlans": [
+    {
+      "agentId": "claude-code-opus-5-5-ov3-harness-bind",
+      "promiseId": "ov3-harness-long-bind",
+      "planDigest": "sha256:cfc1fcf02a6911d598899054f5098c54ebb8bf85ee5634df28dcd2d4fb7993c4",
+      "promiseDigest": "sha256:e44d5e24c839f2e86da6009f7ad56ec92feeb81d9f63ade7a22d835ada0776a6"
+    },
+    {
+      "agentId": "claude-code-opus-5-5-ov3-harness-scope",
+      "promiseId": "ov3-harness-scope",
+      "planDigest": "sha256:e0ede9a82bd8d6b84c6db6784dd33ff2527fe4c6b1fb1f364c1c7d55c8cd83e1",
+      "promiseDigest": "sha256:c772504bb2c9c4073a5228cc1a5bc026612874a116c9a35e24b066f3ced72fb2"
+    }
+  ],
+  "specDigest": "sha256:a344104861ea0cb7e9557cc9b359a9e9567f7f3e921477d0cd596de0a6413c09"
+}

@@ -1,0 +1,325 @@
+{
+  "pack": "ov3-teaching",
+  "generatedFor": "ov3.estate-workflow-discovery.v1",
+  "status": "NOT_FILED",
+  "encoding": "UTF-8, ASCII content, LF; filed content is the file bytes exactly",
+  "catalogSnapshotRun": "507e6156-f39b-de8b-dca4-a1077102fc3c",
+  "skills": [
+    {
+      "skillId": "spec-pack-intake",
+      "revision": 1,
+      "file": "skills/spec-pack-intake.md",
+      "characters": 5174,
+      "utf8Sha256": "140c51c7fd66687708fd45d32322c92ccfff30e8ddb2eadef0315c6be6f32186",
+      "contentDigestBase64": "FAxRx/1maHcI/UXTIyLJLM//MOjdsure8DFca+bzIYY=",
+      "capabilities": 15
+    },
+    {
+      "skillId": "spec-capability-declaration",
+      "revision": 1,
+      "file": "skills/spec-capability-declaration.md",
+      "characters": 6020,
+      "utf8Sha256": "42b63e4735ba52bc0d188ca367988bb74db5310a201a49327a15a16b0581109f",
+      "contentDigestBase64": "QrY+RzW6UrwNGIyjZ5iLt021MQogGkkyehWhawWBEJ8=",
+      "capabilities": 17
+    },
+    {
+      "skillId": "spec-scenario-topology",
+      "revision": 1,
+      "file": "skills/spec-scenario-topology.md",
+      "characters": 7558,
+      "utf8Sha256": "3455d59a6213d6ff6eb231ebdf4ad9d604595e97afa3768d7de45d68e5f9715f",
+      "contentDigestBase64": "NFXVmmIT1v9usjHr30rZ1gRZXpevo3aNfeRdaOX5cV8=",
+      "capabilities": 9
+    },
+    {
+      "skillId": "spec-acceptance-and-closure",
+      "revision": 1,
+      "file": "skills/spec-acceptance-and-closure.md",
+      "characters": 4729,
+      "utf8Sha256": "d403297893ca148201fe10946cfabdab375fa6efc071236c6d32e2ff38e5f279",
+      "contentDigestBase64": "1AMpeJPKFIIB/hCUbPq9qzdfpu/AcSNsbTLi/zjl8nk=",
+      "capabilities": 15
+    }
+  ],
+  "changes": [
+    {
+      "file": "changes/file-skill-spec-pack-intake.change.json",
+      "chars": 6553,
+      "sha256": "370c786c11224b8099f9b782337570ea2e08fa7687a758c10952778cab0f2c9f"
+    },
+    {
+      "file": "changes/file-skill-spec-capability-declaration.change.json",
+      "chars": 7567,
+      "sha256": "d5fe966bf0a0017e68a545a67343ef959c1149b247f7ecd6f199939501e3c9f4"
+    },
+    {
+      "file": "changes/file-skill-spec-scenario-topology.change.json",
+      "chars": 8814,
+      "sha256": "76429d933efefd8d65f0b17373b28ce981a6515709709ddf7ada041f2229ed5f"
+    },
+    {
+      "file": "changes/file-skill-spec-acceptance-and-closure.change.json",
+      "chars": 6073,
+      "sha256": "bcd66a2e2f79ebb5d4549961b32a4a686962453b27699056d9334f8baa465c4b"
+    },
+    {
+      "file": "changes/open-project-ov3-estate-workflow-fidelity.change.json",
+      "chars": 18815,
+      "sha256": "bc235bb2a775323c03c1fe9efefc3ac9ea73ebe9967207b51253f0d92bdc90d7"
+    },
+    {
+      "file": "changes/promise-ov3-teach-spec-skills-1.change.json",
+      "chars": 1328,
+      "sha256": "2aaeeeeecc301ef427794be22571811187cb2ff8383778ebe775b58dc68ee158"
+    },
+    {
+      "file": "flights/teach-skills-1.record-flight-plan.input.json",
+      "chars": 16558,
+      "sha256": "24e7191dee52686285e1a189cbbbb16bc1c75fa08375c0fcd703f5fd03afffdb"
+    },
+    {
+      "file": "changes/promise-ov3-teach-spec-skills-2.change.json",
+      "chars": 1334,
+      "sha256": "eb0d579ed87744ccb35ceeb7b3080d6633070f66471ff1122b431368996f86e8"
+    },
+    {
+      "file": "flights/teach-skills-2.record-flight-plan.input.json",
+      "chars": 17384,
+      "sha256": "6255b1ab1aef132700bceaec6101224c87a1d394c823b4a225abfee6751e8018"
+    },
+    {
+      "file": "changes/promise-ov3-teach-spec-project.change.json",
+      "chars": 1070,
+      "sha256": "f3c73b321a81607c019401e435395786ffe5266d29db7ffc69f718423f59a6e2"
+    },
+    {
+      "file": "flights/teach-project.record-flight-plan.input.json",
+      "chars": 18354,
+      "sha256": "593d8ad0cb3235f306a4de6ded206137d16989b844b03c9ce75ef2d86e25ef92"
+    },
+    {
+      "file": "changes/promise-wf-declare-discover-spec-estate-baseline.change.json",
+      "chars": 1657,
+      "sha256": "01724db0057eb07ec4470282697910dc273c20e34a6c8832d9efcebd289b9d42"
+    },
+    {
+      "file": "flights/declare-discover-spec-estate-baseline.record-flight-plan.input.json",
+      "chars": 18896,
+      "sha256": "d297b07772f9f9c1e263845aec0c610b9a82f4a2def0383a7663fb13d6834aa1"
+    },
+    {
+      "file": "changes/file-skill-graph-topology-emission-r2.change.json",
+      "chars": 4934,
+      "sha256": "39fbb3cb4bfa433f04c78eb104c1a7f477ef500bb9524619c3cb59baf7d71a23"
+    },
+    {
+      "file": "changes/promise-ov3-teach-gte-r2.change.json",
+      "chars": 1224,
+      "sha256": "a1552efed72c5a07f9ca043c99f773fd3b63c148afbc62451c0434b0ad824301"
+    },
+    {
+      "file": "flights/repair-graph-topology-emission.record-flight-plan.input.json",
+      "chars": 6769,
+      "sha256": "6ac736b42905b43d0933dacc93ae0c5d033ae672f60ececfd99c5fbd63da65cd"
+    }
+  ],
+  "flights": [
+    {
+      "file": "flights/teach-skills-1.steps.candidate.json",
+      "chars": 18682,
+      "sha256": "1f7ace170d6ae83f27212f63be5086e5e0e255c1d5e48b3ef8fa2ac80355354d",
+      "agentId": "claude-code-opus-5-5-ov3-teaching-skills-1",
+      "promiseId": "ov3-teach-spec-skills-1",
+      "stepsJsonCharacters": 15804
+    },
+    {
+      "file": "flights/teach-skills-2.steps.candidate.json",
+      "chars": 19431,
+      "sha256": "317cac607e1a942f248db924487465cee6ec1c3edcce144306aa00d20748b446",
+      "agentId": "claude-code-opus-5-5-ov3-teaching-skills-2",
+      "promiseId": "ov3-teach-spec-skills-2",
+      "stepsJsonCharacters": 16661
+    },
+    {
+      "file": "flights/teach-project.steps.candidate.json",
+      "chars": 21725,
+      "sha256": "66fa5ff6d858d433a1e09e0a5ff18684700b75744e7b11d68f0bdcfa2a89e009",
+      "agentId": "claude-code-opus-5-5-ov3-teaching-project",
+      "promiseId": "ov3-teach-spec-project",
+      "stepsJsonCharacters": 17334
+    },
+    {
+      "file": "flights/declare-discover-spec-estate-baseline.steps.candidate.json",
+      "chars": 21157,
+      "sha256": "6d4c0b287e92dae69ea24a35224f76c9d080ef82ef6df306b1a07d17fe7b521b",
+      "agentId": "claude-code-opus-5-5-ov3-teaching-workflow",
+      "promiseId": "wf-declare-discover-spec-estate-baseline",
+      "stepsJsonCharacters": 16620
+    },
+    {
+      "file": "flights/repair-graph-topology-emission.steps.candidate.json",
+      "chars": 7764,
+      "sha256": "cd9ea9787c2328c3c390ccedb9420630244358b3cdc4fcaa27b5506f3679d065",
+      "agentId": "claude-code-opus-5-5-ov3-teaching-gte",
+      "promiseId": "ov3-teach-gte-r2",
+      "stepsJsonCharacters": 6090
+    }
+  ],
+  "workflow": {
+    "workflowCapabilityId": "discover-spec-estate-baseline",
+    "stages": 7,
+    "semanticsJsonCharacters": 3070,
+    "semanticsUtf8Sha256": "219775c78cb05ddb64272cd1d71f501fab990603cb6909deb5c7f102019a2b87",
+    "dslCharacters": 4250,
+    "dslUtf8Sha256": "380d10f52cba85611b74013acba3ae11023d6f77081d0c970d2f69e688ac05c0",
+    "isMcpTooling": true
+  },
+  "specPack": [
+    {
+      "file": "OV3-WORKFLOW-AUTHORITY-SPECIFICATION.md",
+      "bytes": 27235,
+      "sha256": "bad27eed4b65490e21efd1acd0d7994c11e3bd4f2a3143c6e1b8ad2bad4344d7"
+    },
+    {
+      "file": "WILDLIFE-ESTATE-BUILD-PROFILE.md",
+      "bytes": 8488,
+      "sha256": "1fab2855bf11c221b6e9f58d093992fe97c703b9aeacb91e063f56258b562649"
+    },
+    {
+      "file": "OV3-START-HERE.md",
+      "bytes": 1784,
+      "sha256": "f5616ea4effa293f4a15790a304b8cb3124f545d0364d4bbacb000c0a5013870"
+    },
+    {
+      "file": "README.md",
+      "bytes": 1922,
+      "sha256": "01e01f64bdaee0b0e60a831903a9383a863e11650c3af6a663e69fdc68146c06"
+    },
+    {
+      "file": "OV3-FLIGHT-PLAN-CANDIDATE.json",
+      "bytes": 1436,
+      "sha256": "8927397d6af987bca352e2ff3d2f938a94c8ef0f5bc0feb2014405a9749fe9a9"
+    },
+    {
+      "file": "acceptance/workflow-topology-fidelity.feature",
+      "bytes": 5711,
+      "sha256": "94f2ff9b143582fa2cdabb83b5ba87983040fdbc7d23a5735cca4fbb6e98bac7"
+    },
+    {
+      "file": "fixtures/entry-and-relations.candidate.json",
+      "bytes": 2721,
+      "sha256": "838842f469f48dc06fb9cd09df4873869ea33c1a7678c83cb9971a6cdafcb8b2"
+    },
+    {
+      "file": "fixtures/wildlife-diagram-original.negative.json",
+      "bytes": 2570,
+      "sha256": "1f0b77197efadfb5b5a971960cd7da8b08293addce121979a32c3545532dd255"
+    }
+  ],
+  "repairs": [
+    {
+      "skillId": "graph-topology-emission",
+      "revision": 2,
+      "baseRevision": 1,
+      "source": "sfx-embody/.claude/skills/graph-topology-emission/SKILL.md (body after frontmatter)",
+      "characters": 4149,
+      "utf8Sha256": "f634a1958863139c4bea82d29fd57c6f2207efb472aef4b26f6028bbd52a28a9",
+      "contentDigestBase64": "9jShlYhjE5xL6oLSn9V8byIH77RyrvSyb2Aou9UqKKk="
+    }
+  ],
+  "sql": [
+    {
+      "file": "sql/ov3-teach-01-promises.sql",
+      "database": "estate (sfx-estate-database)",
+      "mode": "preflight",
+      "characters": 7838,
+      "sha256": "8dca3aca443faf991a1e55fe75acb171525cf79c7a02999f714b1cc842857532",
+      "ran": "2026-11-02"
+    },
+    {
+      "file": "sql/ov3-teach-01-promises.commit.sql",
+      "database": "estate (sfx-estate-database)",
+      "mode": "commit",
+      "characters": 7846,
+      "sha256": "a90af007c777d356daf436b5d4baf22fc80a42f2df95bbc92f3a110f31a86377",
+      "ran": "2026-11-02"
+    },
+    {
+      "file": "sql/ov3-teach-02-flight-plans.sql",
+      "database": "sfx-identity",
+      "mode": "preflight",
+      "characters": 68737,
+      "sha256": "6705f5e27eca77fa28700de43beb85c6ed1cdb4ce13c45b1e0097f101a9f38d7",
+      "ran": "2026-11-02"
+    },
+    {
+      "file": "sql/ov3-teach-02-flight-plans.commit.sql",
+      "database": "sfx-identity",
+      "mode": "commit",
+      "characters": 68745,
+      "sha256": "875fba4acef34933263e9570e02654cca49c8229b027d06e21b0e282598f736d",
+      "ran": "2026-11-02"
+    },
+    {
+      "file": "sql/ov3-teach-03-promises.sql",
+      "database": "estate (sfx-estate-database)",
+      "mode": "preflight",
+      "characters": 4456,
+      "sha256": "8d449047d71d78ebab5de8ce6b91dc237c963ee489cefcab23d3d8112d35497f"
+    },
+    {
+      "file": "sql/ov3-teach-03-promises.commit.sql",
+      "database": "estate (sfx-estate-database)",
+      "mode": "commit",
+      "characters": 4464,
+      "sha256": "623af7449373821f4a1bdf30990a6f253c5e653225692340443829a493a5e57a"
+    },
+    {
+      "file": "sql/ov3-teach-04-flight-plans.sql",
+      "database": "sfx-identity",
+      "mode": "preflight",
+      "characters": 61266,
+      "sha256": "a830575bece73afca94e9f7fde716394b82c8b756e2339cf00e6e51e8c513c0c"
+    },
+    {
+      "file": "sql/ov3-teach-04-flight-plans.commit.sql",
+      "database": "sfx-identity",
+      "mode": "commit",
+      "characters": 61274,
+      "sha256": "965f8a20eae491b0eccab928a5c62f18c993fbd51682bc45366306a3ad223216"
+    }
+  ],
+  "flightPlans": [
+    {
+      "agentId": "claude-code-opus-5-5-ov3-teaching-skills-1",
+      "promiseId": "ov3-teach-spec-skills-1",
+      "planDigest": "sha256:4821b1e1c0a430f774535eef7e5e7471df2e1467aa800448e0acd78b39081bbc",
+      "promiseDigest": "sha256:91e82306e19314f6f9c25b1a26e68c66c563f2cc89310b42860b313ae3a15740"
+    },
+    {
+      "agentId": "claude-code-opus-5-5-ov3-teaching-skills-2",
+      "promiseId": "ov3-teach-spec-skills-2",
+      "planDigest": "sha256:b1554a22e24cf36044916cf9df4ee4c5267b40f2dcd3242c56d25f133e9cb729",
+      "promiseDigest": "sha256:87e812f662dedd4b31f01f4e4a2456908cc2b9089dede2c38898a74bf2d435d6"
+    },
+    {
+      "agentId": "claude-code-opus-5-5-ov3-teaching-project",
+      "promiseId": "ov3-teach-spec-project",
+      "planDigest": "sha256:09dad5bf404517a43c5f493961d8bc985614e2a40889e75d87431c5a71275756",
+      "promiseDigest": "sha256:69a95a57c92a36a0b387ddaeaf7fc78d803f3c1d342f3dd1e8b5545ab7da5417"
+    },
+    {
+      "agentId": "claude-code-opus-5-5-ov3-teaching-workflow",
+      "promiseId": "wf-declare-discover-spec-estate-baseline",
+      "planDigest": "sha256:f1552e699abd20a7f5564aaf463749ec2d99d631ab468ed62fdf1a1329719f71",
+      "promiseDigest": "sha256:cd875854f7de609c067690925834a3c9939fe9e74696111f9ecb7c4218ba3ee6"
+    },
+    {
+      "agentId": "claude-code-opus-5-5-ov3-teaching-gte",
+      "promiseId": "ov3-teach-gte-r2",
+      "planDigest": "sha256:ee94396c52cfe29e21d2057582e4486e856197be3b3e36e31f61b69a683deef3",
+      "promiseDigest": "sha256:80ac32e79117de76ba78d05197022c00ab43e936025232bd81e0d9782772e146"
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "fixtureType": "sidefx-aws-cloud-ops-acceptance-arrangement.v1",
+  "caseId": "aws-context-stale",
+  "capabilityId": "sfx-aws-resolve-resource-context",
+  "fictional": true,
+  "trustedIdentity": {
+    "subject": "operator",
+    "source": "test-harness-only"
+  },
+  "target": {
+    "accountId": "111122223333",
+    "region": "us-east-2",
+    "resourceArn": "arn:aws:ec2:us-east-2:111122223333:instance/i-0123456789abcdef0"
+  },
+  "providerObservations": {
+    "config": {
+      "resourceArn": "arn:aws:ec2:us-east-2:111122223333:instance/i-0123456789abcdef0",
+      "observedAt": "2026-10-01T00:00:00Z"
+    },
+    "maxEvidenceAgeMinutes": 60
+  },
+  "notes": "Synthetic, isolated acceptance arrangement. Not an AWS call or evidence of SideFX behavior."
+}

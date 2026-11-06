@@ -1,0 +1,25 @@
+index	id	label	evidence
+1	csv#operation	NEW_MECHANIC_CANDIDATE	No selected CSV dialect parser/sniffer or header detection contract. Splitting on a comma does not handle quoting.
+2	abc#operation	NEW_MECHANIC_CANDIDATE	No selected interpreter operation introspects a class object, its abstract methods and the ABC cache token.
+3	tkinter#operation	UNRESOLVED	The proposal promises current widget settings without creating a Tk root. Feasibility and access to an existing widget must be clarified.
+4	importlib.metadata#operation	NEW_MECHANIC_CANDIDATE	Estate dependency records describe the estate. They do not expose read-only Python distribution metadata, dependencies and entry points for an installed distribution.
+5	email.iterators#operation	NEW_MECHANIC_CANDIDATE	No selected capability traverses a Python MIME tree by media type while preserving its payload semantics.
+6	tabnanny#operation	NEW_MECHANIC_CANDIDATE	The admitted tree-sitter grammar is for C#. Python indentation tokenization and ambiguity checks need additional behavior.
+7	test.support.import_helper#operation	UNRESOLVED	execute-bounded-process supports isolated process execution but arbitrary named imports, import-time effects and test.support availability are not established.
+8	random#operation	NEW_MECHANIC_CANDIDATE	analysis-draw-seeded-range accepts numeric bounds and count. It does not sample arbitrary items without replacement or return resumable Python generator state.
+9	syslog#operation	NEW_MECHANIC_CANDIDATE	Estate telemetry records events. No declaration authorizes a priority-tagged host syslog effect.
+10	test.support.threading_helper#operation	NEW_MECHANIC_CANDIDATE	No selected mechanic accepts the given live Python Thread handle and enforces its join timeout.
+11	dbm.gnu#operation	NEW_MECHANIC_CANDIDATE	Neither file reads nor SQL Server interfaces supply read-only GDBM cursor traversal and key/value decoding.
+12	xml.sax.xmlreader#operation	UNRESOLVED	The proposed request places two-element arrays in JSON object key positions. A wire representation must be agreed before testing map and lookup mechanics.
+13	http.server#operation	UNRESOLVED	Filesystem facts and HTTP representations are available, but exact parity with SimpleHTTPRequestHandler for directories, headers and path normalization is unproved.
+14	email.parser#operation	NEW_MECHANIC_CANDIDATE	No selected provider parses serialized email into a MIME tree and structural defect summary.
+15	enum#operation	UNRESOLVED	Existing schema and collection mechanics may cover simple names and aliases. Flag checks and Python auto values still need a compatibility assessment.
+16	unittest.mock#operation	NEW_MECHANIC_CANDIDATE	No scoped Python object-patching and call-recording mechanic is declared.
+17	secrets#operation	NEW_MECHANIC_CANDIDATE	generate-random-identity does not attest arbitrary-length cryptographic randomness or URL-safe token encoding.
+18	plistlib#operation	NEW_MECHANIC_CANDIDATE	Both binary/XML plist autodetection and plist-specific date/data handling are missing.
+19	multiprocessing.shared_memory#operation	NEW_MECHANIC_CANDIDATE	No selected capability allocates a named OS shared memory resource with the requested tracking effects.
+20	tkinter.ttk#operation	NEW_MECHANIC_CANDIDATE	No Tk theme/style provider exposes ttk state-based resolution.
+21	urllib.response#operation	UNRESOLVED	http-exchange-public retrieves text and headers, but the specified read cap, truncation and response decoding need documented compatibility.
+22	pstats#operation	NEW_MECHANIC_CANDIDATE	No selected decoder consumes saved Python pstats files. A top-N sort alone does not supply the input records.
+23	linecache#operation	UNRESOLVED	read-file-bytes can supply bytes, but source encoding detection, line termination and the exact all-errors-return-empty behavior are unproved.
+24	graphlib#operation	UNRESOLVED	directed-graph-closure is related but does not declare a predecessor-map topological sort with a cycle result. A composition proof or narrower operation is needed.

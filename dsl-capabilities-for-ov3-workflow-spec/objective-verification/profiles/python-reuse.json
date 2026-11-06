@@ -1,0 +1,160 @@
+{
+  "id": "python-reuse-manifest/v1",
+  "scopeLabel": "python-reuse-manifest",
+  "scopeDefinition": "Produce the identified frozen notice or ledger manifest using the required Python operations.",
+  "contract": "python-reuse-publication.v1",
+  "sourceDigestPath": "$.sourceCorpusDigest",
+  "sourceDigest": "sha256:1c5eca88ec12db41c0a904a1cf7f8a1e6626ef909f62c6492afe43b12bd551ff",
+  "producers": [
+    "publish-python-reuse-result"
+  ],
+  "publishedKindPrefix": "python-reuse-manifest",
+  "variants": {
+    "notice": {
+      "request": "Wrap the notice at 16 characters, join lines with LF, escape HTML including both quotes, and publish the resulting text with its UTF-8 byte count, padded Base64, CRC-32 and SHA-256. Input text as a JSON string: \"Release <A&B> to \\\"East\\\" café\" Use the admitted Python capabilities for each operation. Publish one JSON artifact and return its receipt.",
+      "manifest": {
+        "specimen": "notice",
+        "text": "Release &lt;A&amp;B&gt; to\n&quot;East&quot; café",
+        "byteCount": 49,
+        "base64": "UmVsZWFzZSAmbHQ7QSZhbXA7QiZndDsgdG8KJnF1b3Q7RWFzdCZxdW90OyBjYWbDqQ==",
+        "crc32": "89264376",
+        "sha256": "812edd77f8678c407bb38e62c27f6d92d5577366c52bb055b66f9b429a693506"
+      },
+      "required": {
+        "python-textwrap": {
+          "input": {
+            "text": "Release <A&B> to \"East\" café",
+            "width": 16
+          },
+          "value": {
+            "lines": [
+              "Release <A&B> to",
+              "\"East\" café"
+            ],
+            "line_count": 2
+          }
+        },
+        "python-html": {
+          "input": {
+            "text": "Release <A&B> to\n\"East\" café"
+          },
+          "value": {
+            "escaped": "Release &lt;A&amp;B&gt; to\n&quot;East&quot; café",
+            "quoteApplied": true
+          }
+        },
+        "python-base64": {
+          "input": {
+            "data": "Release &lt;A&amp;B&gt; to\n&quot;East&quot; café"
+          },
+          "value": {
+            "encoded": "UmVsZWFzZSAmbHQ7QSZhbXA7QiZndDsgdG8KJnF1b3Q7RWFzdCZxdW90OyBjYWbDqQ==",
+            "inputBytes": 49,
+            "padded": true,
+            "wrapcol": 0
+          }
+        },
+        "python-binascii": {
+          "input": {
+            "data": "UmVsZWFzZSAmbHQ7QSZhbXA7QiZndDsgdG8KJnF1b3Q7RWFzdCZxdW90OyBjYWbDqQ=="
+          },
+          "value": {
+            "hex": "89264376",
+            "crc": 2300986230,
+            "byteLength": 49
+          }
+        },
+        "python-hashlib": {
+          "input": {
+            "data": "UmVsZWFzZSAmbHQ7QSZhbXA7QiZndDsgdG8KJnF1b3Q7RWFzdCZxdW90OyBjYWbDqQ==",
+            "algorithm": "sha256"
+          },
+          "value": {
+            "algorithm": "sha256",
+            "hexdigest": "812edd77f8678c407bb38e62c27f6d92d5577366c52bb055b66f9b429a693506",
+            "digestSize": 32,
+            "blockSize": 64
+          }
+        }
+      },
+      "sourceDigest": "sha256:cb7151afbbde3ddcbe66b68494e0adb42d035e05db2ea64eab8166261c755b9b"
+    },
+    "ledger": {
+      "request": "Publish an integrity manifest for the exact UTF-8 ledger, preserving CRLF. Include its byte count, padded Base64, CRC-32 and SHA-256, and determine whether its supplied SHA-256 matches. Input text as a JSON string: \"id,Δ\\r\\n7,42\\r\\n\" Supplied SHA-256: 0000000000000000000000000000000000000000000000000000000000000000. Use the admitted Python capabilities for each operation. Publish one JSON artifact and return its receipt.",
+      "manifest": {
+        "specimen": "ledger",
+        "text": "id,Δ\r\n7,42\r\n",
+        "byteCount": 13,
+        "base64": "aWQszpQNCjcsNDINCg==",
+        "crc32": "ff2987a7",
+        "sha256": "bdb2a91eef6e5958f996c8e9131328070feb83c465e9361a90f4c32ae829728f",
+        "claimedSha256": "0000000000000000000000000000000000000000000000000000000000000000",
+        "matches": false
+      },
+      "required": {
+        "python-base64": {
+          "input": {
+            "data": "id,Δ\r\n7,42\r\n"
+          },
+          "value": {
+            "encoded": "aWQszpQNCjcsNDINCg==",
+            "inputBytes": 13,
+            "padded": true,
+            "wrapcol": 0
+          }
+        },
+        "python-binascii": {
+          "input": {
+            "data": "aWQszpQNCjcsNDINCg=="
+          },
+          "value": {
+            "hex": "ff2987a7",
+            "crc": 4280911783,
+            "byteLength": 13
+          }
+        },
+        "python-hashlib": {
+          "input": {
+            "data": "aWQszpQNCjcsNDINCg==",
+            "algorithm": "sha256"
+          },
+          "value": {
+            "algorithm": "sha256",
+            "hexdigest": "bdb2a91eef6e5958f996c8e9131328070feb83c465e9361a90f4c32ae829728f",
+            "digestSize": 32,
+            "blockSize": 64
+          }
+        }
+      },
+      "sourceDigest": "sha256:bdb2a91eef6e5958f996c8e9131328070feb83c465e9361a90f4c32ae829728f"
+    }
+  },
+  "obligations": [
+    {
+      "id": "source",
+      "kind": "fixture_digest",
+      "checks": [
+        "FIXTURE_SCOPE"
+      ]
+    },
+    {
+      "id": "operations",
+      "kind": "execution_count",
+      "checks": [
+        "RECEIPT_INPUT_OUTPUT",
+        "EXECUTION_ORDER"
+      ]
+    },
+    {
+      "id": "manifest",
+      "kind": "publication",
+      "checks": [
+        "PUBLISHED_BYTES",
+        "MANIFEST_EQUALS_ORACLE",
+        "PUBLICATION_COMPLETE",
+        "EXPECTED_ARTIFACT"
+      ]
+    }
+  ],
+  "reader": "python-reuse-proof.sql"
+}

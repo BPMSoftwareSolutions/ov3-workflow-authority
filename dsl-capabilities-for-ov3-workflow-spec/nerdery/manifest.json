@@ -1,0 +1,254 @@
+{
+ "pack": "dsl-capabilities-for-ov3-workflow-spec/nerdery",
+ "part": "the Nerdery citizen slice through SideFX",
+ "generated": "2026-11-02",
+ "store": {
+  "database": "sfx-identity",
+  "schema": "wildlife",
+  "tables": [
+   "wildlife.app_user",
+   "wildlife.user_role",
+   "wildlife.county",
+   "wildlife.animal_type",
+   "wildlife.attribute",
+   "wildlife.attribute_value",
+   "wildlife.animal_definition",
+   "wildlife.definition_county",
+   "wildlife.definition_type",
+   "wildlife.definition_attribute_value",
+   "wildlife.photo",
+   "wildlife.encounter",
+   "wildlife.team",
+   "wildlife.team_member"
+  ],
+  "procedures": [
+   {
+    "name": "wildlife.browse_animal_collection",
+    "verifyDigest": "sha256:2eab058ed14de6030bfc80680c7aaf38cb821a1012e7ff03af11bfb681207f54"
+   },
+   {
+    "name": "wildlife.view_animal_definition",
+    "verifyDigest": "sha256:58fb596744c841d8793499c40bddfeff3a49aff8487b36ded32ddf1b2863aaa7"
+   },
+   {
+    "name": "wildlife.view_collected_animals",
+    "verifyDigest": "sha256:a08acf58d52c84a3a3521ab2a70f4feceb2078a8669cee3f021fc8f141024bc9"
+   },
+   {
+    "name": "wildlife.view_wildlife_home",
+    "verifyDigest": "sha256:d89b21b3c800502511537cd68b4531aeee4134e2a5f88135cf60f8fe9bb4e6b2"
+   },
+   {
+    "name": "wildlife.upload_encounter_photo",
+    "verifyDigest": "sha256:ebd6faa24fcdad7c34638b200c4c795069290af4cc8251f5b892b45a262282c5"
+   },
+   {
+    "name": "wildlife.record_animal_encounter",
+    "verifyDigest": "sha256:fcde23842f1119bb22868c61592ff4685aa9abc1d494b6d4d2f704c526af5dd1"
+   },
+   {
+    "name": "wildlife.set_animal_team",
+    "verifyDigest": "sha256:32484e6b62bc07e658e1bd8a6165ae4f220b4c9b9454f3f7633c0bb2203bc9ed"
+   },
+   {
+    "name": "wildlife.add_animal_definition",
+    "verifyDigest": "sha256:3129e82c759df3072f27260150fb77799dad3c6ee0fd7b8d89abea838fb1149d"
+   },
+   {
+    "name": "wildlife.invoke_operation",
+    "verifyDigest": "sha256:08ab8afd8e62318c55f718bbb953b80ecbb62359e8740ab74528acbf03c6ee62"
+   },
+   {
+    "name": "wildlife.serve",
+    "verifyDigest": "sha256:7a15adba12661fb75a59a9a92914082b96fdc8b834c45d7e4fb9c3703a9b6a2e"
+   }
+  ],
+  "seedCounts": {
+   "county": 2,
+   "animal_type": 15,
+   "attribute": 2,
+   "animal_definition": 3,
+   "photo": 5,
+   "app_user": 3,
+   "encounter": 2,
+   "team": 2
+  },
+  "ownerPrincipalMappedTo": "user-a"
+ },
+ "slice": [
+  {
+   "capabilityId": "nerdery-browse-animal-collection",
+   "cases": 11,
+   "operationId": "nerdery-browse-animal-collection.browse",
+   "variants": [
+    "LISTED",
+    "REFUSED"
+   ],
+   "candidate": "sha256:1bfb48b620fa8f88853ddfed53b53355a828969544ea0bb80d83a3ab3ab11456",
+   "feature": "sha256:dc19f2defcd1b0dcc5beead0fe42a0976336238216422d87397ccbcfcb7588c5",
+   "dsl": "sha256:0235df7a9bc4db12769bd4317f6e5c9bb704b2a5d7498283e4c742b8ccbea536"
+  },
+  {
+   "capabilityId": "nerdery-view-animal-definition",
+   "cases": 6,
+   "operationId": "nerdery-view-animal-definition.view",
+   "variants": [
+    "VISIBLE",
+    "REFUSED"
+   ],
+   "candidate": "sha256:067bd1593daaeecb4705e0c23b458f54c23323aba0560b475db662289116db75",
+   "feature": "sha256:2b4c55fd4f28e46b17394b620ba9b9d78f854557b4c85a909989023a036472c5",
+   "dsl": "sha256:0f61eea81b85b62cd7ab9655989e85e7f1d94ca6b69c0123c78bcac561159057"
+  },
+  {
+   "capabilityId": "nerdery-upload-encounter-photo",
+   "cases": 5,
+   "operationId": "nerdery-upload-encounter-photo.upload",
+   "variants": [
+    "UPLOADED",
+    "REFUSED"
+   ],
+   "candidate": "sha256:c62116a60ec67a53a860738ac7ffcbfcf4f480170aa15d9c75ee04e7b1d8cf2c",
+   "feature": "sha256:38e58430acc3a39e88078f4a71000dacb3d585124a7a0cef2f906bcb35716de5",
+   "dsl": "sha256:62a9287502aa9798c657e23cbd2ba280531eda36aa56f77de4e913dd7184b50e"
+  },
+  {
+   "capabilityId": "nerdery-record-animal-encounter",
+   "cases": 17,
+   "operationId": "nerdery-record-animal-encounter.record",
+   "variants": [
+    "RECORDED",
+    "REFUSED"
+   ],
+   "candidate": "sha256:79a9dae5dd17251bc54b271a8c4f7199a6c4ef790cf8cff35dfa0a973066827f",
+   "feature": "sha256:df6cea9ceb5ce4d6a63755f8c42e80bc285191fecc18598e695ab6bd73e03a23",
+   "dsl": "sha256:f605db3cf339e14e39fd085f6a19e9345804874476974e657464e4644b6f3769"
+  },
+  {
+   "capabilityId": "nerdery-view-collected-animals",
+   "cases": 6,
+   "operationId": "nerdery-view-collected-animals.view",
+   "variants": [
+    "LISTED",
+    "REFUSED"
+   ],
+   "candidate": "sha256:7367cc04657b8ecdfa401520b649ab79117ab88b9035ec232c2fcabe00072ee4",
+   "feature": "sha256:a8f1920e6569b46ab5924fe841bebd5cc63a0993accb26f5a2e78cd20bcd835c",
+   "dsl": "sha256:d27b3eefa6aaa29fe6c3c56af30a6e91732f609960b17d045b4b3ff590e58cb2"
+  },
+  {
+   "capabilityId": "nerdery-set-animal-team",
+   "cases": 11,
+   "operationId": "nerdery-set-animal-team.set",
+   "variants": [
+    "SAVED",
+    "REFUSED"
+   ],
+   "candidate": "sha256:f7dab2b2f441f1501f074730a2e6981ef8345e1ac181d3d6a77d4a770f7fa13a",
+   "feature": "sha256:6dd6c439568c45a7b63b8ad2745ac200f73c3d6d45e043d06b858cf0926048d2",
+   "dsl": "sha256:296b4685b45aa55004350e25689904b0c42954b898418464314eb95b9524bd22"
+  },
+  {
+   "capabilityId": "nerdery-view-wildlife-home",
+   "cases": 4,
+   "operationId": "nerdery-view-wildlife-home.view",
+   "variants": [
+    "VISIBLE",
+    "REFUSED"
+   ],
+   "candidate": "sha256:2ef10443b9b117d2987e0050439e610796ef08743ef4dc327337ae5d9c082339",
+   "feature": "sha256:d91ded8a312cb3eca7c69a6004026db720227bfb8582623674705d6dfe7e4bc4",
+   "dsl": "sha256:280e793570fa835164da6670bf7007822aa3110520bc03224b0b0c0ee6fe9522"
+  },
+  {
+   "capabilityId": "nerdery-add-animal-definition",
+   "cases": 17,
+   "operationId": "nerdery-add-animal-definition.add",
+   "variants": [
+    "ADDED",
+    "REFUSED"
+   ],
+   "candidate": "sha256:feee15f08dbad7a802741b1006ba16cba7e77dee4605b529bf40c1fa729fd89e",
+   "feature": "sha256:cecfea79150494650b84f119ec59e26c742c7bc3822601f831aaf17ee1b2c4f2",
+   "dsl": "sha256:8447f0b72d309e745a3236d906f29fa8e05fe65b843ebeaf9fd26d529b43c552"
+  }
+ ],
+ "flight": {
+  "plannerAgentId": "claude-code-opus-5-5-nerdery-slice",
+  "promiseId": "nerdery-citizen-slice-declare",
+  "workClass": "owner-objective",
+  "promiseDigest": "sha256:5b1e01127b38c9b63780b2d62e584ed03d162cb78f813cc6963c75d0eac2afef",
+  "planDigest": "sha256:d651f4fbd376338b2ca2ef41f4d42de63c23c8ef0f0f21e05775d6100c4d8dcd",
+  "steps": 16,
+  "stepsJsonCharacters": 25393
+ },
+ "twinParity": [
+  {
+   "name": "nrd-01-wildlife-store",
+   "differingLines": [
+    1,
+    3,
+    4,
+    5,
+    724
+   ]
+  },
+  {
+   "name": "nrd-02-slice-features-and-promise",
+   "differingLines": [
+    1,
+    3,
+    4,
+    5,
+    45
+   ]
+  },
+  {
+   "name": "nrd-03-slice-declare-plan",
+   "differingLines": [
+    1,
+    3,
+    4,
+    5,
+    32
+   ]
+  }
+ ],
+ "files": [
+  {
+   "file": "sql/nrd-01-wildlife-store.sql",
+   "bytes": 61132,
+   "sha256": "sha256:b57a5df8eb3c601a97b5f44a0e1401dec45e1ae8e50c0edaa895f4ef865a097b"
+  },
+  {
+   "file": "sql/nrd-01-wildlife-store.commit.sql",
+   "bytes": 61141,
+   "sha256": "sha256:6256b3c01d0d6b117ae7fcee7c37b554cff6e278adff75592481cd8afa9669cd"
+  },
+  {
+   "file": "sql/nrd-02-slice-features-and-promise.sql",
+   "bytes": 146273,
+   "sha256": "sha256:25efd17028bf290a507b495518bdacc6ef599529dcb71f92625120f2d259b38c"
+  },
+  {
+   "file": "sql/nrd-02-slice-features-and-promise.commit.sql",
+   "bytes": 146282,
+   "sha256": "sha256:f263a4c6c80f2f582ef121473e8b9fece88e7788a305a02e6d1e6de1621fc684"
+  },
+  {
+   "file": "flights/slice-declare.steps.json",
+   "bytes": 34292,
+   "sha256": "sha256:8e82cf27384a4c449dbf8cf787bb415ae26f91d03fe1c390209bd8c31ea5ba94"
+  },
+  {
+   "file": "sql/nrd-03-slice-declare-plan.sql",
+   "bytes": 28247,
+   "sha256": "sha256:a4aeeb83b9375b58424b2287c1afeaba705ab8daad61c9059c431d754433d178"
+  },
+  {
+   "file": "sql/nrd-03-slice-declare-plan.commit.sql",
+   "bytes": 28256,
+   "sha256": "sha256:9d95b0041301f4b8ea47b1c4a757ab38cccdec9289807ffdc23aee216ebd1962"
+  }
+ ]
+}

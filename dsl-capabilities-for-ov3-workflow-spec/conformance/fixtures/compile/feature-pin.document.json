@@ -1,0 +1,220 @@
+{
+ "document": "sidefx-capability-authority.v1",
+ "capabilityId": "dsl02-probe-feature-first",
+ "feature": {
+  "capabilityId": "dsl02-probe-feature-first",
+  "digest": "sha256:a27afaf641cbb246f8c330346bce96f9731c1bed1ab6408341414daf7881addc"
+ },
+ "meaning": {
+  "intent": "Fixture of compile-capability-dsl; compiled only, never declared.",
+  "outcome": "dsl02-probe-feature-first-result.v1"
+ },
+ "cli": {
+  "input": {
+   "type": "json",
+   "contract": "dsl02-probe-feature-first-request.v1"
+  }
+ },
+ "contracts": [
+  {
+   "id": "dsl02-probe-feature-first-request.v1",
+   "schema": {
+    "type": "object"
+   }
+  },
+  {
+   "id": "dsl02-probe-feature-first-result.v1",
+   "schema": {
+    "type": "object",
+    "properties": {
+     "status": {
+      "enum": [
+       "READ"
+      ]
+     }
+    }
+   }
+  }
+ ],
+ "scenarios": [
+  {
+   "scenarioId": "dsl02-probe-feature-first",
+   "name": "Dsl02 probe feature first",
+   "inputId": "dsl02-probe-feature-first-request",
+   "inputContract": "dsl02-probe-feature-first-request.v1",
+   "eventId": "dsl02-probe-feature-first-requested",
+   "eventAuthority": "dsl02-probe-feature-first.v1",
+   "outcomeId": "dsl02-probe-feature-first-outcome",
+   "outcomeContract": "dsl02-probe-feature-first-result.v1",
+   "root": true,
+   "terminal": true,
+   "given": "a request naming a value",
+   "when": "the provider reads it",
+   "then": "the result carries the value",
+   "operations": [
+    {
+     "operationId": "dsl02-probe-feature-first.read-vault",
+     "kind": "invoke-port",
+     "portId": "dsl02-probe-feature-first-read-vault"
+    },
+    {
+     "operationId": "dsl02-probe-feature-first.read-credential",
+     "kind": "invoke-port",
+     "portId": "dsl02-probe-feature-first-read-credential"
+    },
+    {
+     "operationId": "dsl02-probe-feature-first.read-open",
+     "kind": "invoke-port",
+     "portId": "dsl02-probe-feature-first-read-open"
+    },
+    {
+     "operationId": "dsl02-probe-feature-first.read-compose",
+     "kind": "invoke-port",
+     "portId": "dsl02-probe-feature-first-read-compose"
+    },
+    {
+     "operationId": "dsl02-probe-feature-first.read",
+     "kind": "invoke-port",
+     "portId": "dsl02-probe-feature-first-read",
+     "providerCapabilityId": "sql-database-reader"
+    },
+    {
+     "operationId": "dsl02-probe-feature-first.outcome-vault",
+     "kind": "invoke-port",
+     "portId": "dsl02-probe-feature-first-outcome-vault"
+    },
+    {
+     "operationId": "dsl02-probe-feature-first.outcome-credential",
+     "kind": "invoke-port",
+     "portId": "dsl02-probe-feature-first-outcome-credential"
+    },
+    {
+     "operationId": "dsl02-probe-feature-first.outcome-open",
+     "kind": "invoke-port",
+     "portId": "dsl02-probe-feature-first-outcome-open"
+    },
+    {
+     "operationId": "dsl02-probe-feature-first.outcome",
+     "kind": "invoke-port",
+     "portId": "dsl02-probe-feature-first-outcome"
+    }
+   ],
+   "portBindings": [
+    {
+     "portId": "dsl02-probe-feature-first-read-vault",
+     "platformCapabilityId": "sfx-vault-host-read-port.v1",
+     "configuration": {
+      "providerId": "sfx-vault-file-host",
+      "dependency": {
+       "objectKind": "DEPENDENCY",
+       "namespace": "sidefx:dependencies",
+       "id": "sfx-vault-file"
+      }
+     }
+    },
+    {
+     "portId": "dsl02-probe-feature-first-read-credential",
+     "platformCapabilityId": "sfx-estate-credential-port.v1",
+     "configuration": {
+      "providerId": "sfx-estate-database-credential",
+      "dependency": {
+       "objectKind": "DEPENDENCY",
+       "namespace": "sidefx:dependencies",
+       "id": "sfx-estate-database"
+      }
+     }
+    },
+    {
+     "portId": "dsl02-probe-feature-first-read-open",
+     "platformCapabilityId": "sfx-vault-reference-open-port.v1",
+     "configuration": {
+      "providerId": "sfx-vault-secret-service-reference",
+      "dependency": {
+       "objectKind": "DEPENDENCY",
+       "namespace": "sidefx:dependencies",
+       "id": "sfx-vault-secret-service"
+      }
+     }
+    },
+    {
+     "portId": "dsl02-probe-feature-first-read-compose",
+     "platformCapabilityId": "sfx-estate-run-statement-port.v1",
+     "configuration": {
+      "providerId": "sfx-estate-database-run-statement",
+      "dependency": {
+       "objectKind": "DEPENDENCY",
+       "namespace": "sidefx:dependencies",
+       "id": "sfx-estate-database"
+      },
+      "statement": "DECLARE @r nvarchar(max)=N'{\"dataSource\":\"sfx-estate-database\",\"statement\":\"SELECT @input AS value;\",\"resultColumn\":\"value\"}'; SELECT (SELECT N'sql-database-reader' AS executionTarget,N'sidefx:capabilities' AS executionNamespace,N'sql-database-reader' AS executionScenario,N'json' AS inputType,JSON_QUERY(@r) AS dispatchRequest FOR JSON PATH,WITHOUT_ARRAY_WRAPPER) AS value;",
+      "resultColumn": "value"
+     }
+    },
+    {
+     "portId": "dsl02-probe-feature-first-read",
+     "platformCapabilityId": "generic-capability-invocation.v1",
+     "configuration": {
+      "providerId": "ScenarioKernel.NodePlatform",
+      "authoritySource": "DATABASE",
+      "capabilityIdPath": "executionTarget",
+      "namespacePath": "executionNamespace",
+      "scenarioPath": "executionScenario",
+      "requestPath": "dispatchRequest",
+      "resultPath": "result",
+      "lineageMode": "retain-nested-execution"
+     }
+    },
+    {
+     "portId": "dsl02-probe-feature-first-outcome-vault",
+     "platformCapabilityId": "sfx-vault-host-read-port.v1",
+     "configuration": {
+      "providerId": "sfx-vault-file-host",
+      "dependency": {
+       "objectKind": "DEPENDENCY",
+       "namespace": "sidefx:dependencies",
+       "id": "sfx-vault-file"
+      }
+     }
+    },
+    {
+     "portId": "dsl02-probe-feature-first-outcome-credential",
+     "platformCapabilityId": "sfx-estate-credential-port.v1",
+     "configuration": {
+      "providerId": "sfx-estate-database-credential",
+      "dependency": {
+       "objectKind": "DEPENDENCY",
+       "namespace": "sidefx:dependencies",
+       "id": "sfx-estate-database"
+      }
+     }
+    },
+    {
+     "portId": "dsl02-probe-feature-first-outcome-open",
+     "platformCapabilityId": "sfx-vault-reference-open-port.v1",
+     "configuration": {
+      "providerId": "sfx-vault-secret-service-reference",
+      "dependency": {
+       "objectKind": "DEPENDENCY",
+       "namespace": "sidefx:dependencies",
+       "id": "sfx-vault-secret-service"
+      }
+     }
+    },
+    {
+     "portId": "dsl02-probe-feature-first-outcome",
+     "platformCapabilityId": "sfx-estate-run-statement-port.v1",
+     "configuration": {
+      "providerId": "sfx-estate-database-run-statement",
+      "dependency": {
+       "objectKind": "DEPENDENCY",
+       "namespace": "sidefx:dependencies",
+       "id": "sfx-estate-database"
+      },
+      "statement": "SELECT JSON_QUERY(@input,N'$.result') AS value;",
+      "resultColumn": "value"
+     }
+    }
+   ]
+  }
+ ]
+}

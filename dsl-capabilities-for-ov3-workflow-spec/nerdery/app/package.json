@@ -1,0 +1,12 @@
+{
+  "name": "nerdery-wildlife-demo",
+  "private": true,
+  "type": "module",
+  "description": "Local web demo of the Nerdery wildlife challenge, built on its canonical features",
+  "scripts": {
+    "start": "node server.mjs",
+    "reset": "node server.mjs --reset",
+    "test": "node test/run-features.mjs"
+  },
+  "engines": { "node": ">=20" }
+}

@@ -1,0 +1,319 @@
+{
+ "document": "ui-page-definition.v1",
+ "pageId": "ui-page-wildlife-animal",
+ "namespaceId": "sidefx:ui",
+ "path": "/circuit/wildlife-animal",
+ "revision": 1,
+ "title": "Animal detail",
+ "layoutRef": {
+  "layoutId": "ui-layout-marketing.v1",
+  "digest": "e2591ca34ce894541132dccaca54fa77d8e98b84e7f8c8c8c93ff320fe9db58c"
+ },
+ "navigation": {
+  "items": [
+   {
+    "label": "Overview",
+    "href": "/circuit/wildlife"
+   },
+   {
+    "label": "Collection",
+    "href": "/circuit/wildlife-collection"
+   },
+   {
+    "label": "Animal",
+    "href": "/circuit/wildlife-animal"
+   },
+   {
+    "label": "Capture",
+    "href": "/circuit/wildlife-capture"
+   },
+   {
+    "label": "My animals",
+    "href": "/circuit/wildlife-mine"
+   },
+   {
+    "label": "Team",
+    "href": "/circuit/wildlife-team"
+   },
+   {
+    "label": "Home",
+    "href": "/circuit/wildlife-home"
+   },
+   {
+    "label": "Refusals",
+    "href": "/circuit/wildlife-refusals"
+   }
+  ]
+ },
+ "sources": [
+  {
+   "sourceId": "session",
+   "reader": "session"
+  }
+ ],
+ "sections": [
+  {
+   "sectionId": "hero",
+   "regionId": "main",
+   "order": 1,
+   "component": {
+    "kind": "hero",
+    "version": 1
+   },
+   "props": {
+    "eyebrow": "Direct detail read",
+    "headline": "One animal, as you are allowed to see it",
+    "lede": "The detail read applies the same rule as the catalog. Ask for an animal you have not collected and the restricted fields are simply not there.",
+    "primaryActionId": "open-circuit"
+   },
+   "bindings": {
+    "figure": {
+     "kind": "read",
+     "reader": "scenario",
+     "input": {
+      "capabilityId": "nerdery-view-animal-definition",
+      "namespaceId": "sidefx:capabilities",
+      "page": "scenario-1"
+     },
+     "pointer": "/slides/0"
+    }
+   },
+   "actions": [
+    {
+     "actionId": "open-circuit",
+     "kind": "navigate",
+     "to": "/circuit/explorer?capability=nerdery-view-animal-definition&namespace=sidefx%3Acapabilities"
+    }
+   ]
+  },
+  {
+   "sectionId": "pick",
+   "regionId": "main",
+   "order": 2,
+   "component": {
+    "kind": "form",
+    "version": 1
+   },
+   "props": {
+    "fields": [
+     {
+      "name": "definitionId",
+      "label": "Animal",
+      "kind": "select",
+      "options": [
+       {
+        "value": "animal-001",
+        "label": "No. 001 Demo Heron"
+       },
+       {
+        "value": "animal-002",
+        "label": "No. 002 Demo Fox"
+       },
+       {
+        "value": "animal-003",
+        "label": "No. 003 Demo Beetle"
+       }
+      ],
+      "value": "animal-001"
+     }
+    ],
+    "submit": "Show the animal"
+   },
+   "actions": [
+    {
+     "actionId": "view",
+     "kind": "observe",
+     "subject": "nerdery-view-animal-definition",
+     "namespace": "sidefx:capabilities",
+     "result": "detail",
+     "input": {
+      "input": {
+       "caller": {
+        "principalId": {
+         "source": "session",
+         "pointer": "/principalId"
+        },
+        "sessionId": {
+         "source": "session",
+         "pointer": "/sessionId"
+        }
+       },
+       "request": {
+        "definitionId": {
+         "form": "definitionId"
+        }
+       }
+      }
+     }
+    }
+   ],
+   "events": [
+    {
+     "on": "submit",
+     "actionId": "view"
+    }
+   ]
+  },
+  {
+   "sectionId": "locked",
+   "regionId": "main",
+   "order": 3,
+   "component": {
+    "kind": "notice",
+    "version": 1
+   },
+   "props": {
+    "tone": "warning",
+    "title": "Locked until you collect it",
+    "body": "Record an encounter with this animal to unlock its scientific name, types, stats and attributes.",
+    "actionId": "go-capture"
+   },
+   "actions": [
+    {
+     "actionId": "go-capture",
+     "kind": "navigate",
+     "to": "/circuit/wildlife-capture"
+    }
+   ],
+   "when": {
+    "result": "detail",
+    "pointer": "/collectionState",
+    "equals": "UNCOLLECTED"
+   }
+  },
+  {
+   "sectionId": "unlocked",
+   "regionId": "main",
+   "order": 4,
+   "component": {
+    "kind": "notice",
+    "version": 1
+   },
+   "props": {
+    "tone": "info",
+    "title": "Collected: everything is unlocked for you"
+   },
+   "when": {
+    "result": "detail",
+    "pointer": "/collectionState",
+    "equals": "COLLECTED"
+   }
+  },
+  {
+   "sectionId": "detail-fields",
+   "regionId": "main",
+   "order": 5,
+   "component": {
+    "kind": "field-list",
+    "version": 1
+   },
+   "props": {
+    "label": "What the capability returned"
+   },
+   "when": {
+    "result": "detail",
+    "pointer": "/status",
+    "equals": "VISIBLE"
+   },
+   "bindings": {
+    "fields": {
+     "kind": "read",
+     "reader": "run",
+     "result": "detail",
+     "pointer": "",
+     "map": {
+      "Animal": "/animal/commonName",
+      "Collection number": "/animal/collectionNumber",
+      "Range": {
+       "pointer": "/animal/range",
+       "join": ", "
+      },
+      "Your collection": "/collectionState",
+      "Scientific name": "/animal/scientificName",
+      "Types": {
+       "pointer": "/animal/types",
+       "join": ", "
+      },
+      "Strength": "/animal/stats/Strength",
+      "Size": "/animal/stats/Size",
+      "Speed": "/animal/stats/Speed"
+     }
+    }
+   }
+  },
+  {
+   "sectionId": "detail-attributes",
+   "regionId": "main",
+   "order": 6,
+   "component": {
+    "kind": "table",
+    "version": 1
+   },
+   "when": {
+    "result": "detail",
+    "pointer": "/collectionState",
+    "equals": "COLLECTED"
+   },
+   "props": {
+    "caption": "Attributes",
+    "columns": [
+     {
+      "key": "name",
+      "label": "Attribute"
+     },
+     {
+      "key": "values",
+      "label": "Value"
+     },
+     {
+      "key": "description",
+      "label": "About"
+     }
+    ]
+   },
+   "bindings": {
+    "rows": {
+     "kind": "read",
+     "reader": "run",
+     "result": "detail",
+     "pointer": "/animal/attributeDetails",
+     "map": {
+      "name": "/name",
+      "values": {
+       "pointer": "/selectedValues",
+       "field": "label",
+       "join": ", "
+      },
+      "description": "/description"
+     }
+    }
+   }
+  },
+  {
+   "sectionId": "detail-refused",
+   "regionId": "main",
+   "order": 7,
+   "component": {
+    "kind": "notice",
+    "version": 1
+   },
+   "props": {
+    "tone": "error",
+    "title": "Refused by the capability"
+   },
+   "bindings": {
+    "body": {
+     "kind": "read",
+     "reader": "run",
+     "result": "detail",
+     "pointer": "/reason/code"
+    }
+   },
+   "when": {
+    "result": "detail",
+    "pointer": "/status",
+    "equals": "REFUSED"
+   }
+  }
+ ]
+}

@@ -1,0 +1,401 @@
+{
+  "agentId": "claude-code-opus-5-5-nerdery-slice",
+  "promise": {
+    "contractId": "flight-promise.v1",
+    "promiseId": "nerdery-catalog-maintenance-and-access",
+    "workClass": "owner-objective",
+    "statement": "OV3 declares the catalog maintenance of the Nerdery wildlife application (update and remove a definition; add, update and remove an attribute; the maintenance read) and its section access, feature first: each declaration binds the retained bytes of its canonical feature and commits only when the check finds the binding CONFORMANT, and each stored document is exactly the reviewed one.",
+    "obligations": [
+      {
+        "obligationId": "O1",
+        "statement": "nerdery-update-animal-definition is declared from nerdery/dsl/nerdery-update-animal-definition.dsl, pinned to its canonical feature sha256:22c39f030ea82bbb8eb05729aef5e2fe4bc2de624c03dc6403f1426719bd3791, and its stored document is sha256:d233ad634537615b209520768f2e4be93e3dd525000c87a6f682075fba533d28.",
+        "evidence": "apply-declared-change COMMITTED; read-declared-capability-document $.documentDigest sha256:d233ad634537615b209520768f2e4be93e3dd525000c87a6f682075fba533d28"
+      },
+      {
+        "obligationId": "O2",
+        "statement": "nerdery-remove-animal-definition is declared from nerdery/dsl/nerdery-remove-animal-definition.dsl, pinned to its canonical feature sha256:7592d131f3d89a452c1d3292973478a7ab979188f9e453e6a0551d3a458065b2, and its stored document is sha256:d9a56175a0ceadc83e954266c801270f602c02eab30e49b0eebfc300a3527d5a.",
+        "evidence": "apply-declared-change COMMITTED; read-declared-capability-document $.documentDigest sha256:d9a56175a0ceadc83e954266c801270f602c02eab30e49b0eebfc300a3527d5a"
+      },
+      {
+        "obligationId": "O3",
+        "statement": "nerdery-add-animal-attribute is declared from nerdery/dsl/nerdery-add-animal-attribute.dsl, pinned to its canonical feature sha256:45eed6cbd0664d8e0e2a63bc8cd9e89ac9618ab23052034eb2d41e25bfb6624a, and its stored document is sha256:35d6f9c153b73c0404a7d2c7ce312116e1b65b57d0829d2632110939d10fbb01.",
+        "evidence": "apply-declared-change COMMITTED; read-declared-capability-document $.documentDigest sha256:35d6f9c153b73c0404a7d2c7ce312116e1b65b57d0829d2632110939d10fbb01"
+      },
+      {
+        "obligationId": "O4",
+        "statement": "nerdery-update-animal-attribute is declared from nerdery/dsl/nerdery-update-animal-attribute.dsl, pinned to its canonical feature sha256:ddf61a8f55fda90100bbc1412d9837a2b96e0b5203f4f0d36c533dc7f8d01576, and its stored document is sha256:eda0c93e20cc3494b87b6b988c3ad5290c07b2c3f437dc271badb34ad2f5d483.",
+        "evidence": "apply-declared-change COMMITTED; read-declared-capability-document $.documentDigest sha256:eda0c93e20cc3494b87b6b988c3ad5290c07b2c3f437dc271badb34ad2f5d483"
+      },
+      {
+        "obligationId": "O5",
+        "statement": "nerdery-remove-animal-attribute is declared from nerdery/dsl/nerdery-remove-animal-attribute.dsl, pinned to its canonical feature sha256:f7c98d58559233a51b925663f3c6e37eb8cc0891c09789cfa845e69f011f24ed, and its stored document is sha256:c0bddb3d44760553adef2fd47c5acd0b1cc83e3a6cdb7865f6a3f8199d7c4334.",
+        "evidence": "apply-declared-change COMMITTED; read-declared-capability-document $.documentDigest sha256:c0bddb3d44760553adef2fd47c5acd0b1cc83e3a6cdb7865f6a3f8199d7c4334"
+      },
+      {
+        "obligationId": "O6",
+        "statement": "nerdery-resolve-wildlife-access is declared from nerdery/dsl/nerdery-resolve-wildlife-access.dsl, pinned to its canonical feature sha256:c5ced02e926c301edb4ef7bdfc1a928330377ac85d38e5986f31b1f8b3b51b77, and its stored document is sha256:335ef2af50f211bd846c403e9465299c989259114f34769bb4a3733014654c2e.",
+        "evidence": "apply-declared-change COMMITTED; read-declared-capability-document $.documentDigest sha256:335ef2af50f211bd846c403e9465299c989259114f34769bb4a3733014654c2e"
+      },
+      {
+        "obligationId": "O7",
+        "statement": "nerdery-view-catalog-for-maintenance is declared from nerdery/dsl/nerdery-view-catalog-for-maintenance.dsl, pinned to its canonical feature sha256:3e403f869f8ac663beee431b1cf999996c824a53e24af3f9d3e1b03d30710a1b, and its stored document is sha256:80a4daab4d372f2a4025313631beb63bb96309f0f200268da49b88ab46ac3756.",
+        "evidence": "apply-declared-change COMMITTED; read-declared-capability-document $.documentDigest sha256:80a4daab4d372f2a4025313631beb63bb96309f0f200268da49b88ab46ac3756"
+      }
+    ]
+  },
+  "objective": "Declare the catalog maintenance and section access of the Nerdery wildlife application, feature first through OV3's own changes: nerdery-update-animal-definition, nerdery-remove-animal-definition, nerdery-add-animal-attribute, nerdery-update-animal-attribute, nerdery-remove-animal-attribute, nerdery-resolve-wildlife-access and nerdery-view-catalog-for-maintenance, each with capability-from-dsl, which binds the retained bytes of its canonical feature and commits only when the check finds the binding CONFORMANT; prove each stored document is exactly the reviewed one by its digest.",
+  "planDigest": "sha256:0442d1cbd50c5944662d30d85027fdd9fef4cf928ad558a8a8693b996c99b50f",
+  "steps": [
+    {
+      "stepId": "plan-header",
+      "contractId": "estate-flight-plan.v1",
+      "promiseId": "nerdery-catalog-maintenance-and-access",
+      "flightType": "execution",
+      "workClass": "owner-objective",
+      "unknowns": []
+    },
+    {
+      "stepId": "declare-update-animal-definition",
+      "capabilityId": "apply-declared-change",
+      "historicalBasis": "the slice's capabilities and nerdery-view-collected-animal were declared this way by capability-from-dsl (flight 9810b9af and the photo flight, plan sha256:aa443b90); this DSL compiles COMPILED to sha256:d233ad634537615b209520768f2e4be93e3dd525000c87a6f682075fba533d28 against the retained bytes of its feature with the installed compiler (read-only run 23fd22c6), and its operation's mechanics met every case of that feature read-only (runs 869e7203, 669ba146, dce56efb)",
+      "input": {
+        "contractId": "declared-change.v1",
+        "changeKind": "capability-from-dsl",
+        "payload": {
+          "contractId": "capability-from-dsl-change.v1",
+          "source": "capability nerdery-update-animal-definition\nfeature nerdery-update-animal-definition sha256:22c39f030ea82bbb8eb05729aef5e2fe4bc2de624c03dc6403f1426719bd3791\nintent: Update an animal definition, for the caller whose session the declared API operation verified (Nerdery wildlife application)\noutcome: nerdery-update-animal-definition-result.v1 UPDATED or REFUSED, each refusal named by its reason code, so that the catalog reflects the maintained wildlife information\ninput contract nerdery-update-animal-definition-request.v1 {\"type\":\"object\",\"additionalProperties\":false,\"required\":[\"request\"],\"properties\":{\"caller\":{\"type\":\"object\",\"additionalProperties\":false,\"properties\":{\"principalId\":{\"type\":\"string\"},\"sessionId\":{\"type\":\"string\"}}},\"request\":{\"type\":\"object\"}}}\noutput contract nerdery-update-animal-definition-result.v1 {\"type\":\"object\",\"additionalProperties\":true,\"required\":[\"contractId\",\"status\"],\"properties\":{\"contractId\":{\"const\":\"nerdery-update-animal-definition-result.v1\"},\"status\":{\"enum\":[\"UPDATED\",\"REFUSED\"]}}}\ncli display outcome as json\nscenario nerdery-update-animal-definition root terminal\ngiven: an animal definition identity and its proposed replacement properties\nwhen: the animal definition is updated by the authenticated user\nthen: the updated animal definition is available or a named refusal preserves the existing definition\noperation nerdery-update-animal-definition.update uses provider sql-database-reader\nconfig: {\"dataSource\":\"sfx-identity-database\",\"statement\":\"EXEC wildlife.serve @operation=N'nerdery-update-animal-definition',@input=@input;\",\"resultColumn\":\"value\"}\ninput input from nerdery-update-animal-definition $\noutcome from nerdery-update-animal-definition.update $.value\n",
+          "isMcpTooling": false,
+          "verificationCapabilityId": "read-harness-authoring-state",
+          "preflight": {
+            "input": {
+              "changeKind": "capability-from-dsl",
+              "includeDefinitions": true
+            },
+            "expected": {
+              "disposition": "terminated"
+            }
+          },
+          "route": {
+            "resolvedDisposition": "terminated"
+          }
+        }
+      },
+      "obligationIds": [
+        "O1"
+      ],
+      "expect": {
+        "path": "$.disposition",
+        "equals": "COMMITTED"
+      }
+    },
+    {
+      "stepId": "prove-update-animal-definition",
+      "capabilityId": "read-declared-capability-document",
+      "historicalBasis": "read-declared-capability-document returns documentDigest, the digest of the stored document, which equals the compiler's documentDigest for the same source (the repair flights and the photo flight proved theirs this way)",
+      "input": {
+        "capabilityId": "nerdery-update-animal-definition"
+      },
+      "obligationIds": [
+        "O1"
+      ],
+      "expect": {
+        "path": "$.documentDigest",
+        "equals": "sha256:d233ad634537615b209520768f2e4be93e3dd525000c87a6f682075fba533d28"
+      }
+    },
+    {
+      "stepId": "declare-remove-animal-definition",
+      "capabilityId": "apply-declared-change",
+      "historicalBasis": "the slice's capabilities and nerdery-view-collected-animal were declared this way by capability-from-dsl (flight 9810b9af and the photo flight, plan sha256:aa443b90); this DSL compiles COMPILED to sha256:d9a56175a0ceadc83e954266c801270f602c02eab30e49b0eebfc300a3527d5a against the retained bytes of its feature with the installed compiler (read-only run 54926d90), and its operation's mechanics met every case of that feature read-only (runs 869e7203, 669ba146, dce56efb)",
+      "input": {
+        "contractId": "declared-change.v1",
+        "changeKind": "capability-from-dsl",
+        "payload": {
+          "contractId": "capability-from-dsl-change.v1",
+          "source": "capability nerdery-remove-animal-definition\nfeature nerdery-remove-animal-definition sha256:7592d131f3d89a452c1d3292973478a7ab979188f9e453e6a0551d3a458065b2\nintent: Remove an animal definition from the active catalog, for the caller whose session the declared API operation verified (Nerdery wildlife application)\noutcome: nerdery-remove-animal-definition-result.v1 REMOVED or REFUSED, each refusal named by its reason code, so that the active catalog no longer offers that definition\ninput contract nerdery-remove-animal-definition-request.v1 {\"type\":\"object\",\"additionalProperties\":false,\"required\":[\"request\"],\"properties\":{\"caller\":{\"type\":\"object\",\"additionalProperties\":false,\"properties\":{\"principalId\":{\"type\":\"string\"},\"sessionId\":{\"type\":\"string\"}}},\"request\":{\"type\":\"object\"}}}\noutput contract nerdery-remove-animal-definition-result.v1 {\"type\":\"object\",\"additionalProperties\":true,\"required\":[\"contractId\",\"status\"],\"properties\":{\"contractId\":{\"const\":\"nerdery-remove-animal-definition-result.v1\"},\"status\":{\"enum\":[\"REMOVED\",\"REFUSED\"]}}}\ncli display outcome as json\nscenario nerdery-remove-animal-definition root terminal\ngiven: an animal definition identity requested for removal\nwhen: the animal definition is removed by the authenticated user\nthen: the definition is absent from the active catalog or a named refusal leaves it unchanged\noperation nerdery-remove-animal-definition.remove uses provider sql-database-reader\nconfig: {\"dataSource\":\"sfx-identity-database\",\"statement\":\"EXEC wildlife.serve @operation=N'nerdery-remove-animal-definition',@input=@input;\",\"resultColumn\":\"value\"}\ninput input from nerdery-remove-animal-definition $\noutcome from nerdery-remove-animal-definition.remove $.value\n",
+          "isMcpTooling": false,
+          "verificationCapabilityId": "read-harness-authoring-state",
+          "preflight": {
+            "input": {
+              "changeKind": "capability-from-dsl",
+              "includeDefinitions": true
+            },
+            "expected": {
+              "disposition": "terminated"
+            }
+          },
+          "route": {
+            "resolvedDisposition": "terminated"
+          }
+        }
+      },
+      "obligationIds": [
+        "O2"
+      ],
+      "expect": {
+        "path": "$.disposition",
+        "equals": "COMMITTED"
+      }
+    },
+    {
+      "stepId": "prove-remove-animal-definition",
+      "capabilityId": "read-declared-capability-document",
+      "historicalBasis": "read-declared-capability-document returns documentDigest, the digest of the stored document, which equals the compiler's documentDigest for the same source (the repair flights and the photo flight proved theirs this way)",
+      "input": {
+        "capabilityId": "nerdery-remove-animal-definition"
+      },
+      "obligationIds": [
+        "O2"
+      ],
+      "expect": {
+        "path": "$.documentDigest",
+        "equals": "sha256:d9a56175a0ceadc83e954266c801270f602c02eab30e49b0eebfc300a3527d5a"
+      }
+    },
+    {
+      "stepId": "declare-add-animal-attribute",
+      "capabilityId": "apply-declared-change",
+      "historicalBasis": "the slice's capabilities and nerdery-view-collected-animal were declared this way by capability-from-dsl (flight 9810b9af and the photo flight, plan sha256:aa443b90); this DSL compiles COMPILED to sha256:35d6f9c153b73c0404a7d2c7ce312116e1b65b57d0829d2632110939d10fbb01 against the retained bytes of its feature with the installed compiler (read-only run 2e2e96a2), and its operation's mechanics met every case of that feature read-only (runs 869e7203, 669ba146, dce56efb)",
+      "input": {
+        "contractId": "declared-change.v1",
+        "changeKind": "capability-from-dsl",
+        "payload": {
+          "contractId": "capability-from-dsl-change.v1",
+          "source": "capability nerdery-add-animal-attribute\nfeature nerdery-add-animal-attribute sha256:45eed6cbd0664d8e0e2a63bc8cd9e89ac9618ab23052034eb2d41e25bfb6624a\nintent: Add a reusable animal attribute, for the caller whose session the declared API operation verified (Nerdery wildlife application)\noutcome: nerdery-add-animal-attribute-result.v1 ADDED or REFUSED, each refusal named by its reason code, so that the same property can describe one or many animals\ninput contract nerdery-add-animal-attribute-request.v1 {\"type\":\"object\",\"additionalProperties\":false,\"required\":[\"request\"],\"properties\":{\"caller\":{\"type\":\"object\",\"additionalProperties\":false,\"properties\":{\"principalId\":{\"type\":\"string\"},\"sessionId\":{\"type\":\"string\"}}},\"request\":{\"type\":\"object\"}}}\noutput contract nerdery-add-animal-attribute-result.v1 {\"type\":\"object\",\"additionalProperties\":true,\"required\":[\"contractId\",\"status\"],\"properties\":{\"contractId\":{\"const\":\"nerdery-add-animal-attribute-result.v1\"},\"status\":{\"enum\":[\"ADDED\",\"REFUSED\"]}}}\ncli display outcome as json\nscenario nerdery-add-animal-attribute root terminal\ngiven: a proposed animal attribute\nwhen: the animal attribute is added by the authenticated user\nthen: the attribute is available for animal definitions or a named refusal explains why it was not added\noperation nerdery-add-animal-attribute.add uses provider sql-database-reader\nconfig: {\"dataSource\":\"sfx-identity-database\",\"statement\":\"EXEC wildlife.serve @operation=N'nerdery-add-animal-attribute',@input=@input;\",\"resultColumn\":\"value\"}\ninput input from nerdery-add-animal-attribute $\noutcome from nerdery-add-animal-attribute.add $.value\n",
+          "isMcpTooling": false,
+          "verificationCapabilityId": "read-harness-authoring-state",
+          "preflight": {
+            "input": {
+              "changeKind": "capability-from-dsl",
+              "includeDefinitions": true
+            },
+            "expected": {
+              "disposition": "terminated"
+            }
+          },
+          "route": {
+            "resolvedDisposition": "terminated"
+          }
+        }
+      },
+      "obligationIds": [
+        "O3"
+      ],
+      "expect": {
+        "path": "$.disposition",
+        "equals": "COMMITTED"
+      }
+    },
+    {
+      "stepId": "prove-add-animal-attribute",
+      "capabilityId": "read-declared-capability-document",
+      "historicalBasis": "read-declared-capability-document returns documentDigest, the digest of the stored document, which equals the compiler's documentDigest for the same source (the repair flights and the photo flight proved theirs this way)",
+      "input": {
+        "capabilityId": "nerdery-add-animal-attribute"
+      },
+      "obligationIds": [
+        "O3"
+      ],
+      "expect": {
+        "path": "$.documentDigest",
+        "equals": "sha256:35d6f9c153b73c0404a7d2c7ce312116e1b65b57d0829d2632110939d10fbb01"
+      }
+    },
+    {
+      "stepId": "declare-update-animal-attribute",
+      "capabilityId": "apply-declared-change",
+      "historicalBasis": "the slice's capabilities and nerdery-view-collected-animal were declared this way by capability-from-dsl (flight 9810b9af and the photo flight, plan sha256:aa443b90); this DSL compiles COMPILED to sha256:eda0c93e20cc3494b87b6b988c3ad5290c07b2c3f437dc271badb34ad2f5d483 against the retained bytes of its feature with the installed compiler (read-only run 3c354cd6), and its operation's mechanics met every case of that feature read-only (runs 869e7203, 669ba146, dce56efb)",
+      "input": {
+        "contractId": "declared-change.v1",
+        "changeKind": "capability-from-dsl",
+        "payload": {
+          "contractId": "capability-from-dsl-change.v1",
+          "source": "capability nerdery-update-animal-attribute\nfeature nerdery-update-animal-attribute sha256:ddf61a8f55fda90100bbc1412d9837a2b96e0b5203f4f0d36c533dc7f8d01576\nintent: Update a reusable animal attribute, for the caller whose session the declared API operation verified (Nerdery wildlife application)\noutcome: nerdery-update-animal-attribute-result.v1 UPDATED or REFUSED, each refusal named by its reason code, so that animals continue to reference a coherent shared property\ninput contract nerdery-update-animal-attribute-request.v1 {\"type\":\"object\",\"additionalProperties\":false,\"required\":[\"request\"],\"properties\":{\"caller\":{\"type\":\"object\",\"additionalProperties\":false,\"properties\":{\"principalId\":{\"type\":\"string\"},\"sessionId\":{\"type\":\"string\"}}},\"request\":{\"type\":\"object\"}}}\noutput contract nerdery-update-animal-attribute-result.v1 {\"type\":\"object\",\"additionalProperties\":true,\"required\":[\"contractId\",\"status\"],\"properties\":{\"contractId\":{\"const\":\"nerdery-update-animal-attribute-result.v1\"},\"status\":{\"enum\":[\"UPDATED\",\"REFUSED\"]}}}\ncli display outcome as json\nscenario nerdery-update-animal-attribute root terminal\ngiven: an animal attribute identity and proposed replacement properties\nwhen: the animal attribute is updated by the authenticated user\nthen: the updated attribute is available or a named refusal preserves the existing attribute\noperation nerdery-update-animal-attribute.update uses provider sql-database-reader\nconfig: {\"dataSource\":\"sfx-identity-database\",\"statement\":\"EXEC wildlife.serve @operation=N'nerdery-update-animal-attribute',@input=@input;\",\"resultColumn\":\"value\"}\ninput input from nerdery-update-animal-attribute $\noutcome from nerdery-update-animal-attribute.update $.value\n",
+          "isMcpTooling": false,
+          "verificationCapabilityId": "read-harness-authoring-state",
+          "preflight": {
+            "input": {
+              "changeKind": "capability-from-dsl",
+              "includeDefinitions": true
+            },
+            "expected": {
+              "disposition": "terminated"
+            }
+          },
+          "route": {
+            "resolvedDisposition": "terminated"
+          }
+        }
+      },
+      "obligationIds": [
+        "O4"
+      ],
+      "expect": {
+        "path": "$.disposition",
+        "equals": "COMMITTED"
+      }
+    },
+    {
+      "stepId": "prove-update-animal-attribute",
+      "capabilityId": "read-declared-capability-document",
+      "historicalBasis": "read-declared-capability-document returns documentDigest, the digest of the stored document, which equals the compiler's documentDigest for the same source (the repair flights and the photo flight proved theirs this way)",
+      "input": {
+        "capabilityId": "nerdery-update-animal-attribute"
+      },
+      "obligationIds": [
+        "O4"
+      ],
+      "expect": {
+        "path": "$.documentDigest",
+        "equals": "sha256:eda0c93e20cc3494b87b6b988c3ad5290c07b2c3f437dc271badb34ad2f5d483"
+      }
+    },
+    {
+      "stepId": "declare-remove-animal-attribute",
+      "capabilityId": "apply-declared-change",
+      "historicalBasis": "the slice's capabilities and nerdery-view-collected-animal were declared this way by capability-from-dsl (flight 9810b9af and the photo flight, plan sha256:aa443b90); this DSL compiles COMPILED to sha256:c0bddb3d44760553adef2fd47c5acd0b1cc83e3a6cdb7865f6a3f8199d7c4334 against the retained bytes of its feature with the installed compiler (read-only run 48ec1966), and its operation's mechanics met every case of that feature read-only (runs 869e7203, 669ba146, dce56efb)",
+      "input": {
+        "contractId": "declared-change.v1",
+        "changeKind": "capability-from-dsl",
+        "payload": {
+          "contractId": "capability-from-dsl-change.v1",
+          "source": "capability nerdery-remove-animal-attribute\nfeature nerdery-remove-animal-attribute sha256:f7c98d58559233a51b925663f3c6e37eb8cc0891c09789cfa845e69f011f24ed\nintent: Remove an animal attribute from active use, for the caller whose session the declared API operation verified (Nerdery wildlife application)\noutcome: nerdery-remove-animal-attribute-result.v1 REMOVED or REFUSED, each refusal named by its reason code, so that the active attribute catalog no longer offers it\ninput contract nerdery-remove-animal-attribute-request.v1 {\"type\":\"object\",\"additionalProperties\":false,\"required\":[\"request\"],\"properties\":{\"caller\":{\"type\":\"object\",\"additionalProperties\":false,\"properties\":{\"principalId\":{\"type\":\"string\"},\"sessionId\":{\"type\":\"string\"}}},\"request\":{\"type\":\"object\"}}}\noutput contract nerdery-remove-animal-attribute-result.v1 {\"type\":\"object\",\"additionalProperties\":true,\"required\":[\"contractId\",\"status\"],\"properties\":{\"contractId\":{\"const\":\"nerdery-remove-animal-attribute-result.v1\"},\"status\":{\"enum\":[\"REMOVED\",\"REFUSED\"]}}}\ncli display outcome as json\nscenario nerdery-remove-animal-attribute root terminal\ngiven: an animal attribute identity requested for removal\nwhen: the animal attribute is removed by the authenticated user\nthen: the attribute is absent from active selection or a named refusal leaves it unchanged\noperation nerdery-remove-animal-attribute.remove uses provider sql-database-reader\nconfig: {\"dataSource\":\"sfx-identity-database\",\"statement\":\"EXEC wildlife.serve @operation=N'nerdery-remove-animal-attribute',@input=@input;\",\"resultColumn\":\"value\"}\ninput input from nerdery-remove-animal-attribute $\noutcome from nerdery-remove-animal-attribute.remove $.value\n",
+          "isMcpTooling": false,
+          "verificationCapabilityId": "read-harness-authoring-state",
+          "preflight": {
+            "input": {
+              "changeKind": "capability-from-dsl",
+              "includeDefinitions": true
+            },
+            "expected": {
+              "disposition": "terminated"
+            }
+          },
+          "route": {
+            "resolvedDisposition": "terminated"
+          }
+        }
+      },
+      "obligationIds": [
+        "O5"
+      ],
+      "expect": {
+        "path": "$.disposition",
+        "equals": "COMMITTED"
+      }
+    },
+    {
+      "stepId": "prove-remove-animal-attribute",
+      "capabilityId": "read-declared-capability-document",
+      "historicalBasis": "read-declared-capability-document returns documentDigest, the digest of the stored document, which equals the compiler's documentDigest for the same source (the repair flights and the photo flight proved theirs this way)",
+      "input": {
+        "capabilityId": "nerdery-remove-animal-attribute"
+      },
+      "obligationIds": [
+        "O5"
+      ],
+      "expect": {
+        "path": "$.documentDigest",
+        "equals": "sha256:c0bddb3d44760553adef2fd47c5acd0b1cc83e3a6cdb7865f6a3f8199d7c4334"
+      }
+    },
+    {
+      "stepId": "declare-resolve-wildlife-access",
+      "capabilityId": "apply-declared-change",
+      "historicalBasis": "the slice's capabilities and nerdery-view-collected-animal were declared this way by capability-from-dsl (flight 9810b9af and the photo flight, plan sha256:aa443b90); this DSL compiles COMPILED to sha256:335ef2af50f211bd846c403e9465299c989259114f34769bb4a3733014654c2e against the retained bytes of its feature with the installed compiler (read-only run 69ecbca8), and its operation's mechanics met every case of that feature read-only (runs 869e7203, 669ba146, dce56efb)",
+      "input": {
+        "contractId": "declared-change.v1",
+        "changeKind": "capability-from-dsl",
+        "payload": {
+          "contractId": "capability-from-dsl-change.v1",
+          "source": "capability nerdery-resolve-wildlife-access\nfeature nerdery-resolve-wildlife-access sha256:c5ced02e926c301edb4ef7bdfc1a928330377ac85d38e5986f31b1f8b3b51b77\nintent: Resolve access to wildlife application sections, for the caller whose session the declared API operation verified (Nerdery wildlife application)\noutcome: nerdery-resolve-wildlife-access-result.v1 ALLOWED or REFUSED, each refusal named by its reason code, so that I can use the appropriate experiences without gaining unintended privileges\ninput contract nerdery-resolve-wildlife-access-request.v1 {\"type\":\"object\",\"additionalProperties\":false,\"required\":[\"request\"],\"properties\":{\"caller\":{\"type\":\"object\",\"additionalProperties\":false,\"properties\":{\"principalId\":{\"type\":\"string\"},\"sessionId\":{\"type\":\"string\"}}},\"request\":{\"type\":\"object\"}}}\noutput contract nerdery-resolve-wildlife-access-result.v1 {\"type\":\"object\",\"additionalProperties\":true,\"required\":[\"contractId\",\"status\"],\"properties\":{\"contractId\":{\"const\":\"nerdery-resolve-wildlife-access-result.v1\"},\"status\":{\"enum\":[\"ALLOWED\",\"REFUSED\"]}}}\ncli display outcome as json\nscenario nerdery-resolve-wildlife-access root terminal\ngiven: a requested wildlife application section\nwhen: access to the section is resolved for the authenticated user\nthen: the requested section is available or the access refusal is known\noperation nerdery-resolve-wildlife-access.resolve uses provider sql-database-reader\nconfig: {\"dataSource\":\"sfx-identity-database\",\"statement\":\"EXEC wildlife.serve @operation=N'nerdery-resolve-wildlife-access',@input=@input;\",\"resultColumn\":\"value\"}\ninput input from nerdery-resolve-wildlife-access $\noutcome from nerdery-resolve-wildlife-access.resolve $.value\n",
+          "isMcpTooling": false,
+          "verificationCapabilityId": "read-harness-authoring-state",
+          "preflight": {
+            "input": {
+              "changeKind": "capability-from-dsl",
+              "includeDefinitions": true
+            },
+            "expected": {
+              "disposition": "terminated"
+            }
+          },
+          "route": {
+            "resolvedDisposition": "terminated"
+          }
+        }
+      },
+      "obligationIds": [
+        "O6"
+      ],
+      "expect": {
+        "path": "$.disposition",
+        "equals": "COMMITTED"
+      }
+    },
+    {
+      "stepId": "prove-resolve-wildlife-access",
+      "capabilityId": "read-declared-capability-document",
+      "historicalBasis": "read-declared-capability-document returns documentDigest, the digest of the stored document, which equals the compiler's documentDigest for the same source (the repair flights and the photo flight proved theirs this way)",
+      "input": {
+        "capabilityId": "nerdery-resolve-wildlife-access"
+      },
+      "obligationIds": [
+        "O6"
+      ],
+      "expect": {
+        "path": "$.documentDigest",
+        "equals": "sha256:335ef2af50f211bd846c403e9465299c989259114f34769bb4a3733014654c2e"
+      }
+    },
+    {
+      "stepId": "declare-view-catalog-for-maintenance",
+      "capabilityId": "apply-declared-change",
+      "historicalBasis": "the slice's capabilities and nerdery-view-collected-animal were declared this way by capability-from-dsl (flight 9810b9af and the photo flight, plan sha256:aa443b90); this DSL compiles COMPILED to sha256:80a4daab4d372f2a4025313631beb63bb96309f0f200268da49b88ab46ac3756 against the retained bytes of its feature with the installed compiler (read-only run a6f0c470), and its operation's mechanics met every case of that feature read-only (runs 869e7203, 669ba146, dce56efb)",
+      "input": {
+        "contractId": "declared-change.v1",
+        "changeKind": "capability-from-dsl",
+        "payload": {
+          "contractId": "capability-from-dsl-change.v1",
+          "source": "capability nerdery-view-catalog-for-maintenance\nfeature nerdery-view-catalog-for-maintenance sha256:3e403f869f8ac663beee431b1cf999996c824a53e24af3f9d3e1b03d30710a1b\nintent: View the catalog for maintenance, for the caller whose session the declared API operation verified (Nerdery wildlife application)\noutcome: nerdery-view-catalog-for-maintenance-result.v1 VISIBLE or REFUSED, each refusal named by its reason code, so that I can change or remove one from the revision I saw\ninput contract nerdery-view-catalog-for-maintenance-request.v1 {\"type\":\"object\",\"additionalProperties\":false,\"required\":[\"request\"],\"properties\":{\"caller\":{\"type\":\"object\",\"additionalProperties\":false,\"properties\":{\"principalId\":{\"type\":\"string\"},\"sessionId\":{\"type\":\"string\"}}},\"request\":{\"type\":\"object\"}}}\noutput contract nerdery-view-catalog-for-maintenance-result.v1 {\"type\":\"object\",\"additionalProperties\":true,\"required\":[\"contractId\",\"status\"],\"properties\":{\"contractId\":{\"const\":\"nerdery-view-catalog-for-maintenance-result.v1\"},\"status\":{\"enum\":[\"VISIBLE\",\"REFUSED\"]}}}\ncli display outcome as json\nscenario nerdery-view-catalog-for-maintenance root terminal\ngiven: a request to view the catalog for maintenance\nwhen: the catalog is read for maintenance by the authenticated user\nthen: the user can view the catalog with its revisions or a named refusal\noperation nerdery-view-catalog-for-maintenance.view uses provider sql-database-reader\nconfig: {\"dataSource\":\"sfx-identity-database\",\"statement\":\"EXEC wildlife.serve @operation=N'nerdery-view-catalog-for-maintenance',@input=@input;\",\"resultColumn\":\"value\"}\ninput input from nerdery-view-catalog-for-maintenance $\noutcome from nerdery-view-catalog-for-maintenance.view $.value\n",
+          "isMcpTooling": false,
+          "verificationCapabilityId": "read-harness-authoring-state",
+          "preflight": {
+            "input": {
+              "changeKind": "capability-from-dsl",
+              "includeDefinitions": true
+            },
+            "expected": {
+              "disposition": "terminated"
+            }
+          },
+          "route": {
+            "resolvedDisposition": "terminated"
+          }
+        }
+      },
+      "obligationIds": [
+        "O7"
+      ],
+      "expect": {
+        "path": "$.disposition",
+        "equals": "COMMITTED"
+      }
+    },
+    {
+      "stepId": "prove-view-catalog-for-maintenance",
+      "capabilityId": "read-declared-capability-document",
+      "historicalBasis": "read-declared-capability-document returns documentDigest, the digest of the stored document, which equals the compiler's documentDigest for the same source (the repair flights and the photo flight proved theirs this way)",
+      "input": {
+        "capabilityId": "nerdery-view-catalog-for-maintenance"
+      },
+      "obligationIds": [
+        "O7"
+      ],
+      "expect": {
+        "path": "$.documentDigest",
+        "equals": "sha256:80a4daab4d372f2a4025313631beb63bb96309f0f200268da49b88ab46ac3756"
+      }
+    }
+  ]
+}

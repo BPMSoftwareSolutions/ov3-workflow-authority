@@ -1,0 +1,55 @@
+{
+  "fixtureType": "sidefx-aws-cloud-ops-acceptance-arrangement.v2",
+  "caseId": "aws-cost-denied",
+  "capabilityId": "sfx-aws-assess-cost-variance",
+  "synthetic": true,
+  "clock": "2026-11-03T00:20:00Z",
+  "sidefx": {
+    "admittedAccounts": [
+      "111122223333"
+    ],
+    "costAllocationTag": {
+      "key": "service",
+      "activated": true
+    },
+    "varianceRule": {
+      "materialPercent": 5,
+      "currency": "USD"
+    }
+  },
+  "awsCalls": [
+    {
+      "call": "ce:GetCostAndUsage",
+      "request": {
+        "TimePeriod": {
+          "Start": "2026-09-01",
+          "End": "2026-11-01"
+        },
+        "Granularity": "MONTHLY",
+        "Metrics": [
+          "UnblendedCost"
+        ],
+        "Filter": {
+          "Dimensions": {
+            "Key": "LINKED_ACCOUNT",
+            "Values": [
+              "111122223333"
+            ]
+          }
+        },
+        "GroupBy": [
+          {
+            "Type": "TAG",
+            "Key": "service"
+          }
+        ]
+      },
+      "error": {
+        "code": "AccessDeniedException",
+        "httpStatus": 400,
+        "message": "User: arn:aws:sts::111122223333:assumed-role/sidefx-cloudops-read/sidefx-cost is not authorized to perform: ce:GetCostAndUsage"
+      }
+    }
+  ],
+  "notes": "Synthetic arrangement. AWS requests and responses use the documented shapes (see the feature's source IDs); none was captured from an AWS account."
+}

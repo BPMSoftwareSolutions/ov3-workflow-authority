@@ -1,0 +1,42 @@
+{
+  "fixtureType": "illustrative-graph-negative.v1",
+  "status": "CANDIDATE_NOT_CANONICAL_NOT_EXECUTED",
+  "description": "Original conceptual diagram: intentionally mixes provider dependency, data consumption, and apparent workflow progression.",
+  "visualRoots": ["curate-animal-attributes", "curate-animal-definitions", "dnr-identity-provider", "queue-offline-encounter"],
+  "nodes": [
+    {"id": "curate-animal-attributes", "observedRole": "candidate-scenario"},
+    {"id": "curate-animal-definitions", "observedRole": "candidate-scenario"},
+    {"id": "dnr-identity-provider", "observedRole": "physical-provider"},
+    {"id": "queue-offline-encounter", "observedRole": "candidate-scenario"},
+    {"id": "access-wildlife-application", "observedRole": "candidate-scenario"},
+    {"id": "browse-wildlife-catalog", "observedRole": "candidate-scenario"},
+    {"id": "record-wildlife-encounter", "observedRole": "candidate-scenario"},
+    {"id": "reveal-animal-knowledge", "observedRole": "candidate-scenario"},
+    {"id": "view-wildlife-collection", "observedRole": "candidate-scenario"},
+    {"id": "compare-wildlife-properties", "observedRole": "candidate-scenario"},
+    {"id": "manage-wildlife-team", "observedRole": "candidate-scenario"},
+    {"id": "homepage-team-experience", "observedRole": "candidate-scenario"},
+    {"id": "synchronize-encounter", "observedRole": "candidate-scenario"}
+  ],
+  "undifferentiatedArrows": [
+    ["dnr-identity-provider", "access-wildlife-application"],
+    ["curate-animal-definitions", "browse-wildlife-catalog"],
+    ["curate-animal-attributes", "reveal-animal-knowledge"],
+    ["browse-wildlife-catalog", "record-wildlife-encounter"],
+    ["access-wildlife-application", "record-wildlife-encounter"],
+    ["record-wildlife-encounter", "view-wildlife-collection"],
+    ["record-wildlife-encounter", "reveal-animal-knowledge"],
+    ["reveal-animal-knowledge", "compare-wildlife-properties"],
+    ["view-wildlife-collection", "manage-wildlife-team"],
+    ["manage-wildlife-team", "homepage-team-experience"],
+    ["queue-offline-encounter", "synchronize-encounter"],
+    ["synchronize-encounter", "record-wildlife-encounter"],
+    ["curate-animal-definitions", "reveal-animal-knowledge"]
+  ],
+  "expected": {
+    "executableWorkflowRootCount": "UNDETERMINED_FROM_FIXTURE",
+    "identifiedDefect": "PROVIDER_MASQUERADES_AS_WORKFLOW_ROOT",
+    "alsoUnresolved": ["UNTYPED_ARROWS", "PRODUCT_DEPENDENCY_AS_TRANSITION", "NAVIGATION_AS_TRANSITION", "ASSUMED_CONVERGENCE"],
+    "disposition": "REJECT_AS_EXECUTABLE_WORKFLOW_GRAPH"
+  }
+}

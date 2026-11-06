@@ -1,0 +1,497 @@
+[
+ {
+  "name": "nerdery-browse-animal-collection",
+  "source": "nerdery/dsl/nerdery-browse-animal-collection.dsl",
+  "retain": [
+   "nerdery/features/nerdery-browse-animal-collection.feature"
+  ],
+  "declaredDocument": "sha256:15585def540151adc1c10eca07ade3d3f4836bbf7c18578fde5a2bde4ea526ef",
+  "compiledRun": "663144f0",
+  "expect": [
+   [
+    "$.status",
+    "COMPILED"
+   ],
+   [
+    "$.document.feature.digest",
+    "sha256:dc19f2defcd1b0dcc5beead0fe42a0976336238216422d87397ccbcfcb7588c5"
+   ],
+   [
+    "$.document.scenarios[0].portBindings[3].platformCapabilityId",
+    "sfx-estate-run-statement-port.v1"
+   ],
+   [
+    "$.document.scenarios[0].portBindings[3].configuration.commandTimeout",
+    "30"
+   ],
+   [
+    "$.document.scenarios[0].portBindings[8].platformCapabilityId",
+    "sfx-estate-run-statement-port.v1"
+   ],
+   [
+    "$.document.scenarios[0].portBindings[8].configuration.commandTimeout",
+    "30"
+   ],
+   [
+    "$.document.scenarios[0].portBindings[2].platformCapabilityId",
+    "sfx-vault-reference-carry-port.v1"
+   ],
+   [
+    "$.document.scenarios[0].portBindings[2].configuration.providerId",
+    "sfx-vault-secret-service-reference-carry"
+   ],
+   [
+    "$.document.scenarios[0].portBindings[7].platformCapabilityId",
+    "sfx-vault-reference-carry-port.v1"
+   ],
+   [
+    "$.document.scenarios[0].portBindings[7].configuration.providerId",
+    "sfx-vault-secret-service-reference-carry"
+   ],
+   [
+    "$.documentDigest",
+    "sha256:1c19ae1ff4d800b39a652fc7956d7e19e7950ac159f14f915dc7a14ecfe53691"
+   ]
+  ]
+ },
+ {
+  "name": "nerdery-view-animal-definition",
+  "source": "nerdery/dsl/nerdery-view-animal-definition.dsl",
+  "retain": [
+   "nerdery/features/nerdery-view-animal-definition.feature"
+  ],
+  "declaredDocument": "sha256:b77c7293642c1482c6a65e1e109189d7d23c113c0a95c50c24ee3f1ff367e85b",
+  "compiledRun": "eb9412fa",
+  "expect": [
+   [
+    "$.status",
+    "COMPILED"
+   ],
+   [
+    "$.document.feature.digest",
+    "sha256:2b4c55fd4f28e46b17394b620ba9b9d78f854557b4c85a909989023a036472c5"
+   ],
+   [
+    "$.document.scenarios[0].portBindings[3].platformCapabilityId",
+    "sfx-estate-run-statement-port.v1"
+   ],
+   [
+    "$.document.scenarios[0].portBindings[3].configuration.commandTimeout",
+    "30"
+   ],
+   [
+    "$.document.scenarios[0].portBindings[8].platformCapabilityId",
+    "sfx-estate-run-statement-port.v1"
+   ],
+   [
+    "$.document.scenarios[0].portBindings[8].configuration.commandTimeout",
+    "30"
+   ],
+   [
+    "$.document.scenarios[0].portBindings[2].platformCapabilityId",
+    "sfx-vault-reference-carry-port.v1"
+   ],
+   [
+    "$.document.scenarios[0].portBindings[2].configuration.providerId",
+    "sfx-vault-secret-service-reference-carry"
+   ],
+   [
+    "$.document.scenarios[0].portBindings[7].platformCapabilityId",
+    "sfx-vault-reference-carry-port.v1"
+   ],
+   [
+    "$.document.scenarios[0].portBindings[7].configuration.providerId",
+    "sfx-vault-secret-service-reference-carry"
+   ],
+   [
+    "$.documentDigest",
+    "sha256:cbd895b99b42e59765eab9f1e07c93992e88a8f185f7e37cb865ee068eb5c1b1"
+   ]
+  ]
+ },
+ {
+  "name": "nerdery-upload-encounter-photo",
+  "source": "nerdery/dsl/nerdery-upload-encounter-photo.dsl",
+  "retain": [
+   "nerdery/features/nerdery-upload-encounter-photo.feature"
+  ],
+  "declaredDocument": "sha256:406a7eed9edead17f4739ec55d348eef88193a32b1d9f2e3e0214132782ef267",
+  "compiledRun": "3b8e677e",
+  "expect": [
+   [
+    "$.status",
+    "COMPILED"
+   ],
+   [
+    "$.document.feature.digest",
+    "sha256:38e58430acc3a39e88078f4a71000dacb3d585124a7a0cef2f906bcb35716de5"
+   ],
+   [
+    "$.document.scenarios[0].portBindings[3].platformCapabilityId",
+    "sfx-estate-run-statement-port.v1"
+   ],
+   [
+    "$.document.scenarios[0].portBindings[3].configuration.commandTimeout",
+    "30"
+   ],
+   [
+    "$.document.scenarios[0].portBindings[8].platformCapabilityId",
+    "sfx-estate-run-statement-port.v1"
+   ],
+   [
+    "$.document.scenarios[0].portBindings[8].configuration.commandTimeout",
+    "30"
+   ],
+   [
+    "$.document.scenarios[0].portBindings[2].platformCapabilityId",
+    "sfx-vault-reference-carry-port.v1"
+   ],
+   [
+    "$.document.scenarios[0].portBindings[2].configuration.providerId",
+    "sfx-vault-secret-service-reference-carry"
+   ],
+   [
+    "$.document.scenarios[0].portBindings[7].platformCapabilityId",
+    "sfx-vault-reference-carry-port.v1"
+   ],
+   [
+    "$.document.scenarios[0].portBindings[7].configuration.providerId",
+    "sfx-vault-secret-service-reference-carry"
+   ],
+   [
+    "$.documentDigest",
+    "sha256:71ef1ef616a4d25955cc586c5a927de264f511bd2b043007f2699118f7aac83c"
+   ]
+  ]
+ },
+ {
+  "name": "nerdery-record-animal-encounter",
+  "source": "nerdery/dsl/nerdery-record-animal-encounter.dsl",
+  "retain": [
+   "nerdery/features/nerdery-record-animal-encounter.feature"
+  ],
+  "declaredDocument": "sha256:0cd6d46e2ac04e13bd9e8174b0d949b2a23692ad1ecb471c6dd1338b41237e23",
+  "compiledRun": "f088013d",
+  "expect": [
+   [
+    "$.status",
+    "COMPILED"
+   ],
+   [
+    "$.document.feature.digest",
+    "sha256:df6cea9ceb5ce4d6a63755f8c42e80bc285191fecc18598e695ab6bd73e03a23"
+   ],
+   [
+    "$.document.scenarios[0].portBindings[3].platformCapabilityId",
+    "sfx-estate-run-statement-port.v1"
+   ],
+   [
+    "$.document.scenarios[0].portBindings[3].configuration.commandTimeout",
+    "30"
+   ],
+   [
+    "$.document.scenarios[0].portBindings[8].platformCapabilityId",
+    "sfx-estate-run-statement-port.v1"
+   ],
+   [
+    "$.document.scenarios[0].portBindings[8].configuration.commandTimeout",
+    "30"
+   ],
+   [
+    "$.document.scenarios[0].portBindings[2].platformCapabilityId",
+    "sfx-vault-reference-carry-port.v1"
+   ],
+   [
+    "$.document.scenarios[0].portBindings[2].configuration.providerId",
+    "sfx-vault-secret-service-reference-carry"
+   ],
+   [
+    "$.document.scenarios[0].portBindings[7].platformCapabilityId",
+    "sfx-vault-reference-carry-port.v1"
+   ],
+   [
+    "$.document.scenarios[0].portBindings[7].configuration.providerId",
+    "sfx-vault-secret-service-reference-carry"
+   ],
+   [
+    "$.documentDigest",
+    "sha256:f27523ab177763ee28d0403cb28606680e0376d1e980b2aa170b6f9fadc7f01f"
+   ]
+  ]
+ },
+ {
+  "name": "nerdery-view-collected-animals",
+  "source": "nerdery/dsl/nerdery-view-collected-animals.dsl",
+  "retain": [
+   "nerdery/features/nerdery-view-collected-animals.feature"
+  ],
+  "declaredDocument": "sha256:c408418707ec644ac93e52ac649b1a057db8c6b3a479a730fd992f10ce47b60a",
+  "compiledRun": "7989e898",
+  "expect": [
+   [
+    "$.status",
+    "COMPILED"
+   ],
+   [
+    "$.document.feature.digest",
+    "sha256:a8f1920e6569b46ab5924fe841bebd5cc63a0993accb26f5a2e78cd20bcd835c"
+   ],
+   [
+    "$.document.scenarios[0].portBindings[3].platformCapabilityId",
+    "sfx-estate-run-statement-port.v1"
+   ],
+   [
+    "$.document.scenarios[0].portBindings[3].configuration.commandTimeout",
+    "30"
+   ],
+   [
+    "$.document.scenarios[0].portBindings[8].platformCapabilityId",
+    "sfx-estate-run-statement-port.v1"
+   ],
+   [
+    "$.document.scenarios[0].portBindings[8].configuration.commandTimeout",
+    "30"
+   ],
+   [
+    "$.document.scenarios[0].portBindings[2].platformCapabilityId",
+    "sfx-vault-reference-carry-port.v1"
+   ],
+   [
+    "$.document.scenarios[0].portBindings[2].configuration.providerId",
+    "sfx-vault-secret-service-reference-carry"
+   ],
+   [
+    "$.document.scenarios[0].portBindings[7].platformCapabilityId",
+    "sfx-vault-reference-carry-port.v1"
+   ],
+   [
+    "$.document.scenarios[0].portBindings[7].configuration.providerId",
+    "sfx-vault-secret-service-reference-carry"
+   ],
+   [
+    "$.documentDigest",
+    "sha256:bda39bbce35e0a4b45bdc6763b52914598b6cd343918c5ff01fd81bf89fd1618"
+   ]
+  ]
+ },
+ {
+  "name": "nerdery-set-animal-team",
+  "source": "nerdery/dsl/nerdery-set-animal-team.dsl",
+  "retain": [
+   "nerdery/features/nerdery-set-animal-team.feature"
+  ],
+  "declaredDocument": "sha256:e2e19f12aefb4ba796c96d3499ae1dd6bde539dc9210669c9686e21758e6b2eb",
+  "compiledRun": "75b98180",
+  "expect": [
+   [
+    "$.status",
+    "COMPILED"
+   ],
+   [
+    "$.document.feature.digest",
+    "sha256:6dd6c439568c45a7b63b8ad2745ac200f73c3d6d45e043d06b858cf0926048d2"
+   ],
+   [
+    "$.document.scenarios[0].portBindings[3].platformCapabilityId",
+    "sfx-estate-run-statement-port.v1"
+   ],
+   [
+    "$.document.scenarios[0].portBindings[3].configuration.commandTimeout",
+    "30"
+   ],
+   [
+    "$.document.scenarios[0].portBindings[8].platformCapabilityId",
+    "sfx-estate-run-statement-port.v1"
+   ],
+   [
+    "$.document.scenarios[0].portBindings[8].configuration.commandTimeout",
+    "30"
+   ],
+   [
+    "$.document.scenarios[0].portBindings[2].platformCapabilityId",
+    "sfx-vault-reference-carry-port.v1"
+   ],
+   [
+    "$.document.scenarios[0].portBindings[2].configuration.providerId",
+    "sfx-vault-secret-service-reference-carry"
+   ],
+   [
+    "$.document.scenarios[0].portBindings[7].platformCapabilityId",
+    "sfx-vault-reference-carry-port.v1"
+   ],
+   [
+    "$.document.scenarios[0].portBindings[7].configuration.providerId",
+    "sfx-vault-secret-service-reference-carry"
+   ],
+   [
+    "$.documentDigest",
+    "sha256:1a2046f845d9c1e624d615ff3129ce2a4dc3a3567a1f41b778fb6cac59a3901b"
+   ]
+  ]
+ },
+ {
+  "name": "nerdery-view-wildlife-home",
+  "source": "nerdery/dsl/nerdery-view-wildlife-home.dsl",
+  "retain": [
+   "nerdery/features/nerdery-view-wildlife-home.feature"
+  ],
+  "declaredDocument": "sha256:19c2755268fd1c3f664f304e907a0859c7484e4a03cc78b043ded5e22cb288eb",
+  "compiledRun": "e654fe63",
+  "expect": [
+   [
+    "$.status",
+    "COMPILED"
+   ],
+   [
+    "$.document.feature.digest",
+    "sha256:d91ded8a312cb3eca7c69a6004026db720227bfb8582623674705d6dfe7e4bc4"
+   ],
+   [
+    "$.document.scenarios[0].portBindings[3].platformCapabilityId",
+    "sfx-estate-run-statement-port.v1"
+   ],
+   [
+    "$.document.scenarios[0].portBindings[3].configuration.commandTimeout",
+    "30"
+   ],
+   [
+    "$.document.scenarios[0].portBindings[8].platformCapabilityId",
+    "sfx-estate-run-statement-port.v1"
+   ],
+   [
+    "$.document.scenarios[0].portBindings[8].configuration.commandTimeout",
+    "30"
+   ],
+   [
+    "$.document.scenarios[0].portBindings[2].platformCapabilityId",
+    "sfx-vault-reference-carry-port.v1"
+   ],
+   [
+    "$.document.scenarios[0].portBindings[2].configuration.providerId",
+    "sfx-vault-secret-service-reference-carry"
+   ],
+   [
+    "$.document.scenarios[0].portBindings[7].platformCapabilityId",
+    "sfx-vault-reference-carry-port.v1"
+   ],
+   [
+    "$.document.scenarios[0].portBindings[7].configuration.providerId",
+    "sfx-vault-secret-service-reference-carry"
+   ],
+   [
+    "$.documentDigest",
+    "sha256:85386b4ea6db854b6f8dca34c2f5a83fe4ae36370ff012af046b8e206648a181"
+   ]
+  ]
+ },
+ {
+  "name": "nerdery-add-animal-definition",
+  "source": "nerdery/dsl/nerdery-add-animal-definition.dsl",
+  "retain": [
+   "nerdery/features/nerdery-add-animal-definition.feature"
+  ],
+  "declaredDocument": "sha256:eb55fd8339c6aca19606bc2953c03340d4a734c203b968db6837388bfd151ac7",
+  "compiledRun": "981fc387",
+  "expect": [
+   [
+    "$.status",
+    "COMPILED"
+   ],
+   [
+    "$.document.feature.digest",
+    "sha256:cecfea79150494650b84f119ec59e26c742c7bc3822601f831aaf17ee1b2c4f2"
+   ],
+   [
+    "$.document.scenarios[0].portBindings[3].platformCapabilityId",
+    "sfx-estate-run-statement-port.v1"
+   ],
+   [
+    "$.document.scenarios[0].portBindings[3].configuration.commandTimeout",
+    "30"
+   ],
+   [
+    "$.document.scenarios[0].portBindings[8].platformCapabilityId",
+    "sfx-estate-run-statement-port.v1"
+   ],
+   [
+    "$.document.scenarios[0].portBindings[8].configuration.commandTimeout",
+    "30"
+   ],
+   [
+    "$.document.scenarios[0].portBindings[2].platformCapabilityId",
+    "sfx-vault-reference-carry-port.v1"
+   ],
+   [
+    "$.document.scenarios[0].portBindings[2].configuration.providerId",
+    "sfx-vault-secret-service-reference-carry"
+   ],
+   [
+    "$.document.scenarios[0].portBindings[7].platformCapabilityId",
+    "sfx-vault-reference-carry-port.v1"
+   ],
+   [
+    "$.document.scenarios[0].portBindings[7].configuration.providerId",
+    "sfx-vault-secret-service-reference-carry"
+   ],
+   [
+    "$.documentDigest",
+    "sha256:5a77a34c79868fee82e568de32b0779bd3d6e1960d7db0561994df8779d0a8e5"
+   ]
+  ]
+ },
+ {
+  "name": "check-capability-feature-conformance",
+  "source": "conformance/check-capability-feature-conformance.dsl",
+  "retain": [
+   "features/check-capability-feature-conformance.feature"
+  ],
+  "declaredDocument": "sha256:64a8beb2305e144c80697f22f82b364aba43f7020eb33ab4533e4ec4e36f692c",
+  "compiledRun": "5cc71b33",
+  "expect": [
+   [
+    "$.status",
+    "COMPILED"
+   ],
+   [
+    "$.document.feature.digest",
+    "sha256:49bf06230349e792eeba7041a7f7ecf2cd2c894aa5635ae2ec5c5b2130ab02b9"
+   ],
+   [
+    "$.document.scenarios[0].portBindings[3].platformCapabilityId",
+    "sfx-estate-run-statement-port.v1"
+   ],
+   [
+    "$.document.scenarios[0].portBindings[3].configuration.commandTimeout",
+    "30"
+   ],
+   [
+    "$.document.scenarios[0].portBindings[8].platformCapabilityId",
+    "sfx-estate-run-statement-port.v1"
+   ],
+   [
+    "$.document.scenarios[0].portBindings[8].configuration.commandTimeout",
+    "30"
+   ],
+   [
+    "$.document.scenarios[0].portBindings[2].platformCapabilityId",
+    "sfx-vault-reference-carry-port.v1"
+   ],
+   [
+    "$.document.scenarios[0].portBindings[2].configuration.providerId",
+    "sfx-vault-secret-service-reference-carry"
+   ],
+   [
+    "$.document.scenarios[0].portBindings[7].platformCapabilityId",
+    "sfx-vault-reference-carry-port.v1"
+   ],
+   [
+    "$.document.scenarios[0].portBindings[7].configuration.providerId",
+    "sfx-vault-secret-service-reference-carry"
+   ],
+   [
+    "$.documentDigest",
+    "sha256:5ac0df454154f8be50be485502efea67df5bdff4beecb05f46467987a2759739"
+   ]
+  ]
+ }
+]

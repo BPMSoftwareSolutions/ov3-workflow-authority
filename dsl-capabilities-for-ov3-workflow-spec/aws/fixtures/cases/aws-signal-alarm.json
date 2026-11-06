@@ -1,0 +1,23 @@
+{
+  "fixtureType": "sidefx-aws-cloud-ops-acceptance-arrangement.v2",
+  "caseId": "aws-signal-alarm",
+  "capabilityId": "sfx-aws-observe-operational-signal",
+  "synthetic": true,
+  "clock": "2026-11-03T00:20:00Z",
+  "sidefx": {
+    "admittedAccounts": [
+      "111122223333"
+    ],
+    "admittedAlarms": [
+      "citizen-portal-heartbeat-low"
+    ],
+    "priorSignals": [],
+    "delivery": {
+      "channel": "eventbridge-api-destination",
+      "connection": "sidefx-cloudops-intake",
+      "credentialVerified": true
+    }
+  },
+  "awsCalls": [],
+  "notes": "Synthetic arrangement. AWS requests and responses use the documented shapes (see the feature's source IDs); none was captured from an AWS account."
+}

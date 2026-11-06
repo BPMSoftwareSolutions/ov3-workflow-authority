@@ -1,0 +1,259 @@
+{
+  "reportKind": "LOCAL_STRUCTURAL_VALIDATION_NOT_ESTATE_CONFORMANCE",
+  "result": "PASS",
+  "scope": "Curated feature bytes, case arrangements, fixture and source digests, case-to-requirement traceability and the combined review copy.",
+  "method": "Official @cucumber/gherkin 28.0.0 parse and compilation of each file, followed by checks over parsed cases, typed assertions, fixture relationships and indexes. A separate read-only estate replay checks the same feature digests in feature-only mode.",
+  "counts": {
+    "featureFiles": 19,
+    "mvpFeatureFiles": 17,
+    "offlineCandidateFeatureFiles": 2,
+    "acceptanceCases": 150,
+    "assertionRows": 564,
+    "sourceRequirements": 35,
+    "fixtureArrangements": 150,
+    "negativeControls": 10
+  },
+  "checks": [
+    "Tagged identities agree with the derived index",
+    "One root scenario per feature",
+    "Primary Given/When/Then strings remain exact across cases",
+    "One identified case, JSON request and typed assertion table per Scenario",
+    "Unique case identities across the package",
+    "Assertions target the same operation and a declared outcome variant",
+    "All case and base fixtures exist and match SHA-256 pins",
+    "Upload fixture bytes match the supplied media",
+    "Source copies match their computed digests",
+    "All source requirements have an explicit coverage/disposition",
+    "Combined review copy retains exact feature text",
+    "Case arrangements have valid team-member and attribute references after top-level replacements"
+  ],
+  "negativeControls": [
+    {
+      "control": "changed-event-identity",
+      "expectedLocalFinding": "IDENTITY_MISMATCH",
+      "detected": true
+    },
+    {
+      "control": "changed-when-step",
+      "expectedLocalFinding": "STEP_TEXT_MISMATCH",
+      "detected": true
+    },
+    {
+      "control": "changed-operation",
+      "expectedLocalFinding": "ASSERTION_OPERATION_MISMATCH",
+      "detected": true
+    },
+    {
+      "control": "missing-request",
+      "expectedLocalFinding": "REQUEST_DOCSTRING_MISSING",
+      "detected": true
+    },
+    {
+      "control": "missing-status-assertion",
+      "expectedLocalFinding": "CASE_STATUS_UNASSERTED",
+      "detected": true
+    },
+    {
+      "control": "unknown-outcome-variant",
+      "expectedLocalFinding": "OUTCOME_VARIANT_UNDECLARED",
+      "detected": true
+    },
+    {
+      "control": "duplicate-case-id",
+      "expectedLocalFinding": "CASE_IDENTITY_DUPLICATE",
+      "detected": true
+    },
+    {
+      "control": "claimed-proof",
+      "expectedLocalFinding": "CASE_STATUS_MISMATCH",
+      "detected": true
+    },
+    {
+      "control": "invalid-json",
+      "expectedLocalFinding": "REQUEST_INVALID",
+      "detected": true
+    },
+    {
+      "control": "tampered-fixture-bytes",
+      "expectedLocalFinding": "FIXTURE_DIGEST_MISMATCH",
+      "detected": true
+    }
+  ],
+  "errors": [],
+  "notClaimed": {
+    "liveEstateDeclarationConformance": "NOT_RUN",
+    "runtimeCaseAcceptance": "NOT_RUN",
+    "jsonSchemaContractConformance": "NOT_RUN_NO_INSTALLED_SCHEMAS_SUPPLIED",
+    "browserCompatibility": "NOT_RUN",
+    "responsiveBehavior": "NOT_RUN",
+    "wcag21AAConformance": "NOT_RUN",
+    "capacityAt2000ConcurrentUsers": "NOT_RUN",
+    "offlineBehavior": "NOT_RUN"
+  },
+  "implementationStatus": "All 150 cases have @status:not-built. The live inventory found no selected declarations for these 19 exact capability IDs.",
+  "featureOnlyCheck": {
+    "mode": "featureText",
+    "delivery": "Read-only replay of the repository conformance procedure as a session-local procedure via sql-database-reader.",
+    "checkerBodySha256": "sha256:3036c34a61701a61f88837dfd772334a50297713e6961b02fe789dd65771afb5",
+    "status": "WELL_FORMED",
+    "runs": [
+      {
+        "runId": "41b9dc32-2583-5cb0-202a-c6acbec95260",
+        "files": [
+          {
+            "capabilityId": "nerdery-add-animal-attribute",
+            "featureDigest": "sha256:512084b5b4381dc391116e28bef95b8edb914e4dd0c61e2f9093d69facbd1826",
+            "status": "WELL_FORMED",
+            "cases": 6
+          },
+          {
+            "capabilityId": "nerdery-add-animal-definition",
+            "featureDigest": "sha256:feee15f08dbad7a802741b1006ba16cba7e77dee4605b529bf40c1fa729fd89e",
+            "status": "WELL_FORMED",
+            "cases": 17
+          },
+          {
+            "capabilityId": "nerdery-browse-animal-collection",
+            "featureDigest": "sha256:1bfb48b620fa8f88853ddfed53b53355a828969544ea0bb80d83a3ab3ab11456",
+            "status": "WELL_FORMED",
+            "cases": 11
+          },
+          {
+            "capabilityId": "nerdery-present-wildlife-experience",
+            "featureDigest": "sha256:c6e4fa403b33ec66b1e47ad9d9d35538153724b92af00df6edd14bdc8c5e1044",
+            "status": "WELL_FORMED",
+            "cases": 9
+          }
+        ]
+      },
+      {
+        "runId": "58503c34-3c40-091c-d6c3-5640f2fd4285",
+        "files": [
+          {
+            "capabilityId": "nerdery-record-animal-encounter",
+            "featureDigest": "sha256:79a9dae5dd17251bc54b271a8c4f7199a6c4ef790cf8cff35dfa0a973066827f",
+            "status": "WELL_FORMED",
+            "cases": 17
+          },
+          {
+            "capabilityId": "nerdery-register-wildlife-user",
+            "featureDigest": "sha256:cb3a603d253356500369870cc1ca44bda98f8c2100aa229fb5134e371adff146",
+            "status": "WELL_FORMED",
+            "cases": 7
+          },
+          {
+            "capabilityId": "nerdery-remove-animal-attribute",
+            "featureDigest": "sha256:5424ed379b1c5e1d693c7798f6cd008b49869732f9b0d7dedbfc85f986f36317",
+            "status": "WELL_FORMED",
+            "cases": 4
+          },
+          {
+            "capabilityId": "nerdery-remove-animal-definition",
+            "featureDigest": "sha256:4a16b7ce730fef5d9057e2be86e5866117188b1e4b203a58b131a017a26a0294",
+            "status": "WELL_FORMED",
+            "cases": 5
+          }
+        ]
+      },
+      {
+        "runId": "6068df07-ea74-9715-580e-b2031667925f",
+        "files": [
+          {
+            "capabilityId": "nerdery-resolve-wildlife-access",
+            "featureDigest": "sha256:b670db64cd001d92910f5036b6465d4b405bb33866a335dbc7c7b7952d978fac",
+            "status": "WELL_FORMED",
+            "cases": 14
+          },
+          {
+            "capabilityId": "nerdery-set-animal-team",
+            "featureDigest": "sha256:f7dab2b2f441f1501f074730a2e6981ef8345e1ac181d3d6a77d4a770f7fa13a",
+            "status": "WELL_FORMED",
+            "cases": 11
+          },
+          {
+            "capabilityId": "nerdery-sign-in-wildlife-user",
+            "featureDigest": "sha256:9ab0770a4aef7c2ee68dcdc276a913b64ee5161911f5b843e6b0aa35b6ae2e51",
+            "status": "WELL_FORMED",
+            "cases": 5
+          },
+          {
+            "capabilityId": "nerdery-update-animal-attribute",
+            "featureDigest": "sha256:7a2c34d22bbc24bf687d77c59d30d60692b7fb7dd8555125a264d778abe2ca71",
+            "status": "WELL_FORMED",
+            "cases": 5
+          }
+        ]
+      },
+      {
+        "runId": "f4c19b1c-4eec-b2f1-f104-dddce4c2e026",
+        "files": [
+          {
+            "capabilityId": "nerdery-update-animal-definition",
+            "featureDigest": "sha256:d46f78ebe19b2020c9ebeb8ee2d80da12a897b3ab81cb5b1bc78b37c133d9aca",
+            "status": "WELL_FORMED",
+            "cases": 6
+          },
+          {
+            "capabilityId": "nerdery-upload-encounter-photo",
+            "featureDigest": "sha256:c62116a60ec67a53a860738ac7ffcbfcf4f480170aa15d9c75ee04e7b1d8cf2c",
+            "status": "WELL_FORMED",
+            "cases": 5
+          },
+          {
+            "capabilityId": "nerdery-view-animal-definition",
+            "featureDigest": "sha256:067bd1593daaeecb4705e0c23b458f54c23323aba0560b475db662289116db75",
+            "status": "WELL_FORMED",
+            "cases": 6
+          },
+          {
+            "capabilityId": "nerdery-view-collected-animals",
+            "featureDigest": "sha256:7367cc04657b8ecdfa401520b649ab79117ab88b9035ec232c2fcabe00072ee4",
+            "status": "WELL_FORMED",
+            "cases": 6
+          }
+        ]
+      },
+      {
+        "runId": "04fd1837-2cf3-46c8-6432-129118888950",
+        "files": [
+          {
+            "capabilityId": "nerdery-view-wildlife-home",
+            "featureDigest": "sha256:2ef10443b9b117d2987e0050439e610796ef08743ef4dc327337ae5d9c082339",
+            "status": "WELL_FORMED",
+            "cases": 4
+          },
+          {
+            "capabilityId": "nerdery-capture-offline-encounter",
+            "featureDigest": "sha256:d869ce4bd1e9ea906b9778dad9e5e5ec4d521b870c20fac13d3dc45f7d42f3bc",
+            "status": "WELL_FORMED",
+            "cases": 6
+          },
+          {
+            "capabilityId": "nerdery-synchronize-offline-encounter",
+            "featureDigest": "sha256:6503912583ce2ffc13e0b52ded6e839cf94de8183137b7e9be853144b54cc6b3",
+            "status": "WELL_FORMED",
+            "cases": 6
+          }
+        ]
+      }
+    ]
+  },
+  "inventoryRead": {
+    "modelId": 34,
+    "runId": "49ae8acb-1ae9-0ec2-efb1-77c127ee99de",
+    "matchedProposedCapabilityIds": 0,
+    "proposedCapabilityIds": 19
+  },
+  "businessProviderDiscovery": {
+    "estateModel": 34,
+    "capabilityInventoryRun": "90fd8c2e-448e-9a1f-968a-40824a54770a",
+    "selectedCapabilityIds": 669,
+    "portInventoryRun": "e78907ed-711e-9376-0fee-0eecbead66d8",
+    "selectedPortIdentities": 3052,
+    "expectedProviderTagCases": 24,
+    "candidateOnlyCases": 110,
+    "preDispatchRefusalCases": 16,
+    "ledger": "review/provider-bindings.md",
+    "applicationInvocations": 0
+  }
+}

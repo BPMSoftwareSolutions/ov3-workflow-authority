@@ -1,0 +1,53 @@
+{
+  "fixtureType": "sidefx-aws-cloud-ops-acceptance-arrangement.v2",
+  "caseId": "aws-dr-backup-only",
+  "capabilityId": "sfx-aws-evaluate-recovery-readiness",
+  "synthetic": true,
+  "clock": "2026-11-03T00:20:00Z",
+  "sidefx": {
+    "maxProofAgeDays": 90
+  },
+  "awsCalls": [
+    {
+      "call": "backup:ListRecoveryPointsByResource",
+      "request": {
+        "ResourceArn": "arn:aws:ec2:us-east-2:111122223333:instance/i-0123456789abcdef0"
+      },
+      "response": {
+        "RecoveryPoints": [
+          {
+            "RecoveryPointArn": "arn:aws:ec2:us-east-2::image/ami-719e8253da22be51e",
+            "CreationDate": 1793656800,
+            "Status": "COMPLETED",
+            "BackupVaultName": "citizen-portal-vault",
+            "IsParent": false
+          },
+          {
+            "RecoveryPointArn": "arn:aws:ec2:us-east-2::image/ami-6761fba58c127f460",
+            "CreationDate": 1793660400,
+            "Status": "COMPLETED",
+            "BackupVaultName": "citizen-portal-vault",
+            "IsParent": false
+          },
+          {
+            "RecoveryPointArn": "arn:aws:ec2:us-east-2::image/ami-7ee2d7f38582433d6",
+            "CreationDate": 1793664000,
+            "Status": "COMPLETED",
+            "BackupVaultName": "citizen-portal-vault",
+            "IsParent": false
+          }
+        ]
+      }
+    },
+    {
+      "call": "backup:ListRestoreJobsByProtectedResource",
+      "request": {
+        "ResourceArn": "arn:aws:ec2:us-east-2:111122223333:instance/i-0123456789abcdef0"
+      },
+      "response": {
+        "RestoreJobs": []
+      }
+    }
+  ],
+  "notes": "Synthetic arrangement. AWS requests and responses use the documented shapes (see the feature's source IDs); none was captured from an AWS account."
+}
